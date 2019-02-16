@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CMSDBModelStoreContainer" CdmEntityContainer="CMSDBEntities">
+    <EntitySetMapping Name="Conferences">
+      <EntityTypeMapping TypeName="CMSDBModel.Conference">
+        <MappingFragment StoreEntitySet="Conference">
+          <ScalarProperty Name="confId" ColumnName="confId" />
+          <ScalarProperty Name="chairId" ColumnName="chairId" />
+          <ScalarProperty Name="confTitle" ColumnName="confTitle" />
+          <ScalarProperty Name="confLocation" ColumnName="confLocation" />
+          <ScalarProperty Name="confBeginDate" ColumnName="confBeginDate" />
+          <ScalarProperty Name="confEndDate" ColumnName="confEndDate" />
+          <ScalarProperty Name="paperDeadline" ColumnName="paperDeadline" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ConferenceMembers">
+      <EntityTypeMapping TypeName="CMSDBModel.ConferenceMember">
+        <MappingFragment StoreEntitySet="ConferenceMember">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="confId" ColumnName="confId" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ConferenceTopics">
+      <EntityTypeMapping TypeName="CMSDBModel.ConferenceTopic">
+        <MappingFragment StoreEntitySet="ConferenceTopic">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="confId" ColumnName="confId" />
+          <ScalarProperty Name="keywrdId" ColumnName="keywrdId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Expertises">
+      <EntityTypeMapping TypeName="CMSDBModel.Expertise">
+        <MappingFragment StoreEntitySet="Expertise">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="keywrdId" ColumnName="keywrdId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Feedbacks">
+      <EntityTypeMapping TypeName="CMSDBModel.Feedback">
+        <MappingFragment StoreEntitySet="Feedback">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="paperId" ColumnName="paperId" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="fnlDecision" ColumnName="fnlDecision" />
+          <ScalarProperty Name="feedback1" ColumnName="feedback" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="keywords">
+      <EntityTypeMapping TypeName="CMSDBModel.keyword">
+        <MappingFragment StoreEntitySet="keyword">
+          <ScalarProperty Name="keywrdId" ColumnName="keywrdId" />
+          <ScalarProperty Name="keywrdGenre" ColumnName="keywrdGenre" />
+          <ScalarProperty Name="keywrdName" ColumnName="keywrdName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Papers">
+      <EntityTypeMapping TypeName="CMSDBModel.Paper">
+        <MappingFragment StoreEntitySet="Paper">
+          <ScalarProperty Name="paperId" ColumnName="paperId" />
+          <ScalarProperty Name="paperTitle" ColumnName="paperTitle" />
+          <ScalarProperty Name="paperAuthor" ColumnName="paperAuthor" />
+          <ScalarProperty Name="paperSubDate" ColumnName="paperSubDate" />
+          <ScalarProperty Name="paperLength" ColumnName="paperLength" />
+          <ScalarProperty Name="paperContent" ColumnName="paperContent" />
+          <ScalarProperty Name="confId" ColumnName="confId" />
+          <ScalarProperty Name="auId" ColumnName="auId" />
+          <ScalarProperty Name="paperFormat" ColumnName="paperFormat" />
+          <ScalarProperty Name="paperStatus" ColumnName="paperStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaperReviews">
+      <EntityTypeMapping TypeName="CMSDBModel.PaperReview">
+        <MappingFragment StoreEntitySet="PaperReview">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="paperId" ColumnName="paperId" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="paperRating" ColumnName="paperRating" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaperTopics">
+      <EntityTypeMapping TypeName="CMSDBModel.PaperTopic">
+        <MappingFragment StoreEntitySet="PaperTopic">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="paperId" ColumnName="paperId" />
+          <ScalarProperty Name="keywrdId" ColumnName="keywrdId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RegisterRequests">
+      <EntityTypeMapping TypeName="CMSDBModel.RegisterRequest">
+        <MappingFragment StoreEntitySet="RegisterRequest">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="confId" ColumnName="confId" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="contact" ColumnName="contact" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="roleId" ColumnName="roleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="CMSDBModel.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="roleId" ColumnName="roleId" />
+          <ScalarProperty Name="roleType" ColumnName="roleType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="CMSDBModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="userName" ColumnName="userName" />
+          <ScalarProperty Name="userPasswrd" ColumnName="userPasswrd" />
+          <ScalarProperty Name="userContact" ColumnName="userContact" />
+          <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+          <ScalarProperty Name="roleId" ColumnName="roleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

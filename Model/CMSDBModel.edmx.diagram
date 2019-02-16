@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4dabe68250e5454c86a14e534194f0b0" Name="Diagram1">
+        <EntityTypeShape EntityType="CMSDBModel.Conference" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMSDBModel.ConferenceMember" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMSDBModel.ConferenceTopic" Width="1.5" PointX="10.5" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMSDBModel.Expertise" Width="1.5" PointX="5.25" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMSDBModel.Feedback" Width="1.5" PointX="10.5" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMSDBModel.keyword" Width="1.5" PointX="8.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMSDBModel.Paper" Width="1.5" PointX="8.25" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMSDBModel.PaperReview" Width="1.5" PointX="10.5" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMSDBModel.PaperTopic" Width="1.5" PointX="10.5" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMSDBModel.RegisterRequest" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMSDBModel.Role" Width="1.5" PointX="0.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMSDBModel.User" Width="1.5" PointX="3" PointY="12.25" IsExpanded="true" />
+        <AssociationConnector Association="CMSDBModel.FK_ConferenceMember_Conference" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_ConferenceTopic_Conference" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_Paper_Conference" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_RegisterRequest_Conference" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_ConferenceMember_User" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_ConferenceTopic_Keyword" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_Expertise_Keyword" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_Expertise_User" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_Feedback_Paper" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_Feedback_User" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_PaperTopic_Keyword" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_Paper_User" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_PaperReview_Paper" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_PaperTopic_Paper" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_PaperReview_User" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_RegisterRequest_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_User_Role" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
