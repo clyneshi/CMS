@@ -1,6 +1,11 @@
 # CMS
 ## A C# winform applicaion of a conference management system
 
+### User Guide
+Please see _UserGuide.pdf_
+
+### Description
+
 This system will be used for the following functionalities: 
 <br/>-User Registration 
 <br/>-Conference Management 
