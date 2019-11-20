@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using CMS.Model;
+﻿using CMSLibrary.Global;
+using CMSLibrary.Model;
+using System;
 using System.IO;
+using System.Windows.Forms;
 
 namespace CMS
 {
     public partial class ReviewPaper : Form
     {
-        private Model.CMSDBEntities cms = new Model.CMSDBEntities();
-
         public ReviewPaper()
         {
             InitializeComponent();
@@ -25,17 +17,8 @@ namespace CMS
         public void init()
         {
             //paperid = 0;
-            var paperlist = from p in cms.Papers
-                            join pr in cms.PaperReviews on p.paperId equals pr.paperId
-                            join cm in cms.ConferenceMembers on pr.userId equals cm.userId
-                            where pr.userId == Module.CMSsystem.user_id && cm.confId == Module.CMSsystem.user_conf
-                            select new
-                            {
-                                paperId = p.paperId,
-                                paperTitle = p.paperTitle,
-                                paperRating = pr.paperRating
-                            };
-            dataGridView1.DataSource = paperlist.ToList();
+            var reviewPapers = DataProcessor.GetReviewPaperList();
+            dataGridView1.DataSource = reviewPapers;
             //dataGridView1.Columns[5].Visible = false;
         }
 
@@ -44,21 +27,9 @@ namespace CMS
             if (RatingBox.Show() == DialogResult.Yes)
             {
                 if (RatingBox.rating != 0 && dataGridView1.CurrentRow.Index >= 0)
-                    saveRating(RatingBox.rating, (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["paperId"].Value);
+                    DataProcessor.UpdatePaperRating(RatingBox.rating, (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["paperId"].Value);
             }
             init();
-        }
-
-        private void saveRating(int rating, int ppid)
-        {
-            PaperReview pr = cms.PaperReviews.FirstOrDefault(p => p.userId == CMS.Module.CMSsystem.user_id && p.paperId == ppid);
-            Paper pp = cms.Papers.FirstOrDefault(p => p.paperId == ppid);
-            if (pr != null)
-            {
-                pr.paperRating = rating;
-                pp.paperStatus = "being reviewed";
-                cms.SaveChanges();
-            }
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -73,7 +44,7 @@ namespace CMS
             if (dataGridView1.RowCount > 0 && dataGridView1.CurrentRow.Index >= 0)
             {
                 int paperid = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["paperId"].Value;
-                Paper paper = cms.Papers.FirstOrDefault(p => p.paperId == paperid);
+                Paper paper = DataProcessor.GetPaperById(paperid);
                 sfd.FileName = paper.paperFileName;
                 if (paper.paperFormat.ToUpper().Equals(".PDF"))
                 {

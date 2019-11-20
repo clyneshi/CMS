@@ -1,43 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CMSLibrary.Global;
+using System;
 using System.Windows.Forms;
-using CMS.Model;
-using System.Data.SqlClient;
 
 namespace CMS
 {
     public partial class Login : Form
     {
-        private CMSDBEntities cms = new CMSDBEntities();
 
         public Login()
         {
             InitializeComponent();
-            init();
+            Init();
         }
 
-        public void init()
+        public void Init()
         {
-            roleDisplay();
-            confDisplay();
+            RoleDisplay();
+            ConfDisplay();
         }
 
-        private void roleDisplay()
+        private void RoleDisplay()
         {
-            comboBox_role.DataSource = cms.Roles.ToList();
+            comboBox_role.DataSource = DataProcessor.GetRoles();
             comboBox_role.DisplayMember = "roleType";
             comboBox_role.ValueMember = "roleId";
         }
 
-        private void confDisplay()
+        private void ConfDisplay()
         {
-            comboBox_conf.DataSource = cms.Conferences.ToList();
+            comboBox_conf.DataSource = DataProcessor.GetConferences();
             comboBox_conf.DisplayMember = "confTitle";
             comboBox_conf.ValueMember = "confId";
         }
@@ -49,11 +40,16 @@ namespace CMS
 
         private void btn_login_Click(object sender, EventArgs e)
         {
-            if (userValidation())
+            // validate if user exists
+            bool isUser = DataProcessor.ValidateUser(
+                textBox_userName.Text,
+                textBox_passwrd.Text,
+                (int)comboBox_role.SelectedValue,
+                (int)comboBox_conf.SelectedValue
+            );
+
+            if (isUser)
             {
-                Module.CMSsystem.user_name = textBox_userName.Text;
-                Module.CMSsystem.user_role = (int)comboBox_role.SelectedValue;
-                Module.CMSsystem.user_conf = (int)comboBox_conf.SelectedValue;
                 Main main = new Main();
                 this.Hide();
                 main.Show();
@@ -61,45 +57,6 @@ namespace CMS
             else
             {
                 MessageBox.Show("Incorrect user info!");
-            }
-        }
-        
-        // ###
-        private bool userValidation()
-        {
-            if ((int)comboBox_role.SelectedValue == 1 || (int)comboBox_role.SelectedValue == 2)
-            {
-                //TO DO: use login infomation retrieve database data
-                var user = from users in cms.Users
-                           where users.userName == textBox_userName.Text
-                           && users.userPasswrd == textBox_passwrd.Text
-                           && users.roleId == (int?)comboBox_role.SelectedValue
-                           select users;
-
-                if (user.Count() != 0)
-                {
-                    Module.CMSsystem.user_id = user.Single().userId;
-                    return true;
-                }
-                else
-                    return false;
-            }
-            else
-            {
-                var user = from users in cms.Users
-                           join confm in cms.ConferenceMembers on users.userId equals confm.userId
-                           where confm.confId == (int)comboBox_conf.SelectedValue
-                           && users.userName == textBox_userName.Text
-                           && users.userPasswrd == textBox_passwrd.Text
-                           && users.roleId == (int?)comboBox_role.SelectedValue
-                           select users;
-                if (user.Count() != 0)
-                {
-                    Module.CMSsystem.user_id = user.Single().userId;
-                    return true;
-                }
-                else
-                    return false;
             }
         }
 

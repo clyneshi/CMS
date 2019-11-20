@@ -1,24 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using CMS.Model;
-using System.Net;
-using System.Net.Mail;
+using CMSLibrary.Global;
+using CMSLibrary.Model;
 
 namespace CMS
 {
     public partial class MakeDicision : Form
     {
-        Module.CMSsystem cmsm = new Module.CMSsystem();
-        Model.CMSDBEntities cms = new CMSDBEntities();
-        //int paperid = 0;
-        
+        int paperId = 0;
 
         public MakeDicision()
         {
@@ -28,7 +18,7 @@ namespace CMS
 
         public void init()
         {
-            cmsm.clearControls(this.Controls);
+            DataProcessor.ClearControls(this.Controls);
             displayConf();
             if (dataGridView1.Rows.Count > 0)
             {
@@ -47,50 +37,23 @@ namespace CMS
 
         private void displayConf()
         {
-            var conf = from c in cms.Conferences
-                       where c.chairId == Module.CMSsystem.user_id
-                       select new
-                       {
-                           c.confId,
-                           c.confTitle,
-                           c.paperDeadline,
-                           c.confBeginDate,
-                           c.confEndDate
-                       };
+            var conf = DataProcessor.GetConferenceByChair(GlobalVariable.CurrentUser.userId);
 
-            dataGridView1.DataSource = conf.ToList();
+            dataGridView1.DataSource = conf;
         }
 
         private void displayPaper(int conf)
         {
-            var paper = from p in cms.Papers
-                        where p.confId == conf
-                        select new
-                        {
-                            p.paperId,
-                            p.paperTitle,
-                            p.paperAuthor,
-                            p.paperLength,
-                            p.paperSubDate
-                        };
+            var paper = DataProcessor.GetPapersByConference(conf);
 
-            dataGridView2.DataSource = paper.ToList();
+            dataGridView2.DataSource = paper;
         }
 
         private void displayReview(int paper)
         {
-            var rvw = from pr in cms.PaperReviews
-                      join u in cms.Users on pr.userId equals u.userId
-                      where pr.paperId == paper
-                      select new
-                      {
-                          pr.Id,
-                          pr.paperId,
-                          u.userName,
-                          pr.paperRating
-                      };
+            var rvw = DataProcessor.GetPaperReviewByPaper(paper);
 
-            dataGridView3.DataSource = rvw.ToList();
+            dataGridView3.DataSource = rvw;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -114,7 +77,7 @@ namespace CMS
         {
             if (e.RowIndex >= 0)
             {
-                //paperid = (int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value;
+                paperId = (int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value;
                 displayReview((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
                 displayFnl((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
             }
@@ -124,20 +87,16 @@ namespace CMS
 
         private void displayFnl(int paper)
         {
-            if (cms.Feedbacks.Where(f => f.paperId == paper).Count() == 0)
+            var fb = DataProcessor.GetFeedbacksByPaper(paper);
+
+            if (fb.Any())
             {
-                var fb = from f in cms.Feedbacks
-                         where f.paperId == paper
-                         select f;
-                if (fb.Count() != 0)
+                rtextbox_feedback.Text = fb.FirstOrDefault().feedback1;
+                foreach (Control c in groupBox1.Controls)
                 {
-                    rtextbox_feedback.Text = fb.SingleOrDefault().feedback1;
-                    foreach (Control c in groupBox1.Controls)
-                    {
-                        RadioButton rb = c as RadioButton;
-                        if (rb != null && rb.Text.Equals(fb.Single().fnlDecision.Trim()))
-                            rb.Checked = true;
-                    }
+                    RadioButton rb = c as RadioButton;
+                    if (rb != null && rb.Text.Equals(fb.Single().fnlDecision.Trim()))
+                        rb.Checked = true;
                 }
             }
         }
@@ -158,13 +117,16 @@ namespace CMS
         {
             if (dataGridView2.RowCount >= 0 && dataGridView2.CurrentRow.Index >= 0)
             {
-                Feedback fb = new Feedback();
-                fb.paperId = (int )dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value;
-                fb.userId = Module.CMSsystem.user_id;
-                fb.fnlDecision = decisionCheck();
-                fb.feedback1 = rtextbox_feedback.Text;
-                cms.Feedbacks.Add(fb);
-                cms.SaveChanges();
+                Feedback fb = new Feedback
+                {
+                    paperId = (int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value,
+                    userId = GlobalVariable.CurrentUser.userId,
+                    fnlDecision = decisionCheck(),
+                    feedback1 = rtextbox_feedback.Text
+                };
+
+                DataProcessor.AddFeedback(fb);
+
                 return true;
             }
             return false;
@@ -173,37 +135,31 @@ namespace CMS
         private void changeStatus()
         {
             int paperid = (int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value;
-            Paper paper = cms.Papers.Where(p => p.paperId == paperid).Single();
-            paper.paperStatus = decisionCheck();
-            cms.SaveChanges();
+            DataProcessor.UpdatePaperStatus(paperid, decisionCheck());
         }
 
         private string fbValidation()
         {
-            string error = "";
             if (dataGridView2.RowCount == 0 || dataGridView2.CurrentRow.Index < 0)
-                return error = "Paper has not been selected";
+                return "Paper has not been selected";
             int paperid = (int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value;
-            if (cms.Feedbacks.Where(f => f.paperId == paperid).Count() > 0)
-                return error = "Feedback already exists, cannot be changed";
+            if (DataProcessor.GetFeedbacksByPaper(paperid).Any())
+                return "Feedback already exists, cannot be changed";
             if (rtextbox_feedback.Text.Trim().Equals(""))
-                return error = "Feedback canot be empty";
+                return "Feedback canot be empty";
             if (decisionCheck().Equals(""))
-                return error = "Decision cannot be empty";
-            return error;
+                return "Decision cannot be empty";
+            return "";
         }
 
         private void SendEmail()
         {
-            var email = (from u in cms.Users
-                         join p in cms.Papers on u.userId equals p.auId
-                         where p.paperId == 1
-                         select u.userEmail).ToList();
+            var email = DataProcessor.GetPaperById(paperId).User.userEmail;
 
             if (decisionCheck() == "Accept")
-                cmsm.sendEmail(email.ToString(), "Your paper has been accepted");
+                DataProcessor.SendEmail(email.ToString(), "Your paper has been accepted");
             if (decisionCheck() == "Decline")
-                cmsm.sendEmail(email.ToString(), "Your paper has been declined");
+                DataProcessor.SendEmail(email.ToString(), "Your paper has been declined");
         }
 
         private void btn_save_Click(object sender, EventArgs e)
@@ -212,7 +168,7 @@ namespace CMS
             if (error.Equals("") && addFeedback())
             {
                 changeStatus();
-                //SendEmail();
+                SendEmail();
                 MessageBox.Show("Save succeeded");
             }
             else

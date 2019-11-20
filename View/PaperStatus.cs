@@ -1,61 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using CMSLibrary.Global;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using CMS.Model;
-using CMS.Module;
 
 namespace CMS
 {
     public partial class PaperStatus : Form
     {
-        private CMSDBEntities cms = new CMSDBEntities();
 
         public PaperStatus()
         {
             InitializeComponent();
-            init();
+            Init();
         }
 
-        public void init()
+        public void Init()
         {
-            paperDisplay();
-            //statusDisplay(0);
+            PaperDisplay();
         }
 
-        private void paperDisplay()
+        private void PaperDisplay()
         {
-            var pl = from p in cms.Papers
-                     where p.auId == CMSsystem.user_id
-                     select new
-                     {
-                         p.paperId,
-                         p.paperTitle,
-                         p.paperAuthor,
-                         p.paperSubDate,
-                         p.paperStatus
-                     };
-            dataGridView1.DataSource = pl.ToList();
-            if (pl.Count() > 0)
-                feedbackDisplay((int)dataGridView1.Rows[0].Cells["paperId"].Value);
+            var papers = DataProcessor.GetPapersByAuthor();
+
+            if (papers.Count() > 0)
+            {
+                dataGridView1.DataSource = papers.Select(
+                    p => new
+                    {
+                        paperId = p.paperId,
+                        col2 = p.paperTitle,
+                        col3 = p.paperAuthor,
+                        col4 = p.paperSubDate,
+                        col5 = p.paperStatus
+                    }).ToList();
+
+                FeedbackDisplay((int)dataGridView1.Rows[0].Cells["paperId"].Value);
+            }
         }
 
-        private void feedbackDisplay(int paper)
+        private void FeedbackDisplay(int paperId)
         {
-            var fb = cms.Feedbacks.Where(f => f.paperId == paper);
-            if (fb.Count() != 0)
-                richTextBox_fb.Text = fb.Single().feedback1;
+            var feedbacks = DataProcessor.GetFeedbacksByPaper(paperId);
+            if (feedbacks.Count() != 0)
+                richTextBox_fb.Text = feedbacks.Single().feedback1;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dataGridView1.CurrentRow.Index > 0)
-                feedbackDisplay((int)dataGridView1.Rows[e.RowIndex].Cells["paperId"].Value);
+                FeedbackDisplay((int)dataGridView1.Rows[e.RowIndex].Cells["paperId"].Value);
         }
     }
 }

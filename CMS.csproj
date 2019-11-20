@@ -72,6 +72,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\AccountSetting.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +85,12 @@
     </Compile>
     <Compile Include="View\AccountSetting_R.Designer.cs">
       <DependentUpon>AccountSetting_R.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\AssignPaper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\AssignPaper.Designer.cs">
+      <DependentUpon>AssignPaper.cs</DependentUpon>
     </Compile>
     <Compile Include="View\ConferenceInfo.cs">
       <SubType>Form</SubType>
@@ -102,12 +110,6 @@
     <Compile Include="View\LaunchConference.Designer.cs">
       <DependentUpon>LaunchConference.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\MakeDicision.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\MakeDicision.Designer.cs">
-      <DependentUpon>MakeDicision.cs</DependentUpon>
-    </Compile>
     <Compile Include="View\Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,71 +122,17 @@
     <Compile Include="View\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\CMSDBModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CMSDBModel.Context.tt</DependentUpon>
+    <Compile Include="View\MakeDicision.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Model\CMSDBModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CMSDBModel.tt</DependentUpon>
+    <Compile Include="View\MakeDicision.Designer.cs">
+      <DependentUpon>MakeDicision.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\CMSDBModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CMSDBModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Conference.cs">
-      <DependentUpon>CMSDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ConferenceMember.cs">
-      <DependentUpon>CMSDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ConferenceTopic.cs">
-      <DependentUpon>CMSDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Expertise.cs">
-      <DependentUpon>CMSDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Feedback.cs">
-      <DependentUpon>CMSDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\keyword.cs">
-      <DependentUpon>CMSDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Paper.cs">
-      <DependentUpon>CMSDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\PaperReview.cs">
-      <DependentUpon>CMSDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\PaperTopic.cs">
-      <DependentUpon>CMSDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\RegisterRequest.cs">
-      <DependentUpon>CMSDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Role.cs">
-      <DependentUpon>CMSDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\User.cs">
-      <DependentUpon>CMSDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Module\CMSsystem.cs" />
     <Compile Include="View\PaperStatus.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\PaperStatus.Designer.cs">
       <DependentUpon>PaperStatus.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="View\AssignPaper.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\AssignPaper.Designer.cs">
-      <DependentUpon>AssignPaper.cs</DependentUpon>
     </Compile>
     <Compile Include="View\RatingBox.cs">
       <SubType>Form</SubType>
@@ -216,17 +164,23 @@
     <Compile Include="View\SubmitPaper.Designer.cs">
       <DependentUpon>SubmitPaper.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\test.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\test.Designer.cs">
-      <DependentUpon>test.cs</DependentUpon>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <EmbeddedResource Include="View\AccountSetting.resx">
       <DependentUpon>AccountSetting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\AccountSetting_R.resx">
       <DependentUpon>AccountSetting_R.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\AssignPaper.resx">
+      <DependentUpon>AssignPaper.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ConferenceInfo.resx">
       <DependentUpon>ConferenceInfo.cs</DependentUpon>
@@ -237,29 +191,17 @@
     <EmbeddedResource Include="View\LaunchConference.resx">
       <DependentUpon>LaunchConference.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\MakeDicision.resx">
-      <DependentUpon>MakeDicision.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="View\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\MakeDicision.resx">
+      <DependentUpon>MakeDicision.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\PaperStatus.resx">
       <DependentUpon>PaperStatus.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="View\AssignPaper.resx">
-      <DependentUpon>AssignPaper.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\RatingBox.resx">
       <DependentUpon>RatingBox.cs</DependentUpon>
@@ -276,16 +218,6 @@
     <EmbeddedResource Include="View\SubmitPaper.resx">
       <DependentUpon>SubmitPaper.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\test.resx">
-      <DependentUpon>test.cs</DependentUpon>
-    </EmbeddedResource>
-    <EntityDeploy Include="Model\CMSDBModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CMSDBModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model\CMSDBModel.edmx.diagram">
-      <DependentUpon>CMSDBModel.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -315,26 +247,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database\CMSDB.mdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Database\CMSDB_log.ldf">
-      <DependentUpon>CMSDB.mdf</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Model\CMSDBModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CMSDBModel.edmx</DependentUpon>
-      <LastGenOutput>CMSDBModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model\CMSDBModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CMSDBModel.edmx</DependentUpon>
-      <LastGenOutput>CMSDBModel.cs</LastGenOutput>
-    </Content>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <ProjectReference Include="..\CMSLibrary\CMSLibrary.csproj">
+      <Project>{a907ff86-febd-4fa1-b251-fa9f484721f7}</Project>
+      <Name>CMSLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

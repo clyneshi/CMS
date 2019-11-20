@@ -1,22 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using CMS.Model;
-using CMS.Module;
+using CMSLibrary.Global;
+using CMSLibrary.Model;
 
 namespace CMS
 {
     public partial class LaunchConference : Form
     {
-        private CMSDBEntities cms = new CMSDBEntities();
-        private CMSsystem cmsm = new CMSsystem();
-        private int confid = 0;
         private BindingList<keyword> kw = new BindingList<keyword>();
 
         public LaunchConference()
@@ -29,26 +21,14 @@ namespace CMS
         {
             kw.Clear();
             keywordDisplay();
-            findMaxCID();
             selectedKwDisplay();
-        }
-
-        private void findMaxCID()
-        {
-            var max = from c in cms.Conferences
-                      select c.confId;
-            if (max.Count() == 0)
-                confid = 1;
-            else
-                confid = max.Max() + 1;
         }
 
         private void keywordDisplay()
         {
-            var topic = from t in cms.keywords
-                        select t;
+            var topic = DataProcessor.GetKeyWords();
 
-            dataGridView1.DataSource = topic.ToList();
+            dataGridView1.DataSource = topic;
             dataGridView1.Columns[0].Visible = false;
             dataGridView1.Columns[3].Visible = false;
             dataGridView1.Columns[4].Visible = false;
@@ -57,7 +37,6 @@ namespace CMS
 
         private void selectedKwDisplay()
         {
-            
             listBox1.DataSource = kw;
             listBox1.DisplayMember = "keywrdName";
         }
@@ -88,41 +67,36 @@ namespace CMS
                 kw.Remove((keyword)listBox1.SelectedItem);
         }
 
-        private void addConf()
+        private void addConf(int conferenceId)
         {
-            Conference conf = new Conference();
-            conf.confId = confid;
-            conf.chairId = CMSsystem.user_id;
-            conf.confTitle = textBox_title.Text;
-            conf.confLocation = textBox_loc.Text;
-            conf.confBeginDate = dateTimePicker_bdate.Value.Date;
-            conf.confEndDate = dateTimePicker_edate.Value.Date;
-            conf.paperDeadline = dateTimePicker_pdeadline.Value.Date;
-            cms.Conferences.Add(conf);
+            Conference conf = new Conference
+            {
+                confId = conferenceId,
+                chairId = GlobalVariable.CurrentUser.userId,
+                confTitle = textBox_title.Text,
+                confLocation = textBox_loc.Text,
+                confBeginDate = dateTimePicker_bdate.Value.Date,
+                confEndDate = dateTimePicker_edate.Value.Date,
+                paperDeadline = dateTimePicker_pdeadline.Value.Date
+            };
+
+            DataProcessor.AddConference(conf);
         }
 
         private string confValidation()
         {
-            string error = "";
-
             if (textBox_title.Text.Trim().Equals(""))
-                return error = "Conference Title cannot be empty";
+                return "Conference Title cannot be empty";
             if (textBox_loc.Text.Trim().Equals(""))
-                return error = "Conference Location cannot be empty";
+                return "Conference Location cannot be empty";
             if (DateTime.Compare(dateTimePicker_bdate.Value.Date, dateTimePicker_edate.Value.Date) > 0)
-                return error = "Begin date cannot be late than End date";
+                return "Begin date cannot be late than End date";
             if (DateTime.Compare(dateTimePicker_pdeadline.Value.Date, dateTimePicker_bdate.Value.Date) >= 0)
-                return error = "Paper submition date must before Conference begain date";
+                return "Paper submition date must before Conference begain date";
             if (kw.Count == 0)
-                return error = "Topic cannot be empty";
-            return error;
-        }
+                return "Topic cannot be empty";
 
-        private void addConfTopic()
-        {
-            foreach (keyword k in kw)
-                cms.ConferenceTopics.Add(new ConferenceTopic { confId = confid, keywrdId = k.keywrdId });
-            cms.SaveChanges();
+            return "";
         }
 
         private void btn_submit_Click(object sender, EventArgs e)
@@ -130,10 +104,11 @@ namespace CMS
             string error = confValidation();
             if (error.Equals(""))
             {
-                addConf();
-                addConfTopic();
+                var conferenceId = DataProcessor.GetMaxConferenceId() + 1;
+                addConf(conferenceId);
+                DataProcessor.AddConferenceTopic(conferenceId, kw.ToList());
                 MessageBox.Show("Conference added successfully");
-                cmsm.clearControls(this.Controls);
+                DataProcessor.ClearControls(this.Controls);
                 init();
             }
             else

@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using CMSLibrary.Global;
+using CMSLibrary.Model;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CMS.Model;
-using CMS.Module;
 
 namespace CMS
 {
     public partial class RequestValidate : Form
     {
-        CMSDBEntities cms = new CMSDBEntities();
-        CMSsystem cmsm = new CMSsystem();
 
         int userid = 0;
         // userid is used to know the userid before a user entity is created,
@@ -25,108 +17,75 @@ namespace CMS
         public RequestValidate()
         {
             InitializeComponent();
-            init();
+            Init();
         }
 
-        public void init()
+        public void Init()
         {
             findMaxUID();
-            reqDisplay();
+            ReqDisplay();
         }
 
-        private void reqDisplay()
+        private void ReqDisplay()
         {
-            if (CMSsystem.user_role == 1)
+            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Admin)
             {
-                var req1 = from r in cms.RegisterRequests
-                           join ro in cms.Roles on r.roleId equals ro.roleId
-                           where r.roleId == 2 && r.status == "Waiting for approval"
-                           select new
-                           {
-                               r.Id,
-                               r.roleId,
-                               ro.roleType,
-                               r.name,
-                               r.contact,
-                               r.password,
-                               r.email
-                           };
-                dataGridView1.DataSource = req1.ToList();
+                var req1 = DataProcessor.GetUserRequest_Admin();
+                dataGridView1.DataSource = req1;
                 dataGridView1.Columns["roleId"].Visible = false;
             }
             else
             {
-                var req2 = from c in cms.Conferences
-                           join r in cms.RegisterRequests on c.confId equals r.confId
-                           join ro in cms.Roles on r.roleId equals ro.roleId
-                           where c.chairId == CMSsystem.user_id && r.roleId != 2 && r.status == "Waiting for approval"
-                           select new
-                           {
-                               r.Id,
-                               c.confId,
-                               c.confTitle,
-                               r.roleId,
-                               ro.roleType,
-                               r.name,
-                               r.contact,
-                               r.password,
-                               r.email
-                           };
-                dataGridView1.DataSource = req2.ToList();
+                var req2 = DataProcessor.GetUserRequest();
+                dataGridView1.DataSource = req2;
                 dataGridView1.Columns["roleId"].Visible = false;
             }
         }
 
         private void findMaxUID()
         {
-            var max = from u in cms.Users
-                       select u.userId;
-            if (max.Count() == 0)
-                userid = 1;
-            else
-                userid = max.Max() + 1;
+            userid = DataProcessor.GetMaxUserId() + 1;
         }
 
         private void addUser()
         {
-            User user = new User();
-            user.userId = userid;
-            user.userName = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["name"].Value;
-            user.userPasswrd = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["password"].Value;
-            user.userEmail = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["email"].Value;
-            user.userContact = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["contact"].Value;
-            user.roleId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["roleId"].Value;
-            cms.Users.Add(user);
-            cms.SaveChanges();
+            User user = new User
+            {
+                userId = userid,
+                userName = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["name"].Value,
+                userPasswrd = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["password"].Value,
+                userEmail = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["email"].Value,
+                userContact = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["contact"].Value,
+                roleId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["roleId"].Value
+            };
+
+            DataProcessor.AddUser(user);
         }
 
         private void addConfMember()
         {
-            ConferenceMember cm = new ConferenceMember();
-            cm.confId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["confId"].Value;
-            cm.userId = userid;
-            cms.ConferenceMembers.Add(cm);
-            cms.SaveChanges();
+            ConferenceMember cm = new ConferenceMember
+            {
+                confId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["confId"].Value,
+                userId = userid
+            };
+
+            DataProcessor.AddConferenceMember(cm);
         }
 
         private void changeReqStatus(int i)
         {
             int id = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["Id"].Value;
-            RegisterRequest rr = cms.RegisterRequests.FirstOrDefault(r => r.Id == id);
-            if (i == 1)
-                rr.status = "Approved";
-            else if (i == 2)
-                rr.status = "Declined";
-            cms.SaveChanges();
+            DataProcessor.ChangeRequestStatus(id, i);
         }
 
         private Boolean sendEmail(int type)
         {
             string email = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["email"].Value;
             if (type == 1)
-                cmsm.sendEmail(email, "Your registration has been approved");
+                DataProcessor.SendEmail(email, "Your registration has been approved");
             if (type == 2)
-                cmsm.sendEmail(email, "Your registration has been declined");
+                DataProcessor.SendEmail(email, "Your registration has been declined");
             return true;
         }
 
@@ -135,17 +94,17 @@ namespace CMS
             if (dataGridView1.CurrentRow.Index >= 0)
             {
                 addUser();
-                if (CMSsystem.user_role == 2)
+                if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Chair)
                     addConfMember();
                 changeReqStatus(1);
 
-                Boolean status = await Task.Run(()=>sendEmail(1));
+                Boolean status = await Task.Run(() => sendEmail(1));
                 if (status)
                 {
                     MessageBox.Show("User accepted");
                 }
-                
-                init();
+
+                Init();
             }
         }
 
@@ -154,7 +113,7 @@ namespace CMS
             changeReqStatus(2);
             sendEmail(2);
             MessageBox.Show("User rejected");
-            init();
+            Init();
         }
     }
 }

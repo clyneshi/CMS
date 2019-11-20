@@ -1,27 +1,16 @@
-﻿using System;
+﻿using CMSLibrary.Global;
+using CMSLibrary.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using CMS.Model;
 using System.IO;
+using System.Windows.Forms;
 
 namespace CMS
 {
     public partial class SubmitPaper : Form
     {
-        private Module.CMSsystem cmsm = new Module.CMSsystem();
-        private Model.CMSDBEntities cms = new Model.CMSDBEntities();
         private BindingList<keyword> kw = new BindingList<keyword>();
-
-        public void addPaper(int expectedId, string expecdtedTitle, string expectedLength, int expectedConfId, int expectedAuId, string expectedFormat, string expectedFileName, string expectedStatus)
-        {
-            throw new NotImplementedException();
-        }
 
         // paperid is used to know the paperid before a paper entity is created,
         // in which way the two seperated but conneted table entity can be created
@@ -59,26 +48,15 @@ namespace CMS
             fileext = "";
             filename = "";
             paperuploaded = false;
-            findMaxPID();
+            paperid = DataProcessor.GetMaxPaperId() + 1;
             keywordDisplay();
             selectedKwDisplay();
-        }
-
-        private void findMaxPID()
-        {
-            // Prepare new paper id
-            var max = from pp in cms.Papers
-                      select pp.paperId;
-            if (max.Count() == 0)
-                paperid = 1;
-            else
-                paperid = max.Max() + 1;
         }
 
         private void keywordDisplay()
         {
             // ### add orderby
-            dataGridView1.DataSource = cms.keywords.ToList();
+            dataGridView1.DataSource = DataProcessor.GetKeyWords();
             dataGridView1.Columns[0].Visible = false;
             dataGridView1.Columns[3].Visible = false;
             dataGridView1.Columns[4].Visible = false;
@@ -121,63 +99,42 @@ namespace CMS
         public void addPaper()
         {
             //Save new paper to Paper table
-            Paper paper = new Paper();
-            paper.paperId = paperid;
-            paper.paperTitle = textBox_paperTitle.Text;
-            paper.paperAuthor = textBox_author.Text;
-            paper.paperLength = (string)comboBox_paperLength.SelectedItem;
-            paper.confId = Module.CMSsystem.user_conf;
-            paper.auId = Module.CMSsystem.user_id;
-            paper.paperFormat = fileext;
-            paper.paperFileName = filename;
-            paper.paperStatus = "submitted";
+            Paper paper = new Paper
+            {
+                paperId = paperid,
+                paperTitle = textBox_paperTitle.Text,
+                paperAuthor = textBox_author.Text,
+                paperLength = (string)comboBox_paperLength.SelectedItem,
+                confId = GlobalVariable.UserConference,
+                auId = GlobalVariable.CurrentUser.userId,
+                paperFormat = fileext,
+                paperFileName = filename,
+                paperStatus = "submitted",
 
-            paper.paperContent = content;
-            paper.paperSubDate = DateTime.Today;
-            cms.Papers.Add(paper);
-            cms.SaveChanges();
-        }
+                paperContent = content,
+                paperSubDate = DateTime.Today
+            };
 
-        // for testting
-        public Paper addPaper1(int id, string title, string author, string length, int confId, int auId, string fformat, string ffilename, string status)
-        {
-            //Save new paper to Paper table
-            Paper paper = new Paper();
-            paper.paperId = id;
-            paper.paperTitle = title;
-            paper.paperAuthor = author;
-            paper.paperLength = length;
-            paper.confId = confId;
-            paper.auId = auId;
-            paper.paperFormat = fformat;
-            paper.paperFileName = ffilename;
-            paper.paperStatus = status;
-
-            paper.paperContent = content;
-            paper.paperSubDate = DateTime.Today;
-            return paper;
-            //cms.Papers.Add(paper);
-            //cms.SaveChanges();
+            DataProcessor.AddPaper(paper);
         }
 
         private string paperValidation()
         {
-            string error = "";
-            var conf = cms.Conferences.Where(c => c.confId == CMS.Module.CMSsystem.user_conf)
-                .Select(c => c.paperDeadline).Single();
-            if (DateTime.Compare(DateTime.Today, (DateTime)conf) >= 0)
-                return error = "Paper submition has finished";
-                //if (textBox_paperTitle.Text.Trim().Equals(""))
-                //    return error = "Paper Title cannot be empty";
+            var deadline = DataProcessor.GetConferenceById(GlobalVariable.UserConference).paperDeadline;
+
+            if (DateTime.Compare(DateTime.Today, (DateTime)deadline) >= 0)
+                return "Paper submition has finished";
+            //if (textBox_paperTitle.Text.Trim().Equals(""))
+            //    return error = "Paper Title cannot be empty";
             if (textBox_author.Text.Trim().Equals(""))
-                return error = "Paper Author cannot be empty";
+                return "Paper Author cannot be empty";
             if (comboBox_paperLength.SelectedItem == null)
-                return error = "Paper Length cannot be empty";
+                return "Paper Length cannot be empty";
             if (!paperuploaded)
-                return error = "Paper has to be uploaded";
+                return "Paper has to be uploaded";
             if (kw.Count == 0)
-                return error = "Paper topic cannot be empty";
-            return error;
+                return "Paper topic cannot be empty";
+            return "";
         }
 
         private void addPaperTopic()
@@ -185,12 +142,13 @@ namespace CMS
             // Save each keyword in combolist to Topoic table
             foreach (keyword k in kw)
             {
-                PaperTopic pt = new PaperTopic();
-                pt.paperId = paperid;
-                pt.keywrdId = k.keywrdId;
-                cms.PaperTopics.Add(pt);
+                PaperTopic pt = new PaperTopic
+                {
+                    paperId = paperid,
+                    keywrdId = k.keywrdId
+                };
+                DataProcessor.AddPaperTopic(pt);
             }
-            cms.SaveChanges();
         }
 
         public List<PaperTopic> addPaperTopic1(int Id, int[] keywrd)
@@ -199,9 +157,11 @@ namespace CMS
             List<PaperTopic> pl = new List<PaperTopic>();
             foreach (var k in keywrd)
             {
-                PaperTopic pt = new PaperTopic();
-                pt.paperId = Id;
-                pt.keywrdId = k;
+                PaperTopic pt = new PaperTopic
+                {
+                    paperId = Id,
+                    keywrdId = k
+                };
                 pl.Add(pt);
             }
             return pl;
@@ -215,7 +175,7 @@ namespace CMS
                 addPaper();
                 addPaperTopic();
                 MessageBox.Show("Save successful!");
-                cmsm.clearControls(this.Controls);
+                DataProcessor.ClearControls(this.Controls);
                 init();
             }
             else
