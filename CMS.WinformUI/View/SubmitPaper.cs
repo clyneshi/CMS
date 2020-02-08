@@ -22,10 +22,12 @@ namespace CMS
         string filename = "";
         bool paperuploaded = false;
         IKeywordService _keywordService;
+        IPaperService _paperService;
 
-        public SubmitPaper(IKeywordService keywordService)
+        public SubmitPaper(IKeywordService keywordService, IPaperService paperService)
         {
             _keywordService = keywordService;
+            _paperService = paperService;
             InitializeComponent();
             init();
         }
@@ -52,7 +54,7 @@ namespace CMS
             fileext = "";
             filename = "";
             paperuploaded = false;
-            paperid = DataProcessor.GetMaxPaperId() + 1;
+            paperid = _paperService.GetMaxPaperId() + 1;
             keywordDisplay();
             selectedKwDisplay();
         }
@@ -119,7 +121,7 @@ namespace CMS
                 paperSubDate = DateTime.Today
             };
 
-            DataProcessor.AddPaper(paper);
+            _paperService.AddPaper(paper);
         }
 
         private string paperValidation()
@@ -151,7 +153,7 @@ namespace CMS
                     paperId = paperid,
                     keywrdId = k.keywrdId
                 };
-                DataProcessor.AddPaperTopic(pt);
+                _paperService.AddPaperTopic(pt);
             }
         }
 

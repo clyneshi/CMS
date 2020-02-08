@@ -21,10 +21,13 @@ namespace CMS
 
         IUserService _userService;
         IKeywordService _keywordService;
-        public AssignPaper(IUserService userService, IKeywordService keywordService)
+        IPaperService _paperService;
+
+        public AssignPaper(IUserService userService, IKeywordService keywordService, IPaperService paperService)
         {
             _userService = userService;
             _keywordService = keywordService;
+            _paperService = paperService;
             InitializeComponent();
             init();
         }
@@ -57,7 +60,7 @@ namespace CMS
 
         public void paperDisplay(int conf)
         {
-            var papers = DataProcessor.GetPapersByConference(conf);
+            var papers = _paperService.GetPapersByConference(conf);
 
             dataGridView2.DataSource = papers;
         }
@@ -95,12 +98,12 @@ namespace CMS
             {
                 int conf = (int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value;
 
-                if (DataProcessor.GetPapersByConference(conf).Any())
+                if (_paperService.GetPapersByConference(conf).Any())
                 {
                     paperDisplay((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
 
                     paperid = (int)dataGridView2.Rows[0].Cells["paperId"].Value;
-                    if (DataProcessor.GetPaperReviewByPaper(paperid).Any())
+                    if (_paperService.GetPaperReviewByPaper(paperid).Any())
                         assignedRvwDisplay((int)dataGridView2.Rows[0].Cells["paperId"].Value);
                     else
                         dataGridView5.DataSource = null;
@@ -146,7 +149,7 @@ namespace CMS
             {
                 paperid = (int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value;
 
-                if (DataProcessor.GetPaperReviewByPaper(paperid).Any())
+                if (_paperService.GetPaperReviewByPaper(paperid).Any())
                     assignedRvwDisplay((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
                 else
                     dataGridView5.DataSource = null;
@@ -159,7 +162,7 @@ namespace CMS
             bool find = false;
             // ## add this to validation control
 
-            if (DataProcessor.GetPaperReview(paperid, userid) != null)
+            if (_paperService.GetPaperReview(paperid, userid) != null)
                 find = true;
             else
             {
@@ -182,15 +185,15 @@ namespace CMS
             if (deletlist.Count != 0)
             {
                 foreach (PaperReview pr in deletlist)
-                    DataProcessor.DeletePaperReview(pr.paperId, pr.userId);
+                    _paperService.DeletePaperReview(pr.paperId, pr.userId);
             }
             else
                 foreach (User u in reviewer)
                 {
-                    if (DataProcessor.GetPaperReview(paperid, u.userId) == null)
+                    if (_paperService.GetPaperReview(paperid, u.userId) == null)
                     {
                         PaperReview pr = new PaperReview { paperId = paperid, userId = u.userId };
-                        DataProcessor.AddPaperReview(pr);
+                        _paperService.AddPaperReview(pr);
                     }
                 }
 

@@ -171,7 +171,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (rvp == null)
             {
-                rvp = new ReviewPaper();
+                rvp = UnityConfig.UIContainer.Resolve<ReviewPaper>();
                 FormInit(rvp);
             }
             else
@@ -186,7 +186,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (fb == null)
             {
-                fb = new MakeDicision();
+                fb = UnityConfig.UIContainer.Resolve<MakeDicision>();
                 FormInit(fb);
             }
             else
@@ -216,7 +216,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (ps == null)
             {
-                ps = new PaperStatus();
+                ps = UnityConfig.UIContainer.Resolve<PaperStatus>();
                 FormInit(ps);
             }
             else
@@ -267,7 +267,7 @@ namespace CMS
             {
                 if (cfi == null)
                 {
-                    cfi = new ConferenceInfo();
+                    cfi = UnityConfig.UIContainer.Resolve<ConferenceInfo>();
                     FormInit(cfi);
                 }
                 else

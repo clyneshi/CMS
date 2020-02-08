@@ -1,4 +1,4 @@
-﻿using CMS.Library.Global;
+﻿using CMS.Library.Service;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
@@ -7,9 +7,11 @@ namespace CMS
 {
     public partial class PaperStatus : Form
     {
+        IPaperService _paperService;
 
-        public PaperStatus()
+        public PaperStatus(IPaperService paperService)
         {
+            _paperService = paperService;
             InitializeComponent();
             Init();
         }
@@ -21,7 +23,7 @@ namespace CMS
 
         private void PaperDisplay()
         {
-            var papers = DataProcessor.GetPapersByAuthor();
+            var papers = _paperService.GetPapersByAuthor();
 
             if (papers.Count() > 0)
             {
@@ -41,7 +43,7 @@ namespace CMS
 
         private void FeedbackDisplay(int paperId)
         {
-            var feedbacks = DataProcessor.GetFeedbacksByPaper(paperId);
+            var feedbacks = _paperService.GetFeedbacksByPaper(paperId);
             if (feedbacks.Count() != 0)
                 richTextBox_fb.Text = feedbacks.Single().feedback1;
         }

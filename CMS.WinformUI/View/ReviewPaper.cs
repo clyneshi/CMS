@@ -1,4 +1,4 @@
-﻿using CMS.Library.Global;
+﻿using CMS.Library.Service;
 using CMS.Library.Model;
 using System;
 using System.IO;
@@ -8,8 +8,11 @@ namespace CMS
 {
     public partial class ReviewPaper : Form
     {
-        public ReviewPaper()
+        IPaperService _paperService;
+
+        public ReviewPaper(IPaperService paperService)
         {
+            _paperService = paperService;
             InitializeComponent();
             init();
         }
@@ -17,7 +20,7 @@ namespace CMS
         public void init()
         {
             //paperid = 0;
-            var reviewPapers = DataProcessor.GetReviewPaperList();
+            var reviewPapers = _paperService.GetReviewPaperList();
             dataGridView1.DataSource = reviewPapers;
             //dataGridView1.Columns[5].Visible = false;
         }
@@ -27,7 +30,7 @@ namespace CMS
             if (RatingBox.Show() == DialogResult.Yes)
             {
                 if (RatingBox.rating != 0 && dataGridView1.CurrentRow.Index >= 0)
-                    DataProcessor.UpdatePaperRating(RatingBox.rating, (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["paperId"].Value);
+                    _paperService.UpdatePaperRating(RatingBox.rating, (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["paperId"].Value);
             }
             init();
         }
@@ -44,7 +47,7 @@ namespace CMS
             if (dataGridView1.RowCount > 0 && dataGridView1.CurrentRow.Index >= 0)
             {
                 int paperid = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["paperId"].Value;
-                Paper paper = DataProcessor.GetPaperById(paperid);
+                Paper paper = _paperService.GetPaperById(paperid);
                 sfd.FileName = paper.paperFileName;
                 if (paper.paperFormat.ToUpper().Equals(".PDF"))
                 {

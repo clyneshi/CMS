@@ -1,5 +1,6 @@
 ﻿using CMS.Library.Global;
 using CMS.Library.Model;
+using CMS.Library.Service;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -9,9 +10,11 @@ namespace CMS
     public partial class MakeDicision : Form
     {
         int paperId = 0;
+        IPaperService _paperService;
 
-        public MakeDicision()
+        public MakeDicision(IPaperService paperService)
         {
+            _paperService = paperService;
             InitializeComponent();
             init();
         }
@@ -44,14 +47,14 @@ namespace CMS
 
         private void displayPaper(int conf)
         {
-            var paper = DataProcessor.GetPapersByConference(conf);
+            var paper = _paperService.GetPapersByConference(conf);
 
             dataGridView2.DataSource = paper;
         }
 
         private void displayReview(int paper)
         {
-            var rvw = DataProcessor.GetPaperReviewByPaper(paper);
+            var rvw = _paperService.GetPaperReviewByPaper(paper);
 
             dataGridView3.DataSource = rvw;
         }
@@ -87,7 +90,7 @@ namespace CMS
 
         private void displayFnl(int paper)
         {
-            var fb = DataProcessor.GetFeedbacksByPaper(paper);
+            var fb = _paperService.GetFeedbacksByPaper(paper);
 
             if (fb.Any())
             {
@@ -135,7 +138,7 @@ namespace CMS
         private void changeStatus()
         {
             int paperid = (int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value;
-            DataProcessor.UpdatePaperStatus(paperid, decisionCheck());
+            _paperService.UpdatePaperStatus(paperid, decisionCheck());
         }
 
         private string fbValidation()
@@ -143,7 +146,7 @@ namespace CMS
             if (dataGridView2.RowCount == 0 || dataGridView2.CurrentRow.Index < 0)
                 return "Paper has not been selected";
             int paperid = (int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value;
-            if (DataProcessor.GetFeedbacksByPaper(paperid).Any())
+            if (_paperService.GetFeedbacksByPaper(paperid).Any())
                 return "Feedback already exists, cannot be changed";
             if (rtextbox_feedback.Text.Trim().Equals(""))
                 return "Feedback canot be empty";
@@ -154,7 +157,7 @@ namespace CMS
 
         private void SendEmail()
         {
-            var email = DataProcessor.GetPaperById(paperId).User.userEmail;
+            var email = _paperService.GetPaperById(paperId).User.userEmail;
 
             if (decisionCheck() == "Accept")
                 DataProcessor.SendEmail(email.ToString(), "Your paper has been accepted");
