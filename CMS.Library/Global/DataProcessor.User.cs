@@ -16,11 +16,6 @@ namespace CMS.Library.Global
             return GlobalVariable.DbModel.Users.ToList();
         }
 
-        public static User AuthenticateUser()
-        {
-            return null;
-        }
-
         public static void AddUser(User user)
         {
             GlobalVariable.DbModel.Users.Add(user);
@@ -84,7 +79,5 @@ namespace CMS.Library.Global
 
             return user.ToList();
         }
-
-
     }
 }

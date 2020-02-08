@@ -64,8 +64,6 @@
     <Compile Include="Global\DataProcessor.Role.cs" />
     <Compile Include="Global\DataProcessor.User.cs" />
     <Compile Include="Global\GlobalVariable.cs" />
-    <Compile Include="Global\IUserService.cs" />
-    <Compile Include="Global\UserService.cs" />
     <Compile Include="Model\CMSModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
