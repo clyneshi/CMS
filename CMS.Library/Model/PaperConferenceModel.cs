@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CMSLibrary.Model
+namespace CMS.Library.Model
 {
     public class PaperConferenceModel
     {

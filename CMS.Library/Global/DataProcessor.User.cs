@@ -1,9 +1,8 @@
 ﻿using CMS.Library.Model;
-using CMSLibrary.Model;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CMSLibrary.Global
+namespace CMS.Library.Global
 {
     public static partial class DataProcessor
     {
@@ -15,6 +14,11 @@ namespace CMSLibrary.Global
         public static List<User> GetUsers()
         {
             return GlobalVariable.DbModel.Users.ToList();
+        }
+
+        public static User AuthenticateUser()
+        {
+            return null;
         }
 
         public static void AddUser(User user)

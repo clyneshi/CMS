@@ -1,4 +1,4 @@
-﻿using CMSLibrary.Global;
+﻿using CMS.Library.Global;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;

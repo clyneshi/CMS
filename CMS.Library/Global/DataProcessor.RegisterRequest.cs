@@ -1,9 +1,8 @@
 ﻿using CMS.Library.Model;
-using CMSLibrary.Model;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CMSLibrary.Global
+namespace CMS.Library.Global
 {
     public static partial class DataProcessor
     {

@@ -1,6 +1,6 @@
 ﻿using CMS.Library.Model;
 
-namespace CMSLibrary.Global
+namespace CMS.Library.Global
 {
     public class GlobalVariable
     {

@@ -1,4 +1,4 @@
-﻿using CMSLibrary.Global;
+﻿using CMS.Library.Global;
 using System.Windows.Forms;
 
 namespace CMS

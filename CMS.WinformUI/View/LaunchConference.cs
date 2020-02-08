@@ -1,5 +1,5 @@
-﻿using CMS.Library.Model;
-using CMSLibrary.Global;
+﻿using CMS.Library.Global;
+using CMS.Library.Model;
 using System;
 using System.ComponentModel;
 using System.Linq;

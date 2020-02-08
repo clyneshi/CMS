@@ -1,4 +1,4 @@
-﻿namespace CMSLibrary.Model
+﻿namespace CMS.Library.Model
 {
     public class ReviewPaperModel
     {

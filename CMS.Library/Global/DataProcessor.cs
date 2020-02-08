@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Windows.Forms;
 
-namespace CMSLibrary.Global
+namespace CMS.Library.Global
 {
     /// <summary>
     /// Handles all data fetching and saving functions
