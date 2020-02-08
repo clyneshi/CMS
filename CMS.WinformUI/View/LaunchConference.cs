@@ -11,8 +11,8 @@ namespace CMS
     public partial class LaunchConference : Form
     {
         private readonly BindingList<keyword> kw = new BindingList<keyword>();
-        private IKeywordService _keywordService;
-        private IConferenceService _conferenceService;
+        private readonly IKeywordService _keywordService;
+        private readonly IConferenceService _conferenceService;
 
         public LaunchConference(IKeywordService keywordService, IConferenceService conferenceService)
         {

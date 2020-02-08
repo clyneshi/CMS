@@ -1,14 +1,13 @@
-﻿using CMS.Library.Global;
-using CMS.Library.Service;
+﻿using CMS.Library.Service;
 using System.Windows.Forms;
 
 namespace CMS
 {
     public partial class ConferenceInfo_A : Form
     {
-        private IUserService _userService;
-        private IPaperService _paperService;
-        private IConferenceService _conferenceService;
+        private readonly IUserService _userService;
+        private readonly IPaperService _paperService;
+        private readonly IConferenceService _conferenceService;
 
         public ConferenceInfo_A(IUserService userService, IPaperService paperService, IConferenceService conferenceService, int type)
         {

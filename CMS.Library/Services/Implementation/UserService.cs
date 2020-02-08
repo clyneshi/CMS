@@ -29,7 +29,7 @@ namespace CMS.Library.Service
                     GlobalVariable.UserConference = conferenceMembers?.confId ?? 0;
                 }
                 GlobalVariable.CurrentUser = user;
-                
+
                 return user;
             }
         }

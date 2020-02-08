@@ -1,5 +1,5 @@
-﻿using CMS.Library.Service;
-using CMS.Library.Model;
+﻿using CMS.Library.Model;
+using CMS.Library.Service;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -8,7 +8,7 @@ namespace CMS
 {
     public partial class ReviewPaper : Form
     {
-        IPaperService _paperService;
+        readonly IPaperService _paperService;
 
         public ReviewPaper(IPaperService paperService)
         {

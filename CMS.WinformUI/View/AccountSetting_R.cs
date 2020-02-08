@@ -13,13 +13,13 @@ namespace CMS
     {
         private readonly BindingList<keyword> kw = new BindingList<keyword>();
         private readonly List<keyword> rmk = new List<keyword>();
-        private IUserService _userService;
-        private IRoleService _roleService;
-        private IKeywordService _keywordService;
-        private IConferenceService _conferenceService;
+        private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
+        private readonly IKeywordService _keywordService;
+        private readonly IConferenceService _conferenceService;
 
-        public AccountSetting_R(IUserService userService, 
-            IRoleService roleService, 
+        public AccountSetting_R(IUserService userService,
+            IRoleService roleService,
             IKeywordService keywordService,
             IConferenceService conferenceService)
         {

@@ -19,13 +19,13 @@ namespace CMS
         // 1 is invovled
         int tag = 0;
 
-        private IUserService _userService;
-        private IKeywordService _keywordService;
-        private IPaperService _paperService;
-        private IConferenceService _conferenceService;
+        private readonly IUserService _userService;
+        private readonly IKeywordService _keywordService;
+        private readonly IPaperService _paperService;
+        private readonly IConferenceService _conferenceService;
 
-        public AssignPaper(IUserService userService, 
-            IKeywordService keywordService, 
+        public AssignPaper(IUserService userService,
+            IKeywordService keywordService,
             IPaperService paperService,
             IConferenceService conferenceService)
         {

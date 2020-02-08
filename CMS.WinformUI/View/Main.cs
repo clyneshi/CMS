@@ -254,7 +254,7 @@ namespace CMS
                         {
                             new ParameterOverride("type", 1)
                         }
-                    );  
+                    );
                     FormInit(cfia);
                 }
                 else
@@ -290,7 +290,7 @@ namespace CMS
                         {
                             new ParameterOverride("type", 2)
                         }
-                    ); 
+                    );
                 FormInit(cfia);
             }
             else
@@ -311,7 +311,7 @@ namespace CMS
                         {
                             new ParameterOverride("type", 3)
                         }
-                    ); 
+                    );
                 FormInit(cfia);
             }
             else

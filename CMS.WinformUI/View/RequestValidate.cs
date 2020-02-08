@@ -15,12 +15,12 @@ namespace CMS
         // in which way conference member entity can be created
         // in "the same time" with no worrying query repeart name in different conference
 
-        private IUserService _userService;
-        private IUserRequestService _userRequestService;
-        private IConferenceService _conferenceService;
-        
-        public RequestValidate(IUserService userService, 
-            IUserRequestService userRequest, 
+        private readonly IUserService _userService;
+        private readonly IUserRequestService _userRequestService;
+        private readonly IConferenceService _conferenceService;
+
+        public RequestValidate(IUserService userService,
+            IUserRequestService userRequest,
             IConferenceService conferenceService)
         {
             _userService = userService;

@@ -1,6 +1,6 @@
 ﻿using CMS.Library.Global;
-using CMS.Library.Service;
 using CMS.Library.Model;
+using CMS.Library.Service;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -9,9 +9,9 @@ namespace CMS
 {
     public partial class AccountSetting : Form
     {
-        private IUserService _userService;
-        private IRoleService _roleService;
-        private IConferenceService _conferenceService;
+        private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
+        private readonly IConferenceService _conferenceService;
 
         public AccountSetting(IUserService userService, IRoleService roleService, IConferenceService conferenceService)
         {

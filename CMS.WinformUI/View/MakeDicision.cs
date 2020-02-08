@@ -10,8 +10,8 @@ namespace CMS
     public partial class MakeDicision : Form
     {
         int paperId = 0;
-        private IPaperService _paperService;
-        private IConferenceService _conferenceService;
+        private readonly IPaperService _paperService;
+        private readonly IConferenceService _conferenceService;
 
         public MakeDicision(IPaperService paperService, IConferenceService conferenceService)
         {

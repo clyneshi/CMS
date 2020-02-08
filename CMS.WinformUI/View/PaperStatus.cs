@@ -7,7 +7,7 @@ namespace CMS
 {
     public partial class PaperStatus : Form
     {
-        IPaperService _paperService;
+        readonly IPaperService _paperService;
 
         public PaperStatus(IPaperService paperService)
         {

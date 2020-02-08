@@ -8,7 +8,7 @@ namespace CMS
 {
     public partial class Login : Form
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
 
         public Login(IUserService userService)
         {

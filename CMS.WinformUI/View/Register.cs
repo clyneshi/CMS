@@ -1,5 +1,4 @@
 ﻿using CMS.Library.App_Start;
-using CMS.Library.Global;
 using CMS.Library.Model;
 using CMS.Library.Service;
 using System;
@@ -10,12 +9,12 @@ namespace CMS
 {
     public partial class Register : Form
     {
-        private IRoleService _roleService;
-        private IUserRequestService _userRequestService;
-        private IConferenceService _conferenceService;
+        private readonly IRoleService _roleService;
+        private readonly IUserRequestService _userRequestService;
+        private readonly IConferenceService _conferenceService;
 
-        public Register(IRoleService roleService, 
-            IUserRequestService userRequest, 
+        public Register(IRoleService roleService,
+            IUserRequestService userRequest,
             IConferenceService conferenceService)
         {
             _roleService = roleService;

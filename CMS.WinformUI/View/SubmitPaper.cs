@@ -21,12 +21,12 @@ namespace CMS
         string fileext = "";
         string filename = "";
         bool paperuploaded = false;
-        private IKeywordService _keywordService;
-        private IPaperService _paperService;
-        private IConferenceService _conferenceService;
+        private readonly IKeywordService _keywordService;
+        private readonly IPaperService _paperService;
+        private readonly IConferenceService _conferenceService;
 
-        public SubmitPaper(IKeywordService keywordService, 
-            IPaperService paperService, 
+        public SubmitPaper(IKeywordService keywordService,
+            IPaperService paperService,
             IConferenceService conferenceService)
         {
             _keywordService = keywordService;
