@@ -7,7 +7,10 @@ namespace CMSLibrary.Global
 {
     public static partial class DataProcessor
     {
-        public static List<Paper> GetPapers() => GlobalVariable.DbModel.Papers.ToList();
+        public static List<Paper> GetPapers()
+        {
+            return GlobalVariable.DbModel.Papers.ToList();
+        }
 
         public static void AddPaper(Paper paper)
         {
@@ -15,15 +18,30 @@ namespace CMSLibrary.Global
             GlobalVariable.DbModel.SaveChanges();
         }
 
-        public static Paper GetPaperById(int Id) => GlobalVariable.DbModel.Papers.Where(p => p.paperId == Id).SingleOrDefault();
+        public static Paper GetPaperById(int Id)
+        {
+            return GlobalVariable.DbModel.Papers.Where(p => p.paperId == Id).SingleOrDefault();
+        }
 
-        public static List<Paper> GetPapersByAuthor() => GlobalVariable.DbModel.Papers.Where(x => x.auId == GlobalVariable.CurrentUser.userId).ToList();
+        public static List<Paper> GetPapersByAuthor()
+        {
+            return GlobalVariable.DbModel.Papers.Where(x => x.auId == GlobalVariable.CurrentUser.userId).ToList();
+        }
 
-        public static List<Paper> GetPapersByConference(int conferenceId) => GlobalVariable.DbModel.Papers.Where(p => p.confId == conferenceId).ToList();
+        public static List<Paper> GetPapersByConference(int conferenceId)
+        {
+            return GlobalVariable.DbModel.Papers.Where(p => p.confId == conferenceId).ToList();
+        }
 
-        public static int GetMaxPaperId() => GlobalVariable.DbModel.Papers.OrderByDescending(p => p.paperId).FirstOrDefault().paperId;
+        public static int GetMaxPaperId()
+        {
+            return GlobalVariable.DbModel.Papers.OrderByDescending(p => p.paperId).FirstOrDefault().paperId;
+        }
 
-        public static PaperReview GetPaperReview(int paperId, int userId) => GlobalVariable.DbModel.PaperReviews.Where(pr => pr.userId == userId && pr.paperId == paperId).SingleOrDefault();
+        public static PaperReview GetPaperReview(int paperId, int userId)
+        {
+            return GlobalVariable.DbModel.PaperReviews.Where(pr => pr.userId == userId && pr.paperId == paperId).SingleOrDefault();
+        }
 
         public static void AddPaperReview(PaperReview paperReview)
         {
@@ -77,9 +95,15 @@ namespace CMSLibrary.Global
             GlobalVariable.DbModel.SaveChanges();
         }
 
-        public static List<PaperReview> GetPaperReviewByPaper(int paperId) => GlobalVariable.DbModel.PaperReviews.Where(pr => pr.paperId == paperId).ToList();
+        public static List<PaperReview> GetPaperReviewByPaper(int paperId)
+        {
+            return GlobalVariable.DbModel.PaperReviews.Where(pr => pr.paperId == paperId).ToList();
+        }
 
-        public static List<Feedback> GetFeedbacksByPaper(int paperId) => GlobalVariable.DbModel.Feedbacks.Where(f => f.paperId == paperId).ToList();
+        public static List<Feedback> GetFeedbacksByPaper(int paperId)
+        {
+            return GlobalVariable.DbModel.Feedbacks.Where(f => f.paperId == paperId).ToList();
+        }
 
         public static List<PaperUserModel> GetPaperUser()
         {

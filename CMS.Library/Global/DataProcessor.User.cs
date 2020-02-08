@@ -7,11 +7,20 @@ namespace CMSLibrary.Global
 {
     public static partial class DataProcessor
     {
-        public static int GetMaxUserId() => GlobalVariable.DbModel.Users.OrderByDescending(u => u.userId).FirstOrDefault().userId;
+        public static int GetMaxUserId()
+        {
+            return GlobalVariable.DbModel.Users.OrderByDescending(u => u.userId).FirstOrDefault().userId;
+        }
 
-        public static List<User> GetUsers() => GlobalVariable.DbModel.Users.ToList();
+        public static List<User> GetUsers()
+        {
+            return GlobalVariable.DbModel.Users.ToList();
+        }
 
-        public static void AddUser(User user) => GlobalVariable.DbModel.Users.Add(user);
+        public static void AddUser(User user)
+        {
+            GlobalVariable.DbModel.Users.Add(user);
+        }
 
         public static void UpdateUser(string userName, string userEmail, string userContact, string oldPasswrd, string newPasswrd)
         {

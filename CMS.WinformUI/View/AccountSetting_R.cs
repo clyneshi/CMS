@@ -1,18 +1,17 @@
-﻿using System;
+﻿using CMS.Library.Model;
+using CMSLibrary.Global;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-using CMS.Library.Model;
-using CMSLibrary.Global;
-using CMSLibrary.Model;
 
 namespace CMS
 {
     public partial class AccountSetting_R : Form
     {
-        private BindingList<keyword> kw = new BindingList<keyword>();
-        private List<keyword> rmk = new List<keyword>();
+        private readonly BindingList<keyword> kw = new BindingList<keyword>();
+        private readonly List<keyword> rmk = new List<keyword>();
 
         public AccountSetting_R()
         {
@@ -41,10 +40,10 @@ namespace CMS
         private void selectedKwDisplay()
         {
             var kwl = DataProcessor.GetExpertiseKeyword();
-            
-            foreach(var k in kwl)
+
+            foreach (var k in kwl)
             {
-                    kw.Add(new keyword { keywrdId = k.KeywrdId, keywrdName = k.KeywrdName });
+                kw.Add(new keyword { keywrdId = k.KeywrdId, keywrdName = k.KeywrdName });
             }
 
             listBox1.DataSource = kw;

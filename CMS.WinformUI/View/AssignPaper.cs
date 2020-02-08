@@ -1,17 +1,16 @@
-﻿using System;
+﻿using CMS.Library.Model;
+using CMSLibrary.Global;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-using CMS.Library.Model;
-using CMSLibrary.Global;
-using CMSLibrary.Model;
 
 namespace CMS
 {
     public partial class AssignPaper : Form
     {
-        BindingList<User> reviewer = new BindingList<User>();
-        BindingList<PaperReview> deletlist = new BindingList<PaperReview>();
+        readonly BindingList<User> reviewer = new BindingList<User>();
+        readonly BindingList<PaperReview> deletlist = new BindingList<PaperReview>();
         int userid = 0;
         int paperid = 0;
         string username = "";
@@ -211,7 +210,7 @@ namespace CMS
 
             var rvw = DataProcessor.GetAssignedReviewersByPaper(paperid);
 
-            foreach(var r in rvw)
+            foreach (var r in rvw)
             {
                 reviewer.Add(new User { userId = r.userId, userName = r.userName });
             }

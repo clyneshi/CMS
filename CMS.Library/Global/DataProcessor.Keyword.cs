@@ -7,7 +7,10 @@ namespace CMSLibrary.Global
 {
     public static partial class DataProcessor
     {
-        public static List<keyword> GetKeyWords() => GlobalVariable.DbModel.keywords.ToList();
+        public static List<keyword> GetKeyWords()
+        {
+            return GlobalVariable.DbModel.keywords.ToList();
+        }
 
         public static List<keyword> GetKewordsByUser(int userId)
         {
@@ -19,7 +22,10 @@ namespace CMSLibrary.Global
             return expertises.ToList();
         }
 
-        public static List<Expertise> GetExpertiseByUser(int userId) => GlobalVariable.DbModel.Expertises.Where(ex => ex.userId == userId).ToList();
+        public static List<Expertise> GetExpertiseByUser(int userId)
+        {
+            return GlobalVariable.DbModel.Expertises.Where(ex => ex.userId == userId).ToList();
+        }
 
         public static List<ExpertiseKeywordModel> GetExpertiseKeyword()
         {

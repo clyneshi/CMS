@@ -1,6 +1,5 @@
 ﻿using CMS.Library.Model;
 using CMSLibrary.Global;
-using CMSLibrary.Model;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -29,7 +28,7 @@ namespace CMS
             textBox_email.Text = user.userEmail;
             textBox_cont.Text = user.userContact;
             comboBox_role.Text = DataProcessor.GetRoles().FirstOrDefault(r => r.roleId == user.roleId).roleType;
-            
+
             if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Reviewer
                 || GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Author)
                 comboBox_conf.Text = DataProcessor.GetConferences().FirstOrDefault(c => c.confId == GlobalVariable.UserConference).confTitle;

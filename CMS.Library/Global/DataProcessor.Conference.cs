@@ -7,14 +7,26 @@ namespace CMSLibrary.Global
 {
     public static partial class DataProcessor
     {
-        public static List<Conference> GetConferences() => GlobalVariable.DbModel.Conferences.ToList();
+        public static List<Conference> GetConferences()
+        {
+            return GlobalVariable.DbModel.Conferences.ToList();
+        }
 
-        public static Conference GetConferenceById(int? confId) => GlobalVariable.DbModel.Conferences.FirstOrDefault(c => c.confId == confId);
+        public static Conference GetConferenceById(int? confId)
+        {
+            return GlobalVariable.DbModel.Conferences.FirstOrDefault(c => c.confId == confId);
+        }
 
         // TODO: make generic search
-        public static List<Conference> GetConferenceByChair(int chairId) => GlobalVariable.DbModel.Conferences.Where(c => c.chairId == chairId).ToList();
+        public static List<Conference> GetConferenceByChair(int chairId)
+        {
+            return GlobalVariable.DbModel.Conferences.Where(c => c.chairId == chairId).ToList();
+        }
 
-        public static int GetMaxConferenceId() => GlobalVariable.DbModel.Conferences.OrderByDescending(c => c.confId).FirstOrDefault().confId;
+        public static int GetMaxConferenceId()
+        {
+            return GlobalVariable.DbModel.Conferences.OrderByDescending(c => c.confId).FirstOrDefault().confId;
+        }
 
         public static List<ReviewerConferenceModel> GetReviewer()
         {
@@ -53,11 +65,20 @@ namespace CMSLibrary.Global
             return conf.ToList();
         }
 
-        public static void AddConference(Conference conference) => GlobalVariable.DbModel.Conferences.Add(conference);
+        public static void AddConference(Conference conference)
+        {
+            GlobalVariable.DbModel.Conferences.Add(conference);
+        }
 
-        public static List<ConferenceMember> GetConferenceMembers() => GlobalVariable.DbModel.ConferenceMembers.ToList();
+        public static List<ConferenceMember> GetConferenceMembers()
+        {
+            return GlobalVariable.DbModel.ConferenceMembers.ToList();
+        }
 
-        public static void AddConferenceMember(ConferenceMember conferenceMember) => GlobalVariable.DbModel.ConferenceMembers.Add(conferenceMember);
+        public static void AddConferenceMember(ConferenceMember conferenceMember)
+        {
+            GlobalVariable.DbModel.ConferenceMembers.Add(conferenceMember);
+        }
 
         public static void AddConferenceTopic(int conferenceId, List<keyword> keywords)
         {

@@ -15,7 +15,7 @@ namespace CMS
         MakeDicision fb;
         RequestValidate rv;
         PaperStatus ps;
-        
+
 
         public Main()
         {
@@ -241,7 +241,7 @@ namespace CMS
         private void strip_conf_confInfo_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Admin 
+            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Admin
                 || GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Chair)
             {
                 if (cfia == null)

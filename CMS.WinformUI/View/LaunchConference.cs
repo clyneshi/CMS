@@ -1,16 +1,15 @@
-﻿using System;
+﻿using CMS.Library.Model;
+using CMSLibrary.Global;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-using CMS.Library.Model;
-using CMSLibrary.Global;
-using CMSLibrary.Model;
 
 namespace CMS
 {
     public partial class LaunchConference : Form
     {
-        private BindingList<keyword> kw = new BindingList<keyword>();
+        private readonly BindingList<keyword> kw = new BindingList<keyword>();
 
         public LaunchConference()
         {

@@ -7,11 +7,20 @@ namespace CMSLibrary.Global
 {
     public class UserService : IUserService
     {
-        public int GetMaxUserId() => GlobalVariable.DbModel.Users.OrderByDescending(u => u.userId).FirstOrDefault().userId;
+        public int GetMaxUserId()
+        {
+            return GlobalVariable.DbModel.Users.OrderByDescending(u => u.userId).FirstOrDefault().userId;
+        }
 
-        public List<User> GetUsers() => GlobalVariable.DbModel.Users.ToList();
+        public List<User> GetUsers()
+        {
+            return GlobalVariable.DbModel.Users.ToList();
+        }
 
-        public void AddUser(User user) => GlobalVariable.DbModel.Users.Add(user);
+        public void AddUser(User user)
+        {
+            GlobalVariable.DbModel.Users.Add(user);
+        }
 
         public void UpdateUser(string userName, string userEmail, string userContact, string oldPasswrd, string newPasswrd)
         {

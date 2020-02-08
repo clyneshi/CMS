@@ -1,6 +1,5 @@
 ﻿using CMS.Library.Model;
 using CMSLibrary.Global;
-using CMSLibrary.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +10,7 @@ namespace CMS
 {
     public partial class SubmitPaper : Form
     {
-        private BindingList<keyword> kw = new BindingList<keyword>();
+        private readonly BindingList<keyword> kw = new BindingList<keyword>();
 
         // paperid is used to know the paperid before a paper entity is created,
         // in which way the two seperated but conneted table entity can be created
@@ -35,11 +34,12 @@ namespace CMS
                 fileext = Path.GetExtension(openFileDialog1.FileName);
                 filename = Path.GetFileName(openFileDialog1.FileName);
                 textBox_filePath.Text = openFileDialog1.FileName;
-                FileStream fs = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.Read);
-                BinaryReader br = new BinaryReader(fs);
-                content = br.ReadBytes((Int32)fs.Length);
-                br.Close();
-                fs.Close();
+                using (FileStream fs = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.Read))
+                {
+                    BinaryReader br = new BinaryReader(fs);
+                    content = br.ReadBytes((Int32)fs.Length);
+                    br.Close();
+                }
                 paperuploaded = true;
             }
         }
