@@ -10,11 +10,13 @@ namespace CMS
     public partial class MakeDicision : Form
     {
         int paperId = 0;
-        IPaperService _paperService;
+        private IPaperService _paperService;
+        private IConferenceService _conferenceService;
 
-        public MakeDicision(IPaperService paperService)
+        public MakeDicision(IPaperService paperService, IConferenceService conferenceService)
         {
             _paperService = paperService;
+            _conferenceService = conferenceService;
             InitializeComponent();
             init();
         }
@@ -40,7 +42,7 @@ namespace CMS
 
         private void displayConf()
         {
-            var conf = DataProcessor.GetConferenceByChair(GlobalVariable.CurrentUser.userId);
+            var conf = _conferenceService.GetConferenceByChair(GlobalVariable.CurrentUser.userId);
 
             dataGridView1.DataSource = conf;
         }

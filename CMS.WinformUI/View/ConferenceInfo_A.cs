@@ -6,12 +6,15 @@ namespace CMS
 {
     public partial class ConferenceInfo_A : Form
     {
-        IUserService _userService;
-        IPaperService _paperService;
-        public ConferenceInfo_A(IUserService userService, IPaperService paperService, int type)
+        private IUserService _userService;
+        private IPaperService _paperService;
+        private IConferenceService _conferenceService;
+
+        public ConferenceInfo_A(IUserService userService, IPaperService paperService, IConferenceService conferenceService, int type)
         {
             _userService = userService;
             _paperService = paperService;
+            _conferenceService = conferenceService;
             InitializeComponent();
             Init(type);
         }
@@ -21,7 +24,7 @@ namespace CMS
             switch (type)
             {
                 case (int)ConferenceViewTypes.ConferenceMembers:
-                    dataGridView1.DataSource = DataProcessor.GetConferencesUser();
+                    dataGridView1.DataSource = _conferenceService.GetConferencesUser();
                     break;
                 case (int)ConferenceViewTypes.UserInfo:
                     dataGridView1.DataSource = _userService.GetUserRole();

@@ -13,15 +13,20 @@ namespace CMS
     {
         private readonly BindingList<keyword> kw = new BindingList<keyword>();
         private readonly List<keyword> rmk = new List<keyword>();
-        IUserService _userService;
-        IRoleService _roleService;
-        IKeywordService _keywordService;
+        private IUserService _userService;
+        private IRoleService _roleService;
+        private IKeywordService _keywordService;
+        private IConferenceService _conferenceService;
 
-        public AccountSetting_R(IUserService userService, IRoleService roleService, IKeywordService keywordService)
+        public AccountSetting_R(IUserService userService, 
+            IRoleService roleService, 
+            IKeywordService keywordService,
+            IConferenceService conferenceService)
         {
             _userService = userService;
             _roleService = roleService;
             _keywordService = keywordService;
+            _conferenceService = conferenceService;
             InitializeComponent();
             init();
         }
@@ -67,7 +72,7 @@ namespace CMS
 
             if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Reviewer
                 || GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Author)
-                comboBox_conf.Text = DataProcessor.GetConferenceById(GlobalVariable.UserConference).confTitle;
+                comboBox_conf.Text = _conferenceService.GetConferenceById(GlobalVariable.UserConference).confTitle;
         }
 
         private void btn_add_Click(object sender, EventArgs e)

@@ -19,15 +19,20 @@ namespace CMS
         // 1 is invovled
         int tag = 0;
 
-        IUserService _userService;
-        IKeywordService _keywordService;
-        IPaperService _paperService;
+        private IUserService _userService;
+        private IKeywordService _keywordService;
+        private IPaperService _paperService;
+        private IConferenceService _conferenceService;
 
-        public AssignPaper(IUserService userService, IKeywordService keywordService, IPaperService paperService)
+        public AssignPaper(IUserService userService, 
+            IKeywordService keywordService, 
+            IPaperService paperService,
+            IConferenceService conferenceService)
         {
             _userService = userService;
             _keywordService = keywordService;
             _paperService = paperService;
+            _conferenceService = conferenceService;
             InitializeComponent();
             init();
         }
@@ -53,7 +58,7 @@ namespace CMS
 
         private void confDisplay()
         {
-            var conf = DataProcessor.GetConferenceByChair(GlobalVariable.CurrentUser.userId);
+            var conf = _conferenceService.GetConferenceByChair(GlobalVariable.CurrentUser.userId);
 
             dataGridView1.DataSource = conf;
         }

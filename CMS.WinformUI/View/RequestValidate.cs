@@ -15,12 +15,17 @@ namespace CMS
         // in which way conference member entity can be created
         // in "the same time" with no worrying query repeart name in different conference
 
-        IUserService _userService;
-        IUserRequestService _userRequestService;
-        public RequestValidate(IUserService userService, IUserRequestService userRequest)
+        private IUserService _userService;
+        private IUserRequestService _userRequestService;
+        private IConferenceService _conferenceService;
+        
+        public RequestValidate(IUserService userService, 
+            IUserRequestService userRequest, 
+            IConferenceService conferenceService)
         {
             _userService = userService;
             _userRequestService = userRequest;
+            _conferenceService = conferenceService;
             InitializeComponent();
             Init();
         }
@@ -75,7 +80,7 @@ namespace CMS
                 userId = userid
             };
 
-            DataProcessor.AddConferenceMember(cm);
+            _conferenceService.AddConferenceMember(cm);
         }
 
         private void changeReqStatus(int i)

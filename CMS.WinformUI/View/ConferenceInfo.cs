@@ -6,18 +6,20 @@ namespace CMS
 {
     public partial class ConferenceInfo : Form
     {
-        IPaperService _paperService;
+        private IPaperService _paperService;
+        private IConferenceService _conferenceService;
 
-        public ConferenceInfo(IPaperService paperService)
+        public ConferenceInfo(IPaperService paperService, IConferenceService conferenceService)
         {
             _paperService = paperService;
+            _conferenceService = conferenceService;
             InitializeComponent();
             Init();
         }
 
         public void Init()
         {
-            dataGridView1.DataSource = DataProcessor.GetReviewer();
+            dataGridView1.DataSource = _conferenceService.GetReviewer();
 
             dataGridView2.DataSource = _paperService.GetPaperConferences();
         }

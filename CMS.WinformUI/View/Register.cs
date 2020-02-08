@@ -8,20 +8,24 @@ namespace CMS
 {
     public partial class Register : Form
     {
-        IRoleService _roleService;
-        IUserRequestService _userRequestService;
+        private IRoleService _roleService;
+        private IUserRequestService _userRequestService;
+        private IConferenceService _conferenceService;
 
-        public Register(IRoleService roleService, IUserRequestService userRequest)
+        public Register(IRoleService roleService, 
+            IUserRequestService userRequest, 
+            IConferenceService conferenceService)
         {
             _roleService = roleService;
             _userRequestService = userRequest;
+            _conferenceService = conferenceService;
             InitializeComponent();
             Init();
         }
 
         private void Init()
         {
-            comboBox_conf.DataSource = DataProcessor.GetConferences();
+            comboBox_conf.DataSource = _conferenceService.GetConferences();
             comboBox_conf.DisplayMember = "confTitle";
             comboBox_conf.ValueMember = "confId";
             comboBox_conf.SelectedIndex = -1;

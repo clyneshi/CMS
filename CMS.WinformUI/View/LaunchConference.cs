@@ -11,11 +11,13 @@ namespace CMS
     public partial class LaunchConference : Form
     {
         private readonly BindingList<keyword> kw = new BindingList<keyword>();
-        IKeywordService _keywordService;
+        private IKeywordService _keywordService;
+        private IConferenceService _conferenceService;
 
-        public LaunchConference(IKeywordService keywordService)
+        public LaunchConference(IKeywordService keywordService, IConferenceService conferenceService)
         {
             _keywordService = keywordService;
+            _conferenceService = conferenceService;
             InitializeComponent();
             init();
         }
@@ -83,7 +85,7 @@ namespace CMS
                 paperDeadline = dateTimePicker_pdeadline.Value.Date
             };
 
-            DataProcessor.AddConference(conf);
+            _conferenceService.AddConference(conf);
         }
 
         private string confValidation()
@@ -107,9 +109,9 @@ namespace CMS
             string error = confValidation();
             if (error.Equals(""))
             {
-                var conferenceId = DataProcessor.GetMaxConferenceId() + 1;
+                var conferenceId = _conferenceService.GetMaxConferenceId() + 1;
                 addConf(conferenceId);
-                DataProcessor.AddConferenceTopic(conferenceId, kw.ToList());
+                _conferenceService.AddConferenceTopic(conferenceId, kw.ToList());
                 MessageBox.Show("Conference added successfully");
                 DataProcessor.ClearControls(this.Controls);
                 init();

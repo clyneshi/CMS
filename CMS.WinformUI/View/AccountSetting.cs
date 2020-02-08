@@ -11,11 +11,13 @@ namespace CMS
     {
         private IUserService _userService;
         private IRoleService _roleService;
+        private IConferenceService _conferenceService;
 
-        public AccountSetting(IUserService userService, IRoleService roleService)
+        public AccountSetting(IUserService userService, IRoleService roleService, IConferenceService conferenceService)
         {
             _userService = userService;
             _roleService = roleService;
+            _conferenceService = conferenceService;
             InitializeComponent();
             init();
         }
@@ -36,7 +38,7 @@ namespace CMS
 
             if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Reviewer
                 || GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Author)
-                comboBox_conf.Text = DataProcessor.GetConferences().FirstOrDefault(c => c.confId == GlobalVariable.UserConference).confTitle;
+                comboBox_conf.Text = _conferenceService.GetConferences().FirstOrDefault(c => c.confId == GlobalVariable.UserConference).confTitle;
         }
 
         // TODO: extract validation method

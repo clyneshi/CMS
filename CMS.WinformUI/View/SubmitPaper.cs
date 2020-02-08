@@ -21,13 +21,17 @@ namespace CMS
         string fileext = "";
         string filename = "";
         bool paperuploaded = false;
-        IKeywordService _keywordService;
-        IPaperService _paperService;
+        private IKeywordService _keywordService;
+        private IPaperService _paperService;
+        private IConferenceService _conferenceService;
 
-        public SubmitPaper(IKeywordService keywordService, IPaperService paperService)
+        public SubmitPaper(IKeywordService keywordService, 
+            IPaperService paperService, 
+            IConferenceService conferenceService)
         {
             _keywordService = keywordService;
             _paperService = paperService;
+            _conferenceService = conferenceService;
             InitializeComponent();
             init();
         }
@@ -126,7 +130,7 @@ namespace CMS
 
         private string paperValidation()
         {
-            var deadline = DataProcessor.GetConferenceById(GlobalVariable.UserConference).paperDeadline;
+            var deadline = _conferenceService.GetConferenceById(GlobalVariable.UserConference).paperDeadline;
 
             if (DateTime.Compare(DateTime.Today, (DateTime)deadline) >= 0)
                 return "Paper submition has finished";
