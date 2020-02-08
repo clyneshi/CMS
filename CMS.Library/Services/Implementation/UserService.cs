@@ -15,94 +15,120 @@ namespace CMS.Library.Service
 
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(passWord))
                 return null;
-
-            var user = GlobalVariable.DbModel.Users.FirstOrDefault(x => x.userEmail == email && x.userPasswrd == passWord);
-
-            if (user == null)
-                return null;
-
-            ConferenceMember conferenceMembers;
-            if (user.roleId == (int)RoleTypes.Author || user.roleId == (int)RoleTypes.Reviewer)
+            using (var dbModel = new CMSDBEntities())
             {
-                conferenceMembers = GlobalVariable.DbModel.ConferenceMembers.FirstOrDefault(x => x.userId == user.userId);
-                GlobalVariable.UserConference = conferenceMembers?.confId ?? 0;
-            }
-            GlobalVariable.CurrentUser = user;
+                var user = dbModel.Users.FirstOrDefault(x => x.userEmail == email && x.userPasswrd == passWord);
 
-            return user;
+                if (user == null)
+                    return null;
+
+                ConferenceMember conferenceMembers;
+                if (user.roleId == (int)RoleTypes.Author || user.roleId == (int)RoleTypes.Reviewer)
+                {
+                    conferenceMembers = dbModel.ConferenceMembers.FirstOrDefault(x => x.userId == user.userId);
+                    GlobalVariable.UserConference = conferenceMembers?.confId ?? 0;
+                }
+                GlobalVariable.CurrentUser = user;
+                
+                return user;
+            }
         }
         public int GetMaxUserId()
         {
-            return GlobalVariable.DbModel.Users.OrderByDescending(u => u.userId).FirstOrDefault().userId;
+            using (var dbModel = new CMSDBEntities())
+            {
+                return dbModel.Users.OrderByDescending(u => u.userId).FirstOrDefault().userId;
+            }
         }
 
         public List<User> GetUsers()
         {
-            return GlobalVariable.DbModel.Users.ToList();
+            using (var dbModel = new CMSDBEntities())
+            {
+                return dbModel.Users.ToList();
+            }
         }
 
         public void AddUser(User user)
         {
-            GlobalVariable.DbModel.Users.Add(user);
+            using (var dbModel = new CMSDBEntities())
+            {
+                dbModel.Users.Add(user);
+            }
         }
 
         public void UpdateUser(string userName, string userEmail, string userContact, string oldPasswrd, string newPasswrd)
         {
-            User user = GlobalVariable.DbModel.Users.FirstOrDefault(u => u.userId == GlobalVariable.CurrentUser.userId);
-            user.userName = userName;
-            user.userEmail = userEmail;
-            user.userContact = userContact;
-            if (user.userPasswrd == oldPasswrd)
-                user.userPasswrd = newPasswrd;
+            using (var dbModel = new CMSDBEntities())
+            {
+                User user = dbModel.Users.FirstOrDefault(u => u.userId == GlobalVariable.CurrentUser.userId);
+                user.userName = userName;
+                user.userEmail = userEmail;
+                user.userContact = userContact;
+                if (user.userPasswrd == oldPasswrd)
+                    user.userPasswrd = newPasswrd;
 
-            GlobalVariable.DbModel.SaveChanges();
+                dbModel.SaveChanges();
+            }
         }
 
         public List<User> GetReviewers()
         {
-            var users = from u in GlobalVariable.DbModel.Users
-                        join cf in GlobalVariable.DbModel.ConferenceMembers on u.userId equals cf.userId
-                        join c in GlobalVariable.DbModel.Conferences on cf.confId equals c.confId
-                        where c.confId == GlobalVariable.UserConference && u.roleId == 3
-                        select u;
+            using (var dbModel = new CMSDBEntities())
+            {
+                var users = from u in dbModel.Users
+                            join cf in dbModel.ConferenceMembers on u.userId equals cf.userId
+                            join c in dbModel.Conferences on cf.confId equals c.confId
+                            where c.confId == GlobalVariable.UserConference && u.roleId == 3
+                            select u;
 
-            return users.ToList();
+                return users.ToList();
+            }
         }
 
         public List<User> GetReviewersByConference(int conferenceId)
         {
-            var users = from u in GlobalVariable.DbModel.Users
-                        join cf in GlobalVariable.DbModel.ConferenceMembers on u.userId equals cf.userId
-                        where u.roleId == 3 && cf.confId == conferenceId
-                        select u;
+            using (var dbModel = new CMSDBEntities())
+            {
+                var users = from u in dbModel.Users
+                            join cf in dbModel.ConferenceMembers on u.userId equals cf.userId
+                            where u.roleId == 3 && cf.confId == conferenceId
+                            select u;
 
-            return users.ToList();
+                return users.ToList();
+            }
         }
 
         public List<User> GetAssignedReviewersByPaper(int paperId)
         {
-            var users = from r in GlobalVariable.DbModel.PaperReviews
-                        join u in GlobalVariable.DbModel.Users on r.userId equals u.userId
-                        where r.paperId == paperId
-                        select u;
+            using (var dbModel = new CMSDBEntities())
+            {
+                var users = from r in dbModel.PaperReviews
+                            join u in dbModel.Users on r.userId equals u.userId
+                            where r.paperId == paperId
+                            select u;
 
-            return users.ToList();
+                return users.ToList();
+            }
         }
 
         public List<UserRoleModel> GetUserRole()
         {
-            var user = from u in GlobalVariable.DbModel.Users
-                       join r in GlobalVariable.DbModel.Roles on u.roleId equals r.roleId
-                       select new UserRoleModel
-                       {
-                           Id = u.userId,
-                           Name = u.userName,
-                           Role = r.roleType,
-                           Email = u.userEmail,
-                           Contact = u.userContact
-                       };
+            using (var dbModel = new CMSDBEntities())
+            {
+                var user = from u in dbModel.Users
+                           join r in dbModel.Roles on u.roleId equals r.roleId
+                           select new UserRoleModel
+                           {
+                               Id = u.userId,
+                               Name = u.userName,
+                               Role = r.roleType,
+                               Email = u.userEmail,
+                               Contact = u.userContact
+                           };
 
-            return user.ToList();
+                return user.ToList();
+            }
         }
     }
 }

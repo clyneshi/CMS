@@ -9,12 +9,18 @@ namespace CMS.Library.Service
     {
         public List<Role> GetRoles()
         {
-            return GlobalVariable.DbModel.Roles.ToList();
+            using (var dbModel = new CMSDBEntities())
+            {
+                return dbModel.Roles.ToList();
+            }
         }
 
         public Role GetRole(int? roleId)
         {
-            return GlobalVariable.DbModel.Roles.FirstOrDefault(r => r.roleId == roleId);
+            using (var dbModel = new CMSDBEntities())
+            {
+                return dbModel.Roles.FirstOrDefault(r => r.roleId == roleId);
+            }
         }
     }
 }

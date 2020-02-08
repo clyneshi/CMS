@@ -6,7 +6,5 @@ namespace CMS.Library.Global
     {
         public static int UserConference { get; internal set; } = 0;
         public static User CurrentUser { get; internal set; }
-
-        internal static readonly CMSDBEntities DbModel = new CMSDBEntities();
     }
 }
