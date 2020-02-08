@@ -10,27 +10,6 @@ namespace CMS
         public Login()
         {
             InitializeComponent();
-            Init();
-        }
-
-        public void Init()
-        {
-            RoleDisplay();
-            ConfDisplay();
-        }
-
-        private void RoleDisplay()
-        {
-            comboBox_role.DataSource = DataProcessor.GetRoles();
-            comboBox_role.DisplayMember = "roleType";
-            comboBox_role.ValueMember = "roleId";
-        }
-
-        private void ConfDisplay()
-        {
-            comboBox_conf.DataSource = DataProcessor.GetConferences();
-            comboBox_conf.DisplayMember = "confTitle";
-            comboBox_conf.ValueMember = "confId";
         }
 
         private void btn_Exit_Click(object sender, EventArgs e)
@@ -40,15 +19,9 @@ namespace CMS
 
         private void btn_login_Click(object sender, EventArgs e)
         {
-            // validate if user exists
-            bool isUser = DataProcessor.ValidateUser(
-                textBox_userName.Text,
-                textBox_passwrd.Text,
-                (int)comboBox_role.SelectedValue,
-                (int)comboBox_conf.SelectedValue
-            );
+            var use = DataProcessor.AuthenticateUser(textBox_userName.Text, textBox_passwrd.Text);
 
-            if (isUser)
+            if (use != null)
             {
                 Main main = new Main();
                 this.Hide();
@@ -65,14 +38,6 @@ namespace CMS
             Register reg = new Register();
             this.Hide();
             reg.Show();
-        }
-
-        private void comboBox_role_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            if ((int)comboBox_role.SelectedValue > 2)
-                comboBox_conf.Enabled = true;
-            else
-                comboBox_conf.Enabled = false;
         }
     }
 }

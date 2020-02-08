@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace CMS.Library.Global
 {
@@ -18,32 +19,29 @@ namespace CMS.Library.Global
             GlobalVariable.DbModel.SaveChanges();
         }
 
-        public static bool ValidateUser(string name, string passWord, int role, int conferenceId = 0)
+        public static User AuthenticateUser(string email, string passWord)
         {
+            //TODO: change behavior in accordince with user logic changes 
+            // in the past, user - author, reviewer are tied to a single conference
+            // after logic changes, author and reviewer can have register in multiple conferences
 
-            List<User> users = GetUsers();
-            List<ConferenceMember> members = GetConferenceMembers();
-            User user = users.Find(x => x.userName == name && x.userPasswrd == passWord && x.roleId == role);
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(passWord))
+                return null;
+
+            var user = GlobalVariable.DbModel.Users.FirstOrDefault(x => x.userEmail == email && x.userPasswrd == passWord);
 
             if (user == null)
-                return false;
+                return null;
 
-            if (role == 3 || role == 4)
+            ConferenceMember conferenceMembers;
+            if (user.roleId == (int)RoleTypes.Author || user.roleId == (int)RoleTypes.Reviewer)
             {
-                var member = members.Find(x => x.confId == conferenceId && x.userId == user.userId);
-                if (member == null)
-                    user = null;
-                else
-                    GlobalVariable.UserConference = member.confId;
+                conferenceMembers = GlobalVariable.DbModel.ConferenceMembers.FirstOrDefault(x => x.userId == user.userId);
+                GlobalVariable.UserConference = conferenceMembers?.confId ?? 0;
             }
-
-            if (user == null)
-                return false;
-
             GlobalVariable.CurrentUser = user;
 
-            return true;
-
+            return user;
         }
 
         public static void ClearControls(Control.ControlCollection C)
@@ -66,7 +64,6 @@ namespace CMS.Library.Global
                     if (((DateTimePicker)c).Visible == true)
                         ((DateTimePicker)c).Value = DateTime.Today;
             }
-
         }
 
         public static void SendEmail(string toAddr, string mes)
