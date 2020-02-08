@@ -185,7 +185,7 @@ namespace CMS
                 addPaper();
                 addPaperTopic();
                 MessageBox.Show("Save successful!");
-                DataProcessor.ClearControls(this.Controls);
+                GlobalHelper.ClearControls(this.Controls);
                 init();
             }
             else

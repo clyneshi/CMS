@@ -11,39 +11,8 @@ namespace CMS.Library.Global
     /// <summary>
     /// Handles all data fetching and saving functions
     /// </summary>
-    public static partial class DataProcessor
+    public static class GlobalHelper
     {
-        public static void AddFeedback(Feedback feedback)
-        {
-            GlobalVariable.DbModel.Feedbacks.Add(feedback);
-            GlobalVariable.DbModel.SaveChanges();
-        }
-
-        public static User AuthenticateUser(string email, string passWord)
-        {
-            //TODO: change behavior in accordince with user logic changes 
-            // in the past, user - author, reviewer are tied to a single conference
-            // after logic changes, author and reviewer can have register in multiple conferences
-
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(passWord))
-                return null;
-
-            var user = GlobalVariable.DbModel.Users.FirstOrDefault(x => x.userEmail == email && x.userPasswrd == passWord);
-
-            if (user == null)
-                return null;
-
-            ConferenceMember conferenceMembers;
-            if (user.roleId == (int)RoleTypes.Author || user.roleId == (int)RoleTypes.Reviewer)
-            {
-                conferenceMembers = GlobalVariable.DbModel.ConferenceMembers.FirstOrDefault(x => x.userId == user.userId);
-                GlobalVariable.UserConference = conferenceMembers?.confId ?? 0;
-            }
-            GlobalVariable.CurrentUser = user;
-
-            return user;
-        }
-
         public static void ClearControls(Control.ControlCollection C)
         {
             foreach (Control c in C)

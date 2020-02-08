@@ -1,5 +1,5 @@
 ﻿using CMS.Library.App_Start;
-using CMS.Library.Global;
+using CMS.Library.Service;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -8,8 +8,11 @@ namespace CMS
 {
     public partial class Login : Form
     {
-        public Login()
+        private IUserService _userService;
+
+        public Login(IUserService userService)
         {
+            _userService = userService;
             InitializeComponent();
         }
 
@@ -20,7 +23,7 @@ namespace CMS
 
         private void btn_login_Click(object sender, EventArgs e)
         {
-            var use = DataProcessor.AuthenticateUser(textBox_userName.Text, textBox_passwrd.Text);
+            var use = _userService.AuthenticateUser(textBox_userName.Text, textBox_passwrd.Text);
 
             if (use != null)
             {

@@ -1,8 +1,10 @@
-﻿using CMS.Library.Global;
+﻿using CMS.Library.App_Start;
+using CMS.Library.Global;
 using CMS.Library.Model;
 using CMS.Library.Service;
 using System;
 using System.Windows.Forms;
+using Unity;
 
 namespace CMS
 {
@@ -38,7 +40,7 @@ namespace CMS
 
         private void btn_cancel_Click(object sender, EventArgs e)
         {
-            Login lg = new Login();
+            var lg = UnityConfig.UIContainer.Resolve<Login>();
             lg.Show();
             this.Close();
         }
@@ -93,7 +95,7 @@ namespace CMS
             if (error.Equals("") && AddRequest() == true)
             {
                 MessageBox.Show("Submit Successful!");
-                Login lg = new Login();
+                var lg = UnityConfig.UIContainer.Resolve<Login>();
                 lg.Show();
                 this.Close();
             }

@@ -23,7 +23,7 @@ namespace CMS
 
         public void init()
         {
-            DataProcessor.ClearControls(this.Controls);
+            GlobalHelper.ClearControls(this.Controls);
             displayConf();
             if (dataGridView1.Rows.Count > 0)
             {
@@ -130,7 +130,7 @@ namespace CMS
                     feedback1 = rtextbox_feedback.Text
                 };
 
-                DataProcessor.AddFeedback(fb);
+                _paperService.AddFeedback(fb);
 
                 return true;
             }
@@ -162,9 +162,9 @@ namespace CMS
             var email = _paperService.GetPaperById(paperId).User.userEmail;
 
             if (decisionCheck() == "Accept")
-                DataProcessor.SendEmail(email.ToString(), "Your paper has been accepted");
+                GlobalHelper.SendEmail(email.ToString(), "Your paper has been accepted");
             if (decisionCheck() == "Decline")
-                DataProcessor.SendEmail(email.ToString(), "Your paper has been declined");
+                GlobalHelper.SendEmail(email.ToString(), "Your paper has been declined");
         }
 
         private void btn_save_Click(object sender, EventArgs e)

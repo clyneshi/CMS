@@ -16,7 +16,7 @@ namespace CMS.WinformUI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             UnityConfig.TypeRegister();
-            Application.Run(new Login());
+            Application.Run(UnityConfig.UIContainer.Resolve<Login>());
         }
     }
 }

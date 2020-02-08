@@ -22,5 +22,6 @@ namespace CMS.Library.Service
         List<ReviewPaperModel> GetReviewPaperList();
         void UpdatePaperRating(int paperId, int? rating);
         void UpdatePaperStatus(int paperId, string status);
+        void AddFeedback(Feedback feedback);
     }
 }

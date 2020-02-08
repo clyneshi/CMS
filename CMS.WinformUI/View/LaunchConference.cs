@@ -113,7 +113,7 @@ namespace CMS
                 addConf(conferenceId);
                 _conferenceService.AddConferenceTopic(conferenceId, kw.ToList());
                 MessageBox.Show("Conference added successfully");
-                DataProcessor.ClearControls(this.Controls);
+                GlobalHelper.ClearControls(this.Controls);
                 init();
             }
             else

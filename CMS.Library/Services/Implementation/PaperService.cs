@@ -139,5 +139,11 @@ namespace CMS.Library.Service
 
             return papers.ToList();
         }
+
+        public void AddFeedback(Feedback feedback)
+        {
+            GlobalVariable.DbModel.Feedbacks.Add(feedback);
+            GlobalVariable.DbModel.SaveChanges();
+        }
     }
 }

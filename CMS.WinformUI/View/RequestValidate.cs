@@ -93,9 +93,9 @@ namespace CMS
         {
             string email = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["email"].Value;
             if (type == 1)
-                DataProcessor.SendEmail(email, "Your registration has been approved");
+                GlobalHelper.SendEmail(email, "Your registration has been approved");
             if (type == 2)
-                DataProcessor.SendEmail(email, "Your registration has been declined");
+                GlobalHelper.SendEmail(email, "Your registration has been declined");
             return true;
         }
 

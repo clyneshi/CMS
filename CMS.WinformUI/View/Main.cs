@@ -101,7 +101,7 @@ namespace CMS
         private void strip_user_logout_Click(object sender, EventArgs e)
         {
             this.Close();
-            Login login = new Login();
+            var login = UnityConfig.UIContainer.Resolve<Login>();
             login.Show();
         }
 
