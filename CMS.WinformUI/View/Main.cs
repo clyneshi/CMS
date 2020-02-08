@@ -114,10 +114,9 @@ namespace CMS
         {
             this.IsMdiContainer = true;
 
-
             if (sub == null)
             {
-                sub = new SubmitPaper();
+                sub = UnityConfig.UIContainer.Resolve<SubmitPaper>();
                 FormInit(sub);
             }
             else
@@ -142,7 +141,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (lf == null)
             {
-                lf = new LaunchConference();
+                lf = UnityConfig.UIContainer.Resolve<LaunchConference>();
                 FormInit(lf);
             }
             else

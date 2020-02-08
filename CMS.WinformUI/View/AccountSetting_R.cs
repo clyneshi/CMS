@@ -15,11 +15,13 @@ namespace CMS
         private readonly List<keyword> rmk = new List<keyword>();
         IUserService _userService;
         IRoleService _roleService;
+        IKeywordService _keywordService;
 
-        public AccountSetting_R(IUserService userService, IRoleService roleService)
+        public AccountSetting_R(IUserService userService, IRoleService roleService, IKeywordService keywordService)
         {
             _userService = userService;
             _roleService = roleService;
+            _keywordService = keywordService;
             InitializeComponent();
             init();
         }
@@ -33,7 +35,7 @@ namespace CMS
 
         private void keywordDisplay()
         {
-            var keywords = DataProcessor.GetKeyWords();
+            var keywords = _keywordService.GetKeyWords();
 
             dataGridView1.DataSource = keywords.ToList();
             dataGridView1.Columns[0].Visible = false;
@@ -44,7 +46,7 @@ namespace CMS
 
         private void selectedKwDisplay()
         {
-            var kwl = DataProcessor.GetExpertiseKeyword();
+            var kwl = _keywordService.GetExpertiseKeyword();
 
             foreach (var k in kwl)
             {
@@ -100,7 +102,7 @@ namespace CMS
         private void btn_save_Click(object sender, EventArgs e)
         {
             _userService.UpdateUser(textBox_name.Text, textBox_email.Text, textBox_cont.Text, textBox_oPass.Text, textBox_nPass.Text);
-            DataProcessor.UpdateExpertise(rmk, kw.ToList());
+            _keywordService.UpdateExpertise(rmk, kw.ToList());
             MessageBox.Show("Update completed");
         }
 

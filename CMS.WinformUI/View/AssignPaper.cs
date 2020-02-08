@@ -20,9 +20,11 @@ namespace CMS
         int tag = 0;
 
         IUserService _userService;
-        public AssignPaper(IUserService userService)
+        IKeywordService _keywordService;
+        public AssignPaper(IUserService userService, IKeywordService keywordService)
         {
             _userService = userService;
+            _keywordService = keywordService;
             InitializeComponent();
             init();
         }
@@ -69,7 +71,7 @@ namespace CMS
 
         public void reviewerExpeDisplay(int rvw)
         {
-            var kw = DataProcessor.GetKewordsByUser(rvw);
+            var kw = _keywordService.GetKewordsByUser(rvw);
 
             dataGridView4.DataSource = kw;
             dataGridView4.Columns["ConferenceTopics"].Visible = false;
@@ -131,7 +133,7 @@ namespace CMS
                 userid = (int)dataGridView3.Rows[e.RowIndex].Cells["userId"].Value;
                 username = (string)dataGridView3.Rows[e.RowIndex].Cells["userName"].Value;
 
-                if (DataProcessor.GetExpertiseByUser(userid).Any())
+                if (_keywordService.GetExpertiseByUser(userid).Any())
                     reviewerExpeDisplay((int)dataGridView3.Rows[e.RowIndex].Cells["userId"].Value);
                 else
                     dataGridView4.DataSource = null;

@@ -1,5 +1,6 @@
 ﻿using CMS.Library.Global;
 using CMS.Library.Model;
+using CMS.Library.Service;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -10,9 +11,11 @@ namespace CMS
     public partial class LaunchConference : Form
     {
         private readonly BindingList<keyword> kw = new BindingList<keyword>();
+        IKeywordService _keywordService;
 
-        public LaunchConference()
+        public LaunchConference(IKeywordService keywordService)
         {
+            _keywordService = keywordService;
             InitializeComponent();
             init();
         }
@@ -26,7 +29,7 @@ namespace CMS
 
         private void keywordDisplay()
         {
-            var topic = DataProcessor.GetKeyWords();
+            var topic = _keywordService.GetKeyWords();
 
             dataGridView1.DataSource = topic;
             dataGridView1.Columns[0].Visible = false;

@@ -1,5 +1,6 @@
 ﻿using CMS.Library.Global;
 using CMS.Library.Model;
+using CMS.Library.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,9 +21,11 @@ namespace CMS
         string fileext = "";
         string filename = "";
         bool paperuploaded = false;
+        IKeywordService _keywordService;
 
-        public SubmitPaper()
+        public SubmitPaper(IKeywordService keywordService)
         {
+            _keywordService = keywordService;
             InitializeComponent();
             init();
         }
@@ -57,7 +60,7 @@ namespace CMS
         private void keywordDisplay()
         {
             // ### add orderby
-            dataGridView1.DataSource = DataProcessor.GetKeyWords();
+            dataGridView1.DataSource = _keywordService.GetKeyWords();
             dataGridView1.Columns[0].Visible = false;
             dataGridView1.Columns[3].Visible = false;
             dataGridView1.Columns[4].Visible = false;
