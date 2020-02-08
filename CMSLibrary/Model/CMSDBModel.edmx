@@ -1,0 +1,1014 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CMSDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Conference">
+          <Key>
+            <PropertyRef Name="confId" />
+          </Key>
+          <Property Name="confId" Type="int" Nullable="false" />
+          <Property Name="chairId" Type="int" />
+          <Property Name="confTitle" Type="varchar" MaxLength="100" />
+          <Property Name="confLocation" Type="varchar" MaxLength="100" />
+          <Property Name="confBeginDate" Type="date" />
+          <Property Name="confEndDate" Type="date" />
+          <Property Name="paperDeadline" Type="date" />
+        </EntityType>
+        <EntityType Name="ConferenceMember">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="confId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ConferenceTopic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="confId" Type="int" Nullable="false" />
+          <Property Name="keywrdId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Expertise">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="keywrdId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="paperId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="fnlDecision" Type="char" MaxLength="10" />
+          <Property Name="feedback" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="keyword">
+          <Key>
+            <PropertyRef Name="keywrdId" />
+          </Key>
+          <Property Name="keywrdId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="keywrdGenre" Type="varchar" MaxLength="50" />
+          <Property Name="keywrdName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Paper">
+          <Key>
+            <PropertyRef Name="paperId" />
+          </Key>
+          <Property Name="paperId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="paperTitle" Type="varchar" MaxLength="20" />
+          <Property Name="paperAuthor" Type="varchar" MaxLength="20" />
+          <Property Name="paperSubDate" Type="date" />
+          <Property Name="paperLength" Type="varchar" MaxLength="5" />
+          <Property Name="paperContent" Type="varbinary(max)" />
+          <Property Name="confId" Type="int" Nullable="false" />
+          <Property Name="auId" Type="int" />
+          <Property Name="paperFormat" Type="varchar" MaxLength="10" />
+          <Property Name="paperStatus" Type="varchar" MaxLength="15" />
+          <Property Name="paperFileName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PaperReview">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="paperId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="paperRating" Type="int" />
+        </EntityType>
+        <EntityType Name="PaperTopic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="paperId" Type="int" Nullable="false" />
+          <Property Name="keywrdId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RegisterRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="confId" Type="int" />
+          <Property Name="name" Type="varchar" MaxLength="20" />
+          <Property Name="password" Type="varchar" MaxLength="20" />
+          <Property Name="contact" Type="varchar" MaxLength="10" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="status" Type="varchar" MaxLength="20" />
+          <Property Name="roleId" Type="int" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="roleId" />
+          </Key>
+          <Property Name="roleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="roleType" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="userName" Type="varchar" MaxLength="20" />
+          <Property Name="userPasswrd" Type="varchar" MaxLength="20" />
+          <Property Name="userContact" Type="varchar" MaxLength="10" />
+          <Property Name="roleId" Type="int" />
+          <Property Name="userEmail" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_ConferenceMember_Conference">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="1" />
+          <End Role="ConferenceMember" Type="Self.ConferenceMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="confId" />
+            </Principal>
+            <Dependent Role="ConferenceMember">
+              <PropertyRef Name="confId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConferenceMember_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="ConferenceMember" Type="Self.ConferenceMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="ConferenceMember">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConferenceTopic_Conference">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="1" />
+          <End Role="ConferenceTopic" Type="Self.ConferenceTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="confId" />
+            </Principal>
+            <Dependent Role="ConferenceTopic">
+              <PropertyRef Name="confId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConferenceTopic_Keyword">
+          <End Role="keyword" Type="Self.keyword" Multiplicity="1" />
+          <End Role="ConferenceTopic" Type="Self.ConferenceTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="keyword">
+              <PropertyRef Name="keywrdId" />
+            </Principal>
+            <Dependent Role="ConferenceTopic">
+              <PropertyRef Name="keywrdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Expertise_Keyword">
+          <End Role="keyword" Type="Self.keyword" Multiplicity="1" />
+          <End Role="Expertise" Type="Self.Expertise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="keyword">
+              <PropertyRef Name="keywrdId" />
+            </Principal>
+            <Dependent Role="Expertise">
+              <PropertyRef Name="keywrdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Expertise_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Expertise" Type="Self.Expertise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Expertise">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_Paper">
+          <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="paperId" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="paperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Conference">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="1" />
+          <End Role="Paper" Type="Self.Paper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="confId" />
+            </Principal>
+            <Dependent Role="Paper">
+              <PropertyRef Name="confId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Paper" Type="Self.Paper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Paper">
+              <PropertyRef Name="auId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaperReview_Paper">
+          <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+          <End Role="PaperReview" Type="Self.PaperReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="paperId" />
+            </Principal>
+            <Dependent Role="PaperReview">
+              <PropertyRef Name="paperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaperReview_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="PaperReview" Type="Self.PaperReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="PaperReview">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaperTopic_Keyword">
+          <End Role="keyword" Type="Self.keyword" Multiplicity="1" />
+          <End Role="PaperTopic" Type="Self.PaperTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="keyword">
+              <PropertyRef Name="keywrdId" />
+            </Principal>
+            <Dependent Role="PaperTopic">
+              <PropertyRef Name="keywrdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaperTopic_Paper">
+          <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+          <End Role="PaperTopic" Type="Self.PaperTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="paperId" />
+            </Principal>
+            <Dependent Role="PaperTopic">
+              <PropertyRef Name="paperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegisterRequest_Conference">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1" />
+          <End Role="RegisterRequest" Type="Self.RegisterRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="confId" />
+            </Principal>
+            <Dependent Role="RegisterRequest">
+              <PropertyRef Name="confId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegisterRequest_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="RegisterRequest" Type="Self.RegisterRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="roleId" />
+            </Principal>
+            <Dependent Role="RegisterRequest">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="roleId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CMSDBModelStoreContainer">
+          <EntitySet Name="Conference" EntityType="Self.Conference" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConferenceMember" EntityType="Self.ConferenceMember" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConferenceTopic" EntityType="Self.ConferenceTopic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Expertise" EntityType="Self.Expertise" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="keyword" EntityType="Self.keyword" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paper" EntityType="Self.Paper" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaperReview" EntityType="Self.PaperReview" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaperTopic" EntityType="Self.PaperTopic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegisterRequest" EntityType="Self.RegisterRequest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ConferenceMember_Conference" Association="Self.FK_ConferenceMember_Conference">
+            <End Role="Conference" EntitySet="Conference" />
+            <End Role="ConferenceMember" EntitySet="ConferenceMember" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConferenceMember_User" Association="Self.FK_ConferenceMember_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="ConferenceMember" EntitySet="ConferenceMember" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConferenceTopic_Conference" Association="Self.FK_ConferenceTopic_Conference">
+            <End Role="Conference" EntitySet="Conference" />
+            <End Role="ConferenceTopic" EntitySet="ConferenceTopic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConferenceTopic_Keyword" Association="Self.FK_ConferenceTopic_Keyword">
+            <End Role="keyword" EntitySet="keyword" />
+            <End Role="ConferenceTopic" EntitySet="ConferenceTopic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Expertise_Keyword" Association="Self.FK_Expertise_Keyword">
+            <End Role="keyword" EntitySet="keyword" />
+            <End Role="Expertise" EntitySet="Expertise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Expertise_User" Association="Self.FK_Expertise_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Expertise" EntitySet="Expertise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_Paper" Association="Self.FK_Feedback_Paper">
+            <End Role="Paper" EntitySet="Paper" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_User" Association="Self.FK_Feedback_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Conference" Association="Self.FK_Paper_Conference">
+            <End Role="Conference" EntitySet="Conference" />
+            <End Role="Paper" EntitySet="Paper" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_User" Association="Self.FK_Paper_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Paper" EntitySet="Paper" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaperReview_Paper" Association="Self.FK_PaperReview_Paper">
+            <End Role="Paper" EntitySet="Paper" />
+            <End Role="PaperReview" EntitySet="PaperReview" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaperReview_User" Association="Self.FK_PaperReview_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="PaperReview" EntitySet="PaperReview" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaperTopic_Keyword" Association="Self.FK_PaperTopic_Keyword">
+            <End Role="keyword" EntitySet="keyword" />
+            <End Role="PaperTopic" EntitySet="PaperTopic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaperTopic_Paper" Association="Self.FK_PaperTopic_Paper">
+            <End Role="Paper" EntitySet="Paper" />
+            <End Role="PaperTopic" EntitySet="PaperTopic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegisterRequest_Conference" Association="Self.FK_RegisterRequest_Conference">
+            <End Role="Conference" EntitySet="Conference" />
+            <End Role="RegisterRequest" EntitySet="RegisterRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegisterRequest_Role" Association="Self.FK_RegisterRequest_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="RegisterRequest" EntitySet="RegisterRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CMSDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Conference">
+          <Key>
+            <PropertyRef Name="confId" />
+          </Key>
+          <Property Name="confId" Type="Int32" Nullable="false" />
+          <Property Name="chairId" Type="Int32" />
+          <Property Name="confTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="confLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="confBeginDate" Type="DateTime" Precision="0" />
+          <Property Name="confEndDate" Type="DateTime" Precision="0" />
+          <Property Name="paperDeadline" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="ConferenceMembers" Relationship="Self.FK_ConferenceMember_Conference" FromRole="Conference" ToRole="ConferenceMember" />
+          <NavigationProperty Name="ConferenceTopics" Relationship="Self.FK_ConferenceTopic_Conference" FromRole="Conference" ToRole="ConferenceTopic" />
+          <NavigationProperty Name="Papers" Relationship="Self.FK_Paper_Conference" FromRole="Conference" ToRole="Paper" />
+          <NavigationProperty Name="RegisterRequests" Relationship="Self.FK_RegisterRequest_Conference" FromRole="Conference" ToRole="RegisterRequest" />
+        </EntityType>
+        <EntityType Name="ConferenceMember">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="confId" Type="Int32" Nullable="false" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Conference" Relationship="Self.FK_ConferenceMember_Conference" FromRole="ConferenceMember" ToRole="Conference" />
+          <NavigationProperty Name="User" Relationship="Self.FK_ConferenceMember_User" FromRole="ConferenceMember" ToRole="User" />
+        </EntityType>
+        <EntityType Name="ConferenceTopic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="confId" Type="Int32" Nullable="false" />
+          <Property Name="keywrdId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Conference" Relationship="Self.FK_ConferenceTopic_Conference" FromRole="ConferenceTopic" ToRole="Conference" />
+          <NavigationProperty Name="keyword" Relationship="Self.FK_ConferenceTopic_Keyword" FromRole="ConferenceTopic" ToRole="keyword" />
+        </EntityType>
+        <EntityType Name="Expertise">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="keywrdId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="keyword" Relationship="Self.FK_Expertise_Keyword" FromRole="Expertise" ToRole="keyword" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Expertise_User" FromRole="Expertise" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paperId" Type="Int32" Nullable="false" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="fnlDecision" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="feedback1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Paper" Relationship="Self.FK_Feedback_Paper" FromRole="Feedback" ToRole="Paper" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Feedback_User" FromRole="Feedback" ToRole="User" />
+        </EntityType>
+        <EntityType Name="keyword">
+          <Key>
+            <PropertyRef Name="keywrdId" />
+          </Key>
+          <Property Name="keywrdId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="keywrdGenre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="keywrdName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ConferenceTopics" Relationship="Self.FK_ConferenceTopic_Keyword" FromRole="keyword" ToRole="ConferenceTopic" />
+          <NavigationProperty Name="Expertises" Relationship="Self.FK_Expertise_Keyword" FromRole="keyword" ToRole="Expertise" />
+          <NavigationProperty Name="PaperTopics" Relationship="Self.FK_PaperTopic_Keyword" FromRole="keyword" ToRole="PaperTopic" />
+        </EntityType>
+        <EntityType Name="Paper">
+          <Key>
+            <PropertyRef Name="paperId" />
+          </Key>
+          <Property Name="paperId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paperTitle" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="paperAuthor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="paperSubDate" Type="DateTime" Precision="0" />
+          <Property Name="paperLength" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="paperContent" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="confId" Type="Int32" Nullable="false" />
+          <Property Name="auId" Type="Int32" />
+          <Property Name="paperFormat" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="paperStatus" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="paperFileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Conference" Relationship="Self.FK_Paper_Conference" FromRole="Paper" ToRole="Conference" />
+          <NavigationProperty Name="Feedbacks" Relationship="Self.FK_Feedback_Paper" FromRole="Paper" ToRole="Feedback" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Paper_User" FromRole="Paper" ToRole="User" />
+          <NavigationProperty Name="PaperReviews" Relationship="Self.FK_PaperReview_Paper" FromRole="Paper" ToRole="PaperReview" />
+          <NavigationProperty Name="PaperTopics" Relationship="Self.FK_PaperTopic_Paper" FromRole="Paper" ToRole="PaperTopic" />
+        </EntityType>
+        <EntityType Name="PaperReview">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paperId" Type="Int32" Nullable="false" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="paperRating" Type="Int32" />
+          <NavigationProperty Name="Paper" Relationship="Self.FK_PaperReview_Paper" FromRole="PaperReview" ToRole="Paper" />
+          <NavigationProperty Name="User" Relationship="Self.FK_PaperReview_User" FromRole="PaperReview" ToRole="User" />
+        </EntityType>
+        <EntityType Name="PaperTopic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paperId" Type="Int32" Nullable="false" />
+          <Property Name="keywrdId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="keyword" Relationship="Self.FK_PaperTopic_Keyword" FromRole="PaperTopic" ToRole="keyword" />
+          <NavigationProperty Name="Paper" Relationship="Self.FK_PaperTopic_Paper" FromRole="PaperTopic" ToRole="Paper" />
+        </EntityType>
+        <EntityType Name="RegisterRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="confId" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="contact" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="roleId" Type="Int32" />
+          <NavigationProperty Name="Conference" Relationship="Self.FK_RegisterRequest_Conference" FromRole="RegisterRequest" ToRole="Conference" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_RegisterRequest_Role" FromRole="RegisterRequest" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="roleId" />
+          </Key>
+          <Property Name="roleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="roleType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RegisterRequests" Relationship="Self.FK_RegisterRequest_Role" FromRole="Role" ToRole="RegisterRequest" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="userName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="userPasswrd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="userContact" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="roleId" Type="Int32" />
+          <Property Name="userEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ConferenceMembers" Relationship="Self.FK_ConferenceMember_User" FromRole="User" ToRole="ConferenceMember" />
+          <NavigationProperty Name="Expertises" Relationship="Self.FK_Expertise_User" FromRole="User" ToRole="Expertise" />
+          <NavigationProperty Name="Feedbacks" Relationship="Self.FK_Feedback_User" FromRole="User" ToRole="Feedback" />
+          <NavigationProperty Name="Papers" Relationship="Self.FK_Paper_User" FromRole="User" ToRole="Paper" />
+          <NavigationProperty Name="PaperReviews" Relationship="Self.FK_PaperReview_User" FromRole="User" ToRole="PaperReview" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_ConferenceMember_Conference">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="1" />
+          <End Role="ConferenceMember" Type="Self.ConferenceMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="confId" />
+            </Principal>
+            <Dependent Role="ConferenceMember">
+              <PropertyRef Name="confId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConferenceTopic_Conference">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="1" />
+          <End Role="ConferenceTopic" Type="Self.ConferenceTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="confId" />
+            </Principal>
+            <Dependent Role="ConferenceTopic">
+              <PropertyRef Name="confId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Conference">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="1" />
+          <End Role="Paper" Type="Self.Paper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="confId" />
+            </Principal>
+            <Dependent Role="Paper">
+              <PropertyRef Name="confId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegisterRequest_Conference">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1" />
+          <End Role="RegisterRequest" Type="Self.RegisterRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="confId" />
+            </Principal>
+            <Dependent Role="RegisterRequest">
+              <PropertyRef Name="confId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConferenceMember_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="ConferenceMember" Type="Self.ConferenceMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="ConferenceMember">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConferenceTopic_Keyword">
+          <End Role="keyword" Type="Self.keyword" Multiplicity="1" />
+          <End Role="ConferenceTopic" Type="Self.ConferenceTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="keyword">
+              <PropertyRef Name="keywrdId" />
+            </Principal>
+            <Dependent Role="ConferenceTopic">
+              <PropertyRef Name="keywrdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Expertise_Keyword">
+          <End Role="keyword" Type="Self.keyword" Multiplicity="1" />
+          <End Role="Expertise" Type="Self.Expertise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="keyword">
+              <PropertyRef Name="keywrdId" />
+            </Principal>
+            <Dependent Role="Expertise">
+              <PropertyRef Name="keywrdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Expertise_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Expertise" Type="Self.Expertise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Expertise">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_Paper">
+          <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="paperId" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="paperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Feedback_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaperTopic_Keyword">
+          <End Role="keyword" Type="Self.keyword" Multiplicity="1" />
+          <End Role="PaperTopic" Type="Self.PaperTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="keyword">
+              <PropertyRef Name="keywrdId" />
+            </Principal>
+            <Dependent Role="PaperTopic">
+              <PropertyRef Name="keywrdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Paper" Type="Self.Paper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Paper">
+              <PropertyRef Name="auId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaperReview_Paper">
+          <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+          <End Role="PaperReview" Type="Self.PaperReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="paperId" />
+            </Principal>
+            <Dependent Role="PaperReview">
+              <PropertyRef Name="paperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaperTopic_Paper">
+          <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+          <End Role="PaperTopic" Type="Self.PaperTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper">
+              <PropertyRef Name="paperId" />
+            </Principal>
+            <Dependent Role="PaperTopic">
+              <PropertyRef Name="paperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaperReview_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="PaperReview" Type="Self.PaperReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="PaperReview">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegisterRequest_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="RegisterRequest" Type="Self.RegisterRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="roleId" />
+            </Principal>
+            <Dependent Role="RegisterRequest">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="roleId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CMSDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Conferences" EntityType="Self.Conference" />
+          <EntitySet Name="ConferenceMembers" EntityType="Self.ConferenceMember" />
+          <EntitySet Name="ConferenceTopics" EntityType="Self.ConferenceTopic" />
+          <EntitySet Name="Expertises" EntityType="Self.Expertise" />
+          <EntitySet Name="Feedbacks" EntityType="Self.Feedback" />
+          <EntitySet Name="keywords" EntityType="Self.keyword" />
+          <EntitySet Name="Papers" EntityType="Self.Paper" />
+          <EntitySet Name="PaperReviews" EntityType="Self.PaperReview" />
+          <EntitySet Name="PaperTopics" EntityType="Self.PaperTopic" />
+          <EntitySet Name="RegisterRequests" EntityType="Self.RegisterRequest" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_ConferenceMember_Conference" Association="Self.FK_ConferenceMember_Conference">
+            <End Role="Conference" EntitySet="Conferences" />
+            <End Role="ConferenceMember" EntitySet="ConferenceMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConferenceTopic_Conference" Association="Self.FK_ConferenceTopic_Conference">
+            <End Role="Conference" EntitySet="Conferences" />
+            <End Role="ConferenceTopic" EntitySet="ConferenceTopics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Conference" Association="Self.FK_Paper_Conference">
+            <End Role="Conference" EntitySet="Conferences" />
+            <End Role="Paper" EntitySet="Papers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegisterRequest_Conference" Association="Self.FK_RegisterRequest_Conference">
+            <End Role="Conference" EntitySet="Conferences" />
+            <End Role="RegisterRequest" EntitySet="RegisterRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConferenceMember_User" Association="Self.FK_ConferenceMember_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="ConferenceMember" EntitySet="ConferenceMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConferenceTopic_Keyword" Association="Self.FK_ConferenceTopic_Keyword">
+            <End Role="keyword" EntitySet="keywords" />
+            <End Role="ConferenceTopic" EntitySet="ConferenceTopics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Expertise_Keyword" Association="Self.FK_Expertise_Keyword">
+            <End Role="keyword" EntitySet="keywords" />
+            <End Role="Expertise" EntitySet="Expertises" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Expertise_User" Association="Self.FK_Expertise_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Expertise" EntitySet="Expertises" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_Paper" Association="Self.FK_Feedback_Paper">
+            <End Role="Paper" EntitySet="Papers" />
+            <End Role="Feedback" EntitySet="Feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_User" Association="Self.FK_Feedback_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Feedback" EntitySet="Feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaperTopic_Keyword" Association="Self.FK_PaperTopic_Keyword">
+            <End Role="keyword" EntitySet="keywords" />
+            <End Role="PaperTopic" EntitySet="PaperTopics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_User" Association="Self.FK_Paper_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Paper" EntitySet="Papers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaperReview_Paper" Association="Self.FK_PaperReview_Paper">
+            <End Role="Paper" EntitySet="Papers" />
+            <End Role="PaperReview" EntitySet="PaperReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaperTopic_Paper" Association="Self.FK_PaperTopic_Paper">
+            <End Role="Paper" EntitySet="Papers" />
+            <End Role="PaperTopic" EntitySet="PaperTopics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaperReview_User" Association="Self.FK_PaperReview_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="PaperReview" EntitySet="PaperReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegisterRequest_Role" Association="Self.FK_RegisterRequest_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="RegisterRequest" EntitySet="RegisterRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CMSDBModelStoreContainer" CdmEntityContainer="CMSDBEntities">
+          <EntitySetMapping Name="Conferences">
+            <EntityTypeMapping TypeName="CMSDBModel.Conference">
+              <MappingFragment StoreEntitySet="Conference">
+                <ScalarProperty Name="confId" ColumnName="confId" />
+                <ScalarProperty Name="chairId" ColumnName="chairId" />
+                <ScalarProperty Name="confTitle" ColumnName="confTitle" />
+                <ScalarProperty Name="confLocation" ColumnName="confLocation" />
+                <ScalarProperty Name="confBeginDate" ColumnName="confBeginDate" />
+                <ScalarProperty Name="confEndDate" ColumnName="confEndDate" />
+                <ScalarProperty Name="paperDeadline" ColumnName="paperDeadline" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConferenceMembers">
+            <EntityTypeMapping TypeName="CMSDBModel.ConferenceMember">
+              <MappingFragment StoreEntitySet="ConferenceMember">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="confId" ColumnName="confId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConferenceTopics">
+            <EntityTypeMapping TypeName="CMSDBModel.ConferenceTopic">
+              <MappingFragment StoreEntitySet="ConferenceTopic">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="confId" ColumnName="confId" />
+                <ScalarProperty Name="keywrdId" ColumnName="keywrdId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Expertises">
+            <EntityTypeMapping TypeName="CMSDBModel.Expertise">
+              <MappingFragment StoreEntitySet="Expertise">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="keywrdId" ColumnName="keywrdId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Feedbacks">
+            <EntityTypeMapping TypeName="CMSDBModel.Feedback">
+              <MappingFragment StoreEntitySet="Feedback">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="paperId" ColumnName="paperId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="fnlDecision" ColumnName="fnlDecision" />
+                <ScalarProperty Name="feedback1" ColumnName="feedback" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="keywords">
+            <EntityTypeMapping TypeName="CMSDBModel.keyword">
+              <MappingFragment StoreEntitySet="keyword">
+                <ScalarProperty Name="keywrdId" ColumnName="keywrdId" />
+                <ScalarProperty Name="keywrdGenre" ColumnName="keywrdGenre" />
+                <ScalarProperty Name="keywrdName" ColumnName="keywrdName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Papers">
+            <EntityTypeMapping TypeName="CMSDBModel.Paper">
+              <MappingFragment StoreEntitySet="Paper">
+                <ScalarProperty Name="paperId" ColumnName="paperId" />
+                <ScalarProperty Name="paperTitle" ColumnName="paperTitle" />
+                <ScalarProperty Name="paperAuthor" ColumnName="paperAuthor" />
+                <ScalarProperty Name="paperSubDate" ColumnName="paperSubDate" />
+                <ScalarProperty Name="paperLength" ColumnName="paperLength" />
+                <ScalarProperty Name="paperContent" ColumnName="paperContent" />
+                <ScalarProperty Name="confId" ColumnName="confId" />
+                <ScalarProperty Name="auId" ColumnName="auId" />
+                <ScalarProperty Name="paperFormat" ColumnName="paperFormat" />
+                <ScalarProperty Name="paperStatus" ColumnName="paperStatus" />
+                <ScalarProperty Name="paperFileName" ColumnName="paperFileName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaperReviews">
+            <EntityTypeMapping TypeName="CMSDBModel.PaperReview">
+              <MappingFragment StoreEntitySet="PaperReview">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="paperId" ColumnName="paperId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="paperRating" ColumnName="paperRating" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaperTopics">
+            <EntityTypeMapping TypeName="CMSDBModel.PaperTopic">
+              <MappingFragment StoreEntitySet="PaperTopic">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="paperId" ColumnName="paperId" />
+                <ScalarProperty Name="keywrdId" ColumnName="keywrdId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegisterRequests">
+            <EntityTypeMapping TypeName="CMSDBModel.RegisterRequest">
+              <MappingFragment StoreEntitySet="RegisterRequest">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="confId" ColumnName="confId" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="CMSDBModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="roleType" ColumnName="roleType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CMSDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="userPasswrd" ColumnName="userPasswrd" />
+                <ScalarProperty Name="userContact" ColumnName="userContact" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
