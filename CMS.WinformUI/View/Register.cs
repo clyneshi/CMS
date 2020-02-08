@@ -9,10 +9,12 @@ namespace CMS
     public partial class Register : Form
     {
         IRoleService _roleService;
+        IUserRequestService _userRequestService;
 
-        public Register(IRoleService roleService)
+        public Register(IRoleService roleService, IUserRequestService userRequest)
         {
             _roleService = roleService;
+            _userRequestService = userRequest;
             InitializeComponent();
             Init();
         }
@@ -59,7 +61,7 @@ namespace CMS
             request.status = "Waiting for approval";
             request.roleId = (int)comboBox_role.SelectedValue;
 
-            return DataProcessor.AddRegisterRequest(request);
+            return _userRequestService.AddRegisterRequest(request);
 
         }
 

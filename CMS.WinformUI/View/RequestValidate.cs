@@ -16,9 +16,11 @@ namespace CMS
         // in "the same time" with no worrying query repeart name in different conference
 
         IUserService _userService;
-        public RequestValidate(IUserService userService)
+        IUserRequestService _userRequestService;
+        public RequestValidate(IUserService userService, IUserRequestService userRequest)
         {
             _userService = userService;
+            _userRequestService = userRequest;
             InitializeComponent();
             Init();
         }
@@ -33,13 +35,13 @@ namespace CMS
         {
             if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Admin)
             {
-                var req1 = DataProcessor.GetUserRequest_Admin();
+                var req1 = _userRequestService.GetUserRequest_Admin();
                 dataGridView1.DataSource = req1;
                 dataGridView1.Columns["roleId"].Visible = false;
             }
             else
             {
-                var req2 = DataProcessor.GetUserRequest();
+                var req2 = _userRequestService.GetUserRequest();
                 dataGridView1.DataSource = req2;
                 dataGridView1.Columns["roleId"].Visible = false;
             }
@@ -79,7 +81,7 @@ namespace CMS
         private void changeReqStatus(int i)
         {
             int id = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["Id"].Value;
-            DataProcessor.ChangeRequestStatus(id, i);
+            _userRequestService.ChangeRequestStatus(id, i);
         }
 
         private Boolean sendEmail(int type)

@@ -70,7 +70,6 @@
     <Compile Include="Global\DataProcessor.Conference.cs" />
     <Compile Include="Global\DataProcessor.cs" />
     <Compile Include="Global\DataProcessor.Paper.cs" />
-    <Compile Include="Global\DataProcessor.RegisterRequest.cs" />
     <Compile Include="Global\GlobalVariable.cs" />
     <Compile Include="Model\CMSModel.Context.cs">
       <AutoGen>True</AutoGen>
