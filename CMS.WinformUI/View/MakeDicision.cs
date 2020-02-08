@@ -3,6 +3,7 @@ using CMS.Library.Model;
 using CMS.Library.Service;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CMS
@@ -18,18 +19,18 @@ namespace CMS
             _paperService = paperService;
             _conferenceService = conferenceService;
             InitializeComponent();
-            init();
+            Init();
         }
 
-        public void init()
+        public void Init()
         {
             GlobalHelper.ClearControls(this.Controls);
-            displayConf();
+            DisplayConf();
             if (dataGridView1.Rows.Count > 0)
             {
-                displayPaper((int)dataGridView1.Rows[0].Cells["confId"].Value);
+                DisplayPaper((int)dataGridView1.Rows[0].Cells["confId"].Value);
                 if (dataGridView2.Rows.Count > 0)
-                    displayReview((int)dataGridView2.Rows[0].Cells["paperId"].Value);
+                    DisplayReview((int)dataGridView2.Rows[0].Cells["paperId"].Value);
                 else
                     dataGridView3.DataSource = null;
             }
@@ -40,21 +41,21 @@ namespace CMS
             }
         }
 
-        private void displayConf()
+        private void DisplayConf()
         {
             var conf = _conferenceService.GetConferenceByChair(GlobalVariable.CurrentUser.userId);
 
             dataGridView1.DataSource = conf;
         }
 
-        private void displayPaper(int conf)
+        private void DisplayPaper(int conf)
         {
             var paper = _paperService.GetPapersByConference(conf);
 
             dataGridView2.DataSource = paper;
         }
 
-        private void displayReview(int paper)
+        private void DisplayReview(int paper)
         {
             var rvw = _paperService.GetPaperReviewByPaper(paper);
 
@@ -65,9 +66,9 @@ namespace CMS
         {
             if (e.RowIndex >= 0)
             {
-                displayPaper((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
+                DisplayPaper((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
                 if (dataGridView2.RowCount != 0 && dataGridView2.CurrentRow.Index >= 0)
-                    displayReview((int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value);
+                    DisplayReview((int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value);
                 else
                     dataGridView3.DataSource = null;
             }
@@ -83,14 +84,14 @@ namespace CMS
             if (e.RowIndex >= 0)
             {
                 paperId = (int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value;
-                displayReview((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
-                displayFnl((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
+                DisplayReview((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
+                DisplayDecisions((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
             }
             else
                 dataGridView3.DataSource = null;
         }
 
-        private void displayFnl(int paper)
+        private void DisplayDecisions(int paper)
         {
             var fb = _paperService.GetFeedbacksByPaper(paper);
 
@@ -106,7 +107,7 @@ namespace CMS
             }
         }
 
-        private string decisionCheck()
+        private string DecisionCheck()
         {
             string decision = "";
             foreach (Control c in groupBox1.Controls)
@@ -126,7 +127,7 @@ namespace CMS
                 {
                     paperId = (int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value,
                     userId = GlobalVariable.CurrentUser.userId,
-                    fnlDecision = decisionCheck(),
+                    fnlDecision = DecisionCheck(),
                     feedback1 = rtextbox_feedback.Text
                 };
 
@@ -137,13 +138,13 @@ namespace CMS
             return false;
         }
 
-        private void changeStatus()
+        private void ChangeStatus()
         {
             int paperid = (int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value;
-            _paperService.UpdatePaperStatus(paperid, decisionCheck());
+            _paperService.UpdatePaperStatus(paperid, DecisionCheck());
         }
 
-        private string fbValidation()
+        private string FeedbackValidation()
         {
             if (dataGridView2.RowCount == 0 || dataGridView2.CurrentRow.Index < 0)
                 return "Paper has not been selected";
@@ -152,33 +153,31 @@ namespace CMS
                 return "Feedback already exists, cannot be changed";
             if (rtextbox_feedback.Text.Trim().Equals(""))
                 return "Feedback canot be empty";
-            if (decisionCheck().Equals(""))
+            if (DecisionCheck().Equals(""))
                 return "Decision cannot be empty";
             return "";
         }
 
-        private void SendEmail()
+        private async Task SendEmail()
         {
             var email = _paperService.GetPaperById(paperId).User.userEmail;
+            var decision = DecisionCheck();
 
-            if (decisionCheck() == "Accept")
-                GlobalHelper.SendEmail(email.ToString(), "Your paper has been accepted");
-            if (decisionCheck() == "Decline")
-                GlobalHelper.SendEmail(email.ToString(), "Your paper has been declined");
+            await GlobalHelper.SendEmail(email.ToString(), $"Your paper has been {decision.ToLower()}ed");
         }
 
-        private void btn_save_Click(object sender, EventArgs e)
+        private async void btn_save_Click(object sender, EventArgs e)
         {
-            string error = fbValidation();
+            string error = FeedbackValidation();
             if (error.Equals("") && addFeedback())
             {
-                changeStatus();
-                SendEmail();
+                ChangeStatus();
+                await SendEmail();
                 MessageBox.Show("Save succeeded");
             }
             else
                 MessageBox.Show(error);
-            init();
+            Init();
         }
     }
 }

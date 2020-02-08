@@ -9,7 +9,7 @@ namespace CMS
 {
     public partial class Main : Form
     {
-        ConferenceInfo_A cfia;
+        ConferenceInfo_Admin cfia;
         ConferenceInfo cfi;
         SubmitPaper sub;
         AssignPaper ap;
@@ -191,7 +191,7 @@ namespace CMS
             }
             else
             {
-                fb.init();
+                fb.Init();
                 fb.Activate();
             }
         }
@@ -248,7 +248,7 @@ namespace CMS
             {
                 if (cfia == null)
                 {
-                    cfia = UnityConfig.UIContainer.Resolve<ConferenceInfo_A>
+                    cfia = UnityConfig.UIContainer.Resolve<ConferenceInfo_Admin>
                     (
                         new ResolverOverride[]
                         {
@@ -284,7 +284,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (cfia == null)
             {
-                cfia = UnityConfig.UIContainer.Resolve<ConferenceInfo_A>
+                cfia = UnityConfig.UIContainer.Resolve<ConferenceInfo_Admin>
                     (
                         new ResolverOverride[]
                         {
@@ -305,7 +305,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (cfia == null)
             {
-                cfia = UnityConfig.UIContainer.Resolve<ConferenceInfo_A>
+                cfia = UnityConfig.UIContainer.Resolve<ConferenceInfo_Admin>
                     (
                         new ResolverOverride[]
                         {

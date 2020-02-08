@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CMS.Library.Global
@@ -32,7 +33,7 @@ namespace CMS.Library.Global
             }
         }
 
-        public static void SendEmail(string toAddr, string mes)
+        public static async Task SendEmail(string toAddr, string mes)
         {
             string FromName = "Conference Management System";
             string FromEmail = "address@email";
@@ -58,7 +59,7 @@ namespace CMS.Library.Global
                 //smtp.Host = "smtp.monash.edu.au";
                 smtp.Port = 587;
                 smtp.EnableSsl = true;
-                smtp.Send(message);
+                await smtp.SendMailAsync(message);
             }
         }
     }

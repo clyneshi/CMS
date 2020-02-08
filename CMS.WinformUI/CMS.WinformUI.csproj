@@ -106,11 +106,11 @@
     <Compile Include="View\ConferenceInfo.Designer.cs">
       <DependentUpon>ConferenceInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\ConferenceInfo_A.cs">
+    <Compile Include="View\ConferenceInfo_Admin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\ConferenceInfo_A.Designer.cs">
-      <DependentUpon>ConferenceInfo_A.cs</DependentUpon>
+    <Compile Include="View\ConferenceInfo_Admin.Designer.cs">
+      <DependentUpon>ConferenceInfo_Admin.cs</DependentUpon>
     </Compile>
     <Compile Include="View\LaunchConference.cs">
       <SubType>Form</SubType>
@@ -194,8 +194,8 @@
     <EmbeddedResource Include="View\ConferenceInfo.resx">
       <DependentUpon>ConferenceInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\ConferenceInfo_A.resx">
-      <DependentUpon>ConferenceInfo_A.cs</DependentUpon>
+    <EmbeddedResource Include="View\ConferenceInfo_Admin.resx">
+      <DependentUpon>ConferenceInfo_Admin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\LaunchConference.resx">
       <DependentUpon>LaunchConference.cs</DependentUpon>
