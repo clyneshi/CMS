@@ -1,5 +1,6 @@
 ﻿using CMS.Library.Global;
 using CMS.Library.Model;
+using CMS.Library.Service;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -18,8 +19,10 @@ namespace CMS
         // 1 is invovled
         int tag = 0;
 
-        public AssignPaper()
+        IUserService _userService;
+        public AssignPaper(IUserService userService)
         {
+            _userService = userService;
             InitializeComponent();
             init();
         }
@@ -59,7 +62,7 @@ namespace CMS
 
         public void reviewerDisplay(int conf)
         {
-            var reviewers = DataProcessor.GetReviewers();
+            var reviewers = _userService.GetReviewers();
 
             dataGridView3.DataSource = reviewers;
         }
@@ -76,7 +79,7 @@ namespace CMS
 
         public void assignedRvwDisplay(int pp)
         {
-            var rvw = DataProcessor.GetAssignedReviewersByPaper(pp);
+            var rvw = _userService.GetAssignedReviewersByPaper(pp);
 
             dataGridView5.DataSource = rvw.ToList();
             tag = 0;
@@ -106,7 +109,7 @@ namespace CMS
                     dataGridView5.DataSource = null;
                 }
 
-                if (DataProcessor.GetReviewersByConference(conf).Any())
+                if (_userService.GetReviewersByConference(conf).Any())
                 {
                     reviewerDisplay((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
                     reviewerExpeDisplay((int)dataGridView3.Rows[0].Cells["userId"].Value);
@@ -208,7 +211,7 @@ namespace CMS
         {
             reviewer.Clear();
 
-            var rvw = DataProcessor.GetAssignedReviewersByPaper(paperid);
+            var rvw = _userService.GetAssignedReviewersByPaper(paperid);
 
             foreach (var r in rvw)
             {

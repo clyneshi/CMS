@@ -1,5 +1,6 @@
 ﻿using CMS.Library.Global;
 using CMS.Library.Model;
+using CMS.Library.Service;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,8 +15,10 @@ namespace CMS
         // in which way conference member entity can be created
         // in "the same time" with no worrying query repeart name in different conference
 
-        public RequestValidate()
+        IUserService _userService;
+        public RequestValidate(IUserService userService)
         {
+            _userService = userService;
             InitializeComponent();
             Init();
         }
@@ -44,7 +47,7 @@ namespace CMS
 
         private void findMaxUID()
         {
-            userid = DataProcessor.GetMaxUserId() + 1;
+            userid = _userService.GetMaxUserId() + 1;
         }
 
         private void addUser()
@@ -59,7 +62,7 @@ namespace CMS
                 roleId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["roleId"].Value
             };
 
-            DataProcessor.AddUser(user);
+            _userService.AddUser(user);
         }
 
         private void addConfMember()

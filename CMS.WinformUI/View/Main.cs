@@ -1,6 +1,9 @@
-﻿using CMS.Library.Global;
+﻿using CMS.Library.App_Start;
+using CMS.Library.Global;
 using System;
 using System.Windows.Forms;
+using Unity;
+using Unity.Resolution;
 
 namespace CMS
 {
@@ -154,7 +157,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (ap == null)
             {
-                ap = new AssignPaper();
+                ap = UnityConfig.UIContainer.Resolve<AssignPaper>();
                 FormInit(ap);
             }
             else
@@ -199,7 +202,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (rv == null)
             {
-                rv = new RequestValidate();
+                rv = UnityConfig.UIContainer.Resolve<RequestValidate>();
                 FormInit(rv);
             }
             else
@@ -228,12 +231,12 @@ namespace CMS
         {
             if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Reviewer)
             {
-                AccountSetting_R acs = new AccountSetting_R();
+                var acs = UnityConfig.UIContainer.Resolve<AccountSetting_R>();
                 acs.Show();
             }
             else
             {
-                AccountSetting acs = new AccountSetting();
+                var acs = UnityConfig.UIContainer.Resolve<AccountSetting>();
                 acs.Show();
             }
         }
@@ -246,7 +249,13 @@ namespace CMS
             {
                 if (cfia == null)
                 {
-                    cfia = new ConferenceInfo_A(1);
+                    cfia = UnityConfig.UIContainer.Resolve<ConferenceInfo_A>
+                    (
+                        new ResolverOverride[]
+                        {
+                            new ParameterOverride("type", 1)
+                        }
+                    );  
                     FormInit(cfia);
                 }
                 else
@@ -276,7 +285,13 @@ namespace CMS
             this.IsMdiContainer = true;
             if (cfia == null)
             {
-                cfia = new ConferenceInfo_A(2);
+                cfia = UnityConfig.UIContainer.Resolve<ConferenceInfo_A>
+                    (
+                        new ResolverOverride[]
+                        {
+                            new ParameterOverride("type", 2)
+                        }
+                    ); 
                 FormInit(cfia);
             }
             else
@@ -291,7 +306,13 @@ namespace CMS
             this.IsMdiContainer = true;
             if (cfia == null)
             {
-                cfia = new ConferenceInfo_A(3);
+                cfia = UnityConfig.UIContainer.Resolve<ConferenceInfo_A>
+                    (
+                        new ResolverOverride[]
+                        {
+                            new ParameterOverride("type", 3)
+                        }
+                    ); 
                 FormInit(cfia);
             }
             else

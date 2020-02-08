@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CMS.Library.App_Start;
+using System;
 using System.Windows.Forms;
+using Unity;
 
 namespace CMS.WinformUI
 {
@@ -13,6 +15,7 @@ namespace CMS.WinformUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            UnityConfig.TypeRegister();
             Application.Run(new Login());
         }
     }

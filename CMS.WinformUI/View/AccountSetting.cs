@@ -1,4 +1,5 @@
 ﻿using CMS.Library.Global;
+using CMS.Library.Service;
 using CMS.Library.Model;
 using System;
 using System.Linq;
@@ -9,8 +10,11 @@ namespace CMS
 {
     public partial class AccountSetting : Form
     {
-        public AccountSetting()
+        private IUserService _userService;
+
+        public AccountSetting(IUserService userService)
         {
+            _userService = userService;
             InitializeComponent();
             init();
         }
@@ -51,7 +55,7 @@ namespace CMS
             string error = UserEditValidation();
             if (error.Equals(""))
             {
-                DataProcessor.UpdateUser(textBox_name.Text, textBox_email.Text, textBox_cont.Text, textBox_oPass.Text, textBox_nPass.Text);
+                _userService.UpdateUser(textBox_name.Text, textBox_email.Text, textBox_cont.Text, textBox_oPass.Text, textBox_nPass.Text);
                 MessageBox.Show("Update completed");
             }
             else

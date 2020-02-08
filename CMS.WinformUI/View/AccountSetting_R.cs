@@ -1,5 +1,6 @@
 ﻿using CMS.Library.Global;
 using CMS.Library.Model;
+using CMS.Library.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,9 +13,11 @@ namespace CMS
     {
         private readonly BindingList<keyword> kw = new BindingList<keyword>();
         private readonly List<keyword> rmk = new List<keyword>();
+        IUserService _userService;
 
-        public AccountSetting_R()
+        public AccountSetting_R(IUserService userService)
         {
+            _userService = userService;
             InitializeComponent();
             init();
         }
@@ -94,7 +97,7 @@ namespace CMS
 
         private void btn_save_Click(object sender, EventArgs e)
         {
-            DataProcessor.UpdateUser(textBox_name.Text, textBox_email.Text, textBox_cont.Text, textBox_oPass.Text, textBox_nPass.Text);
+            _userService.UpdateUser(textBox_name.Text, textBox_email.Text, textBox_cont.Text, textBox_oPass.Text, textBox_nPass.Text);
             DataProcessor.UpdateExpertise(rmk, kw.ToList());
             MessageBox.Show("Update completed");
         }

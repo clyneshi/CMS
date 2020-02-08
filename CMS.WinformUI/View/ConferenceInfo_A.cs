@@ -1,13 +1,15 @@
 ﻿using CMS.Library.Global;
+using CMS.Library.Service;
 using System.Windows.Forms;
 
 namespace CMS
 {
     public partial class ConferenceInfo_A : Form
     {
-
-        public ConferenceInfo_A(int type)
+        IUserService _userService;
+        public ConferenceInfo_A(IUserService userService, int type)
         {
+            _userService = userService;
             InitializeComponent();
             Init(type);
         }
@@ -16,13 +18,13 @@ namespace CMS
         {
             switch (type)
             {
-                case 1:
+                case (int)ConferenceViewTypes.ConferenceMembers:
                     dataGridView1.DataSource = DataProcessor.GetConferencesUser();
                     break;
-                case 2:
-                    dataGridView1.DataSource = DataProcessor.GetUserRole();
+                case (int)ConferenceViewTypes.UserInfo:
+                    dataGridView1.DataSource = _userService.GetUserRole();
                     break;
-                case 3:
+                case (int)ConferenceViewTypes.Papers:
                     dataGridView1.DataSource = DataProcessor.GetPaperUser();
                     break;
                 default:
