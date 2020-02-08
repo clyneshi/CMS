@@ -14,10 +14,12 @@ namespace CMS
         private readonly BindingList<keyword> kw = new BindingList<keyword>();
         private readonly List<keyword> rmk = new List<keyword>();
         IUserService _userService;
+        IRoleService _roleService;
 
-        public AccountSetting_R(IUserService userService)
+        public AccountSetting_R(IUserService userService, IRoleService roleService)
         {
             _userService = userService;
+            _roleService = roleService;
             InitializeComponent();
             init();
         }
@@ -59,7 +61,7 @@ namespace CMS
             textBox_name.Text = GlobalVariable.CurrentUser.userName;
             textBox_email.Text = GlobalVariable.CurrentUser.userEmail;
             textBox_cont.Text = GlobalVariable.CurrentUser.userContact;
-            comboBox_role.Text = DataProcessor.GetRole(GlobalVariable.CurrentUser.roleId).roleType;
+            comboBox_role.Text = _roleService.GetRole(GlobalVariable.CurrentUser.roleId).roleType;
 
             if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Reviewer
                 || GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Author)

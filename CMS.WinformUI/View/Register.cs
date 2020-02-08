@@ -1,5 +1,6 @@
 ﻿using CMS.Library.Global;
 using CMS.Library.Model;
+using CMS.Library.Service;
 using System;
 using System.Windows.Forms;
 
@@ -7,8 +8,11 @@ namespace CMS
 {
     public partial class Register : Form
     {
-        public Register()
+        IRoleService _roleService;
+
+        public Register(IRoleService roleService)
         {
+            _roleService = roleService;
             InitializeComponent();
             Init();
         }
@@ -20,7 +24,7 @@ namespace CMS
             comboBox_conf.ValueMember = "confId";
             comboBox_conf.SelectedIndex = -1;
 
-            comboBox_role.DataSource = DataProcessor.GetRoles();
+            comboBox_role.DataSource = _roleService.GetRoles();
             comboBox_role.DisplayMember = "roleType";
             comboBox_role.ValueMember = "roleId";
             comboBox_role.SelectedIndex = -1;

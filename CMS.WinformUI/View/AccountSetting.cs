@@ -5,16 +5,17 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 
-
 namespace CMS
 {
     public partial class AccountSetting : Form
     {
         private IUserService _userService;
+        private IRoleService _roleService;
 
-        public AccountSetting(IUserService userService)
+        public AccountSetting(IUserService userService, IRoleService roleService)
         {
             _userService = userService;
+            _roleService = roleService;
             InitializeComponent();
             init();
         }
@@ -31,7 +32,7 @@ namespace CMS
             textBox_name.Text = user.userName;
             textBox_email.Text = user.userEmail;
             textBox_cont.Text = user.userContact;
-            comboBox_role.Text = DataProcessor.GetRoles().FirstOrDefault(r => r.roleId == user.roleId).roleType;
+            comboBox_role.Text = _roleService.GetRoles().FirstOrDefault(r => r.roleId == user.roleId).roleType;
 
             if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Reviewer
                 || GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Author)

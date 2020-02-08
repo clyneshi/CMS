@@ -1,12 +1,13 @@
-﻿using CMS.Library.Global;
+﻿using CMS.Library.App_Start;
+using CMS.Library.Global;
 using System;
 using System.Windows.Forms;
+using Unity;
 
 namespace CMS
 {
     public partial class Login : Form
     {
-
         public Login()
         {
             InitializeComponent();
@@ -35,7 +36,7 @@ namespace CMS
 
         private void btn_register_Click(object sender, EventArgs e)
         {
-            Register reg = new Register();
+            var reg = UnityConfig.UIContainer.Resolve<Register>();
             this.Hide();
             reg.Show();
         }
