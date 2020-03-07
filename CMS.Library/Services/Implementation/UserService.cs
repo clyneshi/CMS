@@ -2,11 +2,14 @@
 using CMS.Library.Model;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 
 namespace CMS.Library.Service
 {
     public class UserService : IUserService
     {
+        // TODO: Use refactory pattern to separate data access from service
+
         public User AuthenticateUser(string email, string passWord)
         {
             //TODO: change behavior in accordince with user logic changes 
@@ -41,7 +44,7 @@ namespace CMS.Library.Service
             }
         }
 
-        public List<User> GetUsers()
+        public IEnumerable<User> GetUsers()
         {
             using (var dbModel = new CMSDBEntities())
             {
@@ -54,6 +57,7 @@ namespace CMS.Library.Service
             using (var dbModel = new CMSDBEntities())
             {
                 dbModel.Users.Add(user);
+                dbModel.SaveChanges();
             }
         }
 
@@ -72,62 +76,54 @@ namespace CMS.Library.Service
             }
         }
 
-        public List<User> GetReviewers()
+        public IEnumerable<User> GetReviewers()
         {
             using (var dbModel = new CMSDBEntities())
             {
-                var users = from u in dbModel.Users
-                            join cf in dbModel.ConferenceMembers on u.userId equals cf.userId
-                            join c in dbModel.Conferences on cf.confId equals c.confId
-                            where c.confId == GlobalVariable.UserConference && u.roleId == 3
-                            select u;
-
-                return users.ToList();
+                return dbModel.ConferenceMembers
+                    .Where(x => x.confId == GlobalVariable.UserConference 
+                            && x.User.roleId == (int)RoleTypes.Reviewer)
+                    .Select(x => x.User)
+                    .ToList();
             }
         }
 
-        public List<User> GetReviewersByConference(int conferenceId)
+        public IEnumerable<User> GetReviewersByConference(int conferenceId)
         {
             using (var dbModel = new CMSDBEntities())
             {
-                var users = from u in dbModel.Users
-                            join cf in dbModel.ConferenceMembers on u.userId equals cf.userId
-                            where u.roleId == 3 && cf.confId == conferenceId
-                            select u;
-
-                return users.ToList();
+                return dbModel.ConferenceMembers
+                    .Where(x => x.User.roleId == (int)RoleTypes.Reviewer && x.confId == conferenceId)
+                    .Select(x => x.User)
+                    .ToList();
             }
         }
 
-        public List<User> GetAssignedReviewersByPaper(int paperId)
+        public IEnumerable<User> GetAssignedReviewersByPaper(int paperId)
         {
             using (var dbModel = new CMSDBEntities())
             {
-                var users = from r in dbModel.PaperReviews
-                            join u in dbModel.Users on r.userId equals u.userId
-                            where r.paperId == paperId
-                            select u;
-
-                return users.ToList();
+                return dbModel.PaperReviews
+                    .Where(x => x.paperId == paperId)
+                    .Select(x => x.User)
+                    .ToList();
             }
         }
 
-        public List<UserRoleModel> GetUserRole()
+        public IEnumerable<UserRoleModel> GetUserRole()
         {
             using (var dbModel = new CMSDBEntities())
             {
-                var user = from u in dbModel.Users
-                           join r in dbModel.Roles on u.roleId equals r.roleId
-                           select new UserRoleModel
-                           {
-                               Id = u.userId,
-                               Name = u.userName,
-                               Role = r.roleType,
-                               Email = u.userEmail,
-                               Contact = u.userContact
-                           };
-
-                return user.ToList();
+                return dbModel.Users
+                    .Include(x => x.Role)
+                    .Select(x => new UserRoleModel 
+                    {
+                        Id = x.userId,
+                        Name = x.userName,
+                        Role = x.Role.roleType,
+                        Email = x.userEmail,
+                        Contact = x.userContact
+                    }).ToList();
             }
         }
     }

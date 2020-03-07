@@ -7,12 +7,12 @@ namespace CMS.Library.Service
     {
         User AuthenticateUser(string email, string passWord);
         void AddUser(User user);
-        List<User> GetAssignedReviewersByPaper(int paperId);
+        IEnumerable<User> GetAssignedReviewersByPaper(int paperId);
         int GetMaxUserId();
-        List<User> GetReviewers();
-        List<User> GetReviewersByConference(int conferenceId);
-        List<UserRoleModel> GetUserRole();
-        List<User> GetUsers();
+        IEnumerable<User> GetReviewers();
+        IEnumerable<User> GetReviewersByConference(int conferenceId);
+        IEnumerable<UserRoleModel> GetUserRole();
+        IEnumerable<User> GetUsers();
         void UpdateUser(string userName, string userEmail, string userContact, string oldPasswrd, string newPasswrd);
     }
 }
