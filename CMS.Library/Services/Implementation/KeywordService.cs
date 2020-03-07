@@ -7,7 +7,7 @@ namespace CMS.Library.Service
 {
     public class KeywordService : IKeywordService
     {
-        public List<keyword> GetKeyWords()
+        public IEnumerable<keyword> GetKeyWords()
         {
             using (var dbModel = new CMSDBEntities())
             {
@@ -15,20 +15,18 @@ namespace CMS.Library.Service
             }
         }
 
-        public List<keyword> GetKewordsByUser(int userId)
+        public IEnumerable<keyword> GetKewordsByUser(int userId)
         {
             using (var dbModel = new CMSDBEntities())
             {
-                var expertises = from k in dbModel.keywords
-                                 join e in dbModel.Expertises on k.keywrdId equals e.keywrdId
-                                 where e.userId == userId
-                                 select k;
-
-                return expertises.ToList();
+                return dbModel.Expertises
+                    .Where(x => x.userId == userId)
+                    .Select(x => x.keyword)
+                    .ToList();
             }
         }
 
-        public List<Expertise> GetExpertiseByUser(int userId)
+        public IEnumerable<Expertise> GetExpertiseByUser(int userId)
         {
             using (var dbModel = new CMSDBEntities())
             {
@@ -36,7 +34,7 @@ namespace CMS.Library.Service
             }
         }
 
-        public List<ExpertiseKeywordModel> GetExpertiseKeyword()
+        public IEnumerable<ExpertiseKeywordModel> GetExpertiseKeyword()
         {
             using (var dbModel = new CMSDBEntities())
             {
@@ -62,7 +60,7 @@ namespace CMS.Library.Service
                 var kwl = GetExpertiseKeyword();
 
                 // find removed keywords then remove it
-                List<keyword> tmprmk = new List<keyword>();
+                var tmprmk = new List<keyword>();
                 foreach (var k in keywordsToRemove)
                 {
                     tmprmk.Add(k);

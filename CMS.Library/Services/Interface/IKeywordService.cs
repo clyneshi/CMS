@@ -5,10 +5,10 @@ namespace CMS.Library.Service
 {
     public interface IKeywordService
     {
-        List<Expertise> GetExpertiseByUser(int userId);
-        List<ExpertiseKeywordModel> GetExpertiseKeyword();
-        List<keyword> GetKewordsByUser(int userId);
-        List<keyword> GetKeyWords();
+        IEnumerable<Expertise> GetExpertiseByUser(int userId);
+        IEnumerable<ExpertiseKeywordModel> GetExpertiseKeyword();
+        IEnumerable<keyword> GetKewordsByUser(int userId);
+        IEnumerable<keyword> GetKeyWords();
         void UpdateExpertise(List<keyword> keywordsToRemove, List<keyword> KeywordsToAdd);
     }
 }
