@@ -2,19 +2,12 @@
 using CMS.Library.Model;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 
 namespace CMS.Library.Service
 {
     public class PaperService : IPaperService
     {
-        public List<Paper> GetPapers()
-        {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Papers.ToList();
-            }
-        }
-
         public void AddPaper(Paper paper)
         {
             using (var dbModel = new CMSDBEntities())
@@ -32,7 +25,7 @@ namespace CMS.Library.Service
             }
         }
 
-        public List<Paper> GetPapersByAuthor()
+        public IEnumerable<Paper> GetPapersByAuthor()
         {
             using (var dbModel = new CMSDBEntities())
             {
@@ -40,7 +33,7 @@ namespace CMS.Library.Service
             }
         }
 
-        public List<Paper> GetPapersByConference(int conferenceId)
+        public IEnumerable<Paper> GetPapersByConference(int conferenceId)
         {
             using (var dbModel = new CMSDBEntities())
             {
@@ -81,7 +74,8 @@ namespace CMS.Library.Service
                 dbModel.SaveChanges();
             }
         }
-        public List<ReviewPaperModel> GetReviewPaperList()
+
+        public IEnumerable<ReviewPaperModel> GetReviewPaperList()
         {
             using (var dbModel = new CMSDBEntities())
             {
@@ -96,7 +90,26 @@ namespace CMS.Library.Service
                                        PaperRating = pr.paperRating
                                    };
 
-                return reviewPapers.ToList();
+                return dbModel.ConferenceMembers
+                    .Join(
+                        dbModel.PaperReviews,
+                        x => x.userId,
+                        y => y.paperId,
+                        (x, y) => new 
+                        {
+                            ConferenceMembers = x,
+                            Paper = y.Paper,
+                            PaperReview = y
+                        }
+                    )
+                    .Where(z => z.ConferenceMembers.confId == GlobalVariable.UserConference
+                        && z.PaperReview.userId == GlobalVariable.CurrentUser.userId)
+                    .Select(z => new ReviewPaperModel
+                    {
+                        PaperId = z.Paper.paperId,
+                        PaperTitle = z.Paper.paperTitle,
+                        PaperRating = z.PaperReview.paperRating
+                    }).ToList();
             }
         }
 
@@ -134,7 +147,7 @@ namespace CMS.Library.Service
             }
         }
 
-        public List<PaperReview> GetPaperReviewByPaper(int paperId)
+        public IEnumerable<PaperReview> GetPaperReviewByPaper(int paperId)
         {
             using (var dbModel = new CMSDBEntities())
             {
@@ -142,7 +155,7 @@ namespace CMS.Library.Service
             }
         }
 
-        public List<Feedback> GetFeedbacksByPaper(int paperId)
+        public IEnumerable<Feedback> GetFeedbacksByPaper(int paperId)
         {
             using (var dbModel = new CMSDBEntities())
             {
@@ -150,44 +163,38 @@ namespace CMS.Library.Service
             }
         }
 
-        public List<PaperUserModel> GetPaperUser()
+        public IEnumerable<PaperUserModel> GetPaperUser()
         {
             using (var dbModel = new CMSDBEntities())
             {
-                var paper = from p in dbModel.Papers
-                            join u in dbModel.Users on p.auId equals u.userId
-                            select new PaperUserModel
-                            {
-                                Id = p.paperId,
-                                User = u.userName,
-                                Title = p.paperTitle,
-                                Author = p.paperAuthor,
-                                SubmisionDate = p.paperSubDate,
-                                Length = p.paperLength,
-                                Status = p.paperStatus
-                            };
-
-                return paper.ToList();
+                return dbModel.Papers
+                    .Select(x => new PaperUserModel
+                    {
+                        Id = x.paperId,
+                        User = x.User.userName,
+                        Title = x.paperTitle,
+                        Author = x.paperAuthor,
+                        SubmisionDate = x.paperSubDate,
+                        Length = x.paperLength,
+                        Status = x.paperStatus
+                    })
+                    .ToList();
             }
         }
 
-        public List<PaperConferenceModel> GetPaperConferences()
+        public IEnumerable<PaperConferenceModel> GetPaperConferences()
         {
             using (var dbModel = new CMSDBEntities())
             {
-                var papers = from p in dbModel.Papers
-                             join c in dbModel.Conferences on p.confId equals c.confId
-                             where c.confId == GlobalVariable.UserConference
-                             select new PaperConferenceModel
-                             {
-                                 Id = p.paperId,
-                                 Title = p.paperTitle,
-                                 Author = p.paperAuthor,
-                                 Length = p.paperLength,
-                                 SubmisionDate = p.paperSubDate
-                             };
-
-                return papers.ToList();
+                return dbModel.Papers
+                    .Select(x => new PaperConferenceModel
+                    {
+                        Id = x.paperId,
+                        Title = x.paperTitle,
+                        Author = x.paperAuthor,
+                        Length = x.paperLength,
+                        SubmisionDate = x.paperSubDate
+                    }).ToList();
             }
         }
 
