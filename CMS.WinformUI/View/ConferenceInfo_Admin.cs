@@ -23,7 +23,7 @@ namespace CMS
             switch (type)
             {
                 case (int)ConferenceViewTypes.ConferenceMembers:
-                    dataGridView1.DataSource = _conferenceService.GetConferencesUser();
+                    dataGridView1.DataSource = _conferenceService.GetConferenceChair();
                     break;
                 case (int)ConferenceViewTypes.UserInfo:
                     dataGridView1.DataSource = _userService.GetUserRole();

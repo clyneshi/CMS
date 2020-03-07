@@ -63,6 +63,7 @@ namespace CMS.Library.Service
 
         public void UpdateUser(string userName, string userEmail, string userContact, string oldPasswrd, string newPasswrd)
         {
+            // TODO: Refactor function to receive a user entity to save (repository)
             using (var dbModel = new CMSDBEntities())
             {
                 User user = dbModel.Users.FirstOrDefault(u => u.userId == GlobalVariable.CurrentUser.userId);

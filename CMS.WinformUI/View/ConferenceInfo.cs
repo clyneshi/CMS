@@ -18,7 +18,7 @@ namespace CMS
 
         public void Init()
         {
-            dataGridView1.DataSource = _conferenceService.GetReviewer();
+            dataGridView1.DataSource = _conferenceService.GetReviewerByConference();
 
             dataGridView2.DataSource = _paperService.GetPaperConferences();
         }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CMSDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CMSDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Conference">
           <Key>
             <PropertyRef Name="confId" />
@@ -117,12 +117,24 @@
             <PropertyRef Name="userId" />
           </Key>
           <Property Name="userId" Type="int" Nullable="false" />
-          <Property Name="userName" Type="varchar" MaxLength="20" />
+          <Property Name="userEmail" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="userName" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="userPasswrd" Type="varchar" MaxLength="20" />
           <Property Name="userContact" Type="varchar" MaxLength="10" />
           <Property Name="roleId" Type="int" />
-          <Property Name="userEmail" Type="varchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK_Conference_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Conference" Type="Self.Conference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Conference">
+              <PropertyRef Name="chairId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ConferenceMember_Conference">
           <End Role="Conference" Type="Self.Conference" Multiplicity="1" />
           <End Role="ConferenceMember" Type="Self.ConferenceMember" Multiplicity="*" />
@@ -340,6 +352,10 @@
           <EntitySet Name="RegisterRequest" EntityType="Self.RegisterRequest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Conference_User" Association="Self.FK_Conference_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Conference" EntitySet="Conference" />
+          </AssociationSet>
           <AssociationSet Name="FK_ConferenceMember_Conference" Association="Self.FK_ConferenceMember_Conference">
             <End Role="Conference" EntitySet="Conference" />
             <End Role="ConferenceMember" EntitySet="ConferenceMember" />
@@ -409,8 +425,7 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CMSDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -429,6 +444,7 @@
           <NavigationProperty Name="ConferenceTopics" Relationship="Self.FK_ConferenceTopic_Conference" FromRole="Conference" ToRole="ConferenceTopic" />
           <NavigationProperty Name="Papers" Relationship="Self.FK_Paper_Conference" FromRole="Conference" ToRole="Paper" />
           <NavigationProperty Name="RegisterRequests" Relationship="Self.FK_RegisterRequest_Conference" FromRole="Conference" ToRole="RegisterRequest" />
+          <NavigationProperty Name="User" Relationship="CMSDBModel.FK_Conference_User" FromRole="Conference" ToRole="User" />
         </EntityType>
         <EntityType Name="ConferenceMember">
           <Key>
@@ -554,17 +570,18 @@
             <PropertyRef Name="userId" />
           </Key>
           <Property Name="userId" Type="Int32" Nullable="false" />
-          <Property Name="userName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="userName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="userPasswrd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="userContact" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="roleId" Type="Int32" />
-          <Property Name="userEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="userEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="ConferenceMembers" Relationship="Self.FK_ConferenceMember_User" FromRole="User" ToRole="ConferenceMember" />
           <NavigationProperty Name="Expertises" Relationship="Self.FK_Expertise_User" FromRole="User" ToRole="Expertise" />
           <NavigationProperty Name="Feedbacks" Relationship="Self.FK_Feedback_User" FromRole="User" ToRole="Feedback" />
           <NavigationProperty Name="Papers" Relationship="Self.FK_Paper_User" FromRole="User" ToRole="Paper" />
           <NavigationProperty Name="PaperReviews" Relationship="Self.FK_PaperReview_User" FromRole="User" ToRole="PaperReview" />
           <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Conferences" Relationship="CMSDBModel.FK_Conference_User" FromRole="User" ToRole="Conference" />
         </EntityType>
         <Association Name="FK_ConferenceMember_Conference">
           <End Role="Conference" Type="Self.Conference" Multiplicity="1" />
@@ -851,7 +868,23 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_Conference_User" Association="CMSDBModel.FK_Conference_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Conference" EntitySet="Conferences" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Conference_User">
+          <End Type="CMSDBModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="CMSDBModel.Conference" Role="Conference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Conference">
+              <PropertyRef Name="chairId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

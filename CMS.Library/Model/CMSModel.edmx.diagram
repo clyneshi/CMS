@@ -34,6 +34,7 @@
         <AssociationConnector Association="CMSDBModel.FK_PaperReview_User" ManuallyRouted="false" />
         <AssociationConnector Association="CMSDBModel.FK_RegisterRequest_Role" ManuallyRouted="false" />
         <AssociationConnector Association="CMSDBModel.FK_User_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="CMSDBModel.FK_Conference_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

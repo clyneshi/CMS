@@ -22,6 +22,7 @@ namespace CMS.Library.Model
             this.Feedbacks = new HashSet<Feedback>();
             this.Papers = new HashSet<Paper>();
             this.PaperReviews = new HashSet<PaperReview>();
+            this.Conferences = new HashSet<Conference>();
         }
     
         public int userId { get; set; }
@@ -42,5 +43,7 @@ namespace CMS.Library.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PaperReview> PaperReviews { get; set; }
         public virtual Role Role { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Conference> Conferences { get; set; }
     }
 }

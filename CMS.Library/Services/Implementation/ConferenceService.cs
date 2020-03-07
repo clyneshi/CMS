@@ -7,7 +7,7 @@ namespace CMS.Library.Service
 {
     public class ConferenceService : IConferenceService
     {
-        public List<Conference> GetConferences()
+        public IEnumerable<Conference> GetConferences()
         {
             using (var dbModel = new CMSDBEntities())
             {
@@ -23,8 +23,8 @@ namespace CMS.Library.Service
             }
         }
 
-        // TODO: make generic search
-        public List<Conference> GetConferenceByChair(int chairId)
+        // TODO: make search generic 
+        public IEnumerable<Conference> GetConferenceByChair(int chairId)
         {
             using (var dbModel = new CMSDBEntities())
             {
@@ -40,46 +40,40 @@ namespace CMS.Library.Service
             }
         }
 
-        public List<ReviewerConferenceModel> GetReviewer()
+        public IEnumerable<ReviewerConferenceModel> GetReviewerByConference()
         {
             using (var dbModel = new CMSDBEntities())
             {
-                var reviewers = from u in dbModel.Users
-                                join cf in dbModel.ConferenceMembers on u.userId equals cf.userId
-                                join c in dbModel.Conferences on cf.confId equals c.confId
-                                join r in dbModel.Roles on u.roleId equals r.roleId
-                                where c.confId == GlobalVariable.UserConference
-                                orderby r.roleType
-                                select new ReviewerConferenceModel
-                                {
-                                    Id = u.userId,
-                                    Name = u.userName,
-                                    Role = r.roleType
-                                };
-
-                return reviewers.ToList();
+                return dbModel.ConferenceMembers
+                    .Where(x => x.confId == GlobalVariable.UserConference)
+                    .OrderBy(x => x.User.Role.roleType)
+                    .Select(x => new ReviewerConferenceModel
+                    {
+                        Id = x.userId,
+                        Name = x.User.userName,
+                        Role = x.User.Role.roleType
+                    })
+                    .ToList();
             }
         }
 
 
-        public List<ConferenceUserModel> GetConferencesUser()
+        public IEnumerable<ConferenceUserModel> GetConferenceChair()
         {
             using (var dbModel = new CMSDBEntities())
             {
-                var conf = from c in dbModel.Conferences
-                           join u in dbModel.Users on c.chairId equals u.userId
-                           select new ConferenceUserModel
-                           {
-                               Id = c.confId,
-                               Chair = u.userName,
-                               Title = c.confTitle,
-                               Location = c.confLocation,
-                               BeginDate = c.confBeginDate,
-                               EndDate = c.confEndDate,
-                               PaperDeadline = c.paperDeadline
-                           };
-
-                return conf.ToList();
+                return dbModel.Conferences
+                    .Select(x => new ConferenceUserModel
+                    {
+                        Id = x.confId,
+                        Chair = x.User.userName,
+                        Title = x.confTitle,
+                        Location = x.confLocation,
+                        BeginDate = x.confBeginDate,
+                        EndDate = x.confEndDate,
+                        PaperDeadline = x.paperDeadline
+                    })
+                    .ToList();
             }
         }
 
@@ -88,14 +82,7 @@ namespace CMS.Library.Service
             using (var dbModel = new CMSDBEntities())
             {
                 dbModel.Conferences.Add(conference);
-            }
-        }
-
-        public List<ConferenceMember> GetConferenceMembers()
-        {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.ConferenceMembers.ToList();
+                dbModel.SaveChanges();
             }
         }
 
@@ -104,10 +91,11 @@ namespace CMS.Library.Service
             using (var dbModel = new CMSDBEntities())
             {
                 dbModel.ConferenceMembers.Add(conferenceMember);
+                dbModel.SaveChanges();
             }
         }
 
-        public void AddConferenceTopic(int conferenceId, List<keyword> keywords)
+        public void AddConferenceTopic(int conferenceId, IEnumerable<keyword> keywords)
         {
             using (var dbModel = new CMSDBEntities())
             {

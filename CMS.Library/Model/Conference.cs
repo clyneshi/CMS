@@ -39,5 +39,6 @@ namespace CMS.Library.Model
         public virtual ICollection<Paper> Papers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RegisterRequest> RegisterRequests { get; set; }
+        public virtual User User { get; set; }
     }
 }
