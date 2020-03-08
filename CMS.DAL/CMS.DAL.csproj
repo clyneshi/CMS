@@ -125,6 +125,10 @@
     <Compile Include="Repository\Implementation\ConferenceMemberRepository.cs" />
     <Compile Include="Repository\Implementation\ConferenceRepository.cs" />
     <Compile Include="Repository\Implementation\ConferenceTopicRepository.cs" />
+    <Compile Include="Repository\Implementation\ExpertiseRepository.cs" />
+    <Compile Include="Repository\Interfaces\IExpertiseRepository.cs" />
+    <Compile Include="Repository\Interfaces\IKeywordRepository.cs" />
+    <Compile Include="Repository\Implementation\KeywordRepository.cs" />
     <Compile Include="Repository\Interfaces\IConferenceRepository.cs" />
     <Compile Include="Repository\Interfaces\IConferenceTopicRepository.cs" />
     <Compile Include="Repository\Interfaces\IConferenceMemberRepository.cs" />

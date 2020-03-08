@@ -161,7 +161,7 @@ namespace CMS
             }
             else
             {
-                ap.init();
+                ap.Init();
                 ap.Activate();
             }
         }

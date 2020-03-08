@@ -13,6 +13,8 @@ namespace CMS.DAL.Core
         PaperReviewRepository PaperReviewRepository { get; }
         ConferenceRepository ConferenceRepository { get; }
         ConferenceTopicRepository ConferenceTopicRepository { get; }
+        KeywordRepository KeywordRepository { get; }
+        ExpertiseRepository ExpertiseRepository { get; }
 
         /// <summary>
         /// Invokes SaveChangesAsync on shared context

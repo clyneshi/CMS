@@ -13,6 +13,8 @@ namespace CMS.DAL.Core
         private readonly PaperReviewRepository _paperReview;
         private readonly ConferenceRepository _conferenceRepository;
         private readonly ConferenceTopicRepository _conferenceTopicRepository;
+        private readonly KeywordRepository _keywordRepository;
+        private readonly ExpertiseRepository _expertiseRepository;
 
         public UnitOfWork()
         {
@@ -22,6 +24,8 @@ namespace CMS.DAL.Core
             _paperReview = new PaperReviewRepository(_context);
             _conferenceRepository = new ConferenceRepository(_context);
             _conferenceTopicRepository = new ConferenceTopicRepository(_context);
+            _keywordRepository = new KeywordRepository(_context);
+            _expertiseRepository = new ExpertiseRepository(_context);
         }
 
         public UserRepository UserRepository => _userRepository;
@@ -29,6 +33,8 @@ namespace CMS.DAL.Core
         public PaperReviewRepository PaperReviewRepository => _paperReview;
         public ConferenceRepository ConferenceRepository => _conferenceRepository;
         public ConferenceTopicRepository ConferenceTopicRepository => _conferenceTopicRepository;
+        public KeywordRepository KeywordRepository => _keywordRepository;
+        public ExpertiseRepository ExpertiseRepository => _expertiseRepository;
 
         public async Task<int> Save()
         {

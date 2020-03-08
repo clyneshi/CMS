@@ -34,60 +34,60 @@ namespace CMS
             _paperService = paperService;
             _conferenceService = conferenceService;
             InitializeComponent();
-            init();
+            Init();
         }
 
-        public void init()
+        public void Init()
         {
             userid = 0;
             reviewer.Clear();
             listBox_reviewer.DataSource = reviewer;
             listBox_reviewer.DisplayMember = "userName";
 
-            confDisplay();
+            ConfDisplay();
             if (dataGridView1.Rows.Count > 0)
             {
-                paperDisplay((int)dataGridView1.Rows[0].Cells["confId"].Value);
-                reviewerDisplay((int)dataGridView1.Rows[0].Cells["confId"].Value);
+                PaperDisplay((int)dataGridView1.Rows[0].Cells["confId"].Value);
+                ReviewerDisplay((int)dataGridView1.Rows[0].Cells["confId"].Value);
             }
             if (dataGridView3.Rows.Count > 0)
-                reviewerExpeDisplay((int)dataGridView3.Rows[0].Cells["userId"].Value);
+                ReviewerExpeDisplay((int)dataGridView3.Rows[0].Cells["userId"].Value);
             if (dataGridView2.Rows.Count > 0)
-                assignedRvwDisplay((int)dataGridView2.Rows[0].Cells["paperId"].Value);
+                AssignedRvwDisplay((int)dataGridView2.Rows[0].Cells["paperId"].Value);
         }
 
-        private void confDisplay()
+        private void ConfDisplay()
         {
             var conf = _conferenceService.GetConferencesByChair(GlobalVariable.CurrentUser.userId);
 
             dataGridView1.DataSource = conf;
         }
 
-        public void paperDisplay(int conf)
+        public void PaperDisplay(int conf)
         {
             var papers = _paperService.GetPapersByConference(conf);
 
             dataGridView2.DataSource = papers;
         }
 
-        public void reviewerDisplay(int conf)
+        public void ReviewerDisplay(int conf)
         {
             var reviewers = _userService.GetReviewers();
 
             dataGridView3.DataSource = reviewers;
         }
 
-        public void reviewerExpeDisplay(int rvw)
+        public void ReviewerExpeDisplay(int rvw)
         {
-            var kw = _keywordService.GetKewordsByUser(rvw);
+            var keywords = _keywordService.GetExpertiseByUser(rvw).Select(x => x.keyword).ToList();
 
-            dataGridView4.DataSource = kw;
+            dataGridView4.DataSource = keywords;
             dataGridView4.Columns["ConferenceTopics"].Visible = false;
             dataGridView4.Columns["Expertises"].Visible = false;
             dataGridView4.Columns["PaperTopics"].Visible = false;
         }
 
-        public void assignedRvwDisplay(int pp)
+        public void AssignedRvwDisplay(int pp)
         {
             var rvw = _userService.GetAssignedReviewersByPaper(pp);
 
@@ -105,11 +105,11 @@ namespace CMS
 
                 if (_paperService.GetPapersByConference(conf).Any())
                 {
-                    paperDisplay((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
+                    PaperDisplay((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
 
                     paperid = (int)dataGridView2.Rows[0].Cells["paperId"].Value;
                     if (_paperService.GetPaperReviewByPaper(paperid).Any())
-                        assignedRvwDisplay((int)dataGridView2.Rows[0].Cells["paperId"].Value);
+                        AssignedRvwDisplay((int)dataGridView2.Rows[0].Cells["paperId"].Value);
                     else
                         dataGridView5.DataSource = null;
                 }
@@ -121,8 +121,8 @@ namespace CMS
 
                 if (_userService.GetReviewers(conf).Any())
                 {
-                    reviewerDisplay((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
-                    reviewerExpeDisplay((int)dataGridView3.Rows[0].Cells["userId"].Value);
+                    ReviewerDisplay((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
+                    ReviewerExpeDisplay((int)dataGridView3.Rows[0].Cells["userId"].Value);
                 }
                 else
                 {
@@ -142,7 +142,7 @@ namespace CMS
                 username = (string)dataGridView3.Rows[e.RowIndex].Cells["userName"].Value;
 
                 if (_keywordService.GetExpertiseByUser(userid).Any())
-                    reviewerExpeDisplay((int)dataGridView3.Rows[e.RowIndex].Cells["userId"].Value);
+                    ReviewerExpeDisplay((int)dataGridView3.Rows[e.RowIndex].Cells["userId"].Value);
                 else
                     dataGridView4.DataSource = null;
             }
@@ -155,7 +155,7 @@ namespace CMS
                 paperid = (int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value;
 
                 if (_paperService.GetPaperReviewByPaper(paperid).Any())
-                    assignedRvwDisplay((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
+                    AssignedRvwDisplay((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
                 else
                     dataGridView5.DataSource = null;
             }
@@ -203,7 +203,7 @@ namespace CMS
                 }
 
             MessageBox.Show("Save successful");
-            init();
+            Init();
         }
 
         private void btn_rmvReviewer_Click(object sender, EventArgs e)

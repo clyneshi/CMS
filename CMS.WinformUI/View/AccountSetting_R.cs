@@ -11,8 +11,8 @@ namespace CMS
 {
     public partial class AccountSetting_R : Form
     {
-        private readonly BindingList<keyword> kw = new BindingList<keyword>();
-        private readonly List<keyword> rmk = new List<keyword>();
+        private readonly BindingList<keyword> keywords = new BindingList<keyword>();
+        private readonly List<keyword> removedKeywords = new List<keyword>();
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IKeywordService _keywordService;
@@ -28,17 +28,17 @@ namespace CMS
             _keywordService = keywordService;
             _conferenceService = conferenceService;
             InitializeComponent();
-            init();
+            Init();
         }
 
-        public void init()
+        public void Init()
         {
-            initForm();
-            keywordDisplay();
-            selectedKwDisplay();
+            InitForm();
+            KeywordDisplay();
+            SelectedKwDisplay();
         }
 
-        private void keywordDisplay()
+        private void KeywordDisplay()
         {
             var keywords = _keywordService.GetKeyWords();
 
@@ -49,21 +49,21 @@ namespace CMS
             dataGridView1.Columns[5].Visible = false;
         }
 
-        private void selectedKwDisplay()
+        private void SelectedKwDisplay()
         {
-            var kwl = _keywordService.GetExpertiseKeyword();
+            var expertises = _keywordService.GetExpertiseByUser(GlobalVariable.CurrentUser.userId);
 
-            foreach (var k in kwl)
+            foreach (var expertise in expertises)
             {
-                kw.Add(new keyword { keywrdId = k.KeywrdId, keywrdName = k.KeywrdName });
+                this.keywords.Add(new keyword { keywrdId = expertise.keywrdId, keywrdName = expertise.keyword.keywrdName });
             }
 
-            listBox1.DataSource = kw;
+            listBox1.DataSource = this.keywords;
             listBox1.DisplayMember = "keywrdName";
             listBox1.ValueMember = "keywrdId";
         }
 
-        private void initForm()
+        private void InitForm()
         {
             textBox_name.Text = GlobalVariable.CurrentUser.userName;
             textBox_email.Text = GlobalVariable.CurrentUser.userEmail;
@@ -80,12 +80,12 @@ namespace CMS
             if (dataGridView1.CurrentRow.Index >= 0)
             {
                 bool find = false;
-                foreach (keyword k in kw)
+                foreach (keyword k in keywords)
                     if (k.keywrdId == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value)
                         find = true;
                 if (!find)
                 {
-                    kw.Add(new keyword
+                    keywords.Add(new keyword
                     {
                         keywrdId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value,
                         keywrdName = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdName"].Value
@@ -99,15 +99,15 @@ namespace CMS
         {
             if (listBox1.SelectedIndex >= 0)
             {
-                rmk.Add(new keyword { keywrdId = (int)listBox1.SelectedValue });
-                kw.Remove((keyword)listBox1.SelectedItem);
+                removedKeywords.Add(new keyword { keywrdId = (int)listBox1.SelectedValue });
+                keywords.Remove((keyword)listBox1.SelectedItem);
             }
         }
 
-        private void btn_save_Click(object sender, EventArgs e)
+        private async void btn_save_Click(object sender, EventArgs e)
         {
-            _userService.UpdateUser(textBox_name.Text, textBox_email.Text, textBox_cont.Text, textBox_oPass.Text, textBox_nPass.Text);
-            _keywordService.UpdateExpertise(rmk, kw.ToList());
+            await _userService.UpdateUser(textBox_name.Text, textBox_email.Text, textBox_cont.Text, textBox_oPass.Text, textBox_nPass.Text);
+            await _keywordService.UpdateExpertise(GlobalVariable.CurrentUser.userId, removedKeywords, keywords.ToList());
             MessageBox.Show("Update completed");
         }
 
