@@ -1,4 +1,5 @@
-﻿using CMS.Library.Global;
+﻿using CMS.DAL.Models;
+using CMS.Library.Global;
 using CMS.Library.Model;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace CMS.Library.Service
                     .Where(x => x.Conference.chairId == GlobalVariable.CurrentUser.userId
                         && x.roleId != (int)RoleTypes.Chair
                         && x.status == UserRequestStatus.Waiting.ToString())
-                    .Select(x => new UserRequestModel 
+                    .Select(x => new UserRequestModel
                     {
                         Id = x.Id,
                         ConfId = x.Conference.confId,
@@ -39,7 +40,7 @@ namespace CMS.Library.Service
                     .Where(x => x.Conference.chairId == GlobalVariable.CurrentUser.userId
                         && x.roleId == (int)RoleTypes.Chair
                         && x.status == UserRequestStatus.Waiting.ToString())
-                    .Select(x => new UserRequestModel 
+                    .Select(x => new UserRequestModel
                     {
                         Id = x.Id,
                         RoleId = x.roleId,
@@ -49,7 +50,7 @@ namespace CMS.Library.Service
                         Password = x.password,
                         Email = x.email
                     })
-                    .ToList();;
+                    .ToList(); ;
             }
         }
 

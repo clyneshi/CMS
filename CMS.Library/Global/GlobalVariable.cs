@@ -1,4 +1,4 @@
-﻿using CMS.Library.Model;
+﻿using CMS.DAL.Models;
 
 namespace CMS.Library.Global
 {

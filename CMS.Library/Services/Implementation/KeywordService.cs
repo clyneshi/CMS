@@ -1,4 +1,5 @@
-﻿using CMS.Library.Global;
+﻿using CMS.DAL.Models;
+using CMS.Library.Global;
 using CMS.Library.Model;
 using System.Collections.Generic;
 using System.Linq;

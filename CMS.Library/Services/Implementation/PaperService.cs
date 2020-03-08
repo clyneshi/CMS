@@ -1,4 +1,5 @@
-﻿using CMS.Library.Global;
+﻿using CMS.DAL.Models;
+using CMS.Library.Global;
 using CMS.Library.Model;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,7 +84,7 @@ namespace CMS.Library.Service
                         dbModel.PaperReviews,
                         x => x.userId,
                         y => y.paperId,
-                        (x, y) => new 
+                        (x, y) => new
                         {
                             ConferenceMembers = x,
                             PaperReview = y

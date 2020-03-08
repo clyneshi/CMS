@@ -70,65 +70,6 @@
     <Compile Include="Enums\UserRequestStatus.cs" />
     <Compile Include="Global\GlobalHelper.cs" />
     <Compile Include="Global\GlobalVariable.cs" />
-    <Compile Include="Model\CMSModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CMSModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\CMSModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\CMSModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CMSModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Conference.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ConferenceDisplayModel.cs" />
-    <Compile Include="Model\ConferenceMember.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ConferenceTopic.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Expertise.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ExpertiseKeywordModel.cs" />
-    <Compile Include="Model\Feedback.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\keyword.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Paper.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\PaperConferenceModel.cs" />
-    <Compile Include="Model\PaperReview.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\PaperTopic.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\PaperUserModel.cs" />
-    <Compile Include="Model\RegisterRequest.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ReviewerConferenceModel.cs" />
-    <Compile Include="Model\ReviewPaperModel.cs" />
-    <Compile Include="Model\Role.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\User.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\UserRequestModel.cs" />
-    <Compile Include="Model\UserRoleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Implementation\ConferenceService.cs" />
     <Compile Include="Services\Interface\IConferenceService.cs" />
@@ -151,29 +92,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EntityDeploy Include="Model\CMSModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CMSModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.Config" />
-    <None Include="Model\CMSModel.edmx.diagram">
-      <DependentUpon>CMSModel.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Model\CMSModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CMSModel.Context.cs</LastGenOutput>
-      <DependentUpon>CMSModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Model\CMSModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CMSModel.edmx</DependentUpon>
-      <LastGenOutput>CMSModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

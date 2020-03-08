@@ -1,14 +1,21 @@
-﻿using CMS.Library.Global;
+﻿using CMS.DAL.Core;
+using CMS.DAL.Models;
+using CMS.Library.Global;
 using CMS.Library.Model;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity;
+using System.Linq;
 
 namespace CMS.Library.Service
 {
     public class UserService : IUserService
     {
-        // TODO: Use refactory pattern to separate data access from service
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UserService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
 
         public User AuthenticateUser(string email, string passWord)
         {
@@ -20,7 +27,9 @@ namespace CMS.Library.Service
                 return null;
             using (var dbModel = new CMSDBEntities())
             {
-                var user = dbModel.Users.FirstOrDefault(x => x.userEmail == email && x.userPasswrd == passWord);
+                var user = _unitOfWork.UserRepository
+                    .Filter(x => x.userEmail == email && x.userPasswrd == passWord)
+                    .FirstOrDefault();
 
                 if (user == null)
                     return null;
@@ -82,7 +91,7 @@ namespace CMS.Library.Service
             using (var dbModel = new CMSDBEntities())
             {
                 return dbModel.ConferenceMembers
-                    .Where(x => x.confId == GlobalVariable.UserConference 
+                    .Where(x => x.confId == GlobalVariable.UserConference
                             && x.User.roleId == (int)RoleTypes.Reviewer)
                     .Select(x => x.User)
                     .ToList();
@@ -117,7 +126,7 @@ namespace CMS.Library.Service
             {
                 return dbModel.Users
                     .Include(x => x.Role)
-                    .Select(x => new UserRoleModel 
+                    .Select(x => new UserRoleModel
                     {
                         Id = x.userId,
                         Name = x.userName,

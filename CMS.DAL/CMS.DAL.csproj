@@ -58,6 +58,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,7 +68,70 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IUnitOfWork.cs" />
+    <Compile Include="Core\UnitOfWork.cs" />
+    <Compile Include="Models\CMSModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMSModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CMSModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CMSModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CMSModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Conference.cs">
+      <DependentUpon>CMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConferenceDisplayModel.cs" />
+    <Compile Include="Models\ConferenceMember.cs">
+      <DependentUpon>CMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConferenceTopic.cs">
+      <DependentUpon>CMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Expertise.cs">
+      <DependentUpon>CMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExpertiseKeywordModel.cs" />
+    <Compile Include="Models\Feedback.cs">
+      <DependentUpon>CMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\keyword.cs">
+      <DependentUpon>CMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Paper.cs">
+      <DependentUpon>CMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PaperConferenceModel.cs" />
+    <Compile Include="Models\PaperReview.cs">
+      <DependentUpon>CMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PaperTopic.cs">
+      <DependentUpon>CMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PaperUserModel.cs" />
+    <Compile Include="Models\RegisterRequest.cs">
+      <DependentUpon>CMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReviewerConferenceModel.cs" />
+    <Compile Include="Models\ReviewPaperModel.cs" />
+    <Compile Include="Models\Role.cs">
+      <DependentUpon>CMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>CMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserRequestModel.cs" />
+    <Compile Include="Models\UserRoleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\Implementation\UserRepository.cs" />
+    <Compile Include="Repository\Interfaces\IUserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Database\CMSDB.mdf">
@@ -75,6 +140,16 @@
     <Content Include="Database\CMSDB_log.ldf">
       <DependentUpon>CMSDB.mdf</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Models\CMSModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CMSModel.edmx</DependentUpon>
+      <LastGenOutput>CMSModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\CMSModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CMSModel.edmx</DependentUpon>
+      <LastGenOutput>CMSModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -91,7 +166,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EntityDeploy Include="Models\CMSModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CMSModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Models\CMSModel.edmx.diagram">
+      <DependentUpon>CMSModel.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

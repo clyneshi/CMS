@@ -1,4 +1,5 @@
-﻿using CMS.Library.Model;
+﻿using CMS.DAL.Models;
+using CMS.Library.Model;
 using System.Collections.Generic;
 
 namespace CMS.Library.Service
