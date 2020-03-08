@@ -6,7 +6,7 @@ namespace CMS.Library.Service
 {
     public class RoleService : IRoleService
     {
-        public List<Role> GetRoles()
+        public IEnumerable<Role> GetRoles()
         {
             using (var dbModel = new CMSDBEntities())
             {

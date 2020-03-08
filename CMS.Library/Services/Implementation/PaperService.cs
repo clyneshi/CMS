@@ -2,7 +2,6 @@
 using CMS.Library.Model;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity;
 
 namespace CMS.Library.Service
 {
@@ -79,17 +78,6 @@ namespace CMS.Library.Service
         {
             using (var dbModel = new CMSDBEntities())
             {
-                var reviewPapers = from p in dbModel.Papers
-                                   join pr in dbModel.PaperReviews on p.paperId equals pr.paperId
-                                   join cm in dbModel.ConferenceMembers on pr.userId equals cm.userId
-                                   where pr.userId == GlobalVariable.CurrentUser.userId && cm.confId == GlobalVariable.UserConference
-                                   select new ReviewPaperModel
-                                   {
-                                       PaperId = p.paperId,
-                                       PaperTitle = p.paperTitle,
-                                       PaperRating = pr.paperRating
-                                   };
-
                 return dbModel.ConferenceMembers
                     .Join(
                         dbModel.PaperReviews,
@@ -98,7 +86,6 @@ namespace CMS.Library.Service
                         (x, y) => new 
                         {
                             ConferenceMembers = x,
-                            Paper = y.Paper,
                             PaperReview = y
                         }
                     )
@@ -106,8 +93,8 @@ namespace CMS.Library.Service
                         && z.PaperReview.userId == GlobalVariable.CurrentUser.userId)
                     .Select(z => new ReviewPaperModel
                     {
-                        PaperId = z.Paper.paperId,
-                        PaperTitle = z.Paper.paperTitle,
+                        PaperId = z.PaperReview.Paper.paperId,
+                        PaperTitle = z.PaperReview.Paper.paperTitle,
                         PaperRating = z.PaperReview.paperRating
                     }).ToList();
             }

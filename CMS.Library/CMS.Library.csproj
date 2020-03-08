@@ -67,6 +67,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Enums\ConferenceViewTypes.cs" />
     <Compile Include="Enums\RoleTypes.cs" />
+    <Compile Include="Enums\UserRequestStatus.cs" />
     <Compile Include="Global\GlobalHelper.cs" />
     <Compile Include="Global\GlobalVariable.cs" />
     <Compile Include="Model\CMSModel.Context.cs">

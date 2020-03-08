@@ -65,9 +65,9 @@ namespace CMS
             request.contact = textBox_cont.Text;
             request.status = "Waiting for approval";
             request.roleId = (int)comboBox_role.SelectedValue;
-
-            return _userRequestService.AddRegisterRequest(request);
-
+            _userRequestService.AddRegisterRequest(request);
+            
+            return true;
         }
 
         // TODO: extract validation method

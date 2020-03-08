@@ -5,9 +5,9 @@ namespace CMS.Library.Service
 {
     public interface IUserRequestService
     {
-        bool AddRegisterRequest(RegisterRequest request);
-        void ChangeRequestStatus(int id, int type);
-        List<UserRequestModel> GetUserRequest();
-        List<UserRequestModel> GetUserRequest_Admin();
+        void AddRegisterRequest(RegisterRequest request);
+        void ChangeRequestStatus(int id, UserRequestStatus status);
+        IEnumerable<UserRequestModel> GetUserRequest();
+        IEnumerable<UserRequestModel> GetUserRequest_Admin();
     }
 }
