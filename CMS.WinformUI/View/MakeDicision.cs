@@ -43,7 +43,7 @@ namespace CMS
 
         private void DisplayConf()
         {
-            var conf = _conferenceService.GetConferenceByChair(GlobalVariable.CurrentUser.userId);
+            var conf = _conferenceService.GetConferencesByChair(GlobalVariable.CurrentUser.userId);
 
             dataGridView1.DataSource = conf;
         }

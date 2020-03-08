@@ -11,6 +11,8 @@ namespace CMS.DAL.Core
         UserRepository UserRepository { get; }
         ConferenceMemberRepository ConferenceMemberRepository { get; }
         PaperReviewRepository PaperReviewRepository { get; }
+        ConferenceRepository ConferenceRepository { get; }
+        ConferenceTopicRepository ConferenceTopicRepository { get; }
 
         /// <summary>
         /// Invokes SaveChangesAsync on shared context

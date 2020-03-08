@@ -123,6 +123,10 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Implementation\ConferenceMemberRepository.cs" />
+    <Compile Include="Repository\Implementation\ConferenceRepository.cs" />
+    <Compile Include="Repository\Implementation\ConferenceTopicRepository.cs" />
+    <Compile Include="Repository\Interfaces\IConferenceRepository.cs" />
+    <Compile Include="Repository\Interfaces\IConferenceTopicRepository.cs" />
     <Compile Include="Repository\Interfaces\IConferenceMemberRepository.cs" />
     <Compile Include="Repository\Implementation\PaperReviewRepository.cs" />
     <Compile Include="Repository\Implementation\UserRepository.cs" />

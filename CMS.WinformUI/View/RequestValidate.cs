@@ -67,7 +67,7 @@ namespace CMS
             _userService.AddUser(user);
         }
 
-        private void AddConfMember()
+        private async Task AddConfMember()
         {
             ConferenceMember cm = new ConferenceMember
             {
@@ -75,7 +75,7 @@ namespace CMS
                 userId = userid
             };
 
-            _conferenceService.AddConferenceMember(cm);
+            await _conferenceService.AddConferenceMember(cm);
         }
 
         private void ChangeReqStatus(UserRequestStatus status)
@@ -99,7 +99,7 @@ namespace CMS
             {
                 AddUser();
                 if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Chair)
-                    AddConfMember();
+                    await AddConfMember();
 
                 var status = UserRequestStatus.Approved;
                 ChangeReqStatus(status);

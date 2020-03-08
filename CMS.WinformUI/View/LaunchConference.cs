@@ -4,13 +4,14 @@ using CMS.Library.Service;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CMS
 {
     public partial class LaunchConference : Form
     {
-        private readonly BindingList<keyword> kw = new BindingList<keyword>();
+        private readonly BindingList<keyword> keywords = new BindingList<keyword>();
         private readonly IKeywordService _keywordService;
         private readonly IConferenceService _conferenceService;
 
@@ -19,17 +20,17 @@ namespace CMS
             _keywordService = keywordService;
             _conferenceService = conferenceService;
             InitializeComponent();
-            init();
+            Init();
         }
 
-        public void init()
+        public void Init()
         {
-            kw.Clear();
-            keywordDisplay();
-            selectedKwDisplay();
+            keywords.Clear();
+            KeywordDisplay();
+            DisplaySelectedKeyword();
         }
 
-        private void keywordDisplay()
+        private void KeywordDisplay()
         {
             var topic = _keywordService.GetKeyWords();
 
@@ -40,9 +41,9 @@ namespace CMS
             dataGridView1.Columns[5].Visible = false;
         }
 
-        private void selectedKwDisplay()
+        private void DisplaySelectedKeyword()
         {
-            listBox1.DataSource = kw;
+            listBox1.DataSource = keywords;
             listBox1.DisplayMember = "keywrdName";
         }
 
@@ -51,12 +52,12 @@ namespace CMS
             if (dataGridView1.CurrentRow.Index >= 0)
             {
                 bool find = false;
-                foreach (keyword k in kw)
+                foreach (keyword k in keywords)
                     if (k.keywrdId == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value)
                         find = true;
                 if (!find)
                 {
-                    kw.Add(new keyword
+                    keywords.Add(new keyword
                     {
                         keywrdId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value,
                         keywrdName = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdName"].Value
@@ -69,26 +70,10 @@ namespace CMS
         private void btn_remove_Click(object sender, EventArgs e)
         {
             if (listBox1.SelectedIndex >= 0)
-                kw.Remove((keyword)listBox1.SelectedItem);
+                keywords.Remove((keyword)listBox1.SelectedItem);
         }
 
-        private void addConf(int conferenceId)
-        {
-            Conference conf = new Conference
-            {
-                confId = conferenceId,
-                chairId = GlobalVariable.CurrentUser.userId,
-                confTitle = textBox_title.Text,
-                confLocation = textBox_loc.Text,
-                confBeginDate = dateTimePicker_bdate.Value.Date,
-                confEndDate = dateTimePicker_edate.Value.Date,
-                paperDeadline = dateTimePicker_pdeadline.Value.Date
-            };
-
-            _conferenceService.AddConference(conf);
-        }
-
-        private string confValidation()
+        private string ConfValidation()
         {
             if (textBox_title.Text.Trim().Equals(""))
                 return "Conference Title cannot be empty";
@@ -98,26 +83,36 @@ namespace CMS
                 return "Begin date cannot be late than End date";
             if (DateTime.Compare(dateTimePicker_pdeadline.Value.Date, dateTimePicker_bdate.Value.Date) >= 0)
                 return "Paper submition date must before Conference begain date";
-            if (kw.Count == 0)
+            if (keywords.Count == 0)
                 return "Topic cannot be empty";
 
             return "";
         }
 
-        private void btn_submit_Click(object sender, EventArgs e)
+        private async void btn_submit_Click(object sender, EventArgs e)
         {
-            string error = confValidation();
-            if (error.Equals(""))
+            string error = ConfValidation();
+            if (!string.IsNullOrEmpty(error))
             {
-                var conferenceId = _conferenceService.GetMaxConferenceId() + 1;
-                addConf(conferenceId);
-                _conferenceService.AddConferenceTopic(conferenceId, kw.ToList());
-                MessageBox.Show("Conference added successfully");
-                GlobalHelper.ClearControls(this.Controls);
-                init();
-            }
-            else
                 MessageBox.Show(error);
+                return;
+            }
+            
+            var conference = new Conference
+            {
+                chairId = GlobalVariable.CurrentUser.userId,
+                confTitle = textBox_title.Text,
+                confLocation = textBox_loc.Text,
+                confBeginDate = dateTimePicker_bdate.Value.Date,
+                confEndDate = dateTimePicker_edate.Value.Date,
+                paperDeadline = dateTimePicker_pdeadline.Value.Date
+            };
+
+            await _conferenceService.AddConference(conference, keywords.ToList());
+            
+            MessageBox.Show("Conference added successfully");
+            GlobalHelper.ClearControls(this.Controls);
+            Init();
         }
     }
 }

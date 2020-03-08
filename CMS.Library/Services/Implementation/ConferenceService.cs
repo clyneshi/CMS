@@ -1,109 +1,101 @@
-﻿using CMS.DAL.Models;
+﻿using CMS.DAL.Core;
+using CMS.DAL.Models;
 using CMS.Library.Global;
 using CMS.Library.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CMS.Library.Service
 {
     public class ConferenceService : IConferenceService
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public ConferenceService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         public IEnumerable<Conference> GetConferences()
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Conferences.ToList();
-            }
+            return _unitOfWork.ConferenceRepository.GetAll();
         }
 
-        public Conference GetConferenceById(int? confId)
+        public Conference GetConferenceById(int confId)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Conferences.FirstOrDefault(c => c.confId == confId);
-            }
+            return _unitOfWork.ConferenceRepository.Filter(c => c.confId == confId).SingleOrDefault();
         }
 
-        // TODO: make search generic 
-        public IEnumerable<Conference> GetConferenceByChair(int chairId)
+        public IEnumerable<Conference> GetConferencesByChair(int chairId)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Conferences.Where(c => c.chairId == chairId).ToList();
-            }
+            return _unitOfWork.ConferenceRepository.Filter(c => c.chairId == chairId);
         }
 
         public int GetMaxConferenceId()
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Conferences.OrderByDescending(c => c.confId).FirstOrDefault().confId;
-            }
+            return _unitOfWork.ConferenceRepository
+                .GetAll()
+                .OrderByDescending(c => c.confId)
+                .FirstOrDefault().confId;
         }
 
-        public IEnumerable<ReviewerConferenceModel> GetReviewerByConference()
+        public IEnumerable<ReviewerConferenceModel> GetReviewersByConference()
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.ConferenceMembers
-                    .Where(x => x.confId == GlobalVariable.UserConference)
-                    .OrderBy(x => x.User.Role.roleType)
-                    .Select(x => new ReviewerConferenceModel
-                    {
-                        Id = x.userId,
-                        Name = x.User.userName,
-                        Role = x.User.Role.roleType
-                    })
-                    .ToList();
-            }
+            return _unitOfWork.ConferenceMemberRepository
+                .Filter(x => x.confId == GlobalVariable.UserConference)
+                .OrderBy(x => x.User.Role.roleType)
+                .Select(x => new ReviewerConferenceModel
+                {
+                    Id = x.userId,
+                    Name = x.User.userName,
+                    Role = x.User.Role.roleType
+                })
+                .ToList();
         }
 
 
-        public IEnumerable<ConferenceUserModel> GetConferenceChair()
+        public IEnumerable<ConferenceUserModel> GetConferenceWithChair()
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Conferences
-                    .Select(x => new ConferenceUserModel
-                    {
-                        Id = x.confId,
-                        Chair = x.User.userName,
-                        Title = x.confTitle,
-                        Location = x.confLocation,
-                        BeginDate = x.confBeginDate,
-                        EndDate = x.confEndDate,
-                        PaperDeadline = x.paperDeadline
-                    })
-                    .ToList();
-            }
+            return _unitOfWork.ConferenceRepository
+                .GetConferenceWithChair()
+                .Select(x => new ConferenceUserModel
+                {
+                    Id = x.confId,
+                    Chair = x.User.userName,
+                    Title = x.confTitle,
+                    Location = x.confLocation,
+                    BeginDate = x.confBeginDate,
+                    EndDate = x.confEndDate,
+                    PaperDeadline = x.paperDeadline
+                })
+                .ToList();
         }
 
-        public void AddConference(Conference conference)
+        public async Task AddConference(Conference conference, IEnumerable<keyword> keywords)
         {
-            using (var dbModel = new CMSDBEntities())
+            var conferenceId = GetMaxConferenceId() + 1;
+
+            conference.confId = conferenceId;
+
+            _unitOfWork.ConferenceRepository.Add(conference);
+
+            foreach (var keyword in keywords)
             {
-                dbModel.Conferences.Add(conference);
-                dbModel.SaveChanges();
+                _unitOfWork.ConferenceTopicRepository.Add(new ConferenceTopic
+                {
+                    confId = conferenceId,
+                    keywrdId = keyword.keywrdId
+                });
             }
+
+            await _unitOfWork.Save();
         }
 
-        public void AddConferenceMember(ConferenceMember conferenceMember)
+        public async Task AddConferenceMember(ConferenceMember conferenceMember)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                dbModel.ConferenceMembers.Add(conferenceMember);
-                dbModel.SaveChanges();
-            }
-        }
-
-        public void AddConferenceTopic(int conferenceId, IEnumerable<keyword> keywords)
-        {
-            using (var dbModel = new CMSDBEntities())
-            {
-                foreach (keyword k in keywords)
-                    dbModel.ConferenceTopics.Add(new ConferenceTopic { confId = conferenceId, keywrdId = k.keywrdId });
-                dbModel.SaveChanges();
-            }
+            _unitOfWork.ConferenceMemberRepository.Add(conferenceMember);
+            await _unitOfWork.Save();
         }
     }
 }

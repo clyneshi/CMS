@@ -146,7 +146,7 @@ namespace CMS
             }
             else
             {
-                lf.init();
+                lf.Init();
                 lf.Activate();
             }
         }

@@ -1,19 +1,19 @@
 ﻿using CMS.DAL.Models;
 using CMS.Library.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CMS.Library.Service
 {
     public interface IConferenceService
     {
-        void AddConference(Conference conference);
-        void AddConferenceMember(ConferenceMember conferenceMember);
-        void AddConferenceTopic(int conferenceId, IEnumerable<keyword> keywords);
-        IEnumerable<Conference> GetConferenceByChair(int chairId);
-        Conference GetConferenceById(int? confId);
+        Task AddConference(Conference conference, IEnumerable<keyword> keywords);
+        Task AddConferenceMember(ConferenceMember conferenceMember);
+        IEnumerable<Conference> GetConferencesByChair(int chairId);
+        Conference GetConferenceById(int confId);
         IEnumerable<Conference> GetConferences();
-        IEnumerable<ConferenceUserModel> GetConferenceChair();
+        IEnumerable<ConferenceUserModel> GetConferenceWithChair();
         int GetMaxConferenceId();
-        IEnumerable<ReviewerConferenceModel> GetReviewerByConference();
+        IEnumerable<ReviewerConferenceModel> GetReviewersByConference();
     }
 }
