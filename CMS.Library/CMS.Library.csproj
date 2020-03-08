@@ -70,6 +70,14 @@
     <Compile Include="Enums\UserRequestStatus.cs" />
     <Compile Include="Global\GlobalHelper.cs" />
     <Compile Include="Global\GlobalVariable.cs" />
+    <Compile Include="Models\ConferenceDisplayModel.cs" />
+    <Compile Include="Models\ExpertiseKeywordModel.cs" />
+    <Compile Include="Models\PaperConferenceModel.cs" />
+    <Compile Include="Models\PaperUserModel.cs" />
+    <Compile Include="Models\ReviewerConferenceModel.cs" />
+    <Compile Include="Models\ReviewPaperModel.cs" />
+    <Compile Include="Models\UserRequestModel.cs" />
+    <Compile Include="Models\UserRoleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Implementation\ConferenceService.cs" />
     <Compile Include="Services\Interface\IConferenceService.cs" />

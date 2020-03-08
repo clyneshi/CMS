@@ -1,5 +1,5 @@
-﻿using CMS.Library.Global;
-using CMS.Library.Model;
+﻿using CMS.DAL.Models;
+using CMS.Library.Global;
 using CMS.Library.Service;
 using System;
 using System.Collections.Generic;

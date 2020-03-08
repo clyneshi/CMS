@@ -1,4 +1,4 @@
-﻿using CMS.Library.Model;
+﻿using CMS.DAL.Models;
 using CMS.Library.Service;
 using System;
 using System.IO;

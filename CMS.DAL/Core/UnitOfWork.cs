@@ -5,18 +5,24 @@ using System.Threading.Tasks;
 
 namespace CMS.DAL.Core
 {
-    internal class UnitOfWork : IDisposable, IUnitOfWork
+    public class UnitOfWork : IDisposable, IUnitOfWork
     {
         private readonly CMSDBEntities _context;
         private readonly UserRepository _userRepository;
+        private readonly ConferenceMemberRepository _conferenceMemberRepository;
+        private readonly PaperReviewRepository _paperReview;
 
         public UnitOfWork()
         {
             _context = new CMSDBEntities();
             _userRepository = new UserRepository(_context);
+            _conferenceMemberRepository = new ConferenceMemberRepository(_context);
+            _paperReview = new PaperReviewRepository(_context);
         }
 
         public UserRepository UserRepository => _userRepository;
+        public ConferenceMemberRepository ConferenceMemberRepository => _conferenceMemberRepository;
+        public PaperReviewRepository PaperReviewRepository => _paperReview;
 
         public async Task<int> Save()
         {

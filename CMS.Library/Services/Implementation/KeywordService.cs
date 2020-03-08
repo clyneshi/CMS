@@ -1,6 +1,6 @@
 ﻿using CMS.DAL.Models;
 using CMS.Library.Global;
-using CMS.Library.Model;
+using CMS.Library.Models;
 using System.Collections.Generic;
 using System.Linq;
 

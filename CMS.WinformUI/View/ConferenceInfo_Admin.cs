@@ -26,7 +26,7 @@ namespace CMS
                     dataGridView1.DataSource = _conferenceService.GetConferenceChair();
                     break;
                 case (int)ConferenceViewTypes.UserInfo:
-                    dataGridView1.DataSource = _userService.GetUserRole();
+                    dataGridView1.DataSource = _userService.GetUserWithRole();
                     break;
                 case (int)ConferenceViewTypes.Papers:
                     dataGridView1.DataSource = _paperService.GetPaperUser();

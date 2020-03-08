@@ -242,6 +242,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CMS.DAL\CMS.DAL.csproj">
+      <Project>{3CB61CFD-BD25-4FEC-9B19-AAF4F80904BF}</Project>
+      <Name>CMS.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CMS.Library\CMS.Library.csproj">
       <Project>{4cc36e5e-812c-40cf-8e45-0ebadd12a7e5}</Project>
       <Name>CMS.Library</Name>

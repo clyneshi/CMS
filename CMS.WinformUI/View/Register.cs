@@ -1,5 +1,5 @@
-﻿using CMS.Library.App_Start;
-using CMS.Library.Model;
+﻿using CMS.DAL.Models;
+using CMS.Library.App_Start;
 using CMS.Library.Service;
 using System;
 using System.Windows.Forms;
@@ -66,7 +66,7 @@ namespace CMS
             request.status = "Waiting for approval";
             request.roleId = (int)comboBox_role.SelectedValue;
             _userRequestService.AddRegisterRequest(request);
-            
+
             return true;
         }
 

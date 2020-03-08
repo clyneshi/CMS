@@ -1,10 +1,11 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
 using CMS.Library.Global;
-using CMS.Library.Model;
+using CMS.Library.Models;
+using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CMS.Library.Service
 {
@@ -25,116 +26,95 @@ namespace CMS.Library.Service
 
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(passWord))
                 return null;
-            using (var dbModel = new CMSDBEntities())
+
+            var user = _unitOfWork.UserRepository
+                .Filter(x => x.userEmail == email && x.userPasswrd == passWord)
+                .FirstOrDefault();
+
+            if (user == null)
+                return null;
+
+            if (user.roleId == (int)RoleTypes.Author || user.roleId == (int)RoleTypes.Reviewer)
             {
-                var user = _unitOfWork.UserRepository
-                    .Filter(x => x.userEmail == email && x.userPasswrd == passWord)
-                    .FirstOrDefault();
+                var conferenceMembers = _unitOfWork.ConferenceMemberRepository
+                    .Filter(x => x.userId == user.userId)
+                    .SingleOrDefault();
 
-                if (user == null)
-                    return null;
-
-                ConferenceMember conferenceMembers;
-                if (user.roleId == (int)RoleTypes.Author || user.roleId == (int)RoleTypes.Reviewer)
-                {
-                    conferenceMembers = dbModel.ConferenceMembers.FirstOrDefault(x => x.userId == user.userId);
-                    GlobalVariable.UserConference = conferenceMembers?.confId ?? 0;
-                }
-                GlobalVariable.CurrentUser = user;
-
-                return user;
+                GlobalVariable.UserConference = conferenceMembers?.confId ?? 0;
             }
+
+            GlobalVariable.CurrentUser = user;
+
+            return user;
         }
+
         public int GetMaxUserId()
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Users.OrderByDescending(u => u.userId).FirstOrDefault().userId;
-            }
+            return _unitOfWork.UserRepository.GetAll().OrderByDescending(u => u.userId).FirstOrDefault().userId;
         }
 
-        public IEnumerable<User> GetUsers()
+        public async Task UpdateUser(string userName, string userEmail, string userContact, string oldPasswrd, string newPasswrd)
         {
-            using (var dbModel = new CMSDBEntities())
+            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(userEmail)
+                || string.IsNullOrEmpty(oldPasswrd) || string.IsNullOrEmpty(newPasswrd))
             {
-                return dbModel.Users.ToList();
+                throw new Exception();
             }
-        }
-
-        public void AddUser(User user)
-        {
-            using (var dbModel = new CMSDBEntities())
-            {
-                dbModel.Users.Add(user);
-                dbModel.SaveChanges();
-            }
-        }
-
-        public void UpdateUser(string userName, string userEmail, string userContact, string oldPasswrd, string newPasswrd)
-        {
             // TODO: Refactor function to receive a user entity to save (repository)
-            using (var dbModel = new CMSDBEntities())
-            {
-                User user = dbModel.Users.FirstOrDefault(u => u.userId == GlobalVariable.CurrentUser.userId);
-                user.userName = userName;
-                user.userEmail = userEmail;
-                user.userContact = userContact;
-                if (user.userPasswrd == oldPasswrd)
-                    user.userPasswrd = newPasswrd;
 
-                dbModel.SaveChanges();
-            }
+            var user = _unitOfWork.UserRepository
+                .Filter(u => u.userId == GlobalVariable.CurrentUser.userId)
+                .FirstOrDefault();
+            user.userName = userName;
+            user.userEmail = userEmail;
+            user.userContact = userContact;
+            if (user.userPasswrd == oldPasswrd)
+                user.userPasswrd = newPasswrd;
+
+            _unitOfWork.UserRepository.Update(user);
+            await _unitOfWork.Save();
         }
 
-        public IEnumerable<User> GetReviewers()
+        public IEnumerable<User> GetReviewers(int? conferenceId = null)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.ConferenceMembers
-                    .Where(x => x.confId == GlobalVariable.UserConference
-                            && x.User.roleId == (int)RoleTypes.Reviewer)
-                    .Select(x => x.User)
-                    .ToList();
-            }
-        }
-
-        public IEnumerable<User> GetReviewersByConference(int conferenceId)
-        {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.ConferenceMembers
-                    .Where(x => x.User.roleId == (int)RoleTypes.Reviewer && x.confId == conferenceId)
-                    .Select(x => x.User)
-                    .ToList();
-            }
+            return _unitOfWork.ConferenceMemberRepository
+                .Filter(x => x.confId == (conferenceId ?? GlobalVariable.UserConference)
+                        && x.User.roleId == (int)RoleTypes.Reviewer)
+                .Select(x => x.User)
+                .ToList();
         }
 
         public IEnumerable<User> GetAssignedReviewersByPaper(int paperId)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.PaperReviews
-                    .Where(x => x.paperId == paperId)
-                    .Select(x => x.User)
-                    .ToList();
-            }
+            return _unitOfWork.PaperReviewRepository
+                .Filter(x => x.paperId == paperId)
+                .Select(x => x.User)
+                .ToList();
         }
 
-        public IEnumerable<UserRoleModel> GetUserRole()
+        public IEnumerable<UserRoleModel> GetUserWithRole()
         {
-            using (var dbModel = new CMSDBEntities())
+            return _unitOfWork.UserRepository
+                .GetUserWithRole()
+                .Select(x => new UserRoleModel
+                {
+                    Id = x.userId,
+                    Name = x.userName,
+                    Role = x.Role.roleType,
+                    Email = x.userEmail,
+                    Contact = x.userContact
+                }).ToList();
+        }
+
+        public async Task AddUser(User user)
+        {
+            if (user == null)
             {
-                return dbModel.Users
-                    .Include(x => x.Role)
-                    .Select(x => new UserRoleModel
-                    {
-                        Id = x.userId,
-                        Name = x.userName,
-                        Role = x.Role.roleType,
-                        Email = x.userEmail,
-                        Contact = x.userContact
-                    }).ToList();
+                throw new Exception();
             }
+
+            _unitOfWork.UserRepository.Add(user);
+            await _unitOfWork.Save();
         }
     }
 }

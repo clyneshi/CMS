@@ -1,5 +1,5 @@
-﻿using CMS.Library.Global;
-using CMS.Library.Model;
+﻿using CMS.DAL.Models;
+using CMS.Library.Global;
 using CMS.Library.Service;
 using System;
 using System.Threading.Tasks;
@@ -32,7 +32,7 @@ namespace CMS
 
         public void Init()
         {
-            FindMaxUID();
+            userid = _userService.GetMaxUserId() + 1;
             ReqDisplay();
         }
 
@@ -50,11 +50,6 @@ namespace CMS
                 dataGridView1.DataSource = req2;
                 dataGridView1.Columns["roleId"].Visible = false;
             }
-        }
-
-        private void FindMaxUID()
-        {
-            userid = _userService.GetMaxUserId() + 1;
         }
 
         private void AddUser()
@@ -92,9 +87,9 @@ namespace CMS
         private async Task<bool> SendEmail(UserRequestStatus status)
         {
             string email = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["email"].Value;
-            
+
             await GlobalHelper.SendEmail(email, $"Your registration has been {status.ToString()}");
-               
+
             return true;
         }
 
@@ -105,7 +100,7 @@ namespace CMS
                 AddUser();
                 if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Chair)
                     AddConfMember();
-                
+
                 var status = UserRequestStatus.Approved;
                 ChangeReqStatus(status);
 

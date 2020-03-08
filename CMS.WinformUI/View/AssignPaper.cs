@@ -1,5 +1,5 @@
-﻿using CMS.Library.Global;
-using CMS.Library.Model;
+﻿using CMS.DAL.Models;
+using CMS.Library.Global;
 using CMS.Library.Service;
 using System;
 using System.ComponentModel;
@@ -119,7 +119,7 @@ namespace CMS
                     dataGridView5.DataSource = null;
                 }
 
-                if (_userService.GetReviewersByConference(conf).Any())
+                if (_userService.GetReviewers(conf).Any())
                 {
                     reviewerDisplay((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
                     reviewerExpeDisplay((int)dataGridView3.Rows[0].Cells["userId"].Value);

@@ -11,5 +11,6 @@ namespace CMS.DAL.Repository.Interfaces
         IEnumerable<User> Filter(Expression<Func<User, bool>> predicate);
         void Add(User user);
         void Update(User user);
+        IEnumerable<User> GetUserWithRole(Expression<Func<User, bool>> predicate);
     }
 }

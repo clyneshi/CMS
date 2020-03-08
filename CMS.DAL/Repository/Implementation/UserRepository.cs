@@ -36,5 +36,17 @@ namespace CMS.DAL.Repository.Implementation
         {
             _context.Entry(user).State = EntityState.Modified;
         }
+
+        public IEnumerable<User> GetUserWithRole(Expression<Func<User, bool>> predicate = null)
+        {
+            var query = _context.Users.Include(x => x.Role);
+
+            if (predicate != null)
+            {
+                query.Where(predicate);
+            }
+
+            return query.ToList();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CMS.Library.Service;
+﻿using CMS.DAL.Core;
+using CMS.Library.Service;
 using Unity;
 
 namespace CMS.Library.App_Start
@@ -10,6 +11,7 @@ namespace CMS.Library.App_Start
         public static void TypeRegister()
         {
             var container = new UnityContainer();
+            container.RegisterType<IUnitOfWork, UnitOfWork>();
             container.RegisterType<IConferenceService, ConferenceService>();
             container.RegisterType<IKeywordService, KeywordService>();
             container.RegisterType<IPaperService, PaperService>();
