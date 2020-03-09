@@ -1,12 +1,10 @@
 ﻿using CMS.DAL.Models;
+using CMS.DAL.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using CMS.DAL.Repository.Interfaces;
 
 namespace CMS.DAL.Repository.Implementation
 {

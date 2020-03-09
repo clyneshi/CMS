@@ -152,7 +152,7 @@ namespace CMS
             var topics = new List<PaperTopic>();
             foreach (keyword k in keywords)
             {
-                topics.Add( new PaperTopic
+                topics.Add(new PaperTopic
                 {
                     paperId = paperid,
                     keywrdId = k.keywrdId
@@ -160,7 +160,7 @@ namespace CMS
             }
 
             await _paperService.AddPaper(paper, topics);
-            
+
             MessageBox.Show("Save successful!");
             GlobalHelper.ClearControls(this.Controls);
             Init();

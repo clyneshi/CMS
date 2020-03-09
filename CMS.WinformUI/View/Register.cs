@@ -81,8 +81,8 @@ namespace CMS
                 return "User Email cannot be empty";
             if (comboBox_role.SelectedValue == null)
                 return "User Role cannot be empty";
-            if (((int)comboBox_role.SelectedValue == 3 
-                || (int)comboBox_role.SelectedValue == 4) 
+            if (((int)comboBox_role.SelectedValue == 3
+                || (int)comboBox_role.SelectedValue == 4)
                 && comboBox_conf.SelectedValue == null)
                 return "Conference cannot be empty";
 

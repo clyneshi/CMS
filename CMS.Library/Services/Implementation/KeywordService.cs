@@ -1,7 +1,6 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
 using CMS.Library.Global;
-using CMS.Library.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,7 +41,7 @@ namespace CMS.Library.Service
                 }
 
                 var expertises = GetExpertiseByUser(userId);
-                
+
                 // remove keywords
                 if (keywordsToRemove.Count != 0)
                 {
@@ -51,7 +50,7 @@ namespace CMS.Library.Service
                         var expertise = expertises.SingleOrDefault(x => x.keywrdId == rk.keywrdId);
                         if (expertise != null)
                             _unitOfWork.ExpertiseRepository.Delete(expertise);
-                    }        
+                    }
                 }
 
                 // add new keywords
@@ -60,10 +59,10 @@ namespace CMS.Library.Service
                     if (expertises.Any(x => x.keywrdId == ak.keywrdId))
                         continue;
 
-                    dbModel.Expertises.Add(new Expertise 
-                    { 
-                        keywrdId = ak.keywrdId, 
-                        userId = GlobalVariable.CurrentUser.userId 
+                    dbModel.Expertises.Add(new Expertise
+                    {
+                        keywrdId = ak.keywrdId,
+                        userId = GlobalVariable.CurrentUser.userId
                     });
                 }
 

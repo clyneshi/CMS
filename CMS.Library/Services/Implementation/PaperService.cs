@@ -32,7 +32,7 @@ namespace CMS.Library.Service
 
             foreach (var topic in paperTopics)
                 _unitOfWork.PaperTopicRepository.Add(topic);
-            
+
             _unitOfWork.PaperRepository.Add(paper);
 
             await _unitOfWork.Save();
@@ -76,7 +76,7 @@ namespace CMS.Library.Service
             }
 
             _unitOfWork.PaperReviewRepository.Add(paperReview);
-            
+
             await _unitOfWork.Save();
         }
 
@@ -182,7 +182,7 @@ namespace CMS.Library.Service
             {
                 throw new Exception();
             }
-            
+
             feedback.paperId = feedback.paperId;
             _unitOfWork.FeedbackRepository.Add(feedback);
 

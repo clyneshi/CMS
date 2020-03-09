@@ -4,7 +4,6 @@ using CMS.Library.Service;
 using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CMS
@@ -97,7 +96,7 @@ namespace CMS
                 MessageBox.Show(error);
                 return;
             }
-            
+
             var conference = new Conference
             {
                 chairId = GlobalVariable.CurrentUser.userId,
@@ -109,7 +108,7 @@ namespace CMS
             };
 
             await _conferenceService.AddConference(conference, keywords.ToList());
-            
+
             MessageBox.Show("Conference added successfully");
             GlobalHelper.ClearControls(this.Controls);
             Init();
