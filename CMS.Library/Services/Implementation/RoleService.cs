@@ -1,4 +1,5 @@
-﻿using CMS.DAL.Models;
+﻿using CMS.DAL.Core;
+using CMS.DAL.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,20 +7,21 @@ namespace CMS.Library.Service
 {
     public class RoleService : IRoleService
     {
-        public IEnumerable<Role> GetRoles()
+        private readonly IUnitOfWork _unitOfWork;
+
+        public RoleService(IUnitOfWork unitOfWork)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Roles.ToList();
-            }
+            _unitOfWork = unitOfWork;
         }
 
-        public Role GetRole(int? roleId)
+        public IEnumerable<Role> GetRoles()
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Roles.FirstOrDefault(r => r.roleId == roleId);
-            }
+            return _unitOfWork.RoleRepository.GetAll();
+        }
+
+        public Role GetRoleById(int roleId)
+        {
+            return _unitOfWork.RoleRepository.Filter(r => r.roleId == roleId).SingleOrDefault();
         }
     }
 }

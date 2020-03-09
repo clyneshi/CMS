@@ -33,20 +33,20 @@ namespace CMS
         public void Init()
         {
             userid = _userService.GetMaxUserId() + 1;
-            ReqDisplay();
+            DisplayRequests();
         }
 
-        private void ReqDisplay()
+        private void DisplayRequests()
         {
             if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Admin)
             {
-                var req1 = _userRequestService.GetUserRequest_Admin();
+                var req1 = _userRequestService.GetUserRequestForAdmin(GlobalVariable.CurrentUser.userId);
                 dataGridView1.DataSource = req1;
                 dataGridView1.Columns["roleId"].Visible = false;
             }
             else
             {
-                var req2 = _userRequestService.GetUserRequest();
+                var req2 = _userRequestService.GetUserRequestForChair(GlobalVariable.CurrentUser.userId);
                 dataGridView1.DataSource = req2;
                 dataGridView1.Columns["roleId"].Visible = false;
             }
@@ -67,7 +67,7 @@ namespace CMS
             _userService.AddUser(user);
         }
 
-        private async Task AddConfMember()
+        private async Task AddConferenceMember()
         {
             ConferenceMember cm = new ConferenceMember
             {
@@ -78,10 +78,10 @@ namespace CMS
             await _conferenceService.AddConferenceMember(cm);
         }
 
-        private void ChangeReqStatus(UserRequestStatus status)
+        private async Task ChangeRequestStatus(UserRequestStatus status)
         {
             int id = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["Id"].Value;
-            _userRequestService.ChangeRequestStatus(id, status);
+            await _userRequestService.ChangeRequestStatus(id, status);
         }
 
         private async Task<bool> SendEmail(UserRequestStatus status)
@@ -99,15 +99,18 @@ namespace CMS
             {
                 AddUser();
                 if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Chair)
-                    await AddConfMember();
+                    await AddConferenceMember();
 
                 var status = UserRequestStatus.Approved;
-                ChangeReqStatus(status);
+                await ChangeRequestStatus(status);
 
-                if (await SendEmail(status))
-                {
-                    MessageBox.Show("User registration accepted");
-                }
+                // TODO: Turn on sending email
+                //if (await SendEmail(status))
+                //{
+                //    MessageBox.Show("User registration accepted");
+                //}
+
+                MessageBox.Show("User registration accepted");
 
                 Init();
             }
@@ -116,8 +119,9 @@ namespace CMS
         private async void btn_decline_Click(object sender, EventArgs e)
         {
             var status = UserRequestStatus.Declined;
-            ChangeReqStatus(status);
-            await SendEmail(status);
+            await ChangeRequestStatus(status);
+            // TODO: turn on sending email
+            //await SendEmail(status);
             MessageBox.Show("User registration rejected");
             Init();
         }

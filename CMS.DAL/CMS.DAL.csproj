@@ -127,6 +127,10 @@
     <Compile Include="Repository\Implementation\ConferenceTopicRepository.cs" />
     <Compile Include="Repository\Implementation\ExpertiseRepository.cs" />
     <Compile Include="Repository\Implementation\FeedbackRepository.cs" />
+    <Compile Include="Repository\Interfaces\IRegisterRequestRepository.cs" />
+    <Compile Include="Repository\Implementation\RegisterRequestRepository.cs" />
+    <Compile Include="Repository\Interfaces\IRoleRepository.cs" />
+    <Compile Include="Repository\Implementation\RoleRepository.cs" />
     <Compile Include="Repository\Interfaces\IPaperTopicRepository.cs" />
     <Compile Include="Repository\Implementation\PaperTopicRepository.cs" />
     <Compile Include="Repository\Interfaces\IFeedbackRepository.cs" />
@@ -145,11 +149,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Database\CMSDB.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Database\CMSDB_log.ldf">
       <DependentUpon>CMSDB.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Models\CMSModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

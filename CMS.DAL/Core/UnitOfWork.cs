@@ -19,6 +19,8 @@ namespace CMS.DAL.Core
         private readonly PaperRepository _paperRepository;
         private readonly FeedbackRepository _feedbackRepository;
         private readonly PaperTopicRepository _paperTopicRepository;
+        private readonly RoleRepository _roleRepository;
+        private readonly RegisterRequestRepository _registerRequestRepository;
 
         public UnitOfWork()
         {
@@ -33,6 +35,8 @@ namespace CMS.DAL.Core
             _paperRepository = new PaperRepository(_context);
             _feedbackRepository = new FeedbackRepository(_context);
             _paperTopicRepository = new PaperTopicRepository(_context);
+            _roleRepository = new RoleRepository(_context);
+            _registerRequestRepository = new RegisterRequestRepository(_context);
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -45,6 +49,8 @@ namespace CMS.DAL.Core
         public IPaperRepository PaperRepository => _paperRepository;
         public IFeedbackRepository FeedbackRepository => _feedbackRepository;
         public IPaperTopicRepository PaperTopicRepository => _paperTopicRepository;
+        public IRoleRepository RoleRepository => _roleRepository;
+        public IRegisterRequestRepository RegisterRequestRepository => _registerRequestRepository;
 
         public async Task<int> Save()
         {

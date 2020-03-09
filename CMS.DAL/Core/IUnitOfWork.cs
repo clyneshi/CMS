@@ -18,6 +18,8 @@ namespace CMS.DAL.Core
         IPaperRepository PaperRepository { get; }
         IFeedbackRepository FeedbackRepository { get; }
         IPaperTopicRepository PaperTopicRepository { get; }
+        IRoleRepository RoleRepository { get; }
+        IRegisterRequestRepository RegisterRequestRepository { get; }
 
         /// <summary>
         /// Invokes SaveChangesAsync on shared context

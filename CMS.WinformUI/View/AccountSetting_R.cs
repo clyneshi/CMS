@@ -68,7 +68,7 @@ namespace CMS
             textBox_name.Text = GlobalVariable.CurrentUser.userName;
             textBox_email.Text = GlobalVariable.CurrentUser.userEmail;
             textBox_cont.Text = GlobalVariable.CurrentUser.userContact;
-            comboBox_role.Text = _roleService.GetRole(GlobalVariable.CurrentUser.roleId).roleType;
+            comboBox_role.Text = _roleService.GetRoleById((int)GlobalVariable.CurrentUser.roleId).roleType;
 
             if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Reviewer
                 || GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Author)

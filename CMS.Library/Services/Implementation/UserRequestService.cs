@@ -1,78 +1,85 @@
-﻿using CMS.DAL.Models;
+﻿using CMS.DAL.Core;
+using CMS.DAL.Models;
 using CMS.Library.Global;
 using CMS.Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CMS.Library.Service
 {
     public class UserRequestService : IUserRequestService
     {
-        public IEnumerable<UserRequestModel> GetUserRequest()
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UserRequestService(IUnitOfWork unitOfWork)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.RegisterRequests
-                    .Where(x => x.Conference.chairId == GlobalVariable.CurrentUser.userId
-                        && x.roleId != (int)RoleTypes.Chair
-                        && x.status == UserRequestStatus.Waiting.ToString())
-                    .Select(x => new UserRequestModel
-                    {
-                        Id = x.Id,
-                        ConfId = x.Conference.confId,
-                        ConfTitle = x.Conference.confTitle,
-                        RoleId = x.roleId,
-                        RoleType = x.Role.roleType,
-                        Name = x.name,
-                        Contact = x.contact,
-                        Password = x.password,
-                        Email = x.email
-                    })
-                    .ToList();
-            }
+            _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<UserRequestModel> GetUserRequest_Admin()
+        public IEnumerable<UserRequestModel> GetUserRequestForChair(int chairId)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.RegisterRequests
-                    .Where(x => x.Conference.chairId == GlobalVariable.CurrentUser.userId
-                        && x.roleId == (int)RoleTypes.Chair
-                        && x.status == UserRequestStatus.Waiting.ToString())
-                    .Select(x => new UserRequestModel
-                    {
-                        Id = x.Id,
-                        RoleId = x.roleId,
-                        RoleType = x.Role.roleType,
-                        Name = x.name,
-                        Contact = x.contact,
-                        Password = x.password,
-                        Email = x.email
-                    })
-                    .ToList(); ;
-            }
+            return _unitOfWork.RegisterRequestRepository
+                .Filter(x => x.Conference.chairId == chairId
+                    && x.roleId != (int)RoleTypes.Chair
+                    && x.status == UserRequestStatus.Waiting.ToString())
+                .Select(x => new UserRequestModel
+                {
+                    Id = x.Id,
+                    ConfId = x.Conference.confId,
+                    ConfTitle = x.Conference.confTitle,
+                    RoleId = x.roleId,
+                    RoleType = x.Role.roleType,
+                    Name = x.name,
+                    Contact = x.contact,
+                    Password = x.password,
+                    Email = x.email
+                })
+                .ToList();
         }
 
-        public void ChangeRequestStatus(int id, UserRequestStatus status)
+        public IEnumerable<UserRequestModel> GetUserRequestForAdmin(int adminId)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                RegisterRequest rr = dbModel.RegisterRequests.FirstOrDefault(r => r.Id == id);
-
-                rr.status = status.ToString();
-
-                dbModel.SaveChanges();
-            }
+            return _unitOfWork.RegisterRequestRepository
+                .Filter(x => x.roleId == (int)RoleTypes.Chair
+                    && x.status == UserRequestStatus.Waiting.ToString())
+                .Select(x => new UserRequestModel
+                {
+                    Id = x.Id,
+                    RoleId = x.roleId,
+                    RoleType = x.Role.roleType,
+                    Name = x.name,
+                    Contact = x.contact,
+                    Password = x.password,
+                    Email = x.email
+                })
+                .ToList();
         }
 
-        public void AddRegisterRequest(RegisterRequest request)
+        public async Task ChangeRequestStatus(int requestId, UserRequestStatus status)
         {
-            using (var dbModel = new CMSDBEntities())
+            var request = _unitOfWork.RegisterRequestRepository
+                .Filter(r => r.Id == requestId)
+                .SingleOrDefault();
+
+            request.status = status.ToString();
+
+            _unitOfWork.RegisterRequestRepository.Update(request);
+
+            await _unitOfWork.Save();
+        }
+
+        public async Task AddRegisterRequest(RegisterRequest request)
+        {
+            if (request == null)
             {
-                dbModel.RegisterRequests.Add(request);
-                dbModel.SaveChanges();
+                throw new Exception();
             }
+
+            _unitOfWork.RegisterRequestRepository.Add(request);
+
+            await _unitOfWork.Save();
         }
     }
 }

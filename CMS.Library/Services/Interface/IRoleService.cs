@@ -5,7 +5,7 @@ namespace CMS.Library.Service
 {
     public interface IRoleService
     {
-        Role GetRole(int? roleId);
+        Role GetRoleById(int roleId);
         IEnumerable<Role> GetRoles();
     }
 }

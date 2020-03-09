@@ -63,7 +63,7 @@ namespace CMS
             request.password = textBox_password.Text;
             request.email = textBox_email.Text;
             request.contact = textBox_cont.Text;
-            request.status = "Waiting for approval";
+            request.status = UserRequestStatus.Waiting.ToString();
             request.roleId = (int)comboBox_role.SelectedValue;
             _userRequestService.AddRegisterRequest(request);
 
@@ -73,19 +73,20 @@ namespace CMS
         // TODO: extract validation method
         private string UserRegValidation()
         {
-            string error = "";
             if (textBox_name.Text.Trim().Equals(""))
-                return error = "User Name cannot be empty";
+                return "User Name cannot be empty";
             if (textBox_password.Text.Trim().Equals(""))
-                return error = "User Password cannot be empty";
+                return "User Password cannot be empty";
             if (textBox_email.Text.Trim().Equals(""))
-                return error = "User Email cannot be empty";
+                return "User Email cannot be empty";
             if (comboBox_role.SelectedValue == null)
-                return error = "User Role cannot be empty";
-            if (((int)comboBox_role.SelectedValue == 3 || (int)comboBox_role.SelectedValue == 4) && comboBox_conf.SelectedValue == null)
-                return error = "Conference cannot be empty";
+                return "User Role cannot be empty";
+            if (((int)comboBox_role.SelectedValue == 3 
+                || (int)comboBox_role.SelectedValue == 4) 
+                && comboBox_conf.SelectedValue == null)
+                return "Conference cannot be empty";
 
-            return error;
+            return "";
         }
 
         private void btn_submit_Click(object sender, EventArgs e)
