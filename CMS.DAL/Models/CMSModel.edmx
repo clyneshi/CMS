@@ -51,7 +51,7 @@
           <Property Name="fnlDecision" Type="char" MaxLength="10" />
           <Property Name="feedback" Type="varchar(max)" />
         </EntityType>
-        <EntityType Name="keyword">
+        <EntityType Name="Keyword">
           <Key>
             <PropertyRef Name="keywrdId" />
           </Key>
@@ -172,10 +172,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ConferenceTopic_Keyword">
-          <End Role="keyword" Type="Self.keyword" Multiplicity="1" />
+          <End Role="Keyword" Type="Self.Keyword" Multiplicity="1" />
           <End Role="ConferenceTopic" Type="Self.ConferenceTopic" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="keyword">
+            <Principal Role="Keyword">
               <PropertyRef Name="keywrdId" />
             </Principal>
             <Dependent Role="ConferenceTopic">
@@ -184,10 +184,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Expertise_Keyword">
-          <End Role="keyword" Type="Self.keyword" Multiplicity="1" />
+          <End Role="Keyword" Type="Self.Keyword" Multiplicity="1" />
           <End Role="Expertise" Type="Self.Expertise" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="keyword">
+            <Principal Role="Keyword">
               <PropertyRef Name="keywrdId" />
             </Principal>
             <Dependent Role="Expertise">
@@ -280,10 +280,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PaperTopic_Keyword">
-          <End Role="keyword" Type="Self.keyword" Multiplicity="1" />
+          <End Role="Keyword" Type="Self.Keyword" Multiplicity="1" />
           <End Role="PaperTopic" Type="Self.PaperTopic" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="keyword">
+            <Principal Role="Keyword">
               <PropertyRef Name="keywrdId" />
             </Principal>
             <Dependent Role="PaperTopic">
@@ -345,7 +345,7 @@
           <EntitySet Name="ConferenceTopic" EntityType="Self.ConferenceTopic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Expertise" EntityType="Self.Expertise" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="keyword" EntityType="Self.keyword" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Keyword" EntityType="Self.Keyword" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Paper" EntityType="Self.Paper" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperReview" EntityType="Self.PaperReview" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperTopic" EntityType="Self.PaperTopic" Schema="dbo" store:Type="Tables" />
@@ -369,11 +369,11 @@
             <End Role="ConferenceTopic" EntitySet="ConferenceTopic" />
           </AssociationSet>
           <AssociationSet Name="FK_ConferenceTopic_Keyword" Association="Self.FK_ConferenceTopic_Keyword">
-            <End Role="keyword" EntitySet="keyword" />
+            <End Role="Keyword" EntitySet="Keyword" />
             <End Role="ConferenceTopic" EntitySet="ConferenceTopic" />
           </AssociationSet>
           <AssociationSet Name="FK_Expertise_Keyword" Association="Self.FK_Expertise_Keyword">
-            <End Role="keyword" EntitySet="keyword" />
+            <End Role="Keyword" EntitySet="Keyword" />
             <End Role="Expertise" EntitySet="Expertise" />
           </AssociationSet>
           <AssociationSet Name="FK_Expertise_User" Association="Self.FK_Expertise_User">
@@ -405,7 +405,7 @@
             <End Role="PaperReview" EntitySet="PaperReview" />
           </AssociationSet>
           <AssociationSet Name="FK_PaperTopic_Keyword" Association="Self.FK_PaperTopic_Keyword">
-            <End Role="keyword" EntitySet="keyword" />
+            <End Role="Keyword" EntitySet="Keyword" />
             <End Role="PaperTopic" EntitySet="PaperTopic" />
           </AssociationSet>
           <AssociationSet Name="FK_PaperTopic_Paper" Association="Self.FK_PaperTopic_Paper">
@@ -465,7 +465,7 @@
           <Property Name="confId" Type="Int32" Nullable="false" />
           <Property Name="keywrdId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Conference" Relationship="Self.FK_ConferenceTopic_Conference" FromRole="ConferenceTopic" ToRole="Conference" />
-          <NavigationProperty Name="keyword" Relationship="Self.FK_ConferenceTopic_Keyword" FromRole="ConferenceTopic" ToRole="keyword" />
+          <NavigationProperty Name="Keyword" Relationship="Self.FK_ConferenceTopic_Keyword" FromRole="ConferenceTopic" ToRole="Keyword" />
         </EntityType>
         <EntityType Name="Expertise">
           <Key>
@@ -474,7 +474,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="userId" Type="Int32" Nullable="false" />
           <Property Name="keywrdId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="keyword" Relationship="Self.FK_Expertise_Keyword" FromRole="Expertise" ToRole="keyword" />
+          <NavigationProperty Name="Keyword" Relationship="Self.FK_Expertise_Keyword" FromRole="Expertise" ToRole="Keyword" />
           <NavigationProperty Name="User" Relationship="Self.FK_Expertise_User" FromRole="Expertise" ToRole="User" />
         </EntityType>
         <EntityType Name="Feedback">
@@ -489,16 +489,16 @@
           <NavigationProperty Name="Paper" Relationship="Self.FK_Feedback_Paper" FromRole="Feedback" ToRole="Paper" />
           <NavigationProperty Name="User" Relationship="Self.FK_Feedback_User" FromRole="Feedback" ToRole="User" />
         </EntityType>
-        <EntityType Name="keyword">
+        <EntityType Name="Keyword">
           <Key>
             <PropertyRef Name="keywrdId" />
           </Key>
           <Property Name="keywrdId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="keywrdGenre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="keywrdName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ConferenceTopics" Relationship="Self.FK_ConferenceTopic_Keyword" FromRole="keyword" ToRole="ConferenceTopic" />
-          <NavigationProperty Name="Expertises" Relationship="Self.FK_Expertise_Keyword" FromRole="keyword" ToRole="Expertise" />
-          <NavigationProperty Name="PaperTopics" Relationship="Self.FK_PaperTopic_Keyword" FromRole="keyword" ToRole="PaperTopic" />
+          <NavigationProperty Name="ConferenceTopics" Relationship="Self.FK_ConferenceTopic_Keyword" FromRole="Keyword" ToRole="ConferenceTopic" />
+          <NavigationProperty Name="Expertises" Relationship="Self.FK_Expertise_Keyword" FromRole="Keyword" ToRole="Expertise" />
+          <NavigationProperty Name="PaperTopics" Relationship="Self.FK_PaperTopic_Keyword" FromRole="Keyword" ToRole="PaperTopic" />
         </EntityType>
         <EntityType Name="Paper">
           <Key>
@@ -539,7 +539,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="paperId" Type="Int32" Nullable="false" />
           <Property Name="keywrdId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="keyword" Relationship="Self.FK_PaperTopic_Keyword" FromRole="PaperTopic" ToRole="keyword" />
+          <NavigationProperty Name="Keyword" Relationship="Self.FK_PaperTopic_Keyword" FromRole="PaperTopic" ToRole="Keyword" />
           <NavigationProperty Name="Paper" Relationship="Self.FK_PaperTopic_Paper" FromRole="PaperTopic" ToRole="Paper" />
         </EntityType>
         <EntityType Name="RegisterRequest">
@@ -657,10 +657,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ConferenceTopic_Keyword">
-          <End Role="keyword" Type="Self.keyword" Multiplicity="1" />
+          <End Role="Keyword" Type="Self.Keyword" Multiplicity="1" />
           <End Role="ConferenceTopic" Type="Self.ConferenceTopic" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="keyword">
+            <Principal Role="Keyword">
               <PropertyRef Name="keywrdId" />
             </Principal>
             <Dependent Role="ConferenceTopic">
@@ -669,10 +669,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Expertise_Keyword">
-          <End Role="keyword" Type="Self.keyword" Multiplicity="1" />
+          <End Role="Keyword" Type="Self.Keyword" Multiplicity="1" />
           <End Role="Expertise" Type="Self.Expertise" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="keyword">
+            <Principal Role="Keyword">
               <PropertyRef Name="keywrdId" />
             </Principal>
             <Dependent Role="Expertise">
@@ -717,10 +717,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PaperTopic_Keyword">
-          <End Role="keyword" Type="Self.keyword" Multiplicity="1" />
+          <End Role="Keyword" Type="Self.Keyword" Multiplicity="1" />
           <End Role="PaperTopic" Type="Self.PaperTopic" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="keyword">
+            <Principal Role="Keyword">
               <PropertyRef Name="keywrdId" />
             </Principal>
             <Dependent Role="PaperTopic">
@@ -806,7 +806,7 @@
           <EntitySet Name="ConferenceTopics" EntityType="Self.ConferenceTopic" />
           <EntitySet Name="Expertises" EntityType="Self.Expertise" />
           <EntitySet Name="Feedbacks" EntityType="Self.Feedback" />
-          <EntitySet Name="keywords" EntityType="Self.keyword" />
+          <EntitySet Name="Keywords" EntityType="Self.Keyword" />
           <EntitySet Name="Papers" EntityType="Self.Paper" />
           <EntitySet Name="PaperReviews" EntityType="Self.PaperReview" />
           <EntitySet Name="PaperTopics" EntityType="Self.PaperTopic" />
@@ -838,11 +838,11 @@
             <End Role="ConferenceMember" EntitySet="ConferenceMembers" />
           </AssociationSet>
           <AssociationSet Name="FK_ConferenceTopic_Keyword" Association="Self.FK_ConferenceTopic_Keyword">
-            <End Role="keyword" EntitySet="keywords" />
+            <End Role="Keyword" EntitySet="Keywords" />
             <End Role="ConferenceTopic" EntitySet="ConferenceTopics" />
           </AssociationSet>
           <AssociationSet Name="FK_Expertise_Keyword" Association="Self.FK_Expertise_Keyword">
-            <End Role="keyword" EntitySet="keywords" />
+            <End Role="Keyword" EntitySet="Keywords" />
             <End Role="Expertise" EntitySet="Expertises" />
           </AssociationSet>
           <AssociationSet Name="FK_Expertise_User" Association="Self.FK_Expertise_User">
@@ -858,7 +858,7 @@
             <End Role="Feedback" EntitySet="Feedbacks" />
           </AssociationSet>
           <AssociationSet Name="FK_PaperTopic_Keyword" Association="Self.FK_PaperTopic_Keyword">
-            <End Role="keyword" EntitySet="keywords" />
+            <End Role="Keyword" EntitySet="Keywords" />
             <End Role="PaperTopic" EntitySet="PaperTopics" />
           </AssociationSet>
           <AssociationSet Name="FK_Paper_User" Association="Self.FK_Paper_User">
@@ -943,9 +943,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="keywords">
-            <EntityTypeMapping TypeName="CMSDBModel.keyword">
-              <MappingFragment StoreEntitySet="keyword">
+          <EntitySetMapping Name="Keywords">
+            <EntityTypeMapping TypeName="CMSDBModel.Keyword">
+              <MappingFragment StoreEntitySet="Keyword">
                 <ScalarProperty Name="keywrdId" ColumnName="keywrdId" />
                 <ScalarProperty Name="keywrdGenre" ColumnName="keywrdGenre" />
                 <ScalarProperty Name="keywrdName" ColumnName="keywrdName" />

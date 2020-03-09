@@ -73,7 +73,7 @@ namespace CMS.Library.Service
                 .ToList();
         }
 
-        public async Task AddConference(Conference conference, IEnumerable<keyword> keywords)
+        public async Task AddConference(Conference conference, IEnumerable<Keyword> keywords)
         {
             if (conference == null)
             {

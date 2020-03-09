@@ -7,9 +7,9 @@ namespace CMS.DAL.Repository.Interfaces
 {
     public interface IKeywordRepository
     {
-        void Add(keyword keyword);
-        IEnumerable<keyword> Filter(Expression<Func<keyword, bool>> predicate);
-        IEnumerable<keyword> GetAll();
-        void Update(keyword keyword);
+        void Add(Keyword keyword);
+        IEnumerable<Keyword> Filter(Expression<Func<Keyword, bool>> predicate);
+        IEnumerable<Keyword> GetAll();
+        void Update(Keyword keyword);
     }
 }

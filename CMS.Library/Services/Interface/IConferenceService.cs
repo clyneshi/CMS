@@ -7,7 +7,7 @@ namespace CMS.Library.Service
 {
     public interface IConferenceService
     {
-        Task AddConference(Conference conference, IEnumerable<keyword> keywords);
+        Task AddConference(Conference conference, IEnumerable<Keyword> keywords);
         Task AddConferenceMember(ConferenceMember conferenceMember);
         IEnumerable<Conference> GetConferencesByChair(int chairId);
         Conference GetConferenceById(int confId);

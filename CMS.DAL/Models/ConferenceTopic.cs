@@ -19,6 +19,6 @@ namespace CMS.DAL.Models
         public int keywrdId { get; set; }
     
         public virtual Conference Conference { get; set; }
-        public virtual keyword keyword { get; set; }
+        public virtual Keyword Keyword { get; set; }
     }
 }

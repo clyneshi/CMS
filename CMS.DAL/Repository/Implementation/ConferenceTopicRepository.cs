@@ -26,7 +26,7 @@ namespace CMS.DAL.Repository.Implementation
         {
             return _context.ConferenceTopics
                 .Include(x => x.Conference)
-                .Include(x => x.keyword)
+                .Include(x => x.Keyword)
                 .Where(predicate)
                 .ToList();
         }
@@ -35,7 +35,7 @@ namespace CMS.DAL.Repository.Implementation
         {
             return _context.ConferenceTopics
                 .Include(x => x.Conference)
-                .Include(x => x.keyword)
+                .Include(x => x.Keyword)
                 .ToList();
         }
     }

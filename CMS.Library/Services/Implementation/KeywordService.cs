@@ -17,7 +17,7 @@ namespace CMS.Library.Service
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<keyword> GetKeyWords()
+        public IEnumerable<Keyword> GetKeyWords()
         {
             return _unitOfWork.KeywordRepository.GetAll();
         }
@@ -27,7 +27,7 @@ namespace CMS.Library.Service
             return _unitOfWork.ExpertiseRepository.Filter(x => x.userId == userId);
         }
 
-        public async Task UpdateExpertise(int userId, List<keyword> keywordsToRemove, List<keyword> KeywordsToAdd)
+        public async Task UpdateExpertise(int userId, List<Keyword> keywordsToRemove, List<Keyword> KeywordsToAdd)
         {
             if (!keywordsToRemove.Any() && !KeywordsToAdd.Any())
             {

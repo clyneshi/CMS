@@ -11,7 +11,7 @@ namespace CMS
 {
     public partial class SubmitPaper : Form
     {
-        private readonly BindingList<keyword> keywords = new BindingList<keyword>();
+        private readonly BindingList<Keyword> keywords = new BindingList<Keyword>();
 
         // paperid is used to know the paperid before a paper entity is created,
         // in which way the two seperated but conneted table entity can be created
@@ -85,12 +85,12 @@ namespace CMS
             if (dataGridView1.CurrentRow.Index >= 0)
             {
                 bool find = false;
-                foreach (keyword k in keywords)
+                foreach (Keyword k in keywords)
                     if (k.keywrdId == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value)
                         find = true;
                 if (!find)
                 {
-                    keywords.Add(new keyword
+                    keywords.Add(new Keyword
                     {
                         keywrdId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value,
                         keywrdName = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdName"].Value
@@ -102,7 +102,7 @@ namespace CMS
 
         private void btn_keyRmv_Click(object sender, EventArgs e)
         {
-            keyword k = (keyword)listBox_keyword.SelectedItem;
+            Keyword k = (Keyword)listBox_keyword.SelectedItem;
             keywords.Remove(k);
         }
 
@@ -150,7 +150,7 @@ namespace CMS
             };
 
             var topics = new List<PaperTopic>();
-            foreach (keyword k in keywords)
+            foreach (Keyword k in keywords)
             {
                 topics.Add(new PaperTopic
                 {

@@ -18,7 +18,7 @@ namespace CMS.DAL.Models
         public int userId { get; set; }
         public int keywrdId { get; set; }
     
-        public virtual keyword keyword { get; set; }
+        public virtual Keyword Keyword { get; set; }
         public virtual User User { get; set; }
     }
 }

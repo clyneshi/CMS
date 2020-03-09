@@ -11,8 +11,8 @@ namespace CMS
 {
     public partial class AccountSetting_R : Form
     {
-        private readonly BindingList<keyword> keywords = new BindingList<keyword>();
-        private readonly List<keyword> removedKeywords = new List<keyword>();
+        private readonly BindingList<Keyword> keywords = new BindingList<Keyword>();
+        private readonly List<Keyword> removedKeywords = new List<Keyword>();
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IKeywordService _keywordService;
@@ -55,7 +55,7 @@ namespace CMS
 
             foreach (var expertise in expertises)
             {
-                this.keywords.Add(new keyword { keywrdId = expertise.keywrdId, keywrdName = expertise.keyword.keywrdName });
+                this.keywords.Add(new Keyword { keywrdId = expertise.keywrdId, keywrdName = expertise.Keyword.keywrdName });
             }
 
             listBox1.DataSource = this.keywords;
@@ -80,12 +80,12 @@ namespace CMS
             if (dataGridView1.CurrentRow.Index >= 0)
             {
                 bool find = false;
-                foreach (keyword k in keywords)
+                foreach (Keyword k in keywords)
                     if (k.keywrdId == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value)
                         find = true;
                 if (!find)
                 {
-                    keywords.Add(new keyword
+                    keywords.Add(new Keyword
                     {
                         keywrdId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value,
                         keywrdName = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdName"].Value
@@ -99,8 +99,8 @@ namespace CMS
         {
             if (listBox1.SelectedIndex >= 0)
             {
-                removedKeywords.Add(new keyword { keywrdId = (int)listBox1.SelectedValue });
-                keywords.Remove((keyword)listBox1.SelectedItem);
+                removedKeywords.Add(new Keyword { keywrdId = (int)listBox1.SelectedValue });
+                keywords.Remove((Keyword)listBox1.SelectedItem);
             }
         }
 

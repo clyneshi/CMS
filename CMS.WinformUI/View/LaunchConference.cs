@@ -10,7 +10,7 @@ namespace CMS
 {
     public partial class LaunchConference : Form
     {
-        private readonly BindingList<keyword> keywords = new BindingList<keyword>();
+        private readonly BindingList<Keyword> keywords = new BindingList<Keyword>();
         private readonly IKeywordService _keywordService;
         private readonly IConferenceService _conferenceService;
 
@@ -51,12 +51,12 @@ namespace CMS
             if (dataGridView1.CurrentRow.Index >= 0)
             {
                 bool find = false;
-                foreach (keyword k in keywords)
+                foreach (Keyword k in keywords)
                     if (k.keywrdId == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value)
                         find = true;
                 if (!find)
                 {
-                    keywords.Add(new keyword
+                    keywords.Add(new Keyword
                     {
                         keywrdId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value,
                         keywrdName = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdName"].Value
@@ -69,7 +69,7 @@ namespace CMS
         private void btn_remove_Click(object sender, EventArgs e)
         {
             if (listBox1.SelectedIndex >= 0)
-                keywords.Remove((keyword)listBox1.SelectedItem);
+                keywords.Remove((Keyword)listBox1.SelectedItem);
         }
 
         private string ConfValidation()

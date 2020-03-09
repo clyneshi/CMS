@@ -17,22 +17,22 @@ namespace CMS.DAL.Repository.Implementation
             _context = context;
         }
 
-        public void Add(keyword keyword)
+        public void Add(Keyword keyword)
         {
-            _context.keywords.Add(keyword);
+            _context.Keywords.Add(keyword);
         }
 
-        public IEnumerable<keyword> Filter(Expression<Func<keyword, bool>> predicate)
+        public IEnumerable<Keyword> Filter(Expression<Func<Keyword, bool>> predicate)
         {
-            return _context.keywords.Where(predicate).ToList();
+            return _context.Keywords.Where(predicate).ToList();
         }
 
-        public IEnumerable<keyword> GetAll()
+        public IEnumerable<Keyword> GetAll()
         {
-            return _context.keywords.ToList();
+            return _context.Keywords.ToList();
         }
 
-        public void Update(keyword keyword)
+        public void Update(Keyword keyword)
         {
             _context.Entry(keyword).State = EntityState.Modified;
         }

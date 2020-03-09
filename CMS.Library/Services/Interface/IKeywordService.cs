@@ -7,7 +7,7 @@ namespace CMS.Library.Service
     public interface IKeywordService
     {
         IEnumerable<Expertise> GetExpertiseByUser(int userId);
-        IEnumerable<keyword> GetKeyWords();
-        Task UpdateExpertise(int userId, List<keyword> keywordsToRemove, List<keyword> KeywordsToAdd);
+        IEnumerable<Keyword> GetKeyWords();
+        Task UpdateExpertise(int userId, List<Keyword> keywordsToRemove, List<Keyword> KeywordsToAdd);
     }
 }

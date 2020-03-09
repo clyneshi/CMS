@@ -108,7 +108,7 @@ namespace CMS
 
         public void DisplayReviewerExpertise(int rvw)
         {
-            var keywords = _keywordService.GetExpertiseByUser(rvw).Select(x => x.keyword).ToList();
+            var keywords = _keywordService.GetExpertiseByUser(rvw).Select(x => x.Keyword).ToList();
 
             dataGridView4.DataSource = keywords;
             dataGridView4.Columns["ConferenceTopics"].Visible = false;

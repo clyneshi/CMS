@@ -25,7 +25,7 @@ namespace CMS.DAL.Repository.Implementation
         public IEnumerable<Expertise> Filter(Expression<Func<Expertise, bool>> predicate)
         {
             return _context.Expertises
-                .Include(x => x.keyword)
+                .Include(x => x.Keyword)
                 .Include(x => x.User)
                 .Where(predicate)
                 .ToList();
@@ -34,7 +34,7 @@ namespace CMS.DAL.Repository.Implementation
         public IEnumerable<Expertise> GetAll()
         {
             return _context.Expertises
-                .Include(x => x.keyword)
+                .Include(x => x.Keyword)
                 .Include(x => x.User)
                 .ToList();
         }

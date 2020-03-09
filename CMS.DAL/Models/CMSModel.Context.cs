@@ -30,7 +30,7 @@ namespace CMS.DAL.Models
         public virtual DbSet<ConferenceTopic> ConferenceTopics { get; set; }
         public virtual DbSet<Expertise> Expertises { get; set; }
         public virtual DbSet<Feedback> Feedbacks { get; set; }
-        public virtual DbSet<keyword> keywords { get; set; }
+        public virtual DbSet<Keyword> Keywords { get; set; }
         public virtual DbSet<Paper> Papers { get; set; }
         public virtual DbSet<PaperReview> PaperReviews { get; set; }
         public virtual DbSet<PaperTopic> PaperTopics { get; set; }
