@@ -21,7 +21,7 @@ namespace CMS.DAL.Models
         public string contact { get; set; }
         public string email { get; set; }
         public string status { get; set; }
-        public Nullable<int> roleId { get; set; }
+        public int roleId { get; set; }
     
         public virtual Conference Conference { get; set; }
         public virtual Role Role { get; set; }

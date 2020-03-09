@@ -25,11 +25,11 @@ namespace CMS.DAL.Models
         public int paperId { get; set; }
         public string paperTitle { get; set; }
         public string paperAuthor { get; set; }
-        public Nullable<System.DateTime> paperSubDate { get; set; }
+        public System.DateTime paperSubDate { get; set; }
         public string paperLength { get; set; }
         public byte[] paperContent { get; set; }
         public int confId { get; set; }
-        public Nullable<int> auId { get; set; }
+        public int auId { get; set; }
         public string paperFormat { get; set; }
         public string paperStatus { get; set; }
         public string paperFileName { get; set; }

@@ -1,4 +1,5 @@
-﻿using CMS.Library.Service;
+﻿using CMS.Library.Enums;
+using CMS.Library.Service;
 using System.Windows.Forms;
 
 namespace CMS
@@ -22,13 +23,13 @@ namespace CMS
         {
             switch (type)
             {
-                case (int)ConferenceViewTypes.ConferenceMembers:
+                case (int)ConferenceViewTypesEnum.ConferenceMembers:
                     dataGridView1.DataSource = _conferenceService.GetConferenceWithChair();
                     break;
-                case (int)ConferenceViewTypes.UserInfo:
+                case (int)ConferenceViewTypesEnum.UserInfo:
                     dataGridView1.DataSource = _userService.GetUsersWithRole();
                     break;
-                case (int)ConferenceViewTypes.Papers:
+                case (int)ConferenceViewTypesEnum.Papers:
                     dataGridView1.DataSource = _paperService.GetPapersWithAuthor();
                     break;
                 default:

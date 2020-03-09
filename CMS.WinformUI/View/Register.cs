@@ -1,5 +1,6 @@
 ﻿using CMS.DAL.Models;
 using CMS.Library.App_Start;
+using CMS.Library.Enums;
 using CMS.Library.Service;
 using System;
 using System.Windows.Forms;
@@ -63,7 +64,7 @@ namespace CMS
             request.password = textBox_password.Text;
             request.email = textBox_email.Text;
             request.contact = textBox_cont.Text;
-            request.status = UserRequestStatus.Waiting.ToString();
+            request.status = UserRequestStatusEnum.Waiting.ToString();
             request.roleId = (int)comboBox_role.SelectedValue;
             _userRequestService.AddRegisterRequest(request);
 

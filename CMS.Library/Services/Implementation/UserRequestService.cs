@@ -1,5 +1,6 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
+using CMS.Library.Enums;
 using CMS.Library.Models;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,8 @@ namespace CMS.Library.Service
         {
             return _unitOfWork.RegisterRequestRepository
                 .Filter(x => x.Conference.chairId == chairId
-                    && x.roleId != (int)RoleTypes.Chair
-                    && x.status == UserRequestStatus.Waiting.ToString())
+                    && x.roleId != (int)RoleTypesEnum.Chair
+                    && x.status == UserRequestStatusEnum.Waiting.ToString())
                 .Select(x => new UserRequestModel
                 {
                     Id = x.Id,
@@ -41,8 +42,8 @@ namespace CMS.Library.Service
         public IEnumerable<UserRequestModel> GetUserRequestForAdmin(int adminId)
         {
             return _unitOfWork.RegisterRequestRepository
-                .Filter(x => x.roleId == (int)RoleTypes.Chair
-                    && x.status == UserRequestStatus.Waiting.ToString())
+                .Filter(x => x.roleId == (int)RoleTypesEnum.Chair
+                    && x.status == UserRequestStatusEnum.Waiting.ToString())
                 .Select(x => new UserRequestModel
                 {
                     Id = x.Id,
@@ -56,7 +57,7 @@ namespace CMS.Library.Service
                 .ToList();
         }
 
-        public async Task ChangeRequestStatus(int requestId, UserRequestStatus status)
+        public async Task ChangeRequestStatus(int requestId, UserRequestStatusEnum status)
         {
             var request = _unitOfWork.RegisterRequestRepository
                 .Filter(r => r.Id == requestId)

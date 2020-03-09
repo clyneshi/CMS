@@ -1,4 +1,5 @@
 ﻿using CMS.DAL.Models;
+using CMS.Library.Enums;
 using CMS.Library.Global;
 using CMS.Library.Service;
 using System;
@@ -144,7 +145,7 @@ namespace CMS
                 auId = GlobalVariable.CurrentUser.userId,
                 paperFormat = fileext,
                 paperFileName = filename,
-                paperStatus = "submitted",
+                paperStatus = PaperStatusEnum.Submitted.ToString(),
                 paperContent = content,
                 paperSubDate = DateTime.Today
             };

@@ -1,4 +1,5 @@
 ﻿using CMS.Library.App_Start;
+using CMS.Library.Enums;
 using CMS.Library.Global;
 using System;
 using System.Windows.Forms;
@@ -228,7 +229,7 @@ namespace CMS
 
         private void strip_user_settings_Click(object sender, EventArgs e)
         {
-            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Reviewer)
+            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Reviewer)
             {
                 var acs = UnityConfig.UIContainer.Resolve<AccountSetting_R>();
                 acs.Show();
@@ -243,8 +244,8 @@ namespace CMS
         private void strip_conf_confInfo_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Admin
-                || GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Chair)
+            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Admin
+                || GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Chair)
             {
                 if (cfia == null)
                 {

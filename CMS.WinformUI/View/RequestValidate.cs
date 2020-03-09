@@ -1,4 +1,5 @@
 ﻿using CMS.DAL.Models;
+using CMS.Library.Enums;
 using CMS.Library.Global;
 using CMS.Library.Service;
 using System;
@@ -38,7 +39,7 @@ namespace CMS
 
         private void DisplayRequests()
         {
-            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Admin)
+            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Admin)
             {
                 var req1 = _userRequestService.GetUserRequestForAdmin(GlobalVariable.CurrentUser.userId);
                 dataGridView1.DataSource = req1;
@@ -78,13 +79,13 @@ namespace CMS
             await _conferenceService.AddConferenceMember(cm);
         }
 
-        private async Task ChangeRequestStatus(UserRequestStatus status)
+        private async Task ChangeRequestStatus(UserRequestStatusEnum status)
         {
             int id = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["Id"].Value;
             await _userRequestService.ChangeRequestStatus(id, status);
         }
 
-        private async Task<bool> SendEmail(UserRequestStatus status)
+        private async Task<bool> SendEmail(UserRequestStatusEnum status)
         {
             string email = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["email"].Value;
 
@@ -98,10 +99,10 @@ namespace CMS
             if (dataGridView1.CurrentRow.Index >= 0)
             {
                 AddUser();
-                if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Chair)
+                if (GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Chair)
                     await AddConferenceMember();
 
-                var status = UserRequestStatus.Approved;
+                var status = UserRequestStatusEnum.Approved;
                 await ChangeRequestStatus(status);
 
                 // TODO: Turn on sending email
@@ -118,7 +119,7 @@ namespace CMS
 
         private async void btn_decline_Click(object sender, EventArgs e)
         {
-            var status = UserRequestStatus.Declined;
+            var status = UserRequestStatusEnum.Declined;
             await ChangeRequestStatus(status);
             // TODO: turn on sending email
             //await SendEmail(status);

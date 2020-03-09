@@ -1,5 +1,6 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
+using CMS.Library.Enums;
 using CMS.Library.Global;
 using CMS.Library.Models;
 using System;
@@ -34,7 +35,7 @@ namespace CMS.Library.Service
             if (user == null)
                 return null;
 
-            if (user.roleId == (int)RoleTypes.Author || user.roleId == (int)RoleTypes.Reviewer)
+            if (user.roleId == (int)RoleTypesEnum.Author || user.roleId == (int)RoleTypesEnum.Reviewer)
             {
                 var conferenceMembers = _unitOfWork.ConferenceMemberRepository
                     .Filter(x => x.userId == user.userId)
@@ -60,7 +61,6 @@ namespace CMS.Library.Service
             {
                 throw new Exception();
             }
-            // TODO: Refactor function to receive a user entity to save (repository)
 
             var user = _unitOfWork.UserRepository
                 .Filter(u => u.userId == GlobalVariable.CurrentUser.userId)
@@ -79,7 +79,7 @@ namespace CMS.Library.Service
         {
             return _unitOfWork.ConferenceMemberRepository
                 .Filter(x => x.confId == conferenceId
-                        && x.User.roleId == (int)RoleTypes.Reviewer)
+                        && x.User.roleId == (int)RoleTypesEnum.Reviewer)
                 .Select(x => x.User)
                 .ToList();
         }

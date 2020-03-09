@@ -10,12 +10,12 @@
             <PropertyRef Name="confId" />
           </Key>
           <Property Name="confId" Type="int" Nullable="false" />
-          <Property Name="chairId" Type="int" />
-          <Property Name="confTitle" Type="varchar" MaxLength="100" />
-          <Property Name="confLocation" Type="varchar" MaxLength="100" />
-          <Property Name="confBeginDate" Type="date" />
-          <Property Name="confEndDate" Type="date" />
-          <Property Name="paperDeadline" Type="date" />
+          <Property Name="chairId" Type="int" Nullable="false" />
+          <Property Name="confTitle" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="confLocation" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="confBeginDate" Type="date" Nullable="false" />
+          <Property Name="confEndDate" Type="date" Nullable="false" />
+          <Property Name="paperDeadline" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="ConferenceMember">
           <Key>
@@ -56,24 +56,24 @@
             <PropertyRef Name="keywrdId" />
           </Key>
           <Property Name="keywrdId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="keywrdGenre" Type="varchar" MaxLength="50" />
-          <Property Name="keywrdName" Type="varchar" MaxLength="50" />
+          <Property Name="keywrdGenre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="keywrdName" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Paper">
           <Key>
             <PropertyRef Name="paperId" />
           </Key>
           <Property Name="paperId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="paperTitle" Type="varchar" MaxLength="20" />
-          <Property Name="paperAuthor" Type="varchar" MaxLength="20" />
-          <Property Name="paperSubDate" Type="date" />
+          <Property Name="paperTitle" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="paperAuthor" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="paperSubDate" Type="date" Nullable="false" />
           <Property Name="paperLength" Type="varchar" MaxLength="5" />
-          <Property Name="paperContent" Type="varbinary(max)" />
+          <Property Name="paperContent" Type="varbinary(max)" Nullable="false" />
           <Property Name="confId" Type="int" Nullable="false" />
-          <Property Name="auId" Type="int" />
+          <Property Name="auId" Type="int" Nullable="false" />
           <Property Name="paperFormat" Type="varchar" MaxLength="10" />
-          <Property Name="paperStatus" Type="varchar" MaxLength="15" />
-          <Property Name="paperFileName" Type="varchar" MaxLength="50" />
+          <Property Name="paperStatus" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="paperFileName" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="PaperReview">
           <Key>
@@ -98,19 +98,19 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="confId" Type="int" />
-          <Property Name="name" Type="varchar" MaxLength="20" />
+          <Property Name="name" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="20" />
           <Property Name="contact" Type="varchar" MaxLength="10" />
-          <Property Name="email" Type="varchar" MaxLength="50" />
-          <Property Name="status" Type="varchar" MaxLength="20" />
-          <Property Name="roleId" Type="int" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="roleId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
             <PropertyRef Name="roleId" />
           </Key>
           <Property Name="roleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="roleType" Type="varchar" MaxLength="10" />
+          <Property Name="roleType" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -121,10 +121,10 @@
           <Property Name="userName" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="userPasswrd" Type="varchar" MaxLength="20" />
           <Property Name="userContact" Type="varchar" MaxLength="10" />
-          <Property Name="roleId" Type="int" />
+          <Property Name="roleId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Conference_User">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Conference" Type="Self.Conference" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -244,7 +244,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Paper_User">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Paper" Type="Self.Paper" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -316,7 +316,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RegisterRequest_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="RegisterRequest" Type="Self.RegisterRequest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
@@ -328,7 +328,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
@@ -435,12 +435,12 @@
             <PropertyRef Name="confId" />
           </Key>
           <Property Name="confId" Type="Int32" Nullable="false" />
-          <Property Name="chairId" Type="Int32" />
-          <Property Name="confTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="confLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="confBeginDate" Type="DateTime" Precision="0" />
-          <Property Name="confEndDate" Type="DateTime" Precision="0" />
-          <Property Name="paperDeadline" Type="DateTime" Precision="0" />
+          <Property Name="chairId" Type="Int32" Nullable="false" />
+          <Property Name="confTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="confLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="confBeginDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="confEndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="paperDeadline" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="User" Relationship="Self.FK_Conference_User" FromRole="Conference" ToRole="User" />
           <NavigationProperty Name="ConferenceMembers" Relationship="Self.FK_ConferenceMember_Conference" FromRole="Conference" ToRole="ConferenceMember" />
           <NavigationProperty Name="ConferenceTopics" Relationship="Self.FK_ConferenceTopic_Conference" FromRole="Conference" ToRole="ConferenceTopic" />
@@ -494,8 +494,8 @@
             <PropertyRef Name="keywrdId" />
           </Key>
           <Property Name="keywrdId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="keywrdGenre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="keywrdName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="keywrdGenre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="keywrdName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="ConferenceTopics" Relationship="Self.FK_ConferenceTopic_Keyword" FromRole="Keyword" ToRole="ConferenceTopic" />
           <NavigationProperty Name="Expertises" Relationship="Self.FK_Expertise_Keyword" FromRole="Keyword" ToRole="Expertise" />
           <NavigationProperty Name="PaperTopics" Relationship="Self.FK_PaperTopic_Keyword" FromRole="Keyword" ToRole="PaperTopic" />
@@ -505,16 +505,16 @@
             <PropertyRef Name="paperId" />
           </Key>
           <Property Name="paperId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="paperTitle" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="paperAuthor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="paperSubDate" Type="DateTime" Precision="0" />
+          <Property Name="paperTitle" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="paperAuthor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="paperSubDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="paperLength" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="paperContent" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="paperContent" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="confId" Type="Int32" Nullable="false" />
-          <Property Name="auId" Type="Int32" />
+          <Property Name="auId" Type="Int32" Nullable="false" />
           <Property Name="paperFormat" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="paperStatus" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="paperFileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="paperStatus" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="paperFileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Conference" Relationship="Self.FK_Paper_Conference" FromRole="Paper" ToRole="Conference" />
           <NavigationProperty Name="Feedbacks" Relationship="Self.FK_Feedback_Paper" FromRole="Paper" ToRole="Feedback" />
           <NavigationProperty Name="User" Relationship="Self.FK_Paper_User" FromRole="Paper" ToRole="User" />
@@ -548,12 +548,12 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="confId" Type="Int32" />
-          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="contact" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="roleId" Type="Int32" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="roleId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Conference" Relationship="Self.FK_RegisterRequest_Conference" FromRole="RegisterRequest" ToRole="Conference" />
           <NavigationProperty Name="Role" Relationship="Self.FK_RegisterRequest_Role" FromRole="RegisterRequest" ToRole="Role" />
         </EntityType>
@@ -562,7 +562,7 @@
             <PropertyRef Name="roleId" />
           </Key>
           <Property Name="roleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="roleType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="roleType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="RegisterRequests" Relationship="Self.FK_RegisterRequest_Role" FromRole="Role" ToRole="RegisterRequest" />
           <NavigationProperty Name="Users" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
         </EntityType>
@@ -575,7 +575,7 @@
           <Property Name="userName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="userPasswrd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="userContact" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="roleId" Type="Int32" />
+          <Property Name="roleId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Conferences" Relationship="Self.FK_Conference_User" FromRole="User" ToRole="Conference" />
           <NavigationProperty Name="ConferenceMembers" Relationship="Self.FK_ConferenceMember_User" FromRole="User" ToRole="ConferenceMember" />
           <NavigationProperty Name="Expertises" Relationship="Self.FK_Expertise_User" FromRole="User" ToRole="Expertise" />
@@ -585,7 +585,7 @@
           <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
         </EntityType>
         <Association Name="FK_Conference_User">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Conference" Type="Self.Conference" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -729,7 +729,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Paper_User">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Paper" Type="Self.Paper" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -777,7 +777,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RegisterRequest_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="RegisterRequest" Type="Self.RegisterRequest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
@@ -789,7 +789,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">

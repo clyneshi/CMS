@@ -65,10 +65,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
-    <Compile Include="Enums\ConferenceViewTypes.cs" />
-    <Compile Include="Enums\Decisions.cs" />
-    <Compile Include="Enums\RoleTypes.cs" />
-    <Compile Include="Enums\UserRequestStatus.cs" />
+    <Compile Include="Enums\ConferenceViewTypesEnum.cs" />
+    <Compile Include="Enums\PaperStatusEnum.cs" />
+    <Compile Include="Enums\RoleTypesEnum.cs" />
+    <Compile Include="Enums\UserRequestStatusEnum.cs" />
     <Compile Include="Global\GlobalHelper.cs" />
     <Compile Include="Global\GlobalVariable.cs" />
     <Compile Include="Models\ConferenceDisplayModel.cs" />

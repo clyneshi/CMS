@@ -1,4 +1,5 @@
 ﻿using CMS.DAL.Models;
+using CMS.Library.Enums;
 using CMS.Library.Global;
 using CMS.Library.Service;
 using System;
@@ -36,8 +37,8 @@ namespace CMS
             textBox_cont.Text = user.userContact;
             comboBox_role.Text = _roleService.GetRoleById((int)user.roleId).roleType;
 
-            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Reviewer
-                || GlobalVariable.CurrentUser.roleId == (int)RoleTypes.Author)
+            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Reviewer
+                || GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Author)
                 comboBox_conf.Text = _conferenceService.GetConferences().FirstOrDefault(c => c.confId == GlobalVariable.UserConference).confTitle;
         }
 

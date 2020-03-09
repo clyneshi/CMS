@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c88b21d2fa874315a483add33ff153ca" Name="Diagram1">
+      <Diagram DiagramId="08950b184426400ca18988978f798c1c" Name="Diagram1">
         <EntityTypeShape EntityType="CMSDBModel.Conference" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
         <EntityTypeShape EntityType="CMSDBModel.ConferenceMember" Width="1.5" PointX="7.5" PointY="17.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CMSDBModel.ConferenceTopic" Width="1.5" PointX="10.5" PointY="15.25" IsExpanded="true" />

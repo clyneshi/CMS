@@ -24,12 +24,12 @@ namespace CMS.DAL.Models
         }
     
         public int confId { get; set; }
-        public Nullable<int> chairId { get; set; }
+        public int chairId { get; set; }
         public string confTitle { get; set; }
         public string confLocation { get; set; }
-        public Nullable<System.DateTime> confBeginDate { get; set; }
-        public Nullable<System.DateTime> confEndDate { get; set; }
-        public Nullable<System.DateTime> paperDeadline { get; set; }
+        public System.DateTime confBeginDate { get; set; }
+        public System.DateTime confEndDate { get; set; }
+        public System.DateTime paperDeadline { get; set; }
     
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

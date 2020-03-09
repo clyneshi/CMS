@@ -1,4 +1,5 @@
 ﻿using CMS.DAL.Models;
+using CMS.Library.Enums;
 using CMS.Library.Global;
 using CMS.Library.Service;
 using System;
@@ -173,7 +174,7 @@ namespace CMS
                 return;
             }
 
-            var decision = DecisionCheck() == "Accept" ? Decisions.Accepted : Decisions.Declined;
+            var decision = DecisionCheck() == "Accept" ? PaperStatusEnum.Accepted : PaperStatusEnum.Declined;
 
             Feedback feedback = new Feedback
             {

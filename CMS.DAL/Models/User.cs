@@ -30,7 +30,7 @@ namespace CMS.DAL.Models
         public string userName { get; set; }
         public string userPasswrd { get; set; }
         public string userContact { get; set; }
-        public Nullable<int> roleId { get; set; }
+        public int roleId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Conference> Conferences { get; set; }
