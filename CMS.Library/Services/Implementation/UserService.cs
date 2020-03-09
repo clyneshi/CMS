@@ -75,10 +75,10 @@ namespace CMS.Library.Service
             await _unitOfWork.Save();
         }
 
-        public IEnumerable<User> GetReviewers(int? conferenceId = null)
+        public IEnumerable<User> GetReviewers(int conferenceId)
         {
             return _unitOfWork.ConferenceMemberRepository
-                .Filter(x => x.confId == (conferenceId ?? GlobalVariable.UserConference)
+                .Filter(x => x.confId == conferenceId
                         && x.User.roleId == (int)RoleTypes.Reviewer)
                 .Select(x => x.User)
                 .ToList();
@@ -92,7 +92,7 @@ namespace CMS.Library.Service
                 .ToList();
         }
 
-        public IEnumerable<UserRoleModel> GetUserWithRole()
+        public IEnumerable<UserRoleModel> GetUsersWithRole()
         {
             return _unitOfWork.UserRepository
                 .GetUserWithRole(null)

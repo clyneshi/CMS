@@ -2,6 +2,7 @@
 using CMS.DAL.Models;
 using CMS.Library.Global;
 using CMS.Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -74,6 +75,16 @@ namespace CMS.Library.Service
 
         public async Task AddConference(Conference conference, IEnumerable<keyword> keywords)
         {
+            if (conference == null)
+            {
+                throw new Exception();
+            }
+
+            if (!keywords.Any())
+            {
+                throw new Exception();
+            }
+
             var conferenceId = GetMaxConferenceId() + 1;
 
             conference.confId = conferenceId;
@@ -94,7 +105,13 @@ namespace CMS.Library.Service
 
         public async Task AddConferenceMember(ConferenceMember conferenceMember)
         {
+            if (conferenceMember == null)
+            {
+                throw new Exception();
+            }
+
             _unitOfWork.ConferenceMemberRepository.Add(conferenceMember);
+
             await _unitOfWork.Save();
         }
     }

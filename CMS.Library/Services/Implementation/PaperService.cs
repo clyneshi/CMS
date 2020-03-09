@@ -176,7 +176,12 @@ namespace CMS.Library.Service
 
         public async Task AddFeedback(Feedback feedback)
         {
-            Paper paper = GetPaperById(feedback.paperId);
+            if (feedback == null)
+            {
+                throw new Exception();
+            }
+
+            var paper = GetPaperById(feedback.paperId);
 
             if (paper == null)
             {

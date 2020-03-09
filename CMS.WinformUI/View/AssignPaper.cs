@@ -44,11 +44,11 @@ namespace CMS
             listBox_reviewer.DataSource = reviewer;
             listBox_reviewer.DisplayMember = "userName";
 
-            ConfDisplay();
+            DisplayConferences();
             if (dataGridView1.Rows.Count > 0)
             {
-                PaperDisplay((int)dataGridView1.Rows[0].Cells["confId"].Value);
-                ReviewerDisplay((int)dataGridView1.Rows[0].Cells["confId"].Value);
+                DisplayPapers((int)dataGridView1.Rows[0].Cells["confId"].Value);
+                DisplayReviewers((int)dataGridView1.Rows[0].Cells["confId"].Value);
             }
             if (dataGridView3.Rows.Count > 0)
                 ReviewerExpeDisplay((int)dataGridView3.Rows[0].Cells["userId"].Value);
@@ -56,23 +56,23 @@ namespace CMS
                 DisplayAssignedReviewers((int)dataGridView2.Rows[0].Cells["paperId"].Value);
         }
 
-        private void ConfDisplay()
+        private void DisplayConferences()
         {
             var conf = _conferenceService.GetConferencesByChair(GlobalVariable.CurrentUser.userId);
 
             dataGridView1.DataSource = conf;
         }
 
-        public void PaperDisplay(int conf)
+        public void DisplayPapers(int conferenceId)
         {
-            var papers = _paperService.GetPapersByConference(conf);
+            var papers = _paperService.GetPapersByConference(conferenceId);
 
             dataGridView2.DataSource = papers;
         }
 
-        public void ReviewerDisplay(int conf)
+        public void DisplayReviewers(int conferenceId)
         {
-            var reviewers = _userService.GetReviewers();
+            var reviewers = _userService.GetReviewers(conferenceId);
 
             dataGridView3.DataSource = reviewers;
         }
@@ -105,7 +105,7 @@ namespace CMS
 
                 if (_paperService.GetPapersByConference(conf).Any())
                 {
-                    PaperDisplay((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
+                    DisplayPapers((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
 
                     paperid = (int)dataGridView2.Rows[0].Cells["paperId"].Value;
                     if (_paperService.GetPaperReviewsByPaper(paperid).Any())
@@ -121,7 +121,7 @@ namespace CMS
 
                 if (_userService.GetReviewers(conf).Any())
                 {
-                    ReviewerDisplay((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
+                    DisplayReviewers((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
                     ReviewerExpeDisplay((int)dataGridView3.Rows[0].Cells["userId"].Value);
                 }
                 else

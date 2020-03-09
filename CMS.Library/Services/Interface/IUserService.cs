@@ -11,8 +11,8 @@ namespace CMS.Library.Service
         Task AddUser(User user);
         IEnumerable<User> GetAssignedReviewersByPaper(int paperId);
         int GetMaxUserId();
-        IEnumerable<User> GetReviewers(int? conferenceId = null);
-        IEnumerable<UserRoleModel> GetUserWithRole();
+        IEnumerable<User> GetReviewers(int conferenceId);
+        IEnumerable<UserRoleModel> GetUsersWithRole();
         Task UpdateUser(string userName, string userEmail, string userContact, string oldPasswrd, string newPasswrd);
     }
 }
