@@ -1,4 +1,5 @@
 ﻿using CMS.DAL.Models;
+using CMS.Library.Global;
 using CMS.Library.Service;
 using System;
 using System.IO;
@@ -14,13 +15,13 @@ namespace CMS
         {
             _paperService = paperService;
             InitializeComponent();
-            init();
+            Init();
         }
 
-        public void init()
+        public void Init()
         {
             //paperid = 0;
-            var reviewPapers = _paperService.GetReviewPaperList();
+            var reviewPapers = _paperService.GetPapersForReview(GlobalVariable.CurrentUser.userId, GlobalVariable.UserConference);
             dataGridView1.DataSource = reviewPapers;
             //dataGridView1.Columns[5].Visible = false;
         }
@@ -29,10 +30,11 @@ namespace CMS
         {
             if (RatingBox.Show() == DialogResult.Yes)
             {
+                // TODO: validation
                 if (RatingBox.rating != 0 && dataGridView1.CurrentRow.Index >= 0)
                     _paperService.UpdatePaperRating(RatingBox.rating, (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["paperId"].Value);
             }
-            init();
+            Init();
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)

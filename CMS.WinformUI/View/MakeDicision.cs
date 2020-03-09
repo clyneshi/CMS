@@ -10,7 +10,7 @@ namespace CMS
 {
     public partial class MakeDicision : Form
     {
-        int paperId = 0;
+        int selectedPaperId = 0;
         private readonly IPaperService _paperService;
         private readonly IConferenceService _conferenceService;
 
@@ -25,12 +25,12 @@ namespace CMS
         public void Init()
         {
             GlobalHelper.ClearControls(this.Controls);
-            DisplayConf();
+            DisplayConferenes();
             if (dataGridView1.Rows.Count > 0)
             {
-                DisplayPaper((int)dataGridView1.Rows[0].Cells["confId"].Value);
+                DisplayPapers((int)dataGridView1.Rows[0].Cells["confId"].Value);
                 if (dataGridView2.Rows.Count > 0)
-                    DisplayReview((int)dataGridView2.Rows[0].Cells["paperId"].Value);
+                    DisplayReviews((int)dataGridView2.Rows[0].Cells["paperId"].Value);
                 else
                     dataGridView3.DataSource = null;
             }
@@ -41,34 +41,28 @@ namespace CMS
             }
         }
 
-        private void DisplayConf()
+        private void DisplayConferenes()
         {
-            var conf = _conferenceService.GetConferencesByChair(GlobalVariable.CurrentUser.userId);
-
-            dataGridView1.DataSource = conf;
+            dataGridView1.DataSource = _conferenceService.GetConferencesByChair(GlobalVariable.CurrentUser.userId);
         }
 
-        private void DisplayPaper(int conf)
+        private void DisplayPapers(int conf)
         {
-            var paper = _paperService.GetPapersByConference(conf);
-
-            dataGridView2.DataSource = paper;
+            dataGridView2.DataSource = _paperService.GetPapersByConference(conf);
         }
 
-        private void DisplayReview(int paper)
+        private void DisplayReviews(int paper)
         {
-            var rvw = _paperService.GetPaperReviewByPaper(paper);
-
-            dataGridView3.DataSource = rvw;
+            dataGridView3.DataSource = _paperService.GetPaperReviewsByPaper(paper);
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                DisplayPaper((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
+                DisplayPapers((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
                 if (dataGridView2.RowCount != 0 && dataGridView2.CurrentRow.Index >= 0)
-                    DisplayReview((int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value);
+                    DisplayReviews((int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value);
                 else
                     dataGridView3.DataSource = null;
             }
@@ -83,8 +77,8 @@ namespace CMS
         {
             if (e.RowIndex >= 0)
             {
-                paperId = (int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value;
-                DisplayReview((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
+                selectedPaperId = (int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value;
+                DisplayReviews((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
                 DisplayDecisions((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
             }
             else
@@ -93,15 +87,15 @@ namespace CMS
 
         private void DisplayDecisions(int paper)
         {
-            var fb = _paperService.GetFeedbacksByPaper(paper);
+            var feedbacks = _paperService.GetFeedbacksByPaper(paper);
 
-            if (fb.Any())
+            if (feedbacks.Any())
             {
-                rtextbox_feedback.Text = fb.FirstOrDefault().feedback1;
+                rtextbox_feedback.Text = feedbacks.FirstOrDefault().feedback1;
                 foreach (Control c in groupBox1.Controls)
                 {
                     RadioButton rb = c as RadioButton;
-                    if (rb != null && rb.Text.Equals(fb.Single().fnlDecision.Trim()))
+                    if (rb != null && rb.Text.Equals(feedbacks.Single().fnlDecision.Trim()))
                         rb.Checked = true;
                 }
             }
@@ -117,32 +111,7 @@ namespace CMS
                     decision = rb.Text;
             }
             return decision;
-        }
-
-        private bool addFeedback()
-        {
-            if (dataGridView2.RowCount >= 0 && dataGridView2.CurrentRow.Index >= 0)
-            {
-                Feedback fb = new Feedback
-                {
-                    paperId = (int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value,
-                    userId = GlobalVariable.CurrentUser.userId,
-                    fnlDecision = DecisionCheck(),
-                    feedback1 = rtextbox_feedback.Text
-                };
-
-                _paperService.AddFeedback(fb);
-
-                return true;
-            }
-            return false;
-        }
-
-        private void ChangeStatus()
-        {
-            int paperid = (int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value;
-            _paperService.UpdatePaperStatus(paperid, DecisionCheck());
-        }
+        } 
 
         private string FeedbackValidation()
         {
@@ -160,7 +129,7 @@ namespace CMS
 
         private async Task SendEmail()
         {
-            var email = _paperService.GetPaperById(paperId).User.userEmail;
+            var email = _paperService.GetPaperById(selectedPaperId).User.userEmail;
             var decision = DecisionCheck();
 
             await GlobalHelper.SendEmail(email.ToString(), $"Your paper has been {decision.ToLower()}ed");
@@ -169,14 +138,27 @@ namespace CMS
         private async void btn_save_Click(object sender, EventArgs e)
         {
             string error = FeedbackValidation();
-            if (error.Equals("") && addFeedback())
+            if (!error.Equals(""))
             {
-                ChangeStatus();
-                await SendEmail();
-                MessageBox.Show("Save succeeded");
-            }
-            else
                 MessageBox.Show(error);
+                return;
+            }
+
+            var decision = DecisionCheck() == "Accept" ? Decisions.Accepted : Decisions.Declined;
+
+            Feedback feedback = new Feedback
+            {
+                paperId = selectedPaperId,
+                userId = GlobalVariable.CurrentUser.userId,
+                fnlDecision = decision.ToString(),
+                feedback1 = rtextbox_feedback.Text
+            };
+
+            await _paperService.AddFeedback(feedback);
+
+            await SendEmail();
+
+            MessageBox.Show("Save succeeded");
             Init();
         }
     }

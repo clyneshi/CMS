@@ -19,9 +19,9 @@ namespace CMS.DAL.Repository.Implementation
             _context = context;
         }
 
-        public void Add(ConferenceMember ConferenceMember)
+        public void Add(ConferenceMember conferenceMember)
         {
-            _context.ConferenceMembers.Add(ConferenceMember);
+            _context.ConferenceMembers.Add(conferenceMember);
         }
 
         public IEnumerable<ConferenceMember> Filter(Expression<Func<ConferenceMember, bool>> predicate)

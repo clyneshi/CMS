@@ -29,7 +29,7 @@ namespace CMS
                     dataGridView1.DataSource = _userService.GetUserWithRole();
                     break;
                 case (int)ConferenceViewTypes.Papers:
-                    dataGridView1.DataSource = _paperService.GetPaperUser();
+                    dataGridView1.DataSource = _paperService.GetPapersWithAuthor();
                     break;
                 default:
                     break;

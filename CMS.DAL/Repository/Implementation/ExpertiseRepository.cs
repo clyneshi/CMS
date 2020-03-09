@@ -1,4 +1,5 @@
 ﻿using CMS.DAL.Models;
+using CMS.DAL.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,9 +19,9 @@ namespace CMS.DAL.Repository.Implementation
             _context = context;
         }
 
-        public void Add(Expertise Expertise)
+        public void Add(Expertise expertise)
         {
-            _context.Expertises.Add(Expertise);
+            _context.Expertises.Add(expertise);
         }
 
         public IEnumerable<Expertise> Filter(Expression<Func<Expertise, bool>> predicate)

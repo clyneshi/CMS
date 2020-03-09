@@ -121,7 +121,7 @@ namespace CMS
             }
             else
             {
-                sub.init();
+                sub.Init();
                 sub.Activate();
             }
         }
@@ -176,7 +176,7 @@ namespace CMS
             }
             else
             {
-                rvp.init();
+                rvp.Init();
                 rvp.Activate();
             }
         }

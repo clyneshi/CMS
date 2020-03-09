@@ -1,198 +1,196 @@
-﻿using CMS.DAL.Models;
+﻿using CMS.DAL.Core;
+using CMS.DAL.Models;
 using CMS.Library.Global;
 using CMS.Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CMS.Library.Service
 {
     public class PaperService : IPaperService
     {
-        public void AddPaper(Paper paper)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public PaperService(IUnitOfWork unitOfWork)
         {
-            using (var dbModel = new CMSDBEntities())
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task AddPaper(Paper paper, IEnumerable<PaperTopic> paperTopics)
+        {
+            if (paper == null)
             {
-                dbModel.Papers.Add(paper);
-                dbModel.SaveChanges();
+                throw new Exception();
             }
+
+            if (!paperTopics.Any())
+            {
+                throw new Exception();
+            }
+
+            foreach (var topic in paperTopics)
+                _unitOfWork.PaperTopicRepository.Add(topic);
+            
+            _unitOfWork.PaperRepository.Add(paper);
+
+            await _unitOfWork.Save();
         }
 
         public Paper GetPaperById(int Id)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Papers.Where(p => p.paperId == Id).SingleOrDefault();
-            }
+            return _unitOfWork.PaperRepository.Filter(p => p.paperId == Id).SingleOrDefault();
         }
 
-        public IEnumerable<Paper> GetPapersByAuthor()
+        public IEnumerable<Paper> GetPapersByAuthor(int userId)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Papers.Where(x => x.auId == GlobalVariable.CurrentUser.userId).ToList();
-            }
+            return _unitOfWork.PaperRepository.Filter(x => x.auId == userId);
         }
 
         public IEnumerable<Paper> GetPapersByConference(int conferenceId)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Papers.Where(p => p.confId == conferenceId).ToList();
-            }
+            return _unitOfWork.PaperRepository.Filter(p => p.confId == conferenceId);
         }
 
         public int GetMaxPaperId()
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Papers.OrderByDescending(p => p.paperId).FirstOrDefault().paperId;
-            }
+            return _unitOfWork.PaperRepository
+                .GetAll()
+                .OrderByDescending(p => p.paperId)
+                .FirstOrDefault().paperId;
         }
 
         public PaperReview GetPaperReview(int paperId, int userId)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.PaperReviews.Where(pr => pr.userId == userId && pr.paperId == paperId).SingleOrDefault();
-            }
+            return _unitOfWork.PaperReviewRepository
+                .Filter(pr => pr.userId == userId && pr.paperId == paperId)
+                .SingleOrDefault();
         }
 
-        public void AddPaperReview(PaperReview paperReview)
+        public async Task AddPaperReview(PaperReview paperReview)
         {
-            using (var dbModel = new CMSDBEntities())
+            if (paperReview == null)
             {
-                dbModel.PaperReviews.Add(paperReview);
-                dbModel.SaveChanges();
+                throw new Exception();
             }
+
+            _unitOfWork.PaperReviewRepository.Add(paperReview);
+            
+            await _unitOfWork.Save();
         }
 
-        public void DeletePaperReview(int paperId, int userId)
+        public async Task DeletePaperReview(int paperId, int userId)
         {
-            using (var dbModel = new CMSDBEntities())
+            var paperReview = _unitOfWork.PaperReviewRepository
+                .Filter(pr => pr.userId == userId && pr.paperId == paperId)
+                .SingleOrDefault();
+
+            if (paperReview == null)
             {
-                dbModel.PaperReviews.Remove(dbModel.PaperReviews.Where(pr => pr.userId == userId && pr.paperId == paperId).SingleOrDefault());
-                dbModel.SaveChanges();
+                throw new Exception();
             }
+
+            _unitOfWork.PaperReviewRepository.Delete(paperReview);
+
+            await _unitOfWork.Save();
         }
 
-        public IEnumerable<ReviewPaperModel> GetReviewPaperList()
+        public IEnumerable<ReviewPaperModel> GetPapersForReview(int reviewerId, int conferenceId)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.ConferenceMembers
-                    .Join(
-                        dbModel.PaperReviews,
-                        x => x.userId,
-                        y => y.paperId,
-                        (x, y) => new
-                        {
-                            ConferenceMembers = x,
-                            PaperReview = y
-                        }
-                    )
-                    .Where(z => z.ConferenceMembers.confId == GlobalVariable.UserConference
-                        && z.PaperReview.userId == GlobalVariable.CurrentUser.userId)
-                    .Select(z => new ReviewPaperModel
-                    {
-                        PaperId = z.PaperReview.Paper.paperId,
-                        PaperTitle = z.PaperReview.Paper.paperTitle,
-                        PaperRating = z.PaperReview.paperRating
-                    }).ToList();
-            }
-        }
-
-        public void UpdatePaperStatus(int paperId, string status)
-        {
-            using (var dbModel = new CMSDBEntities())
-            {
-                Paper paper = GetPaperById(paperId);
-                paper.paperStatus = status;
-                dbModel.SaveChanges();
-            }
-        }
-
-        public void UpdatePaperRating(int paperId, int? rating)
-        {
-            using (var dbModel = new CMSDBEntities())
-            {
-                PaperReview pr = dbModel.PaperReviews.FirstOrDefault(p => p.userId == GlobalVariable.CurrentUser.userId && p.paperId == paperId);
-                Paper pp = dbModel.Papers.FirstOrDefault(p => p.paperId == paperId);
-                if (pr != null)
+            return _unitOfWork.PaperReviewRepository
+                .Filter(x => x.Paper.confId == conferenceId
+                    && x.userId == reviewerId)
+                .Select(x => new ReviewPaperModel
                 {
-                    pr.paperRating = rating;
-                    pp.paperStatus = "being reviewed";
-                    dbModel.SaveChanges();
-                }
-            }
+                    PaperId = x.paperId,
+                    PaperTitle = x.Paper.paperTitle,
+                    PaperRating = x.paperRating
+                }).ToList();
         }
 
-        public void AddPaperTopic(PaperTopic paperTopic)
+        public async Task UpdatePaperRating(int paperId, int rating)
         {
-            using (var dbModel = new CMSDBEntities())
+            var paperReview = _unitOfWork.PaperReviewRepository
+                .Filter(p => p.userId == GlobalVariable.CurrentUser.userId && p.paperId == paperId)
+                .SingleOrDefault();
+
+            var paper = _unitOfWork.PaperRepository
+                .Filter(p => p.paperId == paperId)
+                .SingleOrDefault();
+
+            if (paperReview == null || paper == null)
             {
-                dbModel.PaperTopics.Add(paperTopic);
-                dbModel.SaveChanges();
+                throw new Exception();
             }
+
+            paperReview.paperRating = rating;
+            paper.paperStatus = "being reviewed";
+
+            _unitOfWork.PaperReviewRepository.Update(paperReview);
+            _unitOfWork.PaperRepository.Update(paper);
+
+            await _unitOfWork.Save();
         }
 
-        public IEnumerable<PaperReview> GetPaperReviewByPaper(int paperId)
+        public IEnumerable<PaperReview> GetPaperReviewsByPaper(int paperId)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.PaperReviews.Where(pr => pr.paperId == paperId).ToList();
-            }
+            return _unitOfWork.PaperReviewRepository.Filter(pr => pr.paperId == paperId).ToList();
         }
 
         public IEnumerable<Feedback> GetFeedbacksByPaper(int paperId)
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Feedbacks.Where(f => f.paperId == paperId).ToList();
-            }
+            return _unitOfWork.FeedbackRepository.Filter(f => f.paperId == paperId).ToList();
         }
 
-        public IEnumerable<PaperUserModel> GetPaperUser()
+        public IEnumerable<PaperUserModel> GetPapersWithAuthor()
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Papers
-                    .Select(x => new PaperUserModel
-                    {
-                        Id = x.paperId,
-                        User = x.User.userName,
-                        Title = x.paperTitle,
-                        Author = x.paperAuthor,
-                        SubmisionDate = x.paperSubDate,
-                        Length = x.paperLength,
-                        Status = x.paperStatus
-                    })
-                    .ToList();
-            }
+            return _unitOfWork.PaperRepository
+                .GetPapersWithAuthorAndConference()
+                .Select(x => new PaperUserModel
+                {
+                    Id = x.paperId,
+                    User = x.User.userName,
+                    Title = x.paperTitle,
+                    Author = x.paperAuthor,
+                    SubmisionDate = x.paperSubDate,
+                    Length = x.paperLength,
+                    Status = x.paperStatus
+                })
+                .ToList();
         }
 
-        public IEnumerable<PaperConferenceModel> GetPaperConferences()
+        public IEnumerable<PaperConferenceModel> GetPapersWithConference()
         {
-            using (var dbModel = new CMSDBEntities())
-            {
-                return dbModel.Papers
-                    .Select(x => new PaperConferenceModel
-                    {
-                        Id = x.paperId,
-                        Title = x.paperTitle,
-                        Author = x.paperAuthor,
-                        Length = x.paperLength,
-                        SubmisionDate = x.paperSubDate
-                    }).ToList();
-            }
+            return _unitOfWork.PaperRepository
+                .GetPapersWithAuthorAndConference()
+                .Select(x => new PaperConferenceModel
+                {
+                    Id = x.paperId,
+                    Title = x.paperTitle,
+                    Author = x.paperAuthor,
+                    Length = x.paperLength,
+                    SubmisionDate = x.paperSubDate
+                }).ToList();
         }
 
-        public void AddFeedback(Feedback feedback)
+        public async Task AddFeedback(Feedback feedback)
         {
-            using (var dbModel = new CMSDBEntities())
+            Paper paper = GetPaperById(feedback.paperId);
+
+            if (paper == null)
             {
-                dbModel.Feedbacks.Add(feedback);
-                dbModel.SaveChanges();
+                throw new Exception();
             }
+            
+            feedback.paperId = feedback.paperId;
+            _unitOfWork.FeedbackRepository.Add(feedback);
+
+            // TODO: Paper.Stauts might be duplicated with Feedback.fnlDecision
+            paper.paperStatus = feedback.fnlDecision;
+            _unitOfWork.PaperRepository.Update(paper);
+
+            await _unitOfWork.Save();
         }
     }
 }

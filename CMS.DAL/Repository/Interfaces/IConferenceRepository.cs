@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace CMS.DAL.Repository.Implementation
+namespace CMS.DAL.Repository.Interfaces
 {
     public interface IConferenceRepository
     {

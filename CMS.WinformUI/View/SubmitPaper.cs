@@ -11,7 +11,7 @@ namespace CMS
 {
     public partial class SubmitPaper : Form
     {
-        private readonly BindingList<keyword> kw = new BindingList<keyword>();
+        private readonly BindingList<keyword> keywords = new BindingList<keyword>();
 
         // paperid is used to know the paperid before a paper entity is created,
         // in which way the two seperated but conneted table entity can be created
@@ -33,7 +33,7 @@ namespace CMS
             _paperService = paperService;
             _conferenceService = conferenceService;
             InitializeComponent();
-            init();
+            Init();
         }
 
         private void btn_uploadPaper_Click(object sender, EventArgs e)
@@ -53,17 +53,17 @@ namespace CMS
             }
         }
 
-        public void init()
+        public void Init()
         {
             fileext = "";
             filename = "";
             paperuploaded = false;
             paperid = _paperService.GetMaxPaperId() + 1;
-            keywordDisplay();
-            selectedKwDisplay();
+            DisplayKeywords();
+            DisplaySelectedKeyword();
         }
 
-        private void keywordDisplay()
+        private void DisplayKeywords()
         {
             // ### add orderby
             dataGridView1.DataSource = _keywordService.GetKeyWords();
@@ -73,10 +73,10 @@ namespace CMS
             dataGridView1.Columns[5].Visible = false;
         }
 
-        private void selectedKwDisplay()
+        private void DisplaySelectedKeyword()
         {
-            kw.Clear();
-            listBox_keyword.DataSource = kw;
+            keywords.Clear();
+            listBox_keyword.DataSource = keywords;
             listBox_keyword.DisplayMember = "keywrdName";
         }
 
@@ -85,12 +85,12 @@ namespace CMS
             if (dataGridView1.CurrentRow.Index >= 0)
             {
                 bool find = false;
-                foreach (keyword k in kw)
+                foreach (keyword k in keywords)
                     if (k.keywrdId == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value)
                         find = true;
                 if (!find)
                 {
-                    kw.Add(new keyword
+                    keywords.Add(new keyword
                     {
                         keywrdId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value,
                         keywrdName = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdName"].Value
@@ -103,32 +103,10 @@ namespace CMS
         private void btn_keyRmv_Click(object sender, EventArgs e)
         {
             keyword k = (keyword)listBox_keyword.SelectedItem;
-            kw.Remove(k);
+            keywords.Remove(k);
         }
 
-        public void addPaper()
-        {
-            //Save new paper to Paper table
-            Paper paper = new Paper
-            {
-                paperId = paperid,
-                paperTitle = textBox_paperTitle.Text,
-                paperAuthor = textBox_author.Text,
-                paperLength = (string)comboBox_paperLength.SelectedItem,
-                confId = GlobalVariable.UserConference,
-                auId = GlobalVariable.CurrentUser.userId,
-                paperFormat = fileext,
-                paperFileName = filename,
-                paperStatus = "submitted",
-
-                paperContent = content,
-                paperSubDate = DateTime.Today
-            };
-
-            _paperService.AddPaper(paper);
-        }
-
-        private string paperValidation()
+        private string PaperValidation()
         {
             var deadline = _conferenceService.GetConferenceById(GlobalVariable.UserConference).paperDeadline;
 
@@ -142,55 +120,50 @@ namespace CMS
                 return "Paper Length cannot be empty";
             if (!paperuploaded)
                 return "Paper has to be uploaded";
-            if (kw.Count == 0)
+            if (keywords.Count == 0)
                 return "Paper topic cannot be empty";
             return "";
         }
 
-        private void addPaperTopic()
+        private async void btn_savePaper_Click(object sender, EventArgs e)
         {
-            // Save each keyword in combolist to Topoic table
-            foreach (keyword k in kw)
+            string error = PaperValidation();
+            if (!error.Equals(""))
             {
-                PaperTopic pt = new PaperTopic
+                MessageBox.Show(error);
+                return;
+            }
+
+            var paper = new Paper
+            {
+                paperId = paperid,
+                paperTitle = textBox_paperTitle.Text,
+                paperAuthor = textBox_author.Text,
+                paperLength = (string)comboBox_paperLength.SelectedItem,
+                confId = GlobalVariable.UserConference,
+                auId = GlobalVariable.CurrentUser.userId,
+                paperFormat = fileext,
+                paperFileName = filename,
+                paperStatus = "submitted",
+                paperContent = content,
+                paperSubDate = DateTime.Today
+            };
+
+            var topics = new List<PaperTopic>();
+            foreach (keyword k in keywords)
+            {
+                topics.Add( new PaperTopic
                 {
                     paperId = paperid,
                     keywrdId = k.keywrdId
-                };
-                _paperService.AddPaperTopic(pt);
+                });
             }
-        }
 
-        public List<PaperTopic> addPaperTopic1(int Id, int[] keywrd)
-        {
-            // Save each keyword in combolist to Topoic table
-            List<PaperTopic> pl = new List<PaperTopic>();
-            foreach (var k in keywrd)
-            {
-                PaperTopic pt = new PaperTopic
-                {
-                    paperId = Id,
-                    keywrdId = k
-                };
-                pl.Add(pt);
-            }
-            return pl;
+            await _paperService.AddPaper(paper, topics);
+            
+            MessageBox.Show("Save successful!");
+            GlobalHelper.ClearControls(this.Controls);
+            Init();
         }
-
-        private void btn_savePaper_Click(object sender, EventArgs e)
-        {
-            string error = paperValidation();
-            if (error.Equals(""))
-            {
-                addPaper();
-                addPaperTopic();
-                MessageBox.Show("Save successful!");
-                GlobalHelper.ClearControls(this.Controls);
-                init();
-            }
-            else
-                MessageBox.Show(error);
-        }
-
     }
 }

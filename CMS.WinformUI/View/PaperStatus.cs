@@ -1,4 +1,5 @@
-﻿using CMS.Library.Service;
+﻿using CMS.Library.Global;
+using CMS.Library.Service;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
@@ -23,7 +24,7 @@ namespace CMS
 
         private void PaperDisplay()
         {
-            var papers = _paperService.GetPapersByAuthor();
+            var papers = _paperService.GetPapersByAuthor(GlobalVariable.CurrentUser.userId);
 
             if (papers.Count() > 0)
             {

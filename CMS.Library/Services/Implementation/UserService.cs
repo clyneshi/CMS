@@ -95,7 +95,7 @@ namespace CMS.Library.Service
         public IEnumerable<UserRoleModel> GetUserWithRole()
         {
             return _unitOfWork.UserRepository
-                .GetUserWithRole()
+                .GetUserWithRole(null)
                 .Select(x => new UserRoleModel
                 {
                     Id = x.userId,

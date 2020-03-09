@@ -20,7 +20,7 @@ namespace CMS
         {
             dataGridView1.DataSource = _conferenceService.GetReviewersByConference();
 
-            dataGridView2.DataSource = _paperService.GetPaperConferences();
+            dataGridView2.DataSource = _paperService.GetPapersWithConference();
         }
     }
 }

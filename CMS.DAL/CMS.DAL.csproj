@@ -126,6 +126,12 @@
     <Compile Include="Repository\Implementation\ConferenceRepository.cs" />
     <Compile Include="Repository\Implementation\ConferenceTopicRepository.cs" />
     <Compile Include="Repository\Implementation\ExpertiseRepository.cs" />
+    <Compile Include="Repository\Implementation\FeedbackRepository.cs" />
+    <Compile Include="Repository\Interfaces\IPaperTopicRepository.cs" />
+    <Compile Include="Repository\Implementation\PaperTopicRepository.cs" />
+    <Compile Include="Repository\Interfaces\IFeedbackRepository.cs" />
+    <Compile Include="Repository\Interfaces\IPaperRepository.cs" />
+    <Compile Include="Repository\Implementation\PaperRepository.cs" />
     <Compile Include="Repository\Interfaces\IExpertiseRepository.cs" />
     <Compile Include="Repository\Interfaces\IKeywordRepository.cs" />
     <Compile Include="Repository\Implementation\KeywordRepository.cs" />

@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using CMS.DAL.Repository.Interfaces;
 
 namespace CMS.DAL.Repository.Implementation
 {
@@ -18,9 +19,9 @@ namespace CMS.DAL.Repository.Implementation
             _context = context;
         }
 
-        public void Add(ConferenceTopic ConferenceTopic)
+        public void Add(ConferenceTopic conferenceTopic)
         {
-            _context.ConferenceTopics.Add(ConferenceTopic);
+            _context.ConferenceTopics.Add(conferenceTopic);
         }
 
         public IEnumerable<ConferenceTopic> Filter(Expression<Func<ConferenceTopic, bool>> predicate)

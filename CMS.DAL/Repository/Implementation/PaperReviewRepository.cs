@@ -10,7 +10,7 @@ using System.Data.Entity;
 
 namespace CMS.DAL.Repository.Implementation
 {
-    public class PaperReviewRepository : IPaperReview
+    public class PaperReviewRepository : IPaperReviewRepository
     {
         private readonly CMSDBEntities _context;
 
@@ -19,9 +19,9 @@ namespace CMS.DAL.Repository.Implementation
             _context = context;
         }
 
-        public void Add(PaperReview PaperReview)
+        public void Add(PaperReview paperReview)
         {
-            _context.PaperReviews.Add(PaperReview);
+            _context.PaperReviews.Add(paperReview);
         }
 
         public IEnumerable<PaperReview> Filter(Expression<Func<PaperReview, bool>> predicate)
@@ -39,6 +39,16 @@ namespace CMS.DAL.Repository.Implementation
                 .Include(x => x.Paper)
                 .Include(x => x.User)
                 .ToList();
+        }
+
+        public void Delete(PaperReview paperReview)
+        {
+            _context.PaperReviews.Remove(paperReview);
+        }
+
+        public void Update(PaperReview paperReview)
+        {
+            _context.Entry(paperReview).State = EntityState.Modified;
         }
     }
 }

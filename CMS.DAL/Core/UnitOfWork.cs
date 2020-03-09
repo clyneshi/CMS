@@ -1,5 +1,6 @@
 ﻿using CMS.DAL.Models;
 using CMS.DAL.Repository.Implementation;
+using CMS.DAL.Repository.Interfaces;
 using System;
 using System.Threading.Tasks;
 
@@ -15,6 +16,9 @@ namespace CMS.DAL.Core
         private readonly ConferenceTopicRepository _conferenceTopicRepository;
         private readonly KeywordRepository _keywordRepository;
         private readonly ExpertiseRepository _expertiseRepository;
+        private readonly PaperRepository _paperRepository;
+        private readonly FeedbackRepository _feedbackRepository;
+        private readonly PaperTopicRepository _paperTopicRepository;
 
         public UnitOfWork()
         {
@@ -26,15 +30,21 @@ namespace CMS.DAL.Core
             _conferenceTopicRepository = new ConferenceTopicRepository(_context);
             _keywordRepository = new KeywordRepository(_context);
             _expertiseRepository = new ExpertiseRepository(_context);
+            _paperRepository = new PaperRepository(_context);
+            _feedbackRepository = new FeedbackRepository(_context);
+            _paperTopicRepository = new PaperTopicRepository(_context);
         }
 
-        public UserRepository UserRepository => _userRepository;
-        public ConferenceMemberRepository ConferenceMemberRepository => _conferenceMemberRepository;
-        public PaperReviewRepository PaperReviewRepository => _paperReview;
-        public ConferenceRepository ConferenceRepository => _conferenceRepository;
-        public ConferenceTopicRepository ConferenceTopicRepository => _conferenceTopicRepository;
-        public KeywordRepository KeywordRepository => _keywordRepository;
-        public ExpertiseRepository ExpertiseRepository => _expertiseRepository;
+        public IUserRepository UserRepository => _userRepository;
+        public IConferenceMemberRepository ConferenceMemberRepository => _conferenceMemberRepository;
+        public IPaperReviewRepository PaperReviewRepository => _paperReview;
+        public IConferenceRepository ConferenceRepository => _conferenceRepository;
+        public IConferenceTopicRepository ConferenceTopicRepository => _conferenceTopicRepository;
+        public IKeywordRepository KeywordRepository => _keywordRepository;
+        public IExpertiseRepository ExpertiseRepository => _expertiseRepository;
+        public IPaperRepository PaperRepository => _paperRepository;
+        public IFeedbackRepository FeedbackRepository => _feedbackRepository;
+        public IPaperTopicRepository PaperTopicRepository => _paperTopicRepository;
 
         public async Task<int> Save()
         {

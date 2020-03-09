@@ -1,4 +1,5 @@
 ﻿using CMS.DAL.Models;
+using CMS.DAL.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,9 +19,9 @@ namespace CMS.DAL.Repository.Implementation
             _context = context;
         }
 
-        public void Add(Conference Conference)
+        public void Add(Conference conference)
         {
-            _context.Conferences.Add(Conference);
+            _context.Conferences.Add(conference);
         }
 
         public IEnumerable<Conference> Filter(Expression<Func<Conference, bool>> predicate)
@@ -33,9 +34,9 @@ namespace CMS.DAL.Repository.Implementation
             return _context.Conferences.ToList();
         }
 
-        public void Update(Conference Conference)
+        public void Update(Conference conference)
         {
-            _context.Entry(Conference).State = EntityState.Modified;
+            _context.Entry(conference).State = EntityState.Modified;
         }
 
         public IEnumerable<Conference> GetConferenceWithChair(Expression<Func<Conference, bool>> predicate = null)

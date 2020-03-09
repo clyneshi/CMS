@@ -1,4 +1,4 @@
-﻿using CMS.DAL.Repository.Implementation;
+﻿using CMS.DAL.Repository.Interfaces;
 using System.Threading.Tasks;
 
 namespace CMS.DAL.Core
@@ -8,13 +8,16 @@ namespace CMS.DAL.Core
     /// </summary>
     public interface IUnitOfWork
     {
-        UserRepository UserRepository { get; }
-        ConferenceMemberRepository ConferenceMemberRepository { get; }
-        PaperReviewRepository PaperReviewRepository { get; }
-        ConferenceRepository ConferenceRepository { get; }
-        ConferenceTopicRepository ConferenceTopicRepository { get; }
-        KeywordRepository KeywordRepository { get; }
-        ExpertiseRepository ExpertiseRepository { get; }
+        IUserRepository UserRepository { get; }
+        IConferenceMemberRepository ConferenceMemberRepository { get; }
+        IPaperReviewRepository PaperReviewRepository { get; }
+        IConferenceRepository ConferenceRepository { get; }
+        IConferenceTopicRepository ConferenceTopicRepository { get; }
+        IKeywordRepository KeywordRepository { get; }
+        IExpertiseRepository ExpertiseRepository { get; }
+        IPaperRepository PaperRepository { get; }
+        IFeedbackRepository FeedbackRepository { get; }
+        IPaperTopicRepository PaperTopicRepository { get; }
 
         /// <summary>
         /// Invokes SaveChangesAsync on shared context

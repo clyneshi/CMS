@@ -1,27 +1,26 @@
 ﻿using CMS.DAL.Models;
 using CMS.Library.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CMS.Library.Service
 {
     public interface IPaperService
     {
-        void AddPaper(Paper paper);
-        void AddPaperReview(PaperReview paperReview);
-        void AddPaperTopic(PaperTopic paperTopic);
-        void DeletePaperReview(int paperId, int userId);
+        Task AddPaper(Paper paper, IEnumerable<PaperTopic> paperTopics);
+        Task AddPaperReview(PaperReview paperReview);
+        Task DeletePaperReview(int paperId, int userId);
         IEnumerable<Feedback> GetFeedbacksByPaper(int paperId);
         int GetMaxPaperId();
         Paper GetPaperById(int Id);
-        IEnumerable<PaperConferenceModel> GetPaperConferences();
+        IEnumerable<PaperConferenceModel> GetPapersWithConference();
         PaperReview GetPaperReview(int paperId, int userId);
-        IEnumerable<PaperReview> GetPaperReviewByPaper(int paperId);
-        IEnumerable<Paper> GetPapersByAuthor();
+        IEnumerable<PaperReview> GetPaperReviewsByPaper(int paperId);
+        IEnumerable<Paper> GetPapersByAuthor(int userId);
         IEnumerable<Paper> GetPapersByConference(int conferenceId);
-        IEnumerable<PaperUserModel> GetPaperUser();
-        IEnumerable<ReviewPaperModel> GetReviewPaperList();
-        void UpdatePaperRating(int paperId, int? rating);
-        void UpdatePaperStatus(int paperId, string status);
-        void AddFeedback(Feedback feedback);
+        IEnumerable<PaperUserModel> GetPapersWithAuthor();
+        IEnumerable<ReviewPaperModel> GetPapersForReview(int reviewerId, int conferenceId);
+        Task UpdatePaperRating(int paperId, int rating);
+        Task AddFeedback(Feedback feedback);
     }
 }

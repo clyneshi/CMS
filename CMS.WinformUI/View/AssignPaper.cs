@@ -53,7 +53,7 @@ namespace CMS
             if (dataGridView3.Rows.Count > 0)
                 ReviewerExpeDisplay((int)dataGridView3.Rows[0].Cells["userId"].Value);
             if (dataGridView2.Rows.Count > 0)
-                AssignedRvwDisplay((int)dataGridView2.Rows[0].Cells["paperId"].Value);
+                DisplayAssignedReviewers((int)dataGridView2.Rows[0].Cells["paperId"].Value);
         }
 
         private void ConfDisplay()
@@ -87,7 +87,7 @@ namespace CMS
             dataGridView4.Columns["PaperTopics"].Visible = false;
         }
 
-        public void AssignedRvwDisplay(int pp)
+        public void DisplayAssignedReviewers(int pp)
         {
             var rvw = _userService.GetAssignedReviewersByPaper(pp);
 
@@ -108,8 +108,8 @@ namespace CMS
                     PaperDisplay((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
 
                     paperid = (int)dataGridView2.Rows[0].Cells["paperId"].Value;
-                    if (_paperService.GetPaperReviewByPaper(paperid).Any())
-                        AssignedRvwDisplay((int)dataGridView2.Rows[0].Cells["paperId"].Value);
+                    if (_paperService.GetPaperReviewsByPaper(paperid).Any())
+                        DisplayAssignedReviewers((int)dataGridView2.Rows[0].Cells["paperId"].Value);
                     else
                         dataGridView5.DataSource = null;
                 }
@@ -154,8 +154,8 @@ namespace CMS
             {
                 paperid = (int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value;
 
-                if (_paperService.GetPaperReviewByPaper(paperid).Any())
-                    AssignedRvwDisplay((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
+                if (_paperService.GetPaperReviewsByPaper(paperid).Any())
+                    DisplayAssignedReviewers((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
                 else
                     dataGridView5.DataSource = null;
             }
@@ -184,13 +184,13 @@ namespace CMS
             }
         }
 
-        private void btn_save_Click(object sender, EventArgs e)
+        private async void btn_save_Click(object sender, EventArgs e)
         {
 
             if (deletlist.Count != 0)
             {
                 foreach (PaperReview pr in deletlist)
-                    _paperService.DeletePaperReview(pr.paperId, pr.userId);
+                    await _paperService.DeletePaperReview(pr.paperId, pr.userId);
             }
             else
                 foreach (User u in reviewer)
@@ -198,7 +198,7 @@ namespace CMS
                     if (_paperService.GetPaperReview(paperid, u.userId) == null)
                     {
                         PaperReview pr = new PaperReview { paperId = paperid, userId = u.userId };
-                        _paperService.AddPaperReview(pr);
+                        await _paperService.AddPaperReview(pr);
                     }
                 }
 
