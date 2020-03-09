@@ -51,33 +51,62 @@ namespace CMS
                 DisplayReviewers((int)dataGridView1.Rows[0].Cells["confId"].Value);
             }
             if (dataGridView3.Rows.Count > 0)
-                ReviewerExpeDisplay((int)dataGridView3.Rows[0].Cells["userId"].Value);
+                DisplayReviewerExpertise((int)dataGridView3.Rows[0].Cells["userId"].Value);
             if (dataGridView2.Rows.Count > 0)
                 DisplayAssignedReviewers((int)dataGridView2.Rows[0].Cells["paperId"].Value);
         }
 
         private void DisplayConferences()
         {
-            var conf = _conferenceService.GetConferencesByChair(GlobalVariable.CurrentUser.userId);
+            var conf = _conferenceService
+                .GetConferencesByChair(GlobalVariable.CurrentUser.userId)
+                .Select(x => new 
+                    {
+                        x.confId,
+                        x.confTitle,
+                        x.confLocation,
+                        x.paperDeadline,
+                        x.confBeginDate,
+                        x.confEndDate
+                    })
+                .ToList();
 
             dataGridView1.DataSource = conf;
         }
 
         public void DisplayPapers(int conferenceId)
         {
-            var papers = _paperService.GetPapersByConference(conferenceId);
+            var papers = _paperService
+                .GetPapersByConference(conferenceId)
+                .Select(x => new
+                    {
+                        x.paperId,
+                        x.paperTitle,
+                        x.paperAuthor,
+                        x.paperSubDate,
+                        x.paperStatus
+                    })
+                .ToList();
 
             dataGridView2.DataSource = papers;
         }
 
         public void DisplayReviewers(int conferenceId)
         {
-            var reviewers = _userService.GetReviewers(conferenceId);
+            var reviewers = _userService
+                .GetReviewers(conferenceId)
+                .Select(x => new
+                    {
+                        x.userId,
+                        x.userName,
+                        x.userEmail
+                    })
+                .ToList();
 
             dataGridView3.DataSource = reviewers;
         }
 
-        public void ReviewerExpeDisplay(int rvw)
+        public void DisplayReviewerExpertise(int rvw)
         {
             var keywords = _keywordService.GetExpertiseByUser(rvw).Select(x => x.keyword).ToList();
 
@@ -87,11 +116,19 @@ namespace CMS
             dataGridView4.Columns["PaperTopics"].Visible = false;
         }
 
-        public void DisplayAssignedReviewers(int pp)
+        public void DisplayAssignedReviewers(int paperId)
         {
-            var rvw = _userService.GetAssignedReviewersByPaper(pp);
+            var assignedReviewers = _userService
+                .GetAssignedReviewersByPaper(paperId)
+                .Select(x => new
+                {
+                    x.userId,
+                    x.userName,
+                    x.userEmail
+                })
+                .ToList();
 
-            dataGridView5.DataSource = rvw.ToList();
+            dataGridView5.DataSource = assignedReviewers;
             tag = 0;
             deletlist.Clear();
         }
@@ -122,7 +159,7 @@ namespace CMS
                 if (_userService.GetReviewers(conf).Any())
                 {
                     DisplayReviewers((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
-                    ReviewerExpeDisplay((int)dataGridView3.Rows[0].Cells["userId"].Value);
+                    DisplayReviewerExpertise((int)dataGridView3.Rows[0].Cells["userId"].Value);
                 }
                 else
                 {
@@ -142,7 +179,7 @@ namespace CMS
                 username = (string)dataGridView3.Rows[e.RowIndex].Cells["userName"].Value;
 
                 if (_keywordService.GetExpertiseByUser(userid).Any())
-                    ReviewerExpeDisplay((int)dataGridView3.Rows[e.RowIndex].Cells["userId"].Value);
+                    DisplayReviewerExpertise((int)dataGridView3.Rows[e.RowIndex].Cells["userId"].Value);
                 else
                     dataGridView4.DataSource = null;
             }
@@ -186,7 +223,6 @@ namespace CMS
 
         private async void btn_save_Click(object sender, EventArgs e)
         {
-
             if (deletlist.Count != 0)
             {
                 foreach (PaperReview pr in deletlist)

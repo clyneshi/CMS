@@ -43,17 +43,46 @@ namespace CMS
 
         private void DisplayConferenes()
         {
-            dataGridView1.DataSource = _conferenceService.GetConferencesByChair(GlobalVariable.CurrentUser.userId);
+            dataGridView1.DataSource = _conferenceService
+                .GetConferencesByChair(GlobalVariable.CurrentUser.userId)
+                .Select(x => new
+                {
+                    x.confId,
+                    x.confTitle,
+                    x.confLocation,
+                    x.paperDeadline,
+                    x.confBeginDate,
+                    x.confEndDate
+                })
+                .ToList();
         }
 
         private void DisplayPapers(int conf)
         {
-            dataGridView2.DataSource = _paperService.GetPapersByConference(conf);
+            dataGridView2.DataSource = _paperService
+                .GetPapersByConference(conf)
+                .Select(x => new
+                {
+                    x.paperId,
+                    x.paperTitle,
+                    x.paperAuthor,
+                    x.paperSubDate,
+                    x.paperStatus
+                })
+                .ToList();
         }
 
         private void DisplayReviews(int paper)
         {
-            dataGridView3.DataSource = _paperService.GetPaperReviewsByPaper(paper);
+            dataGridView3.DataSource = _paperService
+                .GetPaperReviewsByPaper(paper)
+                .Select(x => new
+                {
+                    x.paperId,
+                    x.Paper.paperTitle,
+                    x.paperRating,
+                })
+                .ToList();
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -156,7 +185,8 @@ namespace CMS
 
             await _paperService.AddFeedback(feedback);
 
-            await SendEmail();
+            // TODO: turn on sending email
+            //await SendEmail();
 
             MessageBox.Show("Save succeeded");
             Init();
