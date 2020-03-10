@@ -191,7 +191,6 @@ namespace CMS.Library.Service
             feedback.paperId = feedback.paperId;
             _unitOfWork.FeedbackRepository.Add(feedback);
 
-            // TODO: Paper.Stauts might be duplicated with Feedback.fnlDecision
             paper.paperStatus = feedback.fnlDecision;
             _unitOfWork.PaperRepository.Update(paper);
 

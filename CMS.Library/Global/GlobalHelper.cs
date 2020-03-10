@@ -6,9 +6,6 @@ using System.Windows.Forms;
 
 namespace CMS.Library.Global
 {
-    /// <summary>
-    /// Handles all data fetching and saving functions
-    /// </summary>
     public static class GlobalHelper
     {
         public static void ClearControls(Control.ControlCollection C)
