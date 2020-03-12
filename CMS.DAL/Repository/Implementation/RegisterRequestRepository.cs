@@ -10,9 +10,9 @@ namespace CMS.DAL.Repository.Implementation
 {
     public class RegisterRequestRepository : IRegisterRequestRepository
     {
-        private readonly CMSDBEntities _context;
+        private readonly CMSContext _context;
 
-        public RegisterRequestRepository(CMSDBEntities context)
+        public RegisterRequestRepository(CMSContext context)
         {
             _context = context;
         }

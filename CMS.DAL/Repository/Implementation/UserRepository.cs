@@ -10,9 +10,9 @@ namespace CMS.DAL.Repository.Implementation
 {
     public class UserRepository : IUserRepository
     {
-        private readonly CMSDBEntities _context;
+        private readonly CMSContext _context;
 
-        public UserRepository(CMSDBEntities context)
+        public UserRepository(CMSContext context)
         {
             _context = context;
         }

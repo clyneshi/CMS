@@ -8,7 +8,7 @@ namespace CMS.DAL.Core
 {
     public class UnitOfWork : IDisposable, IUnitOfWork
     {
-        private readonly CMSDBEntities _context;
+        private readonly CMSContext _context;
         private readonly UserRepository _userRepository;
         private readonly ConferenceMemberRepository _conferenceMemberRepository;
         private readonly PaperReviewRepository _paperReview;
@@ -24,7 +24,7 @@ namespace CMS.DAL.Core
 
         public UnitOfWork()
         {
-            _context = new CMSDBEntities();
+            _context = new CMSContext();
             _userRepository = new UserRepository(_context);
             _conferenceMemberRepository = new ConferenceMemberRepository(_context);
             _paperReview = new PaperReviewRepository(_context);

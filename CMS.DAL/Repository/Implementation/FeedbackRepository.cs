@@ -10,9 +10,9 @@ namespace CMS.DAL.Repository.Implementation
 {
     public class FeedbackRepository : IFeedbackRepository
     {
-        private readonly CMSDBEntities _context;
+        private readonly CMSContext _context;
 
-        public FeedbackRepository(CMSDBEntities context)
+        public FeedbackRepository(CMSContext context)
         {
             _context = context;
         }

@@ -10,9 +10,9 @@ namespace CMS.DAL.Repository.Implementation
 {
     public class ConferenceRepository : IConferenceRepository
     {
-        private readonly CMSDBEntities _context;
+        private readonly CMSContext _context;
 
-        public ConferenceRepository(CMSDBEntities context)
+        public ConferenceRepository(CMSContext context)
         {
             _context = context;
         }

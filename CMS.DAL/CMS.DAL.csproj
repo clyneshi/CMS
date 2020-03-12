@@ -70,57 +70,20 @@
   <ItemGroup>
     <Compile Include="Core\IUnitOfWork.cs" />
     <Compile Include="Core\UnitOfWork.cs" />
-    <Compile Include="Models\CMSModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CMSModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CMSModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CMSModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CMSModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Conference.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ConferenceMember.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ConferenceTopic.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Expertise.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Feedback.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Keyword.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Paper.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PaperReview.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PaperTopic.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\RegisterRequest.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Role.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\User.cs">
-      <DependentUpon>CMSModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\CMSContext.cs" />
+    <Compile Include="Models\CMSDBInitializer.cs" />
+    <Compile Include="Models\Conference.cs" />
+    <Compile Include="Models\ConferenceMember.cs" />
+    <Compile Include="Models\ConferenceTopic.cs" />
+    <Compile Include="Models\Expertise.cs" />
+    <Compile Include="Models\Feedback.cs" />
+    <Compile Include="Models\Keyword.cs" />
+    <Compile Include="Models\Paper.cs" />
+    <Compile Include="Models\PaperReview.cs" />
+    <Compile Include="Models\PaperTopic.cs" />
+    <Compile Include="Models\RegisterRequest.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Implementation\ConferenceMemberRepository.cs" />
     <Compile Include="Repository\Implementation\ConferenceRepository.cs" />
@@ -155,16 +118,6 @@
       <DependentUpon>CMSDB.mdf</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Models\CMSModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CMSModel.edmx</DependentUpon>
-      <LastGenOutput>CMSModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\CMSModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CMSModel.edmx</DependentUpon>
-      <LastGenOutput>CMSModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -180,13 +133,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EntityDeploy Include="Models\CMSModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CMSModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Models\CMSModel.edmx.diagram">
-      <DependentUpon>CMSModel.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
