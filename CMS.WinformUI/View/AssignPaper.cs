@@ -60,15 +60,15 @@ namespace CMS
         {
             var conf = _conferenceService
                 .GetConferencesByChair(GlobalVariable.CurrentUser.userId)
-                .Select(x => new 
-                    {
-                        x.confId,
-                        x.confTitle,
-                        x.confLocation,
-                        x.paperDeadline,
-                        x.confBeginDate,
-                        x.confEndDate
-                    })
+                .Select(x => new
+                {
+                    x.confId,
+                    x.confTitle,
+                    x.confLocation,
+                    x.paperDeadline,
+                    x.confBeginDate,
+                    x.confEndDate
+                })
                 .ToList();
 
             dataGridView1.DataSource = conf;
@@ -79,13 +79,13 @@ namespace CMS
             var papers = _paperService
                 .GetPapersByConference(conferenceId)
                 .Select(x => new
-                    {
-                        x.paperId,
-                        x.paperTitle,
-                        x.paperAuthor,
-                        x.paperSubDate,
-                        x.paperStatus
-                    })
+                {
+                    x.paperId,
+                    x.paperTitle,
+                    x.paperAuthor,
+                    x.paperSubDate,
+                    x.paperStatus
+                })
                 .ToList();
 
             dataGridView2.DataSource = papers;
@@ -96,11 +96,11 @@ namespace CMS
             var reviewers = _userService
                 .GetReviewers(conferenceId)
                 .Select(x => new
-                    {
-                        x.userId,
-                        x.userName,
-                        x.userEmail
-                    })
+                {
+                    x.userId,
+                    x.userName,
+                    x.userEmail
+                })
                 .ToList();
 
             dataGridView3.DataSource = reviewers;
