@@ -1,7 +1,7 @@
 ﻿using CMS.DAL.Models;
-using CMS.Service.Enums;
-using CMS.Service.Global;
-using CMS.Service.Service;
+using CMS.BL.Enums;
+using CMS.BL.Global;
+using CMS.BL.Services.Interface;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,11 +14,17 @@ namespace CMS
         int selectedPaperId = 0;
         private readonly IPaperService _paperService;
         private readonly IConferenceService _conferenceService;
+        private readonly IApplicationStrategy _applicationStrategy;
 
-        public MakeDicision(IPaperService paperService, IConferenceService conferenceService)
+        public MakeDicision(
+            IPaperService paperService,
+            IConferenceService conferenceService,
+            IApplicationStrategy applicationStrategy)
         {
             _paperService = paperService;
             _conferenceService = conferenceService;
+            _applicationStrategy = applicationStrategy;
+
             InitializeComponent();
             Init();
         }
@@ -45,7 +51,7 @@ namespace CMS
         private void DisplayConferenes()
         {
             dataGridView1.DataSource = _conferenceService
-                .GetConferencesByChair(GlobalVariable.CurrentUser.Id)
+                .GetConferencesByChair(_applicationStrategy.GetLoggedInUserInfo().User.Id)
                 .Select(x => new
                 {
                     x.Id,
@@ -179,7 +185,7 @@ namespace CMS
             Feedback feedback = new Feedback
             {
                 PaperId = selectedPaperId,
-                UserId = GlobalVariable.CurrentUser.Id,
+                UserId = _applicationStrategy.GetLoggedInUserInfo().User.Id,
                 FinalDecision = decision.ToString(),
                 Feedback1 = rtextbox_feedback.Text
             };

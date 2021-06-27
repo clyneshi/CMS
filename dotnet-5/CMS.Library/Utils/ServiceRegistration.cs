@@ -1,8 +1,9 @@
 ﻿using CMS.DAL.Core;
-using CMS.Service.Service;
+using CMS.BL.Services.Implementation;
+using CMS.BL.Services.Interface;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CMS.Service.Utils
+namespace CMS.BL.Utils
 {
     public static class ServiceRegistration
     {
@@ -15,6 +16,7 @@ namespace CMS.Service.Utils
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserRequestService, UserRequestService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IApplicationStrategy, ApplicationStrategy>();
             return services;
         }
     }

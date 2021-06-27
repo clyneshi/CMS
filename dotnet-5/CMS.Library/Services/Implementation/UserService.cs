@@ -1,22 +1,24 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
-using CMS.Service.Enums;
-using CMS.Service.Global;
-using CMS.Service.Models;
+using CMS.BL.Enums;
+using CMS.BL.Models;
+using CMS.BL.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CMS.Service.Service
+namespace CMS.BL.Services.Implementation
 {
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IApplicationStrategy _applicationStrategy;
 
-        public UserService(IUnitOfWork unitOfWork)
+        public UserService(IUnitOfWork unitOfWork, IApplicationStrategy applicationStrategy)
         {
             _unitOfWork = unitOfWork;
+            _applicationStrategy = applicationStrategy;
         }
 
         public User AuthenticateUser(string email, string passWord)
@@ -35,16 +37,17 @@ namespace CMS.Service.Service
             if (user == null)
                 return null;
 
+            int? conferenceId = null;
             if (user.RoleId == (int)RoleTypesEnum.Author || user.RoleId == (int)RoleTypesEnum.Reviewer)
             {
                 var conferenceMembers = _unitOfWork.ConferenceMemberRepository
                     .Filter(x => x.UserId == user.Id)
                     .SingleOrDefault();
 
-                GlobalVariable.UserConference = conferenceMembers?.ConferenceId ?? 0;
+                conferenceId = conferenceMembers?.ConferenceId;
             }
 
-            GlobalVariable.CurrentUser = user;
+            _applicationStrategy.LogInUser(user, conferenceId);
 
             return user;
         }
@@ -63,7 +66,7 @@ namespace CMS.Service.Service
             }
 
             var user = _unitOfWork.UserRepository
-                .Filter(u => u.Id == GlobalVariable.CurrentUser.Id)
+                .Filter(u => u.Id == _applicationStrategy.GetLoggedInUserInfo().User.Id)
                 .FirstOrDefault();
             user.Name = Name;
             user.Email = Email;

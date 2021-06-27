@@ -1,21 +1,24 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
-using CMS.Service.Global;
-using CMS.Service.Models;
+using CMS.BL.Global;
+using CMS.BL.Models;
+using CMS.BL.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CMS.Service.Service
+namespace CMS.BL.Services.Implementation
 {
     public class ConferenceService : IConferenceService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IApplicationStrategy _applicationStrategy;
 
-        public ConferenceService(IUnitOfWork unitOfWork)
+        public ConferenceService(IUnitOfWork unitOfWork, IApplicationStrategy applicationStrategy)
         {
             _unitOfWork = unitOfWork;
+            _applicationStrategy = applicationStrategy;
         }
 
         public IEnumerable<Conference> GetConferences()
@@ -43,8 +46,9 @@ namespace CMS.Service.Service
 
         public IEnumerable<ReviewerConferenceModel> GetReviewersByConference()
         {
+            // todo: verify conferenceId int => int?
             return _unitOfWork.ConferenceMemberRepository
-                .Filter(x => x.Id == GlobalVariable.UserConference)
+                .Filter(x => x.Id == _applicationStrategy.GetLoggedInUserInfo().ConferenceId)
                 .OrderBy(x => x.User.Role.Type)
                 .Select(x => new ReviewerConferenceModel
                 {

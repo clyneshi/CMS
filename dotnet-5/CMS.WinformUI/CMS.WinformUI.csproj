@@ -27,7 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CMS.DAL\CMS.DAL.csproj" />
-    <ProjectReference Include="..\CMS.Library\CMS.Service.csproj" />
+    <ProjectReference Include="..\CMS.Library\CMS.BL.csproj" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

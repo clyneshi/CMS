@@ -1,6 +1,5 @@
 ﻿using CMS.DAL.Models;
-using CMS.Service.Global;
-using CMS.Service.Service;
+using CMS.BL.Services.Interface;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -23,16 +22,20 @@ namespace CMS
         private readonly IKeywordService _keywordService;
         private readonly IPaperService _paperService;
         private readonly IConferenceService _conferenceService;
+        private readonly IApplicationStrategy _applicationStrategy;
 
         public AssignPaper(IUserService userService,
             IKeywordService keywordService,
             IPaperService paperService,
-            IConferenceService conferenceService)
+            IConferenceService conferenceService,
+            IApplicationStrategy applicationStrategy)
         {
             _userService = userService;
             _keywordService = keywordService;
             _paperService = paperService;
             _conferenceService = conferenceService;
+            _applicationStrategy = applicationStrategy;
+
             InitializeComponent();
             Init();
         }
@@ -59,7 +62,7 @@ namespace CMS
         private void DisplayConferences()
         {
             var conf = _conferenceService
-                .GetConferencesByChair(GlobalVariable.CurrentUser.Id)
+                .GetConferencesByChair(_applicationStrategy.GetLoggedInUserInfo().User.Id)
                 .Select(x => new
                 {
                     x.Id,

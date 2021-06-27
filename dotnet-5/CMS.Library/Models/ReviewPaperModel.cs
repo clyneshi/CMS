@@ -1,4 +1,4 @@
-﻿namespace CMS.Service.Models
+﻿namespace CMS.BL.Models
 {
     public class ReviewPaperModel
     {

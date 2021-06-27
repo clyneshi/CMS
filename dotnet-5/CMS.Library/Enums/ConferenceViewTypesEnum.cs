@@ -1,4 +1,4 @@
-﻿namespace CMS.Service.Enums
+﻿namespace CMS.BL.Enums
 {
     public enum ConferenceViewTypesEnum
     {

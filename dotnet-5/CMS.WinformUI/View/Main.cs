@@ -1,5 +1,6 @@
-﻿using CMS.Service.Enums;
-using CMS.Service.Global;
+﻿using CMS.BL.Enums;
+using CMS.BL.Global;
+using CMS.BL.Services.Interface;
 using CMS.WinformUI.Utils;
 using System;
 using System.Windows.Forms;
@@ -19,12 +20,15 @@ namespace CMS
         PaperStatus ps;
 
         private readonly IFormUtil _formUtil;
+        private readonly IApplicationStrategy _applicationStrategy;
 
-        public Main(IFormUtil formUtil)
+        public Main(IFormUtil formUtil, IApplicationStrategy applicationStrategy)
         {
             _formUtil = formUtil;
+            _applicationStrategy = applicationStrategy;
+
             InitializeComponent();
-            MenuInit(GlobalVariable.CurrentUser.RoleId);
+            MenuInit(_applicationStrategy.GetLoggedInUserInfo().User.RoleId);
         }
 
         public void MenuInit(int? role)
@@ -96,7 +100,7 @@ namespace CMS
 
         private void MDIParent1_Load(object sender, EventArgs e)
         {
-            txt_status.Text = GlobalVariable.CurrentUser.Name;
+            txt_status.Text = _applicationStrategy.GetLoggedInUserInfo().User.Name;
         }
 
         private void strip_user_logout_Click(object sender, EventArgs e)
@@ -229,7 +233,7 @@ namespace CMS
 
         private void strip_user_settings_Click(object sender, EventArgs e)
         {
-            if (GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Reviewer)
+            if (_applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Reviewer)
             {
                 var acs = _formUtil.GetForm<AccountSetting_R>();
                 acs.Show();
@@ -244,8 +248,8 @@ namespace CMS
         private void strip_conf_confInfo_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            if (GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Admin
-                || GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Chair)
+            if (_applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Admin
+                || _applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Chair)
             {
                 if (cfia == null)
                 {

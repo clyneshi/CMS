@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
-namespace CMS.Service.Global
+namespace CMS.BL.Global
 {
     public static class GlobalHelper
     {

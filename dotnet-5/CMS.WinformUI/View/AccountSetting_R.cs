@@ -1,7 +1,6 @@
 ﻿using CMS.DAL.Models;
-using CMS.Service.Enums;
-using CMS.Service.Global;
-using CMS.Service.Service;
+using CMS.BL.Enums;
+using CMS.BL.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,16 +17,20 @@ namespace CMS
         private readonly IRoleService _roleService;
         private readonly IKeywordService _keywordService;
         private readonly IConferenceService _conferenceService;
+        private readonly IApplicationStrategy _applicationStrategy;
 
         public AccountSetting_R(IUserService userService,
             IRoleService roleService,
             IKeywordService keywordService,
-            IConferenceService conferenceService)
+            IConferenceService conferenceService,
+            IApplicationStrategy applicationStrategy)
         {
             _userService = userService;
             _roleService = roleService;
             _keywordService = keywordService;
             _conferenceService = conferenceService;
+            _applicationStrategy = applicationStrategy;
+
             InitializeComponent();
             Init();
         }
@@ -52,7 +55,7 @@ namespace CMS
 
         private void SelectedKwDisplay()
         {
-            var expertises = _keywordService.GetExpertiseByUser(GlobalVariable.CurrentUser.Id);
+            var expertises = _keywordService.GetExpertiseByUser(_applicationStrategy.GetLoggedInUserInfo().User.Id);
 
             foreach (var expertise in expertises)
             {
@@ -66,14 +69,16 @@ namespace CMS
 
         private void InitForm()
         {
-            textBox_name.Text = GlobalVariable.CurrentUser.Name;
-            textBox_email.Text = GlobalVariable.CurrentUser.Email;
-            textBox_cont.Text = GlobalVariable.CurrentUser.Contact;
-            comboBox_role.Text = _roleService.GetRoleById((int)GlobalVariable.CurrentUser.RoleId).Type;
+            var currentUser = _applicationStrategy.GetLoggedInUserInfo();
 
-            if (GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Reviewer
-                || GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Author)
-                comboBox_conf.Text = _conferenceService.GetConferenceById(GlobalVariable.UserConference).Title;
+            textBox_name.Text = currentUser.User.Name;
+            textBox_email.Text = currentUser.User.Email;
+            textBox_cont.Text = currentUser.User.Contact;
+            comboBox_role.Text = _roleService.GetRoleById(currentUser.User.RoleId).Type;
+
+            if (_applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Reviewer
+                || _applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Author)
+                comboBox_conf.Text = _conferenceService.GetConferenceById(currentUser.ConferenceId.Value).Title;
         }
 
         private void btn_add_Click(object sender, EventArgs e)
@@ -108,7 +113,7 @@ namespace CMS
         private async void btn_save_Click(object sender, EventArgs e)
         {
             await _userService.UpdateUser(textBox_name.Text, textBox_email.Text, textBox_cont.Text, textBox_oPass.Text, textBox_nPass.Text);
-            await _keywordService.UpdateExpertise(GlobalVariable.CurrentUser.Id, removedKeywords, keywords.ToList());
+            await _keywordService.UpdateExpertise(_applicationStrategy.GetLoggedInUserInfo().User.Id, removedKeywords, keywords.ToList());
             MessageBox.Show("Update completed");
         }
 

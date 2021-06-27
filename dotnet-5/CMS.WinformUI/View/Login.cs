@@ -1,4 +1,5 @@
-﻿using CMS.Service.Service;
+﻿using CMS.BL.Services.Interface;
+using CMS.BL.Services.Interface;
 using CMS.WinformUI.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using System;

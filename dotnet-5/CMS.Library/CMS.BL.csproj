@@ -3,8 +3,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <AssemblyName>CMS.Service</AssemblyName>
-    <RootNamespace>CMS.Service</RootNamespace>
+    <AssemblyName>CMS.BL</AssemblyName>
+    <RootNamespace>CMS.BL</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\CMS.DAL\CMS.DAL.csproj" />

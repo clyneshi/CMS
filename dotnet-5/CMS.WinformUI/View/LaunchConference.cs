@@ -1,6 +1,5 @@
 ﻿using CMS.DAL.Models;
-using CMS.Service.Global;
-using CMS.Service.Service;
+using CMS.BL.Services.Interface;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -13,11 +12,17 @@ namespace CMS
         private readonly BindingList<Keyword> keywords = new BindingList<Keyword>();
         private readonly IKeywordService _keywordService;
         private readonly IConferenceService _conferenceService;
+        private readonly IApplicationStrategy _applicationStrategy;
 
-        public LaunchConference(IKeywordService keywordService, IConferenceService conferenceService)
+        public LaunchConference(
+            IKeywordService keywordService,
+            IConferenceService conferenceService,
+            IApplicationStrategy applicationStrategy)
         {
             _keywordService = keywordService;
             _conferenceService = conferenceService;
+            _applicationStrategy = applicationStrategy;
+
             InitializeComponent();
             Init();
         }
@@ -99,7 +104,7 @@ namespace CMS
 
             var conference = new Conference
             {
-                ChairId = GlobalVariable.CurrentUser.Id,
+                ChairId = _applicationStrategy.GetLoggedInUserInfo().User.Id,
                 Title = textBox_title.Text,
                 Location = textBox_loc.Text,
                 BeginDate = dateTimePicker_bdate.Value.Date,

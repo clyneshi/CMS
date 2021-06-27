@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.DAL", "CMS.DAL\CMS.DAL.csproj", "{3CB61CFD-BD25-4FEC-9B19-AAF4F80904BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMS.Service", "CMS.Library\CMS.Service.csproj", "{4CC36E5E-812C-40CF-8E45-0EBADD12A7E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.BL", "CMS.Library\CMS.BL.csproj", "{4CC36E5E-812C-40CF-8E45-0EBADD12A7E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMS.WinformUI", "CMS.WinformUI\CMS.WinformUI.csproj", "{80F87178-68E2-4A37-AE4D-DE579F60FFAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMS.WinformUI", "CMS.WinformUI\CMS.WinformUI.csproj", "{80F87178-68E2-4A37-AE4D-DE579F60FFAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

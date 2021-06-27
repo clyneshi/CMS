@@ -1,7 +1,6 @@
 ﻿using CMS.DAL.Models;
-using CMS.Service.Enums;
-using CMS.Service.Global;
-using CMS.Service.Service;
+using CMS.BL.Enums;
+using CMS.BL.Services.Interface;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -13,12 +12,19 @@ namespace CMS
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IConferenceService _conferenceService;
+        private readonly IApplicationStrategy _applicationStrategy;
 
-        public AccountSetting(IUserService userService, IRoleService roleService, IConferenceService conferenceService)
+        public AccountSetting(
+            IUserService userService,
+            IRoleService roleService,
+            IConferenceService conferenceService,
+            IApplicationStrategy applicationStrategy)
         {
             _userService = userService;
             _roleService = roleService;
             _conferenceService = conferenceService;
+            _applicationStrategy = applicationStrategy;
+
             InitializeComponent();
             init();
         }
@@ -30,16 +36,16 @@ namespace CMS
 
         private void InitForm()
         {
-            User user = GlobalVariable.CurrentUser;
+            var currentUser = _applicationStrategy.GetLoggedInUserInfo();
 
-            textBox_name.Text = user.Name;
-            textBox_email.Text = user.Email;
-            textBox_cont.Text = user.Contact;
-            comboBox_role.Text = _roleService.GetRoleById((int)user.RoleId).Type;
+            textBox_name.Text = currentUser.User.Name;
+            textBox_email.Text = currentUser.User.Email;
+            textBox_cont.Text = currentUser.User.Contact;
+            comboBox_role.Text = _roleService.GetRoleById(currentUser.User.RoleId).Type;
 
-            if (GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Reviewer
-                || GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Author)
-                comboBox_conf.Text = _conferenceService.GetConferences().FirstOrDefault(c => c.Id == GlobalVariable.UserConference).Title;
+            if (currentUser.User.RoleId == (int)RoleTypesEnum.Reviewer
+                || currentUser.User.RoleId == (int)RoleTypesEnum.Author)
+                comboBox_conf.Text = _conferenceService.GetConferences().FirstOrDefault(c => c.Id == currentUser.ConferenceId).Title;
         }
 
         // TODO: extract validation method

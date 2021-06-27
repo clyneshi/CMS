@@ -1,7 +1,6 @@
 ﻿using CMS.DAL.Models;
-using CMS.Service.Enums;
-using CMS.Service.Global;
-using CMS.Service.Service;
+using CMS.BL.Enums;
+using CMS.BL.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,17 +21,22 @@ namespace CMS
         string fileext = "";
         string filename = "";
         bool paperuploaded = false;
+
         private readonly IKeywordService _keywordService;
         private readonly IPaperService _paperService;
         private readonly IConferenceService _conferenceService;
+        private readonly IApplicationStrategy _applicationStrategy;
 
         public SubmitPaper(IKeywordService keywordService,
             IPaperService paperService,
-            IConferenceService conferenceService)
+            IConferenceService conferenceService,
+            IApplicationStrategy applicationStrategy)
         {
             _keywordService = keywordService;
             _paperService = paperService;
             _conferenceService = conferenceService;
+            _applicationStrategy = applicationStrategy;
+
             InitializeComponent();
             Init();
         }
@@ -109,7 +113,7 @@ namespace CMS
 
         private string PaperValidation()
         {
-            var deadline = _conferenceService.GetConferenceById(GlobalVariable.UserConference).PaperDeadline;
+            var deadline = _conferenceService.GetConferenceById(_applicationStrategy.GetLoggedInUserInfo().ConferenceId.Value).PaperDeadline;
 
             if (DateTime.Compare(DateTime.Today, (DateTime)deadline) >= 0)
                 return "Paper submition has finished";
@@ -141,8 +145,8 @@ namespace CMS
                 Title = textBox_paperTitle.Text,
                 Author = textBox_author.Text,
                 Length = (string)comboBox_paperLength.SelectedItem,
-                ConferenceId = GlobalVariable.UserConference,
-                AuthorId = GlobalVariable.CurrentUser.Id,
+                ConferenceId = _applicationStrategy.GetLoggedInUserInfo().ConferenceId.Value,
+                AuthorId = _applicationStrategy.GetLoggedInUserInfo().User.Id,
                 Format = fileext,
                 FileName = filename,
                 Status = PaperStatusEnum.Submitted.ToString(),

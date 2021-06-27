@@ -1,20 +1,22 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
-using CMS.Service.Global;
+using CMS.BL.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CMS.Service.Service
+namespace CMS.BL.Services.Implementation
 {
     public class KeywordService : IKeywordService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IApplicationStrategy _applicationStrategy;
 
-        public KeywordService(IUnitOfWork unitOfWork)
+        public KeywordService(IUnitOfWork unitOfWork, IApplicationStrategy applicationStrategy)
         {
             _unitOfWork = unitOfWork;
+            _applicationStrategy = applicationStrategy;
         }
 
         public IEnumerable<Keyword> GetKeyWords()
@@ -66,7 +68,7 @@ namespace CMS.Service.Service
                 _unitOfWork.ExpertiseRepository.Add(new Expertise
                 {
                     KeywordId = ak.Id,
-                    UserId = GlobalVariable.CurrentUser.Id
+                    UserId = _applicationStrategy.GetLoggedInUserInfo().User.Id
                 });
             }
 

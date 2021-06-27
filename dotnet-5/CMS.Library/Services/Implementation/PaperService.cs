@@ -1,21 +1,24 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
-using CMS.Service.Global;
-using CMS.Service.Models;
+using CMS.BL.Global;
+using CMS.BL.Models;
+using CMS.BL.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CMS.Service.Service
+namespace CMS.BL.Services.Implementation
 {
     public class PaperService : IPaperService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IApplicationStrategy _applicationStrategy;
 
-        public PaperService(IUnitOfWork unitOfWork)
+        public PaperService(IUnitOfWork unitOfWork, IApplicationStrategy applicationStrategy)
         {
             _unitOfWork = unitOfWork;
+            _applicationStrategy = applicationStrategy;
         }
 
         public async Task AddPaper(Paper paper, IEnumerable<PaperTopic> paperTopics)
@@ -112,7 +115,7 @@ namespace CMS.Service.Service
         public async Task UpdatePaperRating(int paperId, int rating)
         {
             var paperReview = _unitOfWork.PaperReviewRepository
-                .Filter(p => p.UserId == GlobalVariable.CurrentUser.Id && p.Id == paperId)
+                .Filter(p => p.UserId == _applicationStrategy.GetLoggedInUserInfo().User.Id && p.Id == paperId)
                 .SingleOrDefault();
 
             var paper = _unitOfWork.PaperRepository

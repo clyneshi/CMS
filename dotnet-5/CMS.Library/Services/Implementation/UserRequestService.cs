@@ -1,13 +1,14 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
-using CMS.Service.Enums;
-using CMS.Service.Models;
+using CMS.BL.Enums;
+using CMS.BL.Models;
+using CMS.BL.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CMS.Service.Service
+namespace CMS.BL.Services.Implementation
 {
     public class UserRequestService : IUserRequestService
     {

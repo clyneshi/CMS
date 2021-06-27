@@ -1,7 +1,7 @@
 ﻿using CMS.DAL.Models;
-using CMS.Service.Enums;
-using CMS.Service.Global;
-using CMS.Service.Service;
+using CMS.BL.Enums;
+using CMS.BL.Global;
+using CMS.BL.Services.Interface;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,14 +19,18 @@ namespace CMS
         private readonly IUserService _userService;
         private readonly IUserRequestService _userRequestService;
         private readonly IConferenceService _conferenceService;
+        private readonly IApplicationStrategy _applicationStrategy;
 
         public RequestValidate(IUserService userService,
             IUserRequestService userRequest,
-            IConferenceService conferenceService)
+            IConferenceService conferenceService,
+            IApplicationStrategy applicationStrategy)
         {
             _userService = userService;
             _userRequestService = userRequest;
             _conferenceService = conferenceService;
+            _applicationStrategy = applicationStrategy;
+
             InitializeComponent();
             Init();
         }
@@ -39,15 +43,15 @@ namespace CMS
 
         private void DisplayRequests()
         {
-            if (GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Admin)
+            if (_applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Admin)
             {
-                var req1 = _userRequestService.GetUserRequestForAdmin(GlobalVariable.CurrentUser.Id);
+                var req1 = _userRequestService.GetUserRequestForAdmin(_applicationStrategy.GetLoggedInUserInfo().User.Id);
                 dataGridView1.DataSource = req1;
                 dataGridView1.Columns["RoleId"].Visible = false;
             }
             else
             {
-                var req2 = _userRequestService.GetUserRequestForChair(GlobalVariable.CurrentUser.Id);
+                var req2 = _userRequestService.GetUserRequestForChair(_applicationStrategy.GetLoggedInUserInfo().User.Id);
                 dataGridView1.DataSource = req2;
                 dataGridView1.Columns["RoleId"].Visible = false;
             }
@@ -99,7 +103,7 @@ namespace CMS
             if (dataGridView1.CurrentRow.Index >= 0)
             {
                 AddUser();
-                if (GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Chair)
+                if (_applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Chair)
                     await AddConferenceMember();
 
                 var Status = UserRequestStatusEnum.Approved;

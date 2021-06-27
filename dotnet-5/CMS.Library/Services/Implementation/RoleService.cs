@@ -1,9 +1,10 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
+using CMS.BL.Services.Interface;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CMS.Service.Service
+namespace CMS.BL.Services.Implementation
 {
     public class RoleService : IRoleService
     {

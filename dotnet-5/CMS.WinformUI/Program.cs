@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Windows.Forms;
 using Microsoft.Extensions.Hosting;
-using CMS.Service.Utils;
+using CMS.BL.Utils;
 using CMS.WinformUI.Utils;
 using CMS.DAL.Utils;
 

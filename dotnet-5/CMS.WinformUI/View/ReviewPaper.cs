@@ -1,6 +1,5 @@
 ﻿using CMS.DAL.Models;
-using CMS.Service.Global;
-using CMS.Service.Service;
+using CMS.BL.Services.Interface;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -10,10 +9,13 @@ namespace CMS
     public partial class ReviewPaper : Form
     {
         readonly IPaperService _paperService;
+        private readonly IApplicationStrategy _applicationStrategy;
 
-        public ReviewPaper(IPaperService paperService)
+        public ReviewPaper(IPaperService paperService, IApplicationStrategy applicationStrategy)
         {
             _paperService = paperService;
+            _applicationStrategy = applicationStrategy;
+
             InitializeComponent();
             Init();
         }
@@ -21,7 +23,7 @@ namespace CMS
         public void Init()
         {
             //paperid = 0;
-            var reviewPapers = _paperService.GetPapersForReview(GlobalVariable.CurrentUser.Id, GlobalVariable.UserConference);
+            var reviewPapers = _paperService.GetPapersForReview(_applicationStrategy.GetLoggedInUserInfo().User.Id, _applicationStrategy.GetLoggedInUserInfo().ConferenceId.Value);
             dataGridView1.DataSource = reviewPapers;
             //dataGridView1.Columns[5].Visible = false;
         }

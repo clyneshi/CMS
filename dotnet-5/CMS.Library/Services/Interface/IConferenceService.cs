@@ -1,9 +1,9 @@
 ﻿using CMS.DAL.Models;
-using CMS.Service.Models;
+using CMS.BL.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CMS.Service.Service
+namespace CMS.BL.Services.Interface
 {
     public interface IConferenceService
     {

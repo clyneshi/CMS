@@ -1,5 +1,4 @@
-﻿using CMS.Service.Global;
-using CMS.Service.Service;
+﻿using CMS.BL.Services.Interface;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
@@ -9,10 +8,13 @@ namespace CMS
     public partial class PaperStatus : Form
     {
         readonly IPaperService _paperService;
+        private readonly IApplicationStrategy _applicationStrategy;
 
-        public PaperStatus(IPaperService paperService)
+        public PaperStatus(IPaperService paperService, IApplicationStrategy applicationStrategy)
         {
             _paperService = paperService;
+            _applicationStrategy = applicationStrategy;
+
             InitializeComponent();
             Init();
         }
@@ -24,7 +26,7 @@ namespace CMS
 
         private void PaperDisplay()
         {
-            var papers = _paperService.GetPapersByAuthor(GlobalVariable.CurrentUser.Id);
+            var papers = _paperService.GetPapersByAuthor(_applicationStrategy.GetLoggedInUserInfo().User.Id);
 
             if (papers.Count() > 0)
             {
