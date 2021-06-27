@@ -1,7 +1,7 @@
 ﻿using CMS.DAL.Models;
-using CMS.Library.Enums;
-using CMS.Library.Global;
-using CMS.Library.Service;
+using CMS.Service.Enums;
+using CMS.Service.Global;
+using CMS.Service.Service;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -32,14 +32,14 @@ namespace CMS
         {
             User user = GlobalVariable.CurrentUser;
 
-            textBox_name.Text = user.userName;
-            textBox_email.Text = user.userEmail;
-            textBox_cont.Text = user.userContact;
-            comboBox_role.Text = _roleService.GetRoleById((int)user.roleId).roleType;
+            textBox_name.Text = user.Name;
+            textBox_email.Text = user.Email;
+            textBox_cont.Text = user.Contact;
+            comboBox_role.Text = _roleService.GetRoleById((int)user.RoleId).Type;
 
-            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Reviewer
-                || GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Author)
-                comboBox_conf.Text = _conferenceService.GetConferences().FirstOrDefault(c => c.confId == GlobalVariable.UserConference).confTitle;
+            if (GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Reviewer
+                || GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Author)
+                comboBox_conf.Text = _conferenceService.GetConferences().FirstOrDefault(c => c.Id == GlobalVariable.UserConference).Title;
         }
 
         // TODO: extract validation method

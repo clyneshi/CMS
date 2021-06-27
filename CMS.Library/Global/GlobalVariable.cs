@@ -1,6 +1,6 @@
 ﻿using CMS.DAL.Models;
 
-namespace CMS.Library.Global
+namespace CMS.Service.Global
 {
     public class GlobalVariable
     {

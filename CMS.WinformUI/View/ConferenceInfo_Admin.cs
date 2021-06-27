@@ -1,5 +1,5 @@
-﻿using CMS.Library.Enums;
-using CMS.Library.Service;
+﻿using CMS.Service.Enums;
+using CMS.Service.Service;
 using System.Windows.Forms;
 
 namespace CMS

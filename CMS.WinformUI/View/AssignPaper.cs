@@ -1,6 +1,6 @@
 ﻿using CMS.DAL.Models;
-using CMS.Library.Global;
-using CMS.Library.Service;
+using CMS.Service.Global;
+using CMS.Service.Service;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -42,16 +42,16 @@ namespace CMS
             userid = 0;
             reviewer.Clear();
             listBox_reviewer.DataSource = reviewer;
-            listBox_reviewer.DisplayMember = "userName";
+            listBox_reviewer.DisplayMember = "Name";
 
             DisplayConferences();
             if (dataGridView1.Rows.Count > 0)
             {
-                DisplayPapers((int)dataGridView1.Rows[0].Cells["confId"].Value);
-                DisplayReviewers((int)dataGridView1.Rows[0].Cells["confId"].Value);
+                DisplayPapers((int)dataGridView1.Rows[0].Cells["ConferenceId"].Value);
+                DisplayReviewers((int)dataGridView1.Rows[0].Cells["ConferenceId"].Value);
             }
             if (dataGridView3.Rows.Count > 0)
-                DisplayReviewerExpertise((int)dataGridView3.Rows[0].Cells["userId"].Value);
+                DisplayReviewerExpertise((int)dataGridView3.Rows[0].Cells["UserId"].Value);
             if (dataGridView2.Rows.Count > 0)
                 DisplayAssignedReviewers((int)dataGridView2.Rows[0].Cells["paperId"].Value);
         }
@@ -59,15 +59,15 @@ namespace CMS
         private void DisplayConferences()
         {
             var conf = _conferenceService
-                .GetConferencesByChair(GlobalVariable.CurrentUser.userId)
+                .GetConferencesByChair(GlobalVariable.CurrentUser.Id)
                 .Select(x => new
                 {
-                    x.confId,
-                    x.confTitle,
-                    x.confLocation,
-                    x.paperDeadline,
-                    x.confBeginDate,
-                    x.confEndDate
+                    x.Id,
+                    x.Title,
+                    x.Location,
+                    x.PaperDeadline,
+                    x.BeginDate,
+                    x.EndDate
                 })
                 .ToList();
 
@@ -80,11 +80,11 @@ namespace CMS
                 .GetPapersByConference(conferenceId)
                 .Select(x => new
                 {
-                    x.paperId,
-                    x.paperTitle,
-                    x.paperAuthor,
-                    x.paperSubDate,
-                    x.paperStatus
+                    x.Id,
+                    x.Title,
+                    x.Author,
+                    x.SubmissionDate,
+                    x.Status
                 })
                 .ToList();
 
@@ -97,9 +97,9 @@ namespace CMS
                 .GetReviewers(conferenceId)
                 .Select(x => new
                 {
-                    x.userId,
-                    x.userName,
-                    x.userEmail
+                    x.Id,
+                    x.Name,
+                    x.Email
                 })
                 .ToList();
 
@@ -122,9 +122,9 @@ namespace CMS
                 .GetAssignedReviewersByPaper(paperId)
                 .Select(x => new
                 {
-                    x.userId,
-                    x.userName,
-                    x.userEmail
+                    x.Id,
+                    x.Name,
+                    x.Email
                 })
                 .ToList();
 
@@ -138,11 +138,11 @@ namespace CMS
             // change the paper list according to different conference
             if (e.RowIndex >= 0)
             {
-                int conf = (int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value;
+                int conf = (int)dataGridView1.Rows[e.RowIndex].Cells["ConferenceId"].Value;
 
                 if (_paperService.GetPapersByConference(conf).Any())
                 {
-                    DisplayPapers((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
+                    DisplayPapers((int)dataGridView1.Rows[e.RowIndex].Cells["ConferenceId"].Value);
 
                     paperid = (int)dataGridView2.Rows[0].Cells["paperId"].Value;
                     if (_paperService.GetPaperReviewsByPaper(paperid).Any())
@@ -158,8 +158,8 @@ namespace CMS
 
                 if (_userService.GetReviewers(conf).Any())
                 {
-                    DisplayReviewers((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
-                    DisplayReviewerExpertise((int)dataGridView3.Rows[0].Cells["userId"].Value);
+                    DisplayReviewers((int)dataGridView1.Rows[e.RowIndex].Cells["ConferenceId"].Value);
+                    DisplayReviewerExpertise((int)dataGridView3.Rows[0].Cells["UserId"].Value);
                 }
                 else
                 {
@@ -175,11 +175,11 @@ namespace CMS
             // change the expertise list according to different reviewer
             if (e.RowIndex >= 0)
             {
-                userid = (int)dataGridView3.Rows[e.RowIndex].Cells["userId"].Value;
-                username = (string)dataGridView3.Rows[e.RowIndex].Cells["userName"].Value;
+                userid = (int)dataGridView3.Rows[e.RowIndex].Cells["UserId"].Value;
+                username = (string)dataGridView3.Rows[e.RowIndex].Cells["Name"].Value;
 
                 if (_keywordService.GetExpertiseByUser(userid).Any())
-                    DisplayReviewerExpertise((int)dataGridView3.Rows[e.RowIndex].Cells["userId"].Value);
+                    DisplayReviewerExpertise((int)dataGridView3.Rows[e.RowIndex].Cells["UserId"].Value);
                 else
                     dataGridView4.DataSource = null;
             }
@@ -209,13 +209,13 @@ namespace CMS
             else
             {
                 foreach (User u in reviewer)
-                    if (u.userId == userid)
+                    if (u.Id == userid)
                         find = true;
             }
 
             if (!find && userid != 0 && paperid != 0)
             {
-                User newreviewer = new User { userId = userid, userName = username };
+                User newreviewer = new User { Id = userid, Name = username };
                 reviewer.Add(newreviewer);
                 listBox_reviewer.SelectedIndex = listBox_reviewer.Items.Count - 1;
             }
@@ -226,14 +226,14 @@ namespace CMS
             if (deletlist.Count != 0)
             {
                 foreach (PaperReview pr in deletlist)
-                    await _paperService.DeletePaperReview(pr.paperId, pr.userId);
+                    await _paperService.DeletePaperReview(pr.Id, pr.UserId);
             }
             else
                 foreach (User u in reviewer)
                 {
-                    if (_paperService.GetPaperReview(paperid, u.userId) == null)
+                    if (_paperService.GetPaperReview(paperid, u.Id) == null)
                     {
-                        PaperReview pr = new PaperReview { paperId = paperid, userId = u.userId };
+                        PaperReview pr = new PaperReview { Id = paperid, UserId = u.Id };
                         await _paperService.AddPaperReview(pr);
                     }
                 }
@@ -247,7 +247,7 @@ namespace CMS
             if (tag == 1)
             {
                 User u = (User)listBox_reviewer.SelectedItem;
-                deletlist.Add(new PaperReview { paperId = paperid, userId = u.userId });
+                deletlist.Add(new PaperReview { PaperId = paperid, UserId = u.Id });
             }
             // ### can improve just using string list to store paperreview id
             reviewer.Remove((User)listBox_reviewer.SelectedItem);
@@ -261,7 +261,7 @@ namespace CMS
 
             foreach (var r in rvw)
             {
-                reviewer.Add(new User { userId = r.userId, userName = r.userName });
+                reviewer.Add(new User { Id = r.Id, Name = r.Name });
             }
 
             tag = 1;

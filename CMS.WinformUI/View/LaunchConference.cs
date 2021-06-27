@@ -1,6 +1,6 @@
 ﻿using CMS.DAL.Models;
-using CMS.Library.Global;
-using CMS.Library.Service;
+using CMS.Service.Global;
+using CMS.Service.Service;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -43,7 +43,7 @@ namespace CMS
         private void DisplaySelectedKeyword()
         {
             listBox1.DataSource = keywords;
-            listBox1.DisplayMember = "keywrdName";
+            listBox1.DisplayMember = "Name";
         }
 
         private void btn_add_Click(object sender, EventArgs e)
@@ -52,14 +52,14 @@ namespace CMS
             {
                 bool find = false;
                 foreach (Keyword k in keywords)
-                    if (k.keywrdId == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value)
+                    if (k.Id == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["KeywordId"].Value)
                         find = true;
                 if (!find)
                 {
                     keywords.Add(new Keyword
                     {
-                        keywrdId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value,
-                        keywrdName = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdName"].Value
+                        Id = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["KeywordId"].Value,
+                        Name = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["Name"].Value
                     });
                     listBox1.SelectedIndex = listBox1.Items.Count - 1;
                 }
@@ -99,18 +99,18 @@ namespace CMS
 
             var conference = new Conference
             {
-                chairId = GlobalVariable.CurrentUser.userId,
-                confTitle = textBox_title.Text,
-                confLocation = textBox_loc.Text,
-                confBeginDate = dateTimePicker_bdate.Value.Date,
-                confEndDate = dateTimePicker_edate.Value.Date,
-                paperDeadline = dateTimePicker_pdeadline.Value.Date
+                ChairId = GlobalVariable.CurrentUser.Id,
+                Title = textBox_title.Text,
+                Location = textBox_loc.Text,
+                BeginDate = dateTimePicker_bdate.Value.Date,
+                EndDate = dateTimePicker_edate.Value.Date,
+                PaperDeadline = dateTimePicker_pdeadline.Value.Date
             };
 
             await _conferenceService.AddConference(conference, keywords.ToList());
 
             MessageBox.Show("Conference added successfully");
-            GlobalHelper.ClearControls(this.Controls);
+            this.Controls.Clear();
             Init();
         }
     }

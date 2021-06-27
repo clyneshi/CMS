@@ -1,10 +1,8 @@
-﻿using CMS.Library.App_Start;
-using CMS.Library.Enums;
-using CMS.Library.Global;
+﻿using CMS.Service.Enums;
+using CMS.Service.Global;
+using CMS.WinformUI.Utils;
 using System;
 using System.Windows.Forms;
-using Unity;
-using Unity.Resolution;
 
 namespace CMS
 {
@@ -20,11 +18,13 @@ namespace CMS
         RequestValidate rv;
         PaperStatus ps;
 
+        private readonly IFormUtil _formUtil;
 
-        public Main()
+        public Main(IFormUtil formUtil)
         {
+            _formUtil = formUtil;
             InitializeComponent();
-            MenuInit(GlobalVariable.CurrentUser.roleId);
+            MenuInit(GlobalVariable.CurrentUser.RoleId);
         }
 
         public void MenuInit(int? role)
@@ -96,13 +96,13 @@ namespace CMS
 
         private void MDIParent1_Load(object sender, EventArgs e)
         {
-            txt_status.Text = GlobalVariable.CurrentUser.userName;
+            txt_status.Text = GlobalVariable.CurrentUser.Name;
         }
 
         private void strip_user_logout_Click(object sender, EventArgs e)
         {
             this.Close();
-            var login = UnityConfig.UIContainer.Resolve<Login>();
+            var login = _formUtil.GetForm<Login>();
             login.Show();
         }
 
@@ -117,7 +117,7 @@ namespace CMS
 
             if (sub == null)
             {
-                sub = UnityConfig.UIContainer.Resolve<SubmitPaper>();
+                sub = _formUtil.GetForm<SubmitPaper>();
                 FormInit(sub);
             }
             else
@@ -142,7 +142,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (lf == null)
             {
-                lf = UnityConfig.UIContainer.Resolve<LaunchConference>();
+                lf = _formUtil.GetForm<LaunchConference>();
                 FormInit(lf);
             }
             else
@@ -157,7 +157,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (ap == null)
             {
-                ap = UnityConfig.UIContainer.Resolve<AssignPaper>();
+                ap = _formUtil.GetForm<AssignPaper>();
                 FormInit(ap);
             }
             else
@@ -172,7 +172,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (rvp == null)
             {
-                rvp = UnityConfig.UIContainer.Resolve<ReviewPaper>();
+                rvp = _formUtil.GetForm<ReviewPaper>();
                 FormInit(rvp);
             }
             else
@@ -187,7 +187,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (fb == null)
             {
-                fb = UnityConfig.UIContainer.Resolve<MakeDicision>();
+                fb = _formUtil.GetForm<MakeDicision>();
                 FormInit(fb);
             }
             else
@@ -202,7 +202,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (rv == null)
             {
-                rv = UnityConfig.UIContainer.Resolve<RequestValidate>();
+                rv = _formUtil.GetForm<RequestValidate>();
                 FormInit(rv);
             }
             else
@@ -217,7 +217,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (ps == null)
             {
-                ps = UnityConfig.UIContainer.Resolve<PaperStatus>();
+                ps = _formUtil.GetForm<PaperStatus>();
                 FormInit(ps);
             }
             else
@@ -229,14 +229,14 @@ namespace CMS
 
         private void strip_user_settings_Click(object sender, EventArgs e)
         {
-            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Reviewer)
+            if (GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Reviewer)
             {
-                var acs = UnityConfig.UIContainer.Resolve<AccountSetting_R>();
+                var acs = _formUtil.GetForm<AccountSetting_R>();
                 acs.Show();
             }
             else
             {
-                var acs = UnityConfig.UIContainer.Resolve<AccountSetting>();
+                var acs = _formUtil.GetForm<AccountSetting>();
                 acs.Show();
             }
         }
@@ -244,19 +244,19 @@ namespace CMS
         private void strip_conf_confInfo_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Admin
-                || GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Chair)
+            if (GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Admin
+                || GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Chair)
             {
                 if (cfia == null)
                 {
-                    cfia = UnityConfig.UIContainer.Resolve<ConferenceInfo_Admin>
-                    (
-                        new ResolverOverride[]
-                        {
-                            new ParameterOverride("type", 1)
-                        }
-                    );
-                    FormInit(cfia);
+                    //cfia = _formUtil.CreateForm<ConferenceInfo_Admin>
+                    //(
+                    //    new ResolverOverride[]
+                    //    {
+                    //        new ParameterOverride("type", 1)
+                    //    }
+                    //);
+                    //FormInit(cfia);
                 }
                 else
                 {
@@ -268,7 +268,7 @@ namespace CMS
             {
                 if (cfi == null)
                 {
-                    cfi = UnityConfig.UIContainer.Resolve<ConferenceInfo>();
+                    cfi = _formUtil.GetForm<ConferenceInfo>();
                     FormInit(cfi);
                 }
                 else
@@ -285,14 +285,14 @@ namespace CMS
             this.IsMdiContainer = true;
             if (cfia == null)
             {
-                cfia = UnityConfig.UIContainer.Resolve<ConferenceInfo_Admin>
-                    (
-                        new ResolverOverride[]
-                        {
-                            new ParameterOverride("type", 2)
-                        }
-                    );
-                FormInit(cfia);
+                //cfia = _formUtil.CreateForm<ConferenceInfo_Admin>
+                //    (
+                //        new ResolverOverride[]
+                //        {
+                //            new ParameterOverride("type", 2)
+                //        }
+                //    );
+                //FormInit(cfia);
             }
             else
             {
@@ -306,14 +306,14 @@ namespace CMS
             this.IsMdiContainer = true;
             if (cfia == null)
             {
-                cfia = UnityConfig.UIContainer.Resolve<ConferenceInfo_Admin>
-                    (
-                        new ResolverOverride[]
-                        {
-                            new ParameterOverride("type", 3)
-                        }
-                    );
-                FormInit(cfia);
+                //cfia = _formUtil.CreateForm<ConferenceInfo_Admin>
+                //    (
+                //        new ResolverOverride[]
+                //        {
+                //            new ParameterOverride("type", 3)
+                //        }
+                //    );
+                //FormInit(cfia);
             }
             else
             {

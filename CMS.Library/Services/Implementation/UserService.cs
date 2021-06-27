@@ -1,14 +1,14 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
-using CMS.Library.Enums;
-using CMS.Library.Global;
-using CMS.Library.Models;
+using CMS.Service.Enums;
+using CMS.Service.Global;
+using CMS.Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CMS.Library.Service
+namespace CMS.Service.Service
 {
     public class UserService : IUserService
     {
@@ -29,19 +29,19 @@ namespace CMS.Library.Service
                 return null;
 
             var user = _unitOfWork.UserRepository
-                .Filter(x => x.userEmail == email && x.userPasswrd == passWord)
+                .Filter(x => x.Email == email && x.Password == passWord)
                 .FirstOrDefault();
 
             if (user == null)
                 return null;
 
-            if (user.roleId == (int)RoleTypesEnum.Author || user.roleId == (int)RoleTypesEnum.Reviewer)
+            if (user.RoleId == (int)RoleTypesEnum.Author || user.RoleId == (int)RoleTypesEnum.Reviewer)
             {
                 var conferenceMembers = _unitOfWork.ConferenceMemberRepository
-                    .Filter(x => x.userId == user.userId)
+                    .Filter(x => x.UserId == user.Id)
                     .SingleOrDefault();
 
-                GlobalVariable.UserConference = conferenceMembers?.confId ?? 0;
+                GlobalVariable.UserConference = conferenceMembers?.ConferenceId ?? 0;
             }
 
             GlobalVariable.CurrentUser = user;
@@ -51,25 +51,25 @@ namespace CMS.Library.Service
 
         public int GetMaxUserId()
         {
-            return _unitOfWork.UserRepository.GetAll().OrderByDescending(u => u.userId).FirstOrDefault().userId;
+            return _unitOfWork.UserRepository.GetAll().OrderByDescending(u => u.Id).FirstOrDefault().Id;
         }
 
-        public async Task UpdateUser(string userName, string userEmail, string userContact, string oldPasswrd, string newPasswrd)
+        public async Task UpdateUser(string Name, string Email, string Contact, string oldPasswrd, string newPasswrd)
         {
-            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(userEmail)
+            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Email)
                 || string.IsNullOrEmpty(oldPasswrd) || string.IsNullOrEmpty(newPasswrd))
             {
                 throw new Exception();
             }
 
             var user = _unitOfWork.UserRepository
-                .Filter(u => u.userId == GlobalVariable.CurrentUser.userId)
+                .Filter(u => u.Id == GlobalVariable.CurrentUser.Id)
                 .FirstOrDefault();
-            user.userName = userName;
-            user.userEmail = userEmail;
-            user.userContact = userContact;
-            if (user.userPasswrd == oldPasswrd)
-                user.userPasswrd = newPasswrd;
+            user.Name = Name;
+            user.Email = Email;
+            user.Contact = Contact;
+            if (user.Password == oldPasswrd)
+                user.Password = newPasswrd;
 
             _unitOfWork.UserRepository.Update(user);
             await _unitOfWork.Save();
@@ -78,8 +78,8 @@ namespace CMS.Library.Service
         public IEnumerable<User> GetReviewers(int conferenceId)
         {
             return _unitOfWork.ConferenceMemberRepository
-                .Filter(x => x.confId == conferenceId
-                        && x.User.roleId == (int)RoleTypesEnum.Reviewer)
+                .Filter(x => x.Id == conferenceId
+                        && x.User.RoleId == (int)RoleTypesEnum.Reviewer)
                 .Select(x => x.User)
                 .ToList();
         }
@@ -87,7 +87,7 @@ namespace CMS.Library.Service
         public IEnumerable<User> GetAssignedReviewersByPaper(int paperId)
         {
             return _unitOfWork.PaperReviewRepository
-                .Filter(x => x.paperId == paperId)
+                .Filter(x => x.PaperId == paperId)
                 .Select(x => x.User)
                 .ToList();
         }
@@ -98,11 +98,11 @@ namespace CMS.Library.Service
                 .GetUserWithRole(null)
                 .Select(x => new UserRoleModel
                 {
-                    Id = x.userId,
-                    Name = x.userName,
-                    Role = x.Role.roleType,
-                    Email = x.userEmail,
-                    Contact = x.userContact
+                    Id = x.Id,
+                    Name = x.Name,
+                    Role = x.Role.Type,
+                    Email = x.Email,
+                    Contact = x.Contact
                 }).ToList();
         }
 

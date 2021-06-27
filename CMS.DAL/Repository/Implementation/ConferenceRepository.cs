@@ -1,8 +1,8 @@
 ﻿using CMS.DAL.Models;
 using CMS.DAL.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -39,7 +39,7 @@ namespace CMS.DAL.Repository.Implementation
 
         public IEnumerable<Conference> GetConferenceWithChair(Expression<Func<Conference, bool>> predicate = null)
         {
-            var query = _context.Conferences.Include(x => x.User);
+            var query = _context.Conferences.Include(x => x.Chair);
 
             if (predicate != null)
             {

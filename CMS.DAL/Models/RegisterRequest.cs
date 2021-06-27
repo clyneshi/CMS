@@ -1,37 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
+
 namespace CMS.DAL.Models
 {
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    [Table("RegisterRequest")]
     public partial class RegisterRequest
     {
         public int Id { get; set; }
-
-        public int? confId { get; set; }
-
-        [Required]
-        [StringLength(20)]
-        public string name { get; set; }
-
-        [StringLength(20)]
-        public string password { get; set; }
-
-        [StringLength(10)]
-        public string contact { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string email { get; set; }
-
-        [Required]
-        [StringLength(20)]
-        public string status { get; set; }
-
-        public int roleId { get; set; }
+        public int? ConferenceId { get; set; }
+        public string Name { get; set; }
+        public string Password { get; set; }
+        public string Contact { get; set; }
+        public string Email { get; set; }
+        public string Status { get; set; }
+        public int RoleId { get; set; }
 
         public virtual Conference Conference { get; set; }
-
         public virtual Role Role { get; set; }
     }
 }

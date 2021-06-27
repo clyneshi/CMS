@@ -1,17 +1,19 @@
-﻿using CMS.Library.App_Start;
-using CMS.Library.Service;
+﻿using CMS.Service.Service;
+using CMS.WinformUI.Utils;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows.Forms;
-using Unity;
 
 namespace CMS
 {
     public partial class Login : Form
     {
+        private readonly IFormUtil _formUtil;
         private readonly IUserService _userService;
 
-        public Login(IUserService userService)
+        public Login(IFormUtil formUtil, IUserService userService)
         {
+            _formUtil = formUtil;
             _userService = userService;
             InitializeComponent();
         }
@@ -27,7 +29,7 @@ namespace CMS
 
             if (use != null)
             {
-                Main main = new Main();
+                var main = _formUtil.GetForm<Main>();
                 this.Hide();
                 main.Show();
             }
@@ -39,7 +41,7 @@ namespace CMS
 
         private void btn_register_Click(object sender, EventArgs e)
         {
-            var reg = UnityConfig.UIContainer.Resolve<Register>();
+            var reg = _formUtil.GetForm<Register>();
             this.Hide();
             reg.Show();
         }

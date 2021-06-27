@@ -1,13 +1,13 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
-using CMS.Library.Global;
-using CMS.Library.Models;
+using CMS.Service.Global;
+using CMS.Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CMS.Library.Service
+namespace CMS.Service.Service
 {
     public class ConferenceService : IConferenceService
     {
@@ -23,34 +23,34 @@ namespace CMS.Library.Service
             return _unitOfWork.ConferenceRepository.GetAll();
         }
 
-        public Conference GetConferenceById(int confId)
+        public Conference GetConferenceById(int ConferenceId)
         {
-            return _unitOfWork.ConferenceRepository.Filter(c => c.confId == confId).SingleOrDefault();
+            return _unitOfWork.ConferenceRepository.Filter(c => c.Id == ConferenceId).SingleOrDefault();
         }
 
-        public IEnumerable<Conference> GetConferencesByChair(int chairId)
+        public IEnumerable<Conference> GetConferencesByChair(int ChairId)
         {
-            return _unitOfWork.ConferenceRepository.Filter(c => c.chairId == chairId);
+            return _unitOfWork.ConferenceRepository.Filter(c => c.ChairId == ChairId);
         }
 
         public int GetMaxConferenceId()
         {
             return _unitOfWork.ConferenceRepository
                 .GetAll()
-                .OrderByDescending(c => c.confId)
-                .FirstOrDefault().confId;
+                .OrderByDescending(c => c.Id)
+                .FirstOrDefault().Id;
         }
 
         public IEnumerable<ReviewerConferenceModel> GetReviewersByConference()
         {
             return _unitOfWork.ConferenceMemberRepository
-                .Filter(x => x.confId == GlobalVariable.UserConference)
-                .OrderBy(x => x.User.Role.roleType)
+                .Filter(x => x.Id == GlobalVariable.UserConference)
+                .OrderBy(x => x.User.Role.Type)
                 .Select(x => new ReviewerConferenceModel
                 {
-                    Id = x.userId,
-                    Name = x.User.userName,
-                    Role = x.User.Role.roleType
+                    Id = x.UserId,
+                    Name = x.User.Name,
+                    Role = x.User.Role.Type
                 })
                 .ToList();
         }
@@ -62,13 +62,13 @@ namespace CMS.Library.Service
                 .GetConferenceWithChair()
                 .Select(x => new ConferenceUserModel
                 {
-                    Id = x.confId,
-                    Chair = x.User.userName,
-                    Title = x.confTitle,
-                    Location = x.confLocation,
-                    BeginDate = x.confBeginDate,
-                    EndDate = x.confEndDate,
-                    PaperDeadline = x.paperDeadline
+                    Id = x.Id,
+                    Chair = x.Chair.Name,
+                    Title = x.Title,
+                    Location = x.Location,
+                    BeginDate = x.BeginDate,
+                    EndDate = x.EndDate,
+                    PaperDeadline = x.PaperDeadline
                 })
                 .ToList();
         }
@@ -87,7 +87,7 @@ namespace CMS.Library.Service
 
             var conferenceId = GetMaxConferenceId() + 1;
 
-            conference.confId = conferenceId;
+            conference.Id = conferenceId;
 
             _unitOfWork.ConferenceRepository.Add(conference);
 
@@ -95,8 +95,8 @@ namespace CMS.Library.Service
             {
                 _unitOfWork.ConferenceTopicRepository.Add(new ConferenceTopic
                 {
-                    confId = conferenceId,
-                    keywrdId = keyword.keywrdId
+                    Id = conferenceId,
+                    KeywordId = keyword.Id
                 });
             }
 

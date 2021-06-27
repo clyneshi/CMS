@@ -1,12 +1,12 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
-using CMS.Library.Global;
+using CMS.Service.Global;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CMS.Library.Service
+namespace CMS.Service.Service
 {
     public class KeywordService : IKeywordService
     {
@@ -22,12 +22,12 @@ namespace CMS.Library.Service
             return _unitOfWork.KeywordRepository.GetAll();
         }
 
-        public IEnumerable<Expertise> GetExpertiseByUser(int userId)
+        public IEnumerable<Expertise> GetExpertiseByUser(int UserId)
         {
-            return _unitOfWork.ExpertiseRepository.Filter(x => x.userId == userId);
+            return _unitOfWork.ExpertiseRepository.Filter(x => x.UserId == UserId);
         }
 
-        public async Task UpdateExpertise(int userId, List<Keyword> keywordsToRemove, List<Keyword> KeywordsToAdd)
+        public async Task UpdateExpertise(int UserId, List<Keyword> keywordsToRemove, List<Keyword> KeywordsToAdd)
         {
             if (!keywordsToRemove.Any() && !KeywordsToAdd.Any())
             {
@@ -39,19 +39,19 @@ namespace CMS.Library.Service
             // remove keyword that exists in both add list and remove list
             foreach (var ak in KeywordsToAdd)
             {
-                var keywordToDelete = keywordsToRemove.SingleOrDefault(x => x.keywrdId == ak.keywrdId);
+                var keywordToDelete = keywordsToRemove.SingleOrDefault(x => x.Id == ak.Id);
                 if (keywordToDelete != null)
                     keywordsToRemove.Remove(keywordToDelete);
             }
 
-            var expertises = GetExpertiseByUser(userId);
+            var expertises = GetExpertiseByUser(UserId);
 
             // remove keywords
             if (keywordsToRemove.Count != 0)
             {
                 foreach (var rk in keywordsToRemove)
                 {
-                    var expertise = expertises.SingleOrDefault(x => x.keywrdId == rk.keywrdId);
+                    var expertise = expertises.SingleOrDefault(x => x.KeywordId == rk.Id);
                     if (expertise != null)
                         _unitOfWork.ExpertiseRepository.Delete(expertise);
                 }
@@ -60,13 +60,13 @@ namespace CMS.Library.Service
             // add new keywords
             foreach (var ak in KeywordsToAdd)
             {
-                if (expertises.Any(x => x.keywrdId == ak.keywrdId))
+                if (expertises.Any(x => x.KeywordId == ak.Id))
                     continue;
 
                 _unitOfWork.ExpertiseRepository.Add(new Expertise
                 {
-                    keywrdId = ak.keywrdId,
-                    userId = GlobalVariable.CurrentUser.userId
+                    KeywordId = ak.Id,
+                    UserId = GlobalVariable.CurrentUser.Id
                 });
             }
 

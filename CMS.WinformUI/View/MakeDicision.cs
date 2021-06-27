@@ -1,7 +1,7 @@
 ﻿using CMS.DAL.Models;
-using CMS.Library.Enums;
-using CMS.Library.Global;
-using CMS.Library.Service;
+using CMS.Service.Enums;
+using CMS.Service.Global;
+using CMS.Service.Service;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,11 +25,11 @@ namespace CMS
 
         public void Init()
         {
-            GlobalHelper.ClearControls(this.Controls);
+            this.Controls.Clear();
             DisplayConferenes();
             if (dataGridView1.Rows.Count > 0)
             {
-                DisplayPapers((int)dataGridView1.Rows[0].Cells["confId"].Value);
+                DisplayPapers((int)dataGridView1.Rows[0].Cells["ConferenceId"].Value);
                 if (dataGridView2.Rows.Count > 0)
                     DisplayReviews((int)dataGridView2.Rows[0].Cells["paperId"].Value);
                 else
@@ -45,15 +45,15 @@ namespace CMS
         private void DisplayConferenes()
         {
             dataGridView1.DataSource = _conferenceService
-                .GetConferencesByChair(GlobalVariable.CurrentUser.userId)
+                .GetConferencesByChair(GlobalVariable.CurrentUser.Id)
                 .Select(x => new
                 {
-                    x.confId,
-                    x.confTitle,
-                    x.confLocation,
-                    x.paperDeadline,
-                    x.confBeginDate,
-                    x.confEndDate
+                    x.Id,
+                    x.Title,
+                    x.Location,
+                    x.PaperDeadline,
+                    x.BeginDate,
+                    x.EndDate
                 })
                 .ToList();
         }
@@ -64,11 +64,11 @@ namespace CMS
                 .GetPapersByConference(conf)
                 .Select(x => new
                 {
-                    x.paperId,
-                    x.paperTitle,
-                    x.paperAuthor,
-                    x.paperSubDate,
-                    x.paperStatus
+                    x.Id,
+                    x.Title,
+                    x.Author,
+                    x.SubmissionDate,
+                    x.Status
                 })
                 .ToList();
         }
@@ -79,9 +79,9 @@ namespace CMS
                 .GetPaperReviewsByPaper(paper)
                 .Select(x => new
                 {
-                    x.paperId,
-                    x.Paper.paperTitle,
-                    x.paperRating,
+                    x.PaperId,
+                    x.Paper.Title,
+                    x.PaperRating,
                 })
                 .ToList();
         }
@@ -90,7 +90,7 @@ namespace CMS
         {
             if (e.RowIndex >= 0)
             {
-                DisplayPapers((int)dataGridView1.Rows[e.RowIndex].Cells["confId"].Value);
+                DisplayPapers((int)dataGridView1.Rows[e.RowIndex].Cells["ConferenceId"].Value);
                 if (dataGridView2.RowCount != 0 && dataGridView2.CurrentRow.Index >= 0)
                     DisplayReviews((int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value);
                 else
@@ -121,11 +121,11 @@ namespace CMS
 
             if (feedbacks.Any())
             {
-                rtextbox_feedback.Text = feedbacks.FirstOrDefault().feedback1;
+                rtextbox_feedback.Text = feedbacks.FirstOrDefault().Feedback1;
                 foreach (Control c in groupBox1.Controls)
                 {
                     RadioButton rb = c as RadioButton;
-                    if (rb != null && rb.Text.Equals(feedbacks.Single().fnlDecision.Trim()))
+                    if (rb != null && rb.Text.Equals(feedbacks.Single().FinalDecision.Trim()))
                         rb.Checked = true;
                 }
             }
@@ -159,7 +159,7 @@ namespace CMS
 
         private async Task SendEmail()
         {
-            var email = _paperService.GetPaperById(selectedPaperId).User.userEmail;
+            var email = _paperService.GetPaperById(selectedPaperId).AuthorNavigation.Email;
             var decision = DecisionCheck();
 
             await GlobalHelper.SendEmail(email.ToString(), $"Your paper has been {decision.ToLower()}ed");
@@ -178,10 +178,10 @@ namespace CMS
 
             Feedback feedback = new Feedback
             {
-                paperId = selectedPaperId,
-                userId = GlobalVariable.CurrentUser.userId,
-                fnlDecision = decision.ToString(),
-                feedback1 = rtextbox_feedback.Text
+                PaperId = selectedPaperId,
+                UserId = GlobalVariable.CurrentUser.Id,
+                FinalDecision = decision.ToString(),
+                Feedback1 = rtextbox_feedback.Text
             };
 
             await _paperService.AddFeedback(feedback);

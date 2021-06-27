@@ -1,13 +1,13 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
-using CMS.Library.Enums;
-using CMS.Library.Models;
+using CMS.Service.Enums;
+using CMS.Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CMS.Library.Service
+namespace CMS.Service.Service
 {
     public class UserRequestService : IUserRequestService
     {
@@ -18,23 +18,23 @@ namespace CMS.Library.Service
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<UserRequestModel> GetUserRequestForChair(int chairId)
+        public IEnumerable<UserRequestModel> GetUserRequestForChair(int ChairId)
         {
             return _unitOfWork.RegisterRequestRepository
-                .Filter(x => x.Conference.chairId == chairId
-                    && x.roleId != (int)RoleTypesEnum.Chair
-                    && x.status == UserRequestStatusEnum.Waiting.ToString())
+                .Filter(x => x.Conference.ChairId == ChairId
+                    && x.RoleId != (int)RoleTypesEnum.Chair
+                    && x.Status == UserRequestStatusEnum.Waiting.ToString())
                 .Select(x => new UserRequestModel
                 {
                     Id = x.Id,
-                    ConfId = x.Conference.confId,
-                    ConfTitle = x.Conference.confTitle,
-                    RoleId = x.roleId,
-                    RoleType = x.Role.roleType,
-                    Name = x.name,
-                    Contact = x.contact,
-                    Password = x.password,
-                    Email = x.email
+                    ConferenceId = x.Conference.Id,
+                    Title = x.Conference.Title,
+                    RoleId = x.RoleId,
+                    Type = x.Role.Type,
+                    Name = x.Name,
+                    Contact = x.Contact,
+                    Password = x.Password,
+                    Email = x.Email
                 })
                 .ToList();
         }
@@ -42,28 +42,28 @@ namespace CMS.Library.Service
         public IEnumerable<UserRequestModel> GetUserRequestForAdmin(int adminId)
         {
             return _unitOfWork.RegisterRequestRepository
-                .Filter(x => x.roleId == (int)RoleTypesEnum.Chair
-                    && x.status == UserRequestStatusEnum.Waiting.ToString())
+                .Filter(x => x.RoleId == (int)RoleTypesEnum.Chair
+                    && x.Status == UserRequestStatusEnum.Waiting.ToString())
                 .Select(x => new UserRequestModel
                 {
                     Id = x.Id,
-                    RoleId = x.roleId,
-                    RoleType = x.Role.roleType,
-                    Name = x.name,
-                    Contact = x.contact,
-                    Password = x.password,
-                    Email = x.email
+                    RoleId = x.RoleId,
+                    Type = x.Role.Type,
+                    Name = x.Name,
+                    Contact = x.Contact,
+                    Password = x.Password,
+                    Email = x.Email
                 })
                 .ToList();
         }
 
-        public async Task ChangeRequestStatus(int requestId, UserRequestStatusEnum status)
+        public async Task ChangeRequestStatus(int requestId, UserRequestStatusEnum Status)
         {
             var request = _unitOfWork.RegisterRequestRepository
                 .Filter(r => r.Id == requestId)
                 .SingleOrDefault();
 
-            request.status = status.ToString();
+            request.Status = Status.ToString();
 
             _unitOfWork.RegisterRequestRepository.Update(request);
 

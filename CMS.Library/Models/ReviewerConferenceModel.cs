@@ -1,4 +1,4 @@
-﻿namespace CMS.Library.Models
+﻿namespace CMS.Service.Models
 {
     public class ReviewerConferenceModel
     {

@@ -1,6 +1,6 @@
 ﻿using CMS.DAL.Models;
-using CMS.Library.Global;
-using CMS.Library.Service;
+using CMS.Service.Global;
+using CMS.Service.Service;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -21,7 +21,7 @@ namespace CMS
         public void Init()
         {
             //paperid = 0;
-            var reviewPapers = _paperService.GetPapersForReview(GlobalVariable.CurrentUser.userId, GlobalVariable.UserConference);
+            var reviewPapers = _paperService.GetPapersForReview(GlobalVariable.CurrentUser.Id, GlobalVariable.UserConference);
             dataGridView1.DataSource = reviewPapers;
             //dataGridView1.Columns[5].Visible = false;
         }
@@ -50,20 +50,20 @@ namespace CMS
             {
                 int paperid = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["paperId"].Value;
                 Paper paper = _paperService.GetPaperById(paperid);
-                sfd.FileName = paper.paperFileName;
-                if (paper.paperFormat.ToUpper().Equals(".PDF"))
+                sfd.FileName = paper.FileName;
+                if (paper.Format.ToUpper().Equals(".PDF"))
                 {
                     sfd.Filter = "Data Files PDF|*.pdf";
                     sfd.DefaultExt = "pdf";
                     sfd.AddExtension = true;
                 }
-                if (paper.paperFormat.ToUpper().Equals(".DOC"))
+                if (paper.Format.ToUpper().Equals(".DOC"))
                 {
                     sfd.Filter = "Data Files WORD|*.doc";
                     sfd.DefaultExt = "doc";
                     sfd.AddExtension = true;
                 }
-                if (paper.paperFormat.ToUpper().Equals(".TXT"))
+                if (paper.Format.ToUpper().Equals(".TXT"))
                 {
                     sfd.Filter = "Data Files Text Files|*.txt";
                     sfd.DefaultExt = "txt";
@@ -73,7 +73,7 @@ namespace CMS
                 if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     BinaryWriter bw = new BinaryWriter(File.Create(sfd.FileName));
-                    bw.Write(paper.paperContent);
+                    bw.Write(paper.Content);
                     bw.Dispose();
                 }
             }

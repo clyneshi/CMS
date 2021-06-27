@@ -1,9 +1,9 @@
 ﻿using CMS.DAL.Models;
-using CMS.Library.Models;
+using CMS.Service.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CMS.Library.Service
+namespace CMS.Service.Service
 {
     public interface IUserService
     {
@@ -13,6 +13,6 @@ namespace CMS.Library.Service
         int GetMaxUserId();
         IEnumerable<User> GetReviewers(int conferenceId);
         IEnumerable<UserRoleModel> GetUsersWithRole();
-        Task UpdateUser(string userName, string userEmail, string userContact, string oldPasswrd, string newPasswrd);
+        Task UpdateUser(string Name, string Email, string Contact, string oldPasswrd, string newPasswrd);
     }
 }

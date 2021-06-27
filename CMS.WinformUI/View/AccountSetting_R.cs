@@ -1,7 +1,7 @@
 ﻿using CMS.DAL.Models;
-using CMS.Library.Enums;
-using CMS.Library.Global;
-using CMS.Library.Service;
+using CMS.Service.Enums;
+using CMS.Service.Global;
+using CMS.Service.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -52,28 +52,28 @@ namespace CMS
 
         private void SelectedKwDisplay()
         {
-            var expertises = _keywordService.GetExpertiseByUser(GlobalVariable.CurrentUser.userId);
+            var expertises = _keywordService.GetExpertiseByUser(GlobalVariable.CurrentUser.Id);
 
             foreach (var expertise in expertises)
             {
-                this.keywords.Add(new Keyword { keywrdId = expertise.keywrdId, keywrdName = expertise.Keyword.keywrdName });
+                this.keywords.Add(new Keyword { Id = expertise.KeywordId, Name = expertise.Keyword.Name });
             }
 
             listBox1.DataSource = this.keywords;
-            listBox1.DisplayMember = "keywrdName";
-            listBox1.ValueMember = "keywrdId";
+            listBox1.DisplayMember = "Name";
+            listBox1.ValueMember = "KeywordId";
         }
 
         private void InitForm()
         {
-            textBox_name.Text = GlobalVariable.CurrentUser.userName;
-            textBox_email.Text = GlobalVariable.CurrentUser.userEmail;
-            textBox_cont.Text = GlobalVariable.CurrentUser.userContact;
-            comboBox_role.Text = _roleService.GetRoleById((int)GlobalVariable.CurrentUser.roleId).roleType;
+            textBox_name.Text = GlobalVariable.CurrentUser.Name;
+            textBox_email.Text = GlobalVariable.CurrentUser.Email;
+            textBox_cont.Text = GlobalVariable.CurrentUser.Contact;
+            comboBox_role.Text = _roleService.GetRoleById((int)GlobalVariable.CurrentUser.RoleId).Type;
 
-            if (GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Reviewer
-                || GlobalVariable.CurrentUser.roleId == (int)RoleTypesEnum.Author)
-                comboBox_conf.Text = _conferenceService.GetConferenceById(GlobalVariable.UserConference).confTitle;
+            if (GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Reviewer
+                || GlobalVariable.CurrentUser.RoleId == (int)RoleTypesEnum.Author)
+                comboBox_conf.Text = _conferenceService.GetConferenceById(GlobalVariable.UserConference).Title;
         }
 
         private void btn_add_Click(object sender, EventArgs e)
@@ -82,14 +82,14 @@ namespace CMS
             {
                 bool find = false;
                 foreach (Keyword k in keywords)
-                    if (k.keywrdId == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value)
+                    if (k.Id == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["KeywordId"].Value)
                         find = true;
                 if (!find)
                 {
                     keywords.Add(new Keyword
                     {
-                        keywrdId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value,
-                        keywrdName = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdName"].Value
+                        Id = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["KeywordId"].Value,
+                        Name = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["Name"].Value
                     });
                     listBox1.SelectedIndex = listBox1.Items.Count - 1;
                 }
@@ -100,7 +100,7 @@ namespace CMS
         {
             if (listBox1.SelectedIndex >= 0)
             {
-                removedKeywords.Add(new Keyword { keywrdId = (int)listBox1.SelectedValue });
+                removedKeywords.Add(new Keyword { Id = (int)listBox1.SelectedValue });
                 keywords.Remove((Keyword)listBox1.SelectedItem);
             }
         }
@@ -108,7 +108,7 @@ namespace CMS
         private async void btn_save_Click(object sender, EventArgs e)
         {
             await _userService.UpdateUser(textBox_name.Text, textBox_email.Text, textBox_cont.Text, textBox_oPass.Text, textBox_nPass.Text);
-            await _keywordService.UpdateExpertise(GlobalVariable.CurrentUser.userId, removedKeywords, keywords.ToList());
+            await _keywordService.UpdateExpertise(GlobalVariable.CurrentUser.Id, removedKeywords, keywords.ToList());
             MessageBox.Show("Update completed");
         }
 

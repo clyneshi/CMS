@@ -1,7 +1,7 @@
 ﻿using CMS.DAL.Models;
-using CMS.Library.Enums;
-using CMS.Library.Global;
-using CMS.Library.Service;
+using CMS.Service.Enums;
+using CMS.Service.Global;
+using CMS.Service.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -78,7 +78,7 @@ namespace CMS
         {
             keywords.Clear();
             listBox_keyword.DataSource = keywords;
-            listBox_keyword.DisplayMember = "keywrdName";
+            listBox_keyword.DisplayMember = "Name";
         }
 
         private void btn_keyAdd_Click(object sender, EventArgs e)
@@ -87,14 +87,14 @@ namespace CMS
             {
                 bool find = false;
                 foreach (Keyword k in keywords)
-                    if (k.keywrdId == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value)
+                    if (k.Id == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["KeywordId"].Value)
                         find = true;
                 if (!find)
                 {
                     keywords.Add(new Keyword
                     {
-                        keywrdId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdId"].Value,
-                        keywrdName = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["keywrdName"].Value
+                        Id = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["KeywordId"].Value,
+                        Name = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["Name"].Value
                     });
                     listBox_keyword.SelectedIndex = listBox_keyword.Items.Count - 1;
                 }
@@ -109,7 +109,7 @@ namespace CMS
 
         private string PaperValidation()
         {
-            var deadline = _conferenceService.GetConferenceById(GlobalVariable.UserConference).paperDeadline;
+            var deadline = _conferenceService.GetConferenceById(GlobalVariable.UserConference).PaperDeadline;
 
             if (DateTime.Compare(DateTime.Today, (DateTime)deadline) >= 0)
                 return "Paper submition has finished";
@@ -137,17 +137,17 @@ namespace CMS
 
             var paper = new Paper
             {
-                paperId = paperid,
-                paperTitle = textBox_paperTitle.Text,
-                paperAuthor = textBox_author.Text,
-                paperLength = (string)comboBox_paperLength.SelectedItem,
-                confId = GlobalVariable.UserConference,
-                auId = GlobalVariable.CurrentUser.userId,
-                paperFormat = fileext,
-                paperFileName = filename,
-                paperStatus = PaperStatusEnum.Submitted.ToString(),
-                paperContent = content,
-                paperSubDate = DateTime.Today
+                Id = paperid,
+                Title = textBox_paperTitle.Text,
+                Author = textBox_author.Text,
+                Length = (string)comboBox_paperLength.SelectedItem,
+                ConferenceId = GlobalVariable.UserConference,
+                AuthorId = GlobalVariable.CurrentUser.Id,
+                Format = fileext,
+                FileName = filename,
+                Status = PaperStatusEnum.Submitted.ToString(),
+                Content = content,
+                SubmissionDate = DateTime.Today
             };
 
             var topics = new List<PaperTopic>();
@@ -155,15 +155,15 @@ namespace CMS
             {
                 topics.Add(new PaperTopic
                 {
-                    paperId = paperid,
-                    keywrdId = k.keywrdId
+                    PaperId = paperid,
+                    KeywordId = k.Id
                 });
             }
 
             await _paperService.AddPaper(paper, topics);
 
             MessageBox.Show("Save successful!");
-            GlobalHelper.ClearControls(this.Controls);
+            this.Controls.Clear();
             Init();
         }
     }

@@ -1,23 +1,25 @@
 ﻿using CMS.DAL.Models;
-using CMS.Library.App_Start;
-using CMS.Library.Enums;
-using CMS.Library.Service;
+using CMS.Service.Enums;
+using CMS.Service.Service;
+using CMS.WinformUI.Utils;
 using System;
 using System.Windows.Forms;
-using Unity;
 
 namespace CMS
 {
     public partial class Register : Form
     {
+        private readonly IFormUtil _formUtil;
         private readonly IRoleService _roleService;
         private readonly IUserRequestService _userRequestService;
         private readonly IConferenceService _conferenceService;
 
-        public Register(IRoleService roleService,
+        public Register(IFormUtil formUtil,
+            IRoleService roleService,
             IUserRequestService userRequest,
             IConferenceService conferenceService)
         {
+            _formUtil = formUtil;
             _roleService = roleService;
             _userRequestService = userRequest;
             _conferenceService = conferenceService;
@@ -28,19 +30,19 @@ namespace CMS
         private void Init()
         {
             comboBox_conf.DataSource = _conferenceService.GetConferences();
-            comboBox_conf.DisplayMember = "confTitle";
-            comboBox_conf.ValueMember = "confId";
+            comboBox_conf.DisplayMember = "Title";
+            comboBox_conf.ValueMember = "Id";
             comboBox_conf.SelectedIndex = -1;
 
             comboBox_role.DataSource = _roleService.GetRoles();
-            comboBox_role.DisplayMember = "roleType";
-            comboBox_role.ValueMember = "roleId";
+            comboBox_role.DisplayMember = "Type";
+            comboBox_role.ValueMember = "Id";
             comboBox_role.SelectedIndex = -1;
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
         {
-            var lg = UnityConfig.UIContainer.Resolve<Login>();
+            var lg = _formUtil.GetForm<Login>();
             lg.Show();
             this.Close();
         }
@@ -59,13 +61,13 @@ namespace CMS
         {
             RegisterRequest request = new RegisterRequest();
             if (comboBox_conf.Enabled == true)
-                request.confId = (int)comboBox_conf.SelectedValue;
-            request.name = textBox_name.Text.Trim();
-            request.password = textBox_password.Text;
-            request.email = textBox_email.Text;
-            request.contact = textBox_cont.Text;
-            request.status = UserRequestStatusEnum.Waiting.ToString();
-            request.roleId = (int)comboBox_role.SelectedValue;
+                request.ConferenceId = (int)comboBox_conf.SelectedValue;
+            request.Name = textBox_name.Text.Trim();
+            request.Password = textBox_password.Text;
+            request.Email = textBox_email.Text;
+            request.Contact = textBox_cont.Text;
+            request.Status = UserRequestStatusEnum.Waiting.ToString();
+            request.RoleId = (int)comboBox_role.SelectedValue;
             _userRequestService.AddRegisterRequest(request);
 
             return true;
@@ -96,8 +98,8 @@ namespace CMS
             if (error.Equals("") && AddRequest() == true)
             {
                 MessageBox.Show("Submit Successful!");
-                var lg = UnityConfig.UIContainer.Resolve<Login>();
-                lg.Show();
+                //var lg = _formUtil.CreateForm<Login>();
+                //lg.Show();
                 this.Close();
             }
             else

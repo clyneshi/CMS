@@ -3,7 +3,7 @@ using CMS.DAL.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CMS.Library.Service
+namespace CMS.Service.Service
 {
     public class RoleService : IRoleService
     {
@@ -19,9 +19,9 @@ namespace CMS.Library.Service
             return _unitOfWork.RoleRepository.GetAll();
         }
 
-        public Role GetRoleById(int roleId)
+        public Role GetRoleById(int RoleId)
         {
-            return _unitOfWork.RoleRepository.Filter(r => r.roleId == roleId).SingleOrDefault();
+            return _unitOfWork.RoleRepository.Filter(r => r.Id == RoleId).SingleOrDefault();
         }
     }
 }

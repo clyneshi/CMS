@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CMS.Library.Service
+namespace CMS.Service.Service
 {
     public interface IKeywordService
     {
-        IEnumerable<Expertise> GetExpertiseByUser(int userId);
+        IEnumerable<Expertise> GetExpertiseByUser(int UserId);
         IEnumerable<Keyword> GetKeyWords();
-        Task UpdateExpertise(int userId, List<Keyword> keywordsToRemove, List<Keyword> KeywordsToAdd);
+        Task UpdateExpertise(int UserId, List<Keyword> keywordsToRemove, List<Keyword> KeywordsToAdd);
     }
 }

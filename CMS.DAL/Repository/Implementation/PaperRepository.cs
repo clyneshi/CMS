@@ -1,8 +1,8 @@
 ﻿using CMS.DAL.Models;
 using CMS.DAL.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -39,7 +39,7 @@ namespace CMS.DAL.Repository.Implementation
 
         public IEnumerable<Paper> GetPapersWithAuthorAndConference(Expression<Func<Paper, bool>> predicate = null)
         {
-            var query = _context.Papers.Include(x => x.User).Include(x => x.Conference);
+            var query = _context.Papers.Include(x => x.Author).Include(x => x.Conference);
 
             if (predicate != null)
             {

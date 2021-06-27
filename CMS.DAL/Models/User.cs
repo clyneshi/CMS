@@ -1,60 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
+
 namespace CMS.DAL.Models
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    [Table("User")]
     public partial class User
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            Conferences = new HashSet<Conference>();
             ConferenceMembers = new HashSet<ConferenceMember>();
+            Conferences = new HashSet<Conference>();
             Expertises = new HashSet<Expertise>();
             Feedbacks = new HashSet<Feedback>();
-            Papers = new HashSet<Paper>();
             PaperReviews = new HashSet<PaperReview>();
+            Papers = new HashSet<Paper>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int userId { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string userEmail { get; set; }
-
-        [Required]
-        [StringLength(20)]
-        public string userName { get; set; }
-
-        [StringLength(20)]
-        public string userPasswrd { get; set; }
-
-        [StringLength(10)]
-        public string userContact { get; set; }
-
-        public int roleId { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Conference> Conferences { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ConferenceMember> ConferenceMembers { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Expertise> Expertises { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Feedback> Feedbacks { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Paper> Papers { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PaperReview> PaperReviews { get; set; }
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public string Name { get; set; }
+        public string Password { get; set; }
+        public string Contact { get; set; }
+        public int RoleId { get; set; }
 
         public virtual Role Role { get; set; }
+        public virtual ICollection<ConferenceMember> ConferenceMembers { get; set; }
+        public virtual ICollection<Conference> Conferences { get; set; }
+        public virtual ICollection<Expertise> Expertises { get; set; }
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
+        public virtual ICollection<PaperReview> PaperReviews { get; set; }
+        public virtual ICollection<Paper> Papers { get; set; }
     }
 }
