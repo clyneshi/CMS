@@ -8,21 +8,24 @@ namespace CMS.WinformUI.Utils
         {
             services.AddScoped<IFormUtil, FormUtil>();
 
-            services.AddScoped<Login>();
-            services.AddScoped<Register>();
-            services.AddScoped<RequestValidate>();
-            services.AddSingleton<Main>();
-            services.AddScoped<ConferenceInfo>();
-            services.AddScoped<ConferenceInfo_Admin>();
-            services.AddScoped<LaunchConference>();
-            services.AddScoped<AccountSetting>();
-            services.AddScoped<AccountSetting_R>();
-            services.AddScoped<PaperStatus>();
-            services.AddScoped<AssignPaper>();
-            services.AddScoped<ReviewPaper>();
-            services.AddScoped<SubmitPaper>();
-            services.AddScoped<RatingBox>();
-            services.AddScoped<MakeDicision>();
+            // AddTransient - Always returns a new instance since the scope will not change
+            // in the life time of the application
+            // https://marcominerva.wordpress.com/2020/03/09/using-hostbuilder-serviceprovider-and-dependency-injection-with-windows-forms-on-net-core-3/
+            services.AddTransient<Login>();
+            services.AddTransient<Register>();
+            services.AddTransient<RequestValidate>();
+            services.AddTransient<Main>();
+            services.AddTransient<ConferenceInfo>();
+            services.AddTransient<ConferenceInfo_Admin>();
+            services.AddTransient<LaunchConference>();
+            services.AddTransient<AccountSetting>();
+            services.AddTransient<AccountSetting_R>();
+            services.AddTransient<PaperStatus>();
+            services.AddTransient<AssignPaper>();
+            services.AddTransient<ReviewPaper>();
+            services.AddTransient<SubmitPaper>();
+            services.AddTransient<RatingBox>();
+            services.AddTransient<MakeDicision>();
             
             return services;
         }
