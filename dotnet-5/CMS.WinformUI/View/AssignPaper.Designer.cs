@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_conference = new System.Windows.Forms.DataGridView();
             this.btn_addReviewer = new System.Windows.Forms.Button();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.dataGridView4 = new System.Windows.Forms.DataGridView();
-            this.dataGridView5 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_paper = new System.Windows.Forms.DataGridView();
+            this.dataGridView_reviewer = new System.Windows.Forms.DataGridView();
+            this.dataGridView_reviewerExpertise = new System.Windows.Forms.DataGridView();
+            this.dataGridView_assignedReviewer = new System.Windows.Forms.DataGridView();
             this.listBox_reviewer = new System.Windows.Forms.ListBox();
             this.btn_save = new System.Windows.Forms.Button();
             this.btn_rmvReviewer = new System.Windows.Forms.Button();
@@ -44,30 +44,30 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_conference)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_paper)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_reviewer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_reviewerExpertise)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_assignedReviewer)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(14, 70);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1668, 269);
-            this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView_conference.AllowUserToAddRows = false;
+            this.dataGridView_conference.AllowUserToDeleteRows = false;
+            this.dataGridView_conference.AllowUserToResizeRows = false;
+            this.dataGridView_conference.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_conference.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_conference.Location = new System.Drawing.Point(14, 70);
+            this.dataGridView_conference.MultiSelect = false;
+            this.dataGridView_conference.Name = "dataGridView1";
+            this.dataGridView_conference.ReadOnly = true;
+            this.dataGridView_conference.RowHeadersVisible = false;
+            this.dataGridView_conference.RowTemplate.Height = 33;
+            this.dataGridView_conference.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_conference.Size = new System.Drawing.Size(1668, 269);
+            this.dataGridView_conference.TabIndex = 0;
+            this.dataGridView_conference.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_conference_CellClick);
             // 
             // btn_addReviewer
             // 
@@ -82,74 +82,74 @@
             // 
             // dataGridView2
             // 
-            this.dataGridView2.AllowUserToAddRows = false;
-            this.dataGridView2.AllowUserToDeleteRows = false;
-            this.dataGridView2.AllowUserToResizeRows = false;
-            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(20, 417);
-            this.dataGridView2.MultiSelect = false;
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.RowHeadersVisible = false;
-            this.dataGridView2.RowTemplate.Height = 33;
-            this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(951, 309);
-            this.dataGridView2.TabIndex = 2;
-            this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
+            this.dataGridView_paper.AllowUserToAddRows = false;
+            this.dataGridView_paper.AllowUserToDeleteRows = false;
+            this.dataGridView_paper.AllowUserToResizeRows = false;
+            this.dataGridView_paper.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_paper.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_paper.Location = new System.Drawing.Point(20, 417);
+            this.dataGridView_paper.MultiSelect = false;
+            this.dataGridView_paper.Name = "dataGridView2";
+            this.dataGridView_paper.ReadOnly = true;
+            this.dataGridView_paper.RowHeadersVisible = false;
+            this.dataGridView_paper.RowTemplate.Height = 33;
+            this.dataGridView_paper.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_paper.Size = new System.Drawing.Size(951, 309);
+            this.dataGridView_paper.TabIndex = 2;
+            this.dataGridView_paper.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_paper_CellClick);
             // 
             // dataGridView3
             // 
-            this.dataGridView3.AllowUserToAddRows = false;
-            this.dataGridView3.AllowUserToDeleteRows = false;
-            this.dataGridView3.AllowUserToResizeRows = false;
-            this.dataGridView3.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.EnableHeadersVisualStyles = false;
-            this.dataGridView3.Location = new System.Drawing.Point(20, 805);
-            this.dataGridView3.MultiSelect = false;
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.ReadOnly = true;
-            this.dataGridView3.RowHeadersVisible = false;
-            this.dataGridView3.RowTemplate.Height = 33;
-            this.dataGridView3.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView3.Size = new System.Drawing.Size(372, 332);
-            this.dataGridView3.TabIndex = 3;
-            this.dataGridView3.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellClick);
+            this.dataGridView_reviewer.AllowUserToAddRows = false;
+            this.dataGridView_reviewer.AllowUserToDeleteRows = false;
+            this.dataGridView_reviewer.AllowUserToResizeRows = false;
+            this.dataGridView_reviewer.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_reviewer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_reviewer.EnableHeadersVisualStyles = false;
+            this.dataGridView_reviewer.Location = new System.Drawing.Point(20, 805);
+            this.dataGridView_reviewer.MultiSelect = false;
+            this.dataGridView_reviewer.Name = "dataGridView3";
+            this.dataGridView_reviewer.ReadOnly = true;
+            this.dataGridView_reviewer.RowHeadersVisible = false;
+            this.dataGridView_reviewer.RowTemplate.Height = 33;
+            this.dataGridView_reviewer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_reviewer.Size = new System.Drawing.Size(372, 332);
+            this.dataGridView_reviewer.TabIndex = 3;
+            this.dataGridView_reviewer.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_reviewer_CellClick);
             // 
             // dataGridView4
             // 
-            this.dataGridView4.AllowUserToAddRows = false;
-            this.dataGridView4.AllowUserToDeleteRows = false;
-            this.dataGridView4.AllowUserToResizeRows = false;
-            this.dataGridView4.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView4.Location = new System.Drawing.Point(398, 805);
-            this.dataGridView4.MultiSelect = false;
-            this.dataGridView4.Name = "dataGridView4";
-            this.dataGridView4.ReadOnly = true;
-            this.dataGridView4.RowHeadersVisible = false;
-            this.dataGridView4.RowTemplate.Height = 33;
-            this.dataGridView4.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView4.Size = new System.Drawing.Size(573, 332);
-            this.dataGridView4.TabIndex = 4;
+            this.dataGridView_reviewerExpertise.AllowUserToAddRows = false;
+            this.dataGridView_reviewerExpertise.AllowUserToDeleteRows = false;
+            this.dataGridView_reviewerExpertise.AllowUserToResizeRows = false;
+            this.dataGridView_reviewerExpertise.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_reviewerExpertise.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_reviewerExpertise.Location = new System.Drawing.Point(398, 805);
+            this.dataGridView_reviewerExpertise.MultiSelect = false;
+            this.dataGridView_reviewerExpertise.Name = "dataGridView4";
+            this.dataGridView_reviewerExpertise.ReadOnly = true;
+            this.dataGridView_reviewerExpertise.RowHeadersVisible = false;
+            this.dataGridView_reviewerExpertise.RowTemplate.Height = 33;
+            this.dataGridView_reviewerExpertise.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_reviewerExpertise.Size = new System.Drawing.Size(573, 332);
+            this.dataGridView_reviewerExpertise.TabIndex = 4;
             // 
             // dataGridView5
             // 
-            this.dataGridView5.AllowUserToAddRows = false;
-            this.dataGridView5.AllowUserToDeleteRows = false;
-            this.dataGridView5.AllowUserToResizeRows = false;
-            this.dataGridView5.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView5.Location = new System.Drawing.Point(1004, 417);
-            this.dataGridView5.MultiSelect = false;
-            this.dataGridView5.Name = "dataGridView5";
-            this.dataGridView5.ReadOnly = true;
-            this.dataGridView5.RowHeadersVisible = false;
-            this.dataGridView5.RowTemplate.Height = 33;
-            this.dataGridView5.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView5.Size = new System.Drawing.Size(390, 309);
-            this.dataGridView5.TabIndex = 5;
+            this.dataGridView_assignedReviewer.AllowUserToAddRows = false;
+            this.dataGridView_assignedReviewer.AllowUserToDeleteRows = false;
+            this.dataGridView_assignedReviewer.AllowUserToResizeRows = false;
+            this.dataGridView_assignedReviewer.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_assignedReviewer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_assignedReviewer.Location = new System.Drawing.Point(1004, 417);
+            this.dataGridView_assignedReviewer.MultiSelect = false;
+            this.dataGridView_assignedReviewer.Name = "dataGridView5";
+            this.dataGridView_assignedReviewer.ReadOnly = true;
+            this.dataGridView_assignedReviewer.RowHeadersVisible = false;
+            this.dataGridView_assignedReviewer.RowTemplate.Height = 33;
+            this.dataGridView_assignedReviewer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_assignedReviewer.Size = new System.Drawing.Size(390, 309);
+            this.dataGridView_assignedReviewer.TabIndex = 5;
             // 
             // listBox_reviewer
             // 
@@ -269,19 +269,19 @@
             this.Controls.Add(this.btn_rmvReviewer);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.listBox_reviewer);
-            this.Controls.Add(this.dataGridView5);
-            this.Controls.Add(this.dataGridView4);
-            this.Controls.Add(this.dataGridView3);
-            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.dataGridView_assignedReviewer);
+            this.Controls.Add(this.dataGridView_reviewerExpertise);
+            this.Controls.Add(this.dataGridView_reviewer);
+            this.Controls.Add(this.dataGridView_paper);
             this.Controls.Add(this.btn_addReviewer);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridView_conference);
             this.Name = "AssignPaper";
             this.Text = "ReviewPaper";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_conference)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_paper)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_reviewer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_reviewerExpertise)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_assignedReviewer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -289,12 +289,12 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridView_conference;
         private System.Windows.Forms.Button btn_addReviewer;
-        private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.DataGridView dataGridView3;
-        private System.Windows.Forms.DataGridView dataGridView4;
-        private System.Windows.Forms.DataGridView dataGridView5;
+        private System.Windows.Forms.DataGridView dataGridView_paper;
+        private System.Windows.Forms.DataGridView dataGridView_reviewer;
+        private System.Windows.Forms.DataGridView dataGridView_reviewerExpertise;
+        private System.Windows.Forms.DataGridView dataGridView_assignedReviewer;
         private System.Windows.Forms.ListBox listBox_reviewer;
         private System.Windows.Forms.Button btn_save;
         private System.Windows.Forms.Button btn_rmvReviewer;

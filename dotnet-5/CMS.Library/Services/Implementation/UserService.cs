@@ -81,7 +81,7 @@ namespace CMS.BL.Services.Implementation
         public IEnumerable<User> GetReviewers(int conferenceId)
         {
             return _unitOfWork.ConferenceMemberRepository
-                .Filter(x => x.Id == conferenceId
+                .Filter(x => x.ConferenceId == conferenceId
                         && x.User.RoleId == (int)RoleTypesEnum.Reviewer)
                 .Select(x => x.User)
                 .ToList();
