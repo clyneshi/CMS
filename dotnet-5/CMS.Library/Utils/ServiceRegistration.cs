@@ -16,7 +16,7 @@ namespace CMS.BL.Utils
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserRequestService, UserRequestService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IApplicationStrategy, ApplicationStrategy>();
+            services.AddSingleton<IApplicationStrategy, ApplicationStrategy>();
             return services;
         }
     }

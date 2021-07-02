@@ -1,7 +1,5 @@
 ﻿using CMS.BL.Services.Interface;
-using CMS.BL.Services.Interface;
 using CMS.WinformUI.Utils;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows.Forms;
 
@@ -26,9 +24,7 @@ namespace CMS
 
         private void btn_login_Click(object sender, EventArgs e)
         {
-            var use = _userService.AuthenticateUser(textBox_userName.Text, textBox_passwrd.Text);
-
-            if (use != null)
+            if (_userService.AuthenticateUser(textBox_userName.Text, textBox_passwrd.Text))
             {
                 var main = _formUtil.GetForm<Main>();
                 this.Hide();

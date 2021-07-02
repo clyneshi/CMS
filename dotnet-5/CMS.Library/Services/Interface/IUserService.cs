@@ -7,7 +7,7 @@ namespace CMS.BL.Services.Interface
 {
     public interface IUserService
     {
-        User AuthenticateUser(string email, string passWord);
+        bool AuthenticateUser(string email, string passWord);
         Task AddUser(User user);
         IEnumerable<User> GetAssignedReviewersByPaper(int paperId);
         int GetMaxUserId();

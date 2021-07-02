@@ -1,5 +1,4 @@
 ﻿using CMS.BL.Enums;
-using CMS.BL.Global;
 using CMS.BL.Services.Interface;
 using CMS.WinformUI.Utils;
 using System;
@@ -131,14 +130,14 @@ namespace CMS
             }
         }
 
-        private void FormInit(Form fm)
+        private void FormInit(Form form)
         {
             pictureBox1.Visible = false;
-            fm.MdiParent = this;
-            fm.Show();
-            fm.ControlBox = false;
-            fm.WindowState = FormWindowState.Minimized;
-            fm.WindowState = FormWindowState.Maximized;
+            form.MdiParent = this;
+            form.Show();
+            form.ControlBox = false;
+            form.WindowState = FormWindowState.Minimized;
+            form.WindowState = FormWindowState.Maximized;
         }
 
         private void strip_conf_luanchConf_Click(object sender, EventArgs e)
@@ -253,18 +252,12 @@ namespace CMS
             {
                 if (cfia == null)
                 {
-                    //cfia = _formUtil.CreateForm<ConferenceInfo_Admin>
-                    //(
-                    //    new ResolverOverride[]
-                    //    {
-                    //        new ParameterOverride("type", 1)
-                    //    }
-                    //);
-                    //FormInit(cfia);
+                    cfia = _formUtil.GetForm<ConferenceInfo_Admin>();
+                    FormInit(cfia);
                 }
                 else
                 {
-                    cfia.Init(1);
+                    cfia.Init((int)ConferenceViewTypesEnum.ConferenceMembers);
                     cfia.Activate();
                 }
             }
@@ -289,18 +282,12 @@ namespace CMS
             this.IsMdiContainer = true;
             if (cfia == null)
             {
-                //cfia = _formUtil.CreateForm<ConferenceInfo_Admin>
-                //    (
-                //        new ResolverOverride[]
-                //        {
-                //            new ParameterOverride("type", 2)
-                //        }
-                //    );
-                //FormInit(cfia);
+                cfia = _formUtil.GetForm<ConferenceInfo_Admin>();
+                FormInit(cfia);
             }
             else
             {
-                cfia.Init(2);
+                cfia.Init((int)ConferenceViewTypesEnum.UserInfo);
                 cfia.Activate();
             }
         }
@@ -310,18 +297,12 @@ namespace CMS
             this.IsMdiContainer = true;
             if (cfia == null)
             {
-                //cfia = _formUtil.CreateForm<ConferenceInfo_Admin>
-                //    (
-                //        new ResolverOverride[]
-                //        {
-                //            new ParameterOverride("type", 3)
-                //        }
-                //    );
-                //FormInit(cfia);
+                cfia = _formUtil.GetForm<ConferenceInfo_Admin>();
+                FormInit(cfia);
             }
             else
             {
-                cfia.Init(3);
+                cfia.Init((int)ConferenceViewTypesEnum.Papers);
                 cfia.Activate();
             }
         }

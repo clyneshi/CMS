@@ -29,7 +29,7 @@ namespace CMS.WinformUI
                 var context = services.GetRequiredService<CMSContext>();
                 CMSDBInitializer.Initialize(context);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: log
                 throw;

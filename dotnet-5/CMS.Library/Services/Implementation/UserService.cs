@@ -21,21 +21,21 @@ namespace CMS.BL.Services.Implementation
             _applicationStrategy = applicationStrategy;
         }
 
-        public User AuthenticateUser(string email, string passWord)
+        public bool AuthenticateUser(string email, string passWord)
         {
             //TODO: change behavior in accordince with user logic changes 
             // in the past, user - author, reviewer are tied to a single conference
             // after logic changes, author and reviewer can have register in multiple conferences
 
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(passWord))
-                return null;
+                return false;
 
             var user = _unitOfWork.UserRepository
                 .Filter(x => x.Email == email && x.Password == passWord)
                 .FirstOrDefault();
 
             if (user == null)
-                return null;
+                return false;
 
             int? conferenceId = null;
             if (user.RoleId == (int)RoleTypesEnum.Author || user.RoleId == (int)RoleTypesEnum.Reviewer)
@@ -49,7 +49,7 @@ namespace CMS.BL.Services.Implementation
 
             _applicationStrategy.LogInUser(user, conferenceId);
 
-            return user;
+            return true;
         }
 
         public int GetMaxUserId()

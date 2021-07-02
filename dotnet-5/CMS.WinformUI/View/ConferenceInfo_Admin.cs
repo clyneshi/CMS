@@ -9,14 +9,21 @@ namespace CMS
         private readonly IUserService _userService;
         private readonly IPaperService _paperService;
         private readonly IConferenceService _conferenceService;
+        private readonly IApplicationStrategy _applicationStrategy;
 
-        public ConferenceInfo_Admin(IUserService userService, IPaperService paperService, IConferenceService conferenceService, int type)
+        public ConferenceInfo_Admin(
+            IUserService userService,
+            IPaperService paperService,
+            IConferenceService conferenceService,
+            IApplicationStrategy applicationStrategy)
         {
             _userService = userService;
             _paperService = paperService;
             _conferenceService = conferenceService;
+            _applicationStrategy = applicationStrategy;
+
             InitializeComponent();
-            Init(type);
+            Init(_applicationStrategy.GetLoggedInUserInfo().User.RoleId);
         }
 
         public void Init(int type)
