@@ -39,7 +39,7 @@ namespace CMS.DAL.Repository.Implementation
 
         public IEnumerable<Paper> GetPapersWithAuthorAndConference(Expression<Func<Paper, bool>> predicate = null)
         {
-            var query = _context.Papers.Include(x => x.Author).Include(x => x.Conference);
+            var query = _context.Papers.Include(x => x.AuthorNavigation).Include(x => x.Conference);
 
             if (predicate != null)
             {
