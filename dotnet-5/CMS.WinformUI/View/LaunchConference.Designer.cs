@@ -34,17 +34,17 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.textBox_title = new System.Windows.Forms.TextBox();
-            this.textBox_loc = new System.Windows.Forms.TextBox();
-            this.dateTimePicker_bdate = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker_edate = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker_pdeadline = new System.Windows.Forms.DateTimePicker();
+            this.textBox_location = new System.Windows.Forms.TextBox();
+            this.dateTimePicker_begin = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker_end = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker_deadline = new System.Windows.Forms.DateTimePicker();
             this.btn_submit = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.listBox_selectedTopic = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.btn_add = new System.Windows.Forms.Button();
-            this.btn_remove = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.btn_addTopic = new System.Windows.Forms.Button();
+            this.btn_removeTopic = new System.Windows.Forms.Button();
+            this.dataGridView_topic = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_topic)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -107,35 +107,35 @@
             // 
             // textBox_loc
             // 
-            this.textBox_loc.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_loc.Location = new System.Drawing.Point(339, 126);
-            this.textBox_loc.Name = "textBox_loc";
-            this.textBox_loc.Size = new System.Drawing.Size(603, 50);
-            this.textBox_loc.TabIndex = 6;
+            this.textBox_location.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_location.Location = new System.Drawing.Point(339, 126);
+            this.textBox_location.Name = "textBox_loc";
+            this.textBox_location.Size = new System.Drawing.Size(603, 50);
+            this.textBox_location.TabIndex = 6;
             // 
             // dateTimePicker_bdate
             // 
-            this.dateTimePicker_bdate.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker_bdate.Location = new System.Drawing.Point(339, 213);
-            this.dateTimePicker_bdate.Name = "dateTimePicker_bdate";
-            this.dateTimePicker_bdate.Size = new System.Drawing.Size(603, 50);
-            this.dateTimePicker_bdate.TabIndex = 7;
+            this.dateTimePicker_begin.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker_begin.Location = new System.Drawing.Point(339, 213);
+            this.dateTimePicker_begin.Name = "dateTimePicker_bdate";
+            this.dateTimePicker_begin.Size = new System.Drawing.Size(603, 50);
+            this.dateTimePicker_begin.TabIndex = 7;
             // 
             // dateTimePicker_edate
             // 
-            this.dateTimePicker_edate.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker_edate.Location = new System.Drawing.Point(339, 293);
-            this.dateTimePicker_edate.Name = "dateTimePicker_edate";
-            this.dateTimePicker_edate.Size = new System.Drawing.Size(603, 50);
-            this.dateTimePicker_edate.TabIndex = 8;
+            this.dateTimePicker_end.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker_end.Location = new System.Drawing.Point(339, 293);
+            this.dateTimePicker_end.Name = "dateTimePicker_edate";
+            this.dateTimePicker_end.Size = new System.Drawing.Size(603, 50);
+            this.dateTimePicker_end.TabIndex = 8;
             // 
             // dateTimePicker_pdeadline
             // 
-            this.dateTimePicker_pdeadline.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker_pdeadline.Location = new System.Drawing.Point(339, 373);
-            this.dateTimePicker_pdeadline.Name = "dateTimePicker_pdeadline";
-            this.dateTimePicker_pdeadline.Size = new System.Drawing.Size(603, 50);
-            this.dateTimePicker_pdeadline.TabIndex = 9;
+            this.dateTimePicker_deadline.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker_deadline.Location = new System.Drawing.Point(339, 373);
+            this.dateTimePicker_deadline.Name = "dateTimePicker_pdeadline";
+            this.dateTimePicker_deadline.Size = new System.Drawing.Size(603, 50);
+            this.dateTimePicker_deadline.TabIndex = 9;
             // 
             // btn_submit
             // 
@@ -150,12 +150,12 @@
             // 
             // listBox1
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 25;
-            this.listBox1.Location = new System.Drawing.Point(339, 463);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(407, 304);
-            this.listBox1.TabIndex = 12;
+            this.listBox_selectedTopic.FormattingEnabled = true;
+            this.listBox_selectedTopic.ItemHeight = 25;
+            this.listBox_selectedTopic.Location = new System.Drawing.Point(339, 463);
+            this.listBox_selectedTopic.Name = "listBox1";
+            this.listBox_selectedTopic.Size = new System.Drawing.Size(407, 304);
+            this.listBox_selectedTopic.TabIndex = 12;
             // 
             // label6
             // 
@@ -169,59 +169,59 @@
             // 
             // btn_add
             // 
-            this.btn_add.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_add.Location = new System.Drawing.Point(785, 521);
-            this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(157, 62);
-            this.btn_add.TabIndex = 14;
-            this.btn_add.Text = "Add";
-            this.btn_add.UseVisualStyleBackColor = true;
-            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
+            this.btn_addTopic.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_addTopic.Location = new System.Drawing.Point(785, 521);
+            this.btn_addTopic.Name = "btn_add";
+            this.btn_addTopic.Size = new System.Drawing.Size(157, 62);
+            this.btn_addTopic.TabIndex = 14;
+            this.btn_addTopic.Text = "Add";
+            this.btn_addTopic.UseVisualStyleBackColor = true;
+            this.btn_addTopic.Click += new System.EventHandler(this.btn_addTopic_Click);
             // 
             // btn_remove
             // 
-            this.btn_remove.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_remove.Location = new System.Drawing.Point(785, 636);
-            this.btn_remove.Name = "btn_remove";
-            this.btn_remove.Size = new System.Drawing.Size(157, 62);
-            this.btn_remove.TabIndex = 15;
-            this.btn_remove.Text = "Remove";
-            this.btn_remove.UseVisualStyleBackColor = true;
-            this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
+            this.btn_removeTopic.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_removeTopic.Location = new System.Drawing.Point(785, 636);
+            this.btn_removeTopic.Name = "btn_remove";
+            this.btn_removeTopic.Size = new System.Drawing.Size(157, 62);
+            this.btn_removeTopic.TabIndex = 15;
+            this.btn_removeTopic.Text = "Remove";
+            this.btn_removeTopic.UseVisualStyleBackColor = true;
+            this.btn_removeTopic.Click += new System.EventHandler(this.btn_removeTopic_Click);
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(975, 53);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(542, 837);
-            this.dataGridView1.TabIndex = 16;
+            this.dataGridView_topic.AllowUserToAddRows = false;
+            this.dataGridView_topic.AllowUserToDeleteRows = false;
+            this.dataGridView_topic.AllowUserToOrderColumns = true;
+            this.dataGridView_topic.AllowUserToResizeRows = false;
+            this.dataGridView_topic.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_topic.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_topic.Location = new System.Drawing.Point(975, 53);
+            this.dataGridView_topic.MultiSelect = false;
+            this.dataGridView_topic.Name = "dataGridView1";
+            this.dataGridView_topic.ReadOnly = true;
+            this.dataGridView_topic.RowHeadersVisible = false;
+            this.dataGridView_topic.RowTemplate.Height = 33;
+            this.dataGridView_topic.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_topic.Size = new System.Drawing.Size(542, 837);
+            this.dataGridView_topic.TabIndex = 16;
             // 
             // LaunchConference
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1545, 930);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.btn_remove);
-            this.Controls.Add(this.btn_add);
+            this.Controls.Add(this.dataGridView_topic);
+            this.Controls.Add(this.btn_removeTopic);
+            this.Controls.Add(this.btn_addTopic);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.listBox_selectedTopic);
             this.Controls.Add(this.btn_submit);
-            this.Controls.Add(this.dateTimePicker_pdeadline);
-            this.Controls.Add(this.dateTimePicker_edate);
-            this.Controls.Add(this.dateTimePicker_bdate);
-            this.Controls.Add(this.textBox_loc);
+            this.Controls.Add(this.dateTimePicker_deadline);
+            this.Controls.Add(this.dateTimePicker_end);
+            this.Controls.Add(this.dateTimePicker_begin);
+            this.Controls.Add(this.textBox_location);
             this.Controls.Add(this.textBox_title);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -230,7 +230,7 @@
             this.Controls.Add(this.label1);
             this.Name = "LaunchConference";
             this.Text = "LaunchConference";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_topic)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -244,15 +244,15 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox_title;
-        private System.Windows.Forms.TextBox textBox_loc;
-        private System.Windows.Forms.DateTimePicker dateTimePicker_bdate;
-        private System.Windows.Forms.DateTimePicker dateTimePicker_edate;
-        private System.Windows.Forms.DateTimePicker dateTimePicker_pdeadline;
+        private System.Windows.Forms.TextBox textBox_location;
+        private System.Windows.Forms.DateTimePicker dateTimePicker_begin;
+        private System.Windows.Forms.DateTimePicker dateTimePicker_end;
+        private System.Windows.Forms.DateTimePicker dateTimePicker_deadline;
         private System.Windows.Forms.Button btn_submit;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox listBox_selectedTopic;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button btn_add;
-        private System.Windows.Forms.Button btn_remove;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button btn_addTopic;
+        private System.Windows.Forms.Button btn_removeTopic;
+        private System.Windows.Forms.DataGridView dataGridView_topic;
     }
 }

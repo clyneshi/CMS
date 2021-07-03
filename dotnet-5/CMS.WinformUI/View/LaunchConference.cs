@@ -9,10 +9,11 @@ namespace CMS
 {
     public partial class LaunchConference : Form
     {
-        private readonly BindingList<Keyword> keywords = new BindingList<Keyword>();
         private readonly IKeywordService _keywordService;
         private readonly IConferenceService _conferenceService;
         private readonly IApplicationStrategy _applicationStrategy;
+        
+        private readonly BindingList<Keyword> _selectedTopics = new BindingList<Keyword>();
 
         public LaunchConference(
             IKeywordService keywordService,
@@ -29,65 +30,68 @@ namespace CMS
 
         public void Init()
         {
-            keywords.Clear();
+            _selectedTopics.Clear();
             KeywordDisplay();
-            DisplaySelectedKeyword();
+            DisplaySelectedKeywords();
         }
 
         private void KeywordDisplay()
         {
-            var topic = _keywordService.GetKeyWords();
+            var topics = _keywordService.GetKeyWords();
 
-            dataGridView1.DataSource = topic;
-            dataGridView1.Columns[0].Visible = false;
-            dataGridView1.Columns[3].Visible = false;
-            dataGridView1.Columns[4].Visible = false;
-            dataGridView1.Columns[5].Visible = false;
+            dataGridView_topic.DataSource = topics;
+            dataGridView_topic.Columns[0].Visible = false;
+            dataGridView_topic.Columns[3].Visible = false;
+            dataGridView_topic.Columns[4].Visible = false;
+            dataGridView_topic.Columns[5].Visible = false;
         }
 
-        private void DisplaySelectedKeyword()
+        private void DisplaySelectedKeywords()
         {
-            listBox1.DataSource = keywords;
-            listBox1.DisplayMember = "Name";
+            listBox_selectedTopic.DataSource = _selectedTopics;
+            listBox_selectedTopic.DisplayMember = "Name";
         }
 
-        private void btn_add_Click(object sender, EventArgs e)
+        private void btn_addTopic_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow.Index >= 0)
+            var index = dataGridView_topic.CurrentRow.Index;
+            if (index >= 0)
             {
-                bool find = false;
-                foreach (Keyword k in keywords)
-                    if (k.Id == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["KeywordId"].Value)
+                var find = false;
+                foreach (var topic in _selectedTopics)
+                {
+                    if (topic.Id == (int)dataGridView_topic.Rows[index].Cells["Id"].Value)
                         find = true;
+                }
                 if (!find)
                 {
-                    keywords.Add(new Keyword
+                    _selectedTopics.Add(new Keyword
                     {
-                        Id = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["KeywordId"].Value,
-                        Name = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["Name"].Value
+                        Id = (int)dataGridView_topic.Rows[index].Cells["Id"].Value,
+                        Name = (string)dataGridView_topic.Rows[index].Cells["Name"].Value
                     });
-                    listBox1.SelectedIndex = listBox1.Items.Count - 1;
+                    listBox_selectedTopic.SelectedIndex = listBox_selectedTopic.Items.Count - 1;
                 }
             }
         }
 
-        private void btn_remove_Click(object sender, EventArgs e)
+        private void btn_removeTopic_Click(object sender, EventArgs e)
         {
-            if (listBox1.SelectedIndex >= 0)
-                keywords.Remove((Keyword)listBox1.SelectedItem);
+            if (listBox_selectedTopic.SelectedIndex >= 0)
+                _selectedTopics.Remove((Keyword)listBox_selectedTopic.SelectedItem);
         }
 
-        private string ConfValidation()
+        private string ValidateConference()
         {
             if (textBox_title.Text.Trim().Equals(""))
                 return "Conference Title cannot be empty";
-            if (textBox_loc.Text.Trim().Equals(""))
+            if (textBox_location.Text.Trim().Equals(""))
                 return "Conference Location cannot be empty";
-            if (DateTime.Compare(dateTimePicker_bdate.Value.Date, dateTimePicker_edate.Value.Date) > 0)
+            if (DateTime.Compare(dateTimePicker_begin.Value.Date, dateTimePicker_end.Value.Date) > 0)
                 return "Begin date cannot be late than End date";
-            if (DateTime.Compare(dateTimePicker_pdeadline.Value.Date, dateTimePicker_bdate.Value.Date) >= 0)
+            if (DateTime.Compare(dateTimePicker_deadline.Value.Date, dateTimePicker_begin.Value.Date) >= 0)
                 return "Paper submition date must before Conference begain date";
-            if (keywords.Count == 0)
+            if (_selectedTopics.Count == 0)
                 return "Topic cannot be empty";
 
             return "";
@@ -95,7 +99,7 @@ namespace CMS
 
         private async void btn_submit_Click(object sender, EventArgs e)
         {
-            string error = ConfValidation();
+            string error = ValidateConference();
             if (!string.IsNullOrEmpty(error))
             {
                 MessageBox.Show(error);
@@ -106,13 +110,13 @@ namespace CMS
             {
                 ChairId = _applicationStrategy.GetLoggedInUserInfo().User.Id,
                 Title = textBox_title.Text,
-                Location = textBox_loc.Text,
-                BeginDate = dateTimePicker_bdate.Value.Date,
-                EndDate = dateTimePicker_edate.Value.Date,
-                PaperDeadline = dateTimePicker_pdeadline.Value.Date
+                Location = textBox_location.Text,
+                BeginDate = dateTimePicker_begin.Value.Date,
+                EndDate = dateTimePicker_end.Value.Date,
+                PaperDeadline = dateTimePicker_deadline.Value.Date
             };
 
-            await _conferenceService.AddConference(conference, keywords.ToList());
+            await _conferenceService.AddConference(conference, _selectedTopics.ToList());
 
             MessageBox.Show("Conference added successfully");
             this.Controls.Clear();
