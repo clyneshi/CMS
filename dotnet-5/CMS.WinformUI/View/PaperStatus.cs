@@ -57,7 +57,7 @@ namespace CMS
 
         private void dataGridView_paper_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex > 0)
+            if (e.RowIndex >= 0)
                 DisplayFeedback((int)dataGridView_paper.Rows[e.RowIndex].Cells["paperId"].Value);
         }
     }

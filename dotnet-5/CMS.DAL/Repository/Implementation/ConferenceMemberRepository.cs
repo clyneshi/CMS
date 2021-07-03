@@ -27,6 +27,7 @@ namespace CMS.DAL.Repository.Implementation
             return _context.ConferenceMembers
                 .Include(x => x.Conference)
                 .Include(x => x.User)
+                .Include(x => x.User.Role)
                 .Where(predicate)
                 .ToList();
         }

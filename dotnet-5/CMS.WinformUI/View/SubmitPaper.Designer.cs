@@ -32,20 +32,20 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_keyword = new System.Windows.Forms.DataGridView();
             this.textBox_paperTitle = new System.Windows.Forms.TextBox();
             this.textBox_author = new System.Windows.Forms.TextBox();
             this.comboBox_paperLength = new System.Windows.Forms.ComboBox();
             this.textBox_filePath = new System.Windows.Forms.TextBox();
             this.btn_uploadPaper = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.label5 = new System.Windows.Forms.Label();
             this.listBox_keyword = new System.Windows.Forms.ListBox();
-            this.btn_keyAdd = new System.Windows.Forms.Button();
-            this.btn_keyRmv = new System.Windows.Forms.Button();
+            this.btn_addKeyword = new System.Windows.Forms.Button();
+            this.btn_removeKeyword = new System.Windows.Forms.Button();
             this.btn_savePaper = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_keyword)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -90,21 +90,21 @@
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(833, 152);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(580, 684);
-            this.dataGridView1.TabIndex = 4;
+            this.dataGridView_keyword.AllowUserToAddRows = false;
+            this.dataGridView_keyword.AllowUserToDeleteRows = false;
+            this.dataGridView_keyword.AllowUserToOrderColumns = true;
+            this.dataGridView_keyword.AllowUserToResizeRows = false;
+            this.dataGridView_keyword.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridView_keyword.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_keyword.Location = new System.Drawing.Point(833, 152);
+            this.dataGridView_keyword.MultiSelect = false;
+            this.dataGridView_keyword.Name = "dataGridView1";
+            this.dataGridView_keyword.ReadOnly = true;
+            this.dataGridView_keyword.RowHeadersVisible = false;
+            this.dataGridView_keyword.RowTemplate.Height = 33;
+            this.dataGridView_keyword.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_keyword.Size = new System.Drawing.Size(580, 684);
+            this.dataGridView_keyword.TabIndex = 4;
             // 
             // textBox_paperTitle
             // 
@@ -157,7 +157,7 @@
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.Filter = "Text Files|*.txt|PDF|*.pdf|WORD|*.doc";
+            this.openFileDialog.Filter = "Text Files|*.txt|PDF|*.pdf|WORD|*.doc";
             // 
             // label5
             // 
@@ -181,25 +181,25 @@
             // 
             // btn_keyAdd
             // 
-            this.btn_keyAdd.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_keyAdd.Location = new System.Drawing.Point(172, 707);
-            this.btn_keyAdd.Name = "btn_keyAdd";
-            this.btn_keyAdd.Size = new System.Drawing.Size(286, 55);
-            this.btn_keyAdd.TabIndex = 12;
-            this.btn_keyAdd.Text = "add";
-            this.btn_keyAdd.UseVisualStyleBackColor = true;
-            this.btn_keyAdd.Click += new System.EventHandler(this.btn_keyAdd_Click);
+            this.btn_addKeyword.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_addKeyword.Location = new System.Drawing.Point(172, 707);
+            this.btn_addKeyword.Name = "btn_keyAdd";
+            this.btn_addKeyword.Size = new System.Drawing.Size(286, 55);
+            this.btn_addKeyword.TabIndex = 12;
+            this.btn_addKeyword.Text = "Add";
+            this.btn_addKeyword.UseVisualStyleBackColor = true;
+            this.btn_addKeyword.Click += new System.EventHandler(this.btn_addKeyword_Click);
             // 
             // btn_keyRmv
             // 
-            this.btn_keyRmv.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_keyRmv.Location = new System.Drawing.Point(465, 707);
-            this.btn_keyRmv.Name = "btn_keyRmv";
-            this.btn_keyRmv.Size = new System.Drawing.Size(286, 55);
-            this.btn_keyRmv.TabIndex = 13;
-            this.btn_keyRmv.Text = "remove";
-            this.btn_keyRmv.UseVisualStyleBackColor = true;
-            this.btn_keyRmv.Click += new System.EventHandler(this.btn_keyRmv_Click);
+            this.btn_removeKeyword.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_removeKeyword.Location = new System.Drawing.Point(465, 707);
+            this.btn_removeKeyword.Name = "btn_keyRmv";
+            this.btn_removeKeyword.Size = new System.Drawing.Size(286, 55);
+            this.btn_removeKeyword.TabIndex = 13;
+            this.btn_removeKeyword.Text = "Remove";
+            this.btn_removeKeyword.UseVisualStyleBackColor = true;
+            this.btn_removeKeyword.Click += new System.EventHandler(this.btn_removeKeyword_Click);
             // 
             // btn_savePaper
             // 
@@ -208,7 +208,7 @@
             this.btn_savePaper.Name = "btn_savePaper";
             this.btn_savePaper.Size = new System.Drawing.Size(579, 56);
             this.btn_savePaper.TabIndex = 14;
-            this.btn_savePaper.Text = "save";
+            this.btn_savePaper.Text = "Save";
             this.btn_savePaper.UseVisualStyleBackColor = true;
             this.btn_savePaper.Click += new System.EventHandler(this.btn_savePaper_Click);
             // 
@@ -220,14 +220,14 @@
             this.ClientSize = new System.Drawing.Size(1597, 975);
             this.Controls.Add(this.textBox_paperTitle);
             this.Controls.Add(this.btn_savePaper);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridView_keyword);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox_paperLength);
-            this.Controls.Add(this.btn_keyRmv);
+            this.Controls.Add(this.btn_removeKeyword);
             this.Controls.Add(this.textBox_filePath);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox_author);
-            this.Controls.Add(this.btn_keyAdd);
+            this.Controls.Add(this.btn_addKeyword);
             this.Controls.Add(this.btn_uploadPaper);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label5);
@@ -236,7 +236,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "SubmitPaper";
             this.Text = "Submit";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_keyword)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -248,17 +248,17 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridView_keyword;
         private System.Windows.Forms.TextBox textBox_paperTitle;
         private System.Windows.Forms.TextBox textBox_author;
         private System.Windows.Forms.ComboBox comboBox_paperLength;
         private System.Windows.Forms.TextBox textBox_filePath;
         private System.Windows.Forms.Button btn_uploadPaper;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ListBox listBox_keyword;
-        private System.Windows.Forms.Button btn_keyAdd;
-        private System.Windows.Forms.Button btn_keyRmv;
+        private System.Windows.Forms.Button btn_addKeyword;
+        private System.Windows.Forms.Button btn_removeKeyword;
         private System.Windows.Forms.Button btn_savePaper;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }

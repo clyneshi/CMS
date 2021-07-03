@@ -12,21 +12,21 @@ namespace CMS
 {
     public partial class SubmitPaper : Form
     {
-        private readonly BindingList<Keyword> keywords = new BindingList<Keyword>();
-
-        // paperid is used to know the paperid before a paper entity is created,
-        // in which way the two seperated but conneted table entity can be created
-        // in "the same time"
-        int paperid = 0;
-        byte[] content;
-        string fileext = "";
-        string filename = "";
-        bool paperuploaded = false;
-
         private readonly IKeywordService _keywordService;
         private readonly IPaperService _paperService;
         private readonly IConferenceService _conferenceService;
         private readonly IApplicationStrategy _applicationStrategy;
+
+        private readonly BindingList<Keyword> _selectedKeywords = new BindingList<Keyword>();
+
+        // paperid is used to know the paperid before a paper entity is created,
+        // in which way the two seperated but conneted table entity can be created
+        // in "the same time"
+        private int _paperId;
+        private byte[] _content;
+        private string _fileType;
+        private string _fileName;
+        private bool paperUploaded;
 
         public SubmitPaper(IKeywordService keywordService,
             IPaperService paperService,
@@ -44,89 +44,91 @@ namespace CMS
 
         private void btn_uploadPaper_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                fileext = Path.GetExtension(openFileDialog1.FileName);
-                filename = Path.GetFileName(openFileDialog1.FileName);
-                textBox_filePath.Text = openFileDialog1.FileName;
-                using (FileStream fs = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.Read))
+                _fileType = Path.GetExtension(openFileDialog.FileName);
+                _fileName = Path.GetFileName(openFileDialog.FileName);
+                textBox_filePath.Text = openFileDialog.FileName;
+                using (var fileStream = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
                 {
-                    BinaryReader br = new BinaryReader(fs);
-                    content = br.ReadBytes((Int32)fs.Length);
-                    br.Close();
+                    var binaryReader = new BinaryReader(fileStream);
+                    _content = binaryReader.ReadBytes((int)fileStream.Length);
+                    binaryReader.Close();
                 }
-                paperuploaded = true;
+                paperUploaded = true;
             }
         }
 
         public void Init()
         {
-            fileext = "";
-            filename = "";
-            paperuploaded = false;
-            paperid = _paperService.GetMaxPaperId() + 1;
+            _fileType = "";
+            _fileName = "";
+            paperUploaded = false;
+            _paperId = _paperService.GetMaxPaperId() + 1;
             DisplayKeywords();
-            DisplaySelectedKeyword();
+            DisplaySelectedKeywords();
         }
 
         private void DisplayKeywords()
         {
             // ### add orderby
-            dataGridView1.DataSource = _keywordService.GetKeyWords();
-            dataGridView1.Columns[0].Visible = false;
-            dataGridView1.Columns[3].Visible = false;
-            dataGridView1.Columns[4].Visible = false;
-            dataGridView1.Columns[5].Visible = false;
+            dataGridView_keyword.DataSource = _keywordService.GetKeyWords();
+            dataGridView_keyword.Columns[0].Visible = false;
+            dataGridView_keyword.Columns[3].Visible = false;
+            dataGridView_keyword.Columns[4].Visible = false;
+            dataGridView_keyword.Columns[5].Visible = false;
         }
 
-        private void DisplaySelectedKeyword()
+        private void DisplaySelectedKeywords()
         {
-            keywords.Clear();
-            listBox_keyword.DataSource = keywords;
+            _selectedKeywords.Clear();
+            listBox_keyword.DataSource = _selectedKeywords;
             listBox_keyword.DisplayMember = "Name";
         }
 
-        private void btn_keyAdd_Click(object sender, EventArgs e)
+        private void btn_addKeyword_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow.Index >= 0)
+            var index = dataGridView_keyword.CurrentRow.Index;
+            if (index >= 0)
             {
-                bool find = false;
-                foreach (Keyword k in keywords)
-                    if (k.Id == (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["KeywordId"].Value)
+                var find = false;
+                foreach (var keyword in _selectedKeywords)
+                {
+                    if (keyword.Id == (int)dataGridView_keyword.Rows[index].Cells["Id"].Value)
                         find = true;
+                }
                 if (!find)
                 {
-                    keywords.Add(new Keyword
+                    _selectedKeywords.Add(new Keyword
                     {
-                        Id = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["KeywordId"].Value,
-                        Name = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["Name"].Value
+                        Id = (int)dataGridView_keyword.Rows[index].Cells["Id"].Value,
+                        Name = (string)dataGridView_keyword.Rows[index].Cells["Name"].Value
                     });
                     listBox_keyword.SelectedIndex = listBox_keyword.Items.Count - 1;
                 }
             }
         }
 
-        private void btn_keyRmv_Click(object sender, EventArgs e)
+        private void btn_removeKeyword_Click(object sender, EventArgs e)
         {
-            Keyword k = (Keyword)listBox_keyword.SelectedItem;
-            keywords.Remove(k);
+            _selectedKeywords.Remove((Keyword)listBox_keyword.SelectedItem);
         }
 
         private string PaperValidation()
         {
             var deadline = _conferenceService.GetConferenceById(_applicationStrategy.GetLoggedInUserInfo().ConferenceId.Value).PaperDeadline;
 
-            if (DateTime.Compare(DateTime.Today, (DateTime)deadline) >= 0)
+            if (DateTime.Compare(DateTime.Today, deadline) >= 0)
                 return "Paper submition has finished";
-            //if (textBox_paperTitle.Text.Trim().Equals(""))
-            //    return error = "Paper Title cannot be empty";
+            if (textBox_paperTitle.Text.Trim().Equals(""))
+                return "Paper Title cannot be empty";
             if (textBox_author.Text.Trim().Equals(""))
                 return "Paper Author cannot be empty";
             if (comboBox_paperLength.SelectedItem == null)
                 return "Paper Length cannot be empty";
-            if (!paperuploaded)
+            if (!paperUploaded)
                 return "Paper has to be uploaded";
-            if (keywords.Count == 0)
+            if (_selectedKeywords.Count == 0)
                 return "Paper topic cannot be empty";
             return "";
         }
@@ -142,32 +144,32 @@ namespace CMS
 
             var paper = new Paper
             {
-                Id = paperid,
+                Id = _paperId,
                 Title = textBox_paperTitle.Text,
                 Author = textBox_author.Text,
                 Length = (string)comboBox_paperLength.SelectedItem,
                 ConferenceId = _applicationStrategy.GetLoggedInUserInfo().ConferenceId.Value,
                 AuthorId = _applicationStrategy.GetLoggedInUserInfo().User.Id,
-                Format = fileext,
-                FileName = filename,
+                Format = _fileType,
+                FileName = _fileName,
                 Status = PaperStatusEnum.Submitted.ToString(),
-                Content = content,
+                Content = _content,
                 SubmissionDate = DateTime.Today
             };
 
             var topics = new List<PaperTopic>();
-            foreach (Keyword k in keywords)
+            foreach (var topic in _selectedKeywords)
             {
                 topics.Add(new PaperTopic
                 {
-                    PaperId = paperid,
-                    KeywordId = k.Id
+                    PaperId = _paperId,
+                    Id = topic.Id
                 });
             }
 
             await _paperService.AddPaper(paper, topics);
 
-            MessageBox.Show("Save successful!");
+            MessageBox.Show("Successfully submitted paper!");
             Controls.ClearData();
             Init();
         }
