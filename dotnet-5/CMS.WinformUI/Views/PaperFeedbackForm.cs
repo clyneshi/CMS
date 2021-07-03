@@ -5,12 +5,12 @@ using System.Windows.Forms;
 
 namespace CMS
 {
-    public partial class PaperStatus : Form
+    public partial class PaperFeedbackForm : Form
     {
         private readonly IPaperService _paperService;
         private readonly IApplicationStrategy _applicationStrategy;
 
-        public PaperStatus(IPaperService paperService, IApplicationStrategy applicationStrategy)
+        public PaperFeedbackForm(IPaperService paperService, IApplicationStrategy applicationStrategy)
         {
             _paperService = paperService;
             _applicationStrategy = applicationStrategy;

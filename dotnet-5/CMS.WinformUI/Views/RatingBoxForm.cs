@@ -3,14 +3,14 @@ using System.Windows.Forms;
 
 namespace CMS
 {
-    public partial class RatingBox : Form
+    public partial class RatingBoxForm : Form
     {
         public static int Rating { get; private set; }
         
-        private static RatingBox _ratingBox;
+        private static RatingBoxForm _ratingBox;
         private static DialogResult _result = DialogResult.No;
 
-        public RatingBox()
+        public RatingBoxForm()
         {
             InitializeComponent();
         }
@@ -18,7 +18,7 @@ namespace CMS
         public new static DialogResult Show()
         {
             Rating = 0;
-            _ratingBox = new RatingBox();
+            _ratingBox = new RatingBoxForm();
             _result = DialogResult.No;
             _ratingBox.ShowDialog();
             return _result;

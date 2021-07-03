@@ -1,6 +1,6 @@
 ﻿namespace CMS
 {
-    partial class AssignPaper
+    partial class AssignPaperForm
     {
         /// <summary>
         /// Required designer variable.

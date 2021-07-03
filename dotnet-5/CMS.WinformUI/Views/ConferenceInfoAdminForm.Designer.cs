@@ -1,6 +1,6 @@
 ﻿namespace CMS
 {
-    partial class ConferenceInfo_Admin
+    partial class ConferenceInfoAdminForm
     {
         /// <summary>
         /// Required designer variable.

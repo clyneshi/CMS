@@ -1,6 +1,6 @@
 ﻿namespace CMS
 {
-    partial class Register
+    partial class RegisterUserForm
     {
         /// <summary>
         /// Required designer variable.

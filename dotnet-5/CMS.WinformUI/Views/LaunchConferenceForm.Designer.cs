@@ -1,6 +1,6 @@
 ﻿namespace CMS
 {
-    partial class LaunchConference
+    partial class LaunchConferenceForm
     {
         /// <summary>
         /// Required designer variable.

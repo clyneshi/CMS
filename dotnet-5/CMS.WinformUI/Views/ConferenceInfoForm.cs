@@ -3,12 +3,12 @@ using System.Windows.Forms;
 
 namespace CMS
 {
-    public partial class ConferenceInfo : Form
+    public partial class ConferenceInfoForm : Form
     {
         private readonly IPaperService _paperService;
         private readonly IConferenceService _conferenceService;
 
-        public ConferenceInfo(IPaperService paperService, IConferenceService conferenceService)
+        public ConferenceInfoForm(IPaperService paperService, IConferenceService conferenceService)
         {
             _paperService = paperService;
             _conferenceService = conferenceService;

@@ -5,12 +5,12 @@ using System.Windows.Forms;
 
 namespace CMS
 {
-    public partial class Login : Form
+    public partial class LoginForm : Form
     {
         private readonly IFormUtil _formUtil;
         private readonly IUserService _userService;
 
-        public Login(IFormUtil formUtil, IUserService userService)
+        public LoginForm(IFormUtil formUtil, IUserService userService)
         {
             _formUtil = formUtil;
             _userService = userService;
@@ -26,7 +26,7 @@ namespace CMS
         {
             if (_userService.AuthenticateUser(textBox_userName.Text, textBox_password.Text))
             {
-                var mainView = _formUtil.GetForm<Main>();
+                var mainView = _formUtil.GetForm<HomeForm>();
                 this.Hide();
                 mainView.Show();
             }
@@ -38,7 +38,7 @@ namespace CMS
 
         private void btn_register_Click(object sender, EventArgs e)
         {
-            var registerView = _formUtil.GetForm<Register>();
+            var registerView = _formUtil.GetForm<RegisterUserForm>();
             this.Hide();
             registerView.Show();
         }

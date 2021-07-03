@@ -35,7 +35,7 @@ namespace CMS.WinformUI
                 throw;
             }
 
-            var loginForm = services.GetRequiredService<Login>(); 
+            var loginForm = services.GetRequiredService<LoginForm>(); 
             Application.Run(loginForm);
         }
 

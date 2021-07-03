@@ -1,6 +1,6 @@
 ﻿namespace CMS
 {
-    partial class AccountSetting
+    partial class AccountSettingForm
     {
         /// <summary>
         /// Required designer variable.

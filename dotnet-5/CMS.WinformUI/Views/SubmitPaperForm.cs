@@ -10,7 +10,7 @@ using CMS.WinformUI.Utils;
 
 namespace CMS
 {
-    public partial class SubmitPaper : Form
+    public partial class SubmitPaperForm : Form
     {
         private readonly IKeywordService _keywordService;
         private readonly IPaperService _paperService;
@@ -28,7 +28,7 @@ namespace CMS
         private string _fileName;
         private bool paperUploaded;
 
-        public SubmitPaper(IKeywordService keywordService,
+        public SubmitPaperForm(IKeywordService keywordService,
             IPaperService paperService,
             IConferenceService conferenceService,
             IApplicationStrategy applicationStrategy)

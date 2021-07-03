@@ -1,6 +1,6 @@
 ﻿namespace CMS
 {
-    partial class Main
+    partial class HomeForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HomeForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.strip_conference = new System.Windows.Forms.ToolStripMenuItem();
             this.strip_conf_confInfo = new System.Windows.Forms.ToolStripMenuItem();

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace CMS
 {
-    public partial class AccountSetting_R : Form
+    public partial class AccountSettingReviewerForm : Form
     {
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
@@ -20,7 +20,7 @@ namespace CMS
         private readonly BindingList<Keyword> _selectedKeywords = new BindingList<Keyword>();
         private readonly List<Keyword> _removedKeywords = new List<Keyword>();
 
-        public AccountSetting_R(IUserService userService,
+        public AccountSettingReviewerForm(IUserService userService,
             IRoleService roleService,
             IKeywordService keywordService,
             IConferenceService conferenceService,

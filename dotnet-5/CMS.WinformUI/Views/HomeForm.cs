@@ -6,22 +6,22 @@ using System.Windows.Forms;
 
 namespace CMS
 {
-    public partial class Main : Form
+    public partial class HomeForm : Form
     {
         private readonly IFormUtil _formUtil;
         private readonly IApplicationStrategy _applicationStrategy;
 
-        private ConferenceInfo_Admin _conferenceInfoAdminView;
-        private ConferenceInfo _conferenceInfoView;
-        private SubmitPaper _submitPaperView;
-        private AssignPaper _assignPaperView;
-        private LaunchConference _launchConferenceView;
-        private ReviewPaper _reviewPaperView;
-        private MakeDecision _makeDecisionView;
-        private RequestValidate _validateRequestView;
-        private PaperStatus _paperStatusView;
+        private ConferenceInfoAdminForm _conferenceInfoAdminView;
+        private ConferenceInfoForm _conferenceInfoView;
+        private SubmitPaperForm _submitPaperView;
+        private AssignPaperForm _assignPaperView;
+        private LaunchConferenceForm _launchConferenceView;
+        private ReviewPaperForm _reviewPaperView;
+        private MakeDecisionForm _makeDecisionView;
+        private ReviewRegistrationRequestForm _validateRequestView;
+        private PaperFeedbackForm _paperStatusView;
 
-        public Main(IFormUtil formUtil, IApplicationStrategy applicationStrategy)
+        public HomeForm(IFormUtil formUtil, IApplicationStrategy applicationStrategy)
         {
             _formUtil = formUtil;
             _applicationStrategy = applicationStrategy;
@@ -105,7 +105,7 @@ namespace CMS
         private void strip_user_logout_Click(object sender, EventArgs e)
         {
             this.Close();
-            var login = _formUtil.GetForm<Login>();
+            var login = _formUtil.GetForm<LoginForm>();
             login.Show();
         }
 
@@ -120,7 +120,7 @@ namespace CMS
 
             if (_submitPaperView == null)
             {
-                _submitPaperView = _formUtil.GetForm<SubmitPaper>();
+                _submitPaperView = _formUtil.GetForm<SubmitPaperForm>();
                 FormInit(_submitPaperView);
             }
             else
@@ -145,7 +145,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (_launchConferenceView == null)
             {
-                _launchConferenceView = _formUtil.GetForm<LaunchConference>();
+                _launchConferenceView = _formUtil.GetForm<LaunchConferenceForm>();
                 FormInit(_launchConferenceView);
             }
             else
@@ -160,7 +160,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (_assignPaperView == null)
             {
-                _assignPaperView = _formUtil.GetForm<AssignPaper>();
+                _assignPaperView = _formUtil.GetForm<AssignPaperForm>();
                 FormInit(_assignPaperView);
             }
             else
@@ -175,7 +175,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (_reviewPaperView == null)
             {
-                _reviewPaperView = _formUtil.GetForm<ReviewPaper>();
+                _reviewPaperView = _formUtil.GetForm<ReviewPaperForm>();
                 FormInit(_reviewPaperView);
             }
             else
@@ -190,7 +190,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (_makeDecisionView == null)
             {
-                _makeDecisionView = _formUtil.GetForm<MakeDecision>();
+                _makeDecisionView = _formUtil.GetForm<MakeDecisionForm>();
                 FormInit(_makeDecisionView);
             }
             else
@@ -205,7 +205,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (_validateRequestView == null)
             {
-                _validateRequestView = _formUtil.GetForm<RequestValidate>();
+                _validateRequestView = _formUtil.GetForm<ReviewRegistrationRequestForm>();
                 FormInit(_validateRequestView);
             }
             else
@@ -220,7 +220,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (_paperStatusView == null)
             {
-                _paperStatusView = _formUtil.GetForm<PaperStatus>();
+                _paperStatusView = _formUtil.GetForm<PaperFeedbackForm>();
                 FormInit(_paperStatusView);
             }
             else
@@ -234,12 +234,12 @@ namespace CMS
         {
             if (_applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Reviewer)
             {
-                var accountSetting = _formUtil.GetForm<AccountSetting_R>();
+                var accountSetting = _formUtil.GetForm<AccountSettingReviewerForm>();
                 accountSetting.Show();
             }
             else
             {
-                var accountSetting = _formUtil.GetForm<AccountSetting>();
+                var accountSetting = _formUtil.GetForm<AccountSettingForm>();
                 accountSetting.Show();
             }
         }
@@ -253,7 +253,7 @@ namespace CMS
             {
                 if (_conferenceInfoAdminView == null)
                 {
-                    _conferenceInfoAdminView = _formUtil.GetForm<ConferenceInfo_Admin>();
+                    _conferenceInfoAdminView = _formUtil.GetForm<ConferenceInfoAdminForm>();
                     FormInit(_conferenceInfoAdminView);
                 }
                 else
@@ -266,7 +266,7 @@ namespace CMS
             {
                 if (_conferenceInfoView == null)
                 {
-                    _conferenceInfoView = _formUtil.GetForm<ConferenceInfo>();
+                    _conferenceInfoView = _formUtil.GetForm<ConferenceInfoForm>();
                     FormInit(_conferenceInfoView);
                 }
                 else
@@ -283,7 +283,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (_conferenceInfoAdminView == null)
             {
-                _conferenceInfoAdminView = _formUtil.GetForm<ConferenceInfo_Admin>();
+                _conferenceInfoAdminView = _formUtil.GetForm<ConferenceInfoAdminForm>();
                 FormInit(_conferenceInfoAdminView);
             }
             else
@@ -298,7 +298,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (_conferenceInfoAdminView == null)
             {
-                _conferenceInfoAdminView = _formUtil.GetForm<ConferenceInfo_Admin>();
+                _conferenceInfoAdminView = _formUtil.GetForm<ConferenceInfoAdminForm>();
                 FormInit(_conferenceInfoAdminView);
             }
             else

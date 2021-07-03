@@ -1,6 +1,6 @@
 ﻿namespace CMS
 {
-    partial class RatingBox
+    partial class RatingBoxForm
     {
         /// <summary>
         /// Required designer variable.

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace CMS
 {
-    public partial class AssignPaper : Form
+    public partial class AssignPaperForm : Form
     {
         private readonly IUserService _userService;
         private readonly IKeywordService _keywordService;
@@ -23,7 +23,7 @@ namespace CMS
         private int _selectedPaperId;
         private bool _removeFromDb;
 
-        public AssignPaper(IUserService userService,
+        public AssignPaperForm(IUserService userService,
             IKeywordService keywordService,
             IPaperService paperService,
             IConferenceService conferenceService,

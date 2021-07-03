@@ -7,14 +7,14 @@ using System.Windows.Forms;
 
 namespace CMS
 {
-    public partial class Register : Form
+    public partial class RegisterUserForm : Form
     {
         private readonly IFormUtil _formUtil;
         private readonly IRoleService _roleService;
         private readonly IUserRequestService _userRequestService;
         private readonly IConferenceService _conferenceService;
 
-        public Register(IFormUtil formUtil,
+        public RegisterUserForm(IFormUtil formUtil,
             IRoleService roleService,
             IUserRequestService userRequest,
             IConferenceService conferenceService)
@@ -43,7 +43,7 @@ namespace CMS
 
         private void RedirectToLogInView()
         {
-            var loginView = _formUtil.GetForm<Login>();
+            var loginView = _formUtil.GetForm<LoginForm>();
             loginView.Show();
             this.Close();
         }

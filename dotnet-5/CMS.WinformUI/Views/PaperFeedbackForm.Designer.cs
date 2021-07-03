@@ -1,6 +1,6 @@
 ﻿namespace CMS
 {
-    partial class PaperStatus
+    partial class PaperFeedbackForm
     {
         /// <summary>
         /// Required designer variable.

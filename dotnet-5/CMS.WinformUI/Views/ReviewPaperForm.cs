@@ -5,12 +5,12 @@ using System.Windows.Forms;
 
 namespace CMS
 {
-    public partial class ReviewPaper : Form
+    public partial class ReviewPaperForm : Form
     {
         private readonly IPaperService _paperService;
         private readonly IApplicationStrategy _applicationStrategy;
 
-        public ReviewPaper(IPaperService paperService, IApplicationStrategy applicationStrategy)
+        public ReviewPaperForm(IPaperService paperService, IApplicationStrategy applicationStrategy)
         {
             _paperService = paperService;
             _applicationStrategy = applicationStrategy;
@@ -28,12 +28,12 @@ namespace CMS
 
         private void btn_rate_Click(object sender, EventArgs e)
         {
-            if (RatingBox.Show() == DialogResult.Yes)
+            if (RatingBoxForm.Show() == DialogResult.Yes)
             {
                 // TODO: validation
                 var index = dataGridView_paperReview.CurrentRow.Index;
-                if (RatingBox.Rating != 0 && index >= 0)
-                    _paperService.UpdatePaperRating(RatingBox.Rating, (int)dataGridView_paperReview.Rows[index].Cells["paperId"].Value);
+                if (RatingBoxForm.Rating != 0 && index >= 0)
+                    _paperService.UpdatePaperRating(RatingBoxForm.Rating, (int)dataGridView_paperReview.Rows[index].Cells["paperId"].Value);
             }
             Init();
         }

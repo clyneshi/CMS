@@ -1,6 +1,6 @@
 ﻿namespace CMS
 {
-    partial class ReviewPaper
+    partial class ReviewPaperForm
     {
         /// <summary>
         /// Required designer variable.

@@ -1,6 +1,6 @@
 ﻿namespace CMS
 {
-    partial class MakeDecision
+    partial class MakeDecisionForm
     {
         /// <summary>
         /// Required designer variable.

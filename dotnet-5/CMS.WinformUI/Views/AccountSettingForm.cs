@@ -7,14 +7,14 @@ using System.Windows.Forms;
 
 namespace CMS
 {
-    public partial class AccountSetting : Form
+    public partial class AccountSettingForm : Form
     {
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IConferenceService _conferenceService;
         private readonly IApplicationStrategy _applicationStrategy;
 
-        public AccountSetting(
+        public AccountSettingForm(
             IUserService userService,
             IRoleService roleService,
             IConferenceService conferenceService,

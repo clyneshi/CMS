@@ -1,6 +1,6 @@
 ﻿namespace CMS
 {
-    partial class RequestValidate
+    partial class ReviewRegistrationRequestForm
     {
         /// <summary>
         /// Required designer variable.

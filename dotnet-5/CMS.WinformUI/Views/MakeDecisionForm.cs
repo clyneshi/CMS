@@ -10,7 +10,7 @@ using CMS.WinformUI.Utils;
 
 namespace CMS
 {
-    public partial class MakeDecision : Form
+    public partial class MakeDecisionForm : Form
     {
         private readonly IPaperService _paperService;
         private readonly IConferenceService _conferenceService;
@@ -18,7 +18,7 @@ namespace CMS
         
         private int _selectedId = 0;
 
-        public MakeDecision(
+        public MakeDecisionForm(
             IPaperService paperService,
             IConferenceService conferenceService,
             IApplicationStrategy applicationStrategy)

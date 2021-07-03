@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace CMS
 {
-    public partial class RequestValidate : Form
+    public partial class ReviewRegistrationRequestForm : Form
     {
         private readonly IUserService _userService;
         private readonly IUserRequestService _userRequestService;
@@ -20,7 +20,7 @@ namespace CMS
         // in "the same time" with no worrying query repeart name in different conference
         private int _userId = 0;
 
-        public RequestValidate(IUserService userService,
+        public ReviewRegistrationRequestForm(IUserService userService,
             IUserRequestService userRequest,
             IConferenceService conferenceService,
             IApplicationStrategy applicationStrategy)

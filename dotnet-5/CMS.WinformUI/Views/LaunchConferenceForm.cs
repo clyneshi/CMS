@@ -8,7 +8,7 @@ using CMS.WinformUI.Utils;
 
 namespace CMS
 {
-    public partial class LaunchConference : Form
+    public partial class LaunchConferenceForm : Form
     {
         private readonly IKeywordService _keywordService;
         private readonly IConferenceService _conferenceService;
@@ -16,7 +16,7 @@ namespace CMS
         
         private readonly BindingList<Keyword> _selectedTopics = new BindingList<Keyword>();
 
-        public LaunchConference(
+        public LaunchConferenceForm(
             IKeywordService keywordService,
             IConferenceService conferenceService,
             IApplicationStrategy applicationStrategy)
