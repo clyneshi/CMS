@@ -23,16 +23,17 @@ namespace CMS
             _roleService = roleService;
             _userRequestService = userRequest;
             _conferenceService = conferenceService;
+
             InitializeComponent();
             Init();
         }
 
         private void Init()
         {
-            comboBox_conf.DataSource = _conferenceService.GetConferences();
-            comboBox_conf.DisplayMember = "Title";
-            comboBox_conf.ValueMember = "Id";
-            comboBox_conf.SelectedIndex = -1;
+            comboBox_conference.DataSource = _conferenceService.GetConferences();
+            comboBox_conference.DisplayMember = "Title";
+            comboBox_conference.ValueMember = "Id";
+            comboBox_conference.SelectedIndex = -1;
 
             comboBox_role.DataSource = _roleService.GetRoles();
             comboBox_role.DisplayMember = "Type";
@@ -40,41 +41,43 @@ namespace CMS
             comboBox_role.SelectedIndex = -1;
         }
 
+        private void RedirectToLogInView()
+        {
+            var loginView = _formUtil.GetForm<Login>();
+            loginView.Show();
+            this.Close();
+        }
+
         private void btn_cancel_Click(object sender, EventArgs e)
         {
-            var lg = _formUtil.GetForm<Login>();
-            lg.Show();
-            this.Close();
+            RedirectToLogInView();
         }
 
         private void comboBox_role_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if ((int)comboBox_role.SelectedValue == 2)
-            {
-                comboBox_conf.Enabled = false;
-            }
+            if ((int)comboBox_role.SelectedValue == (int)RoleTypesEnum.Chair)
+                comboBox_conference.Enabled = false;
             else
-                comboBox_conf.Enabled = true;
+                comboBox_conference.Enabled = true;
         }
 
-        private bool AddRequest()
+        private void AddRegisterRequest()
         {
-            RegisterRequest request = new RegisterRequest();
-            if (comboBox_conf.Enabled == true)
-                request.ConferenceId = (int)comboBox_conf.SelectedValue;
+            var request = new RegisterRequest();
+            if (comboBox_conference.Enabled == true)
+                request.ConferenceId = (int)comboBox_conference.SelectedValue;
             request.Name = textBox_name.Text.Trim();
             request.Password = textBox_password.Text;
             request.Email = textBox_email.Text;
             request.Contact = textBox_cont.Text;
             request.Status = UserRequestStatusEnum.Waiting.ToString();
             request.RoleId = (int)comboBox_role.SelectedValue;
-            _userRequestService.AddRegisterRequest(request);
 
-            return true;
+            _userRequestService.AddRegisterRequest(request);
         }
 
         // TODO: extract validation method
-        private string UserRegValidation()
+        private string ValidateUserRegister()
         {
             if (textBox_name.Text.Trim().Equals(""))
                 return "User Name cannot be empty";
@@ -86,7 +89,7 @@ namespace CMS
                 return "User Role cannot be empty";
             if (((int)comboBox_role.SelectedValue == 3
                 || (int)comboBox_role.SelectedValue == 4)
-                && comboBox_conf.SelectedValue == null)
+                && comboBox_conference.SelectedValue == null)
                 return "Conference cannot be empty";
 
             return "";
@@ -94,13 +97,12 @@ namespace CMS
 
         private void btn_submit_Click(object sender, EventArgs e)
         {
-            string error = UserRegValidation();
-            if (error.Equals("") && AddRequest() == true)
+            string error = ValidateUserRegister();
+            if (error.Equals(""))
             {
-                MessageBox.Show("Submit Successful!");
-                //var lg = _formUtil.CreateForm<Login>();
-                //lg.Show();
-                this.Close();
+                AddRegisterRequest();
+                MessageBox.Show("Successfully sent out registration request!");
+                RedirectToLogInView();
             }
             else
                 MessageBox.Show(error);

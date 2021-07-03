@@ -39,7 +39,7 @@
             this.textBox_email = new System.Windows.Forms.TextBox();
             this.textBox_cont = new System.Windows.Forms.TextBox();
             this.comboBox_role = new System.Windows.Forms.ComboBox();
-            this.comboBox_conf = new System.Windows.Forms.ComboBox();
+            this.comboBox_conference = new System.Windows.Forms.ComboBox();
             this.btn_submit = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -148,12 +148,12 @@
             // 
             // comboBox_conf
             // 
-            this.comboBox_conf.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox_conf.FormattingEnabled = true;
-            this.comboBox_conf.Location = new System.Drawing.Point(289, 413);
-            this.comboBox_conf.Name = "comboBox_conf";
-            this.comboBox_conf.Size = new System.Drawing.Size(332, 49);
-            this.comboBox_conf.TabIndex = 11;
+            this.comboBox_conference.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox_conference.FormattingEnabled = true;
+            this.comboBox_conference.Location = new System.Drawing.Point(289, 413);
+            this.comboBox_conference.Name = "comboBox_conf";
+            this.comboBox_conference.Size = new System.Drawing.Size(332, 49);
+            this.comboBox_conference.TabIndex = 11;
             // 
             // btn_submit
             // 
@@ -185,7 +185,7 @@
             this.ClientSize = new System.Drawing.Size(653, 619);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_submit);
-            this.Controls.Add(this.comboBox_conf);
+            this.Controls.Add(this.comboBox_conference);
             this.Controls.Add(this.comboBox_role);
             this.Controls.Add(this.textBox_cont);
             this.Controls.Add(this.textBox_email);
@@ -218,7 +218,7 @@
         private System.Windows.Forms.TextBox textBox_email;
         private System.Windows.Forms.TextBox textBox_cont;
         private System.Windows.Forms.ComboBox comboBox_role;
-        private System.Windows.Forms.ComboBox comboBox_conf;
+        private System.Windows.Forms.ComboBox comboBox_conference;
         private System.Windows.Forms.Button btn_submit;
         private System.Windows.Forms.Button btn_cancel;
     }
