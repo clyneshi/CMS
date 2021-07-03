@@ -25,7 +25,7 @@ namespace CMS.WinformUI.Utils
             services.AddTransient<ReviewPaper>();
             services.AddTransient<SubmitPaper>();
             services.AddTransient<RatingBox>();
-            services.AddTransient<MakeDicision>();
+            services.AddTransient<MakeDecision>();
             
             return services;
         }

@@ -1,6 +1,6 @@
 ﻿namespace CMS
 {
-    partial class MakeDicision
+    partial class MakeDecision
     {
         /// <summary>
         /// Required designer variable.
@@ -28,38 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_conference = new System.Windows.Forms.DataGridView();
             this.rtextbox_feedback = new System.Windows.Forms.RichTextBox();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_paper = new System.Windows.Forms.DataGridView();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_save = new System.Windows.Forms.Button();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_reviewer = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_conference)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_paper)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_reviewer)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 59);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(963, 460);
-            this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView_conference.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_conference.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_conference.Location = new System.Drawing.Point(12, 59);
+            this.dataGridView_conference.MultiSelect = false;
+            this.dataGridView_conference.Name = "dataGridView1";
+            this.dataGridView_conference.ReadOnly = true;
+            this.dataGridView_conference.RowHeadersVisible = false;
+            this.dataGridView_conference.RowTemplate.Height = 33;
+            this.dataGridView_conference.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_conference.Size = new System.Drawing.Size(963, 460);
+            this.dataGridView_conference.TabIndex = 0;
+            this.dataGridView_conference.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_conference_CellClick);
             // 
             // rtextbox_feedback
             // 
@@ -71,18 +71,18 @@
             // 
             // dataGridView2
             // 
-            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(1034, 59);
-            this.dataGridView2.MultiSelect = false;
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.RowHeadersVisible = false;
-            this.dataGridView2.RowTemplate.Height = 33;
-            this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(760, 460);
-            this.dataGridView2.TabIndex = 2;
-            this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
+            this.dataGridView_paper.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_paper.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_paper.Location = new System.Drawing.Point(1034, 59);
+            this.dataGridView_paper.MultiSelect = false;
+            this.dataGridView_paper.Name = "dataGridView2";
+            this.dataGridView_paper.ReadOnly = true;
+            this.dataGridView_paper.RowHeadersVisible = false;
+            this.dataGridView_paper.RowTemplate.Height = 33;
+            this.dataGridView_paper.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_paper.Size = new System.Drawing.Size(760, 460);
+            this.dataGridView_paper.TabIndex = 2;
+            this.dataGridView_paper.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_paper_CellClick);
             // 
             // radioButton1
             // 
@@ -129,17 +129,17 @@
             // 
             // dataGridView3
             // 
-            this.dataGridView3.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Location = new System.Drawing.Point(1034, 576);
-            this.dataGridView3.MultiSelect = false;
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.ReadOnly = true;
-            this.dataGridView3.RowHeadersVisible = false;
-            this.dataGridView3.RowTemplate.Height = 33;
-            this.dataGridView3.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView3.Size = new System.Drawing.Size(760, 306);
-            this.dataGridView3.TabIndex = 7;
+            this.dataGridView_reviewer.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_reviewer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_reviewer.Location = new System.Drawing.Point(1034, 576);
+            this.dataGridView_reviewer.MultiSelect = false;
+            this.dataGridView_reviewer.Name = "dataGridView3";
+            this.dataGridView_reviewer.ReadOnly = true;
+            this.dataGridView_reviewer.RowHeadersVisible = false;
+            this.dataGridView_reviewer.RowTemplate.Height = 33;
+            this.dataGridView_reviewer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_reviewer.Size = new System.Drawing.Size(760, 306);
+            this.dataGridView_reviewer.TabIndex = 7;
             // 
             // label1
             // 
@@ -191,19 +191,19 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView3);
+            this.Controls.Add(this.dataGridView_reviewer);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.dataGridView_paper);
             this.Controls.Add(this.rtextbox_feedback);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridView_conference);
             this.Name = "MakeDicision";
             this.Text = "Feedback";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_conference)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_paper)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_reviewer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,14 +211,14 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridView_conference;
         private System.Windows.Forms.RichTextBox rtextbox_feedback;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dataGridView_paper;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btn_save;
-        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.DataGridView dataGridView_reviewer;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

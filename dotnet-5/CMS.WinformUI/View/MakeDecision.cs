@@ -10,14 +10,15 @@ using CMS.WinformUI.Utils;
 
 namespace CMS
 {
-    public partial class MakeDicision : Form
+    public partial class MakeDecision : Form
     {
-        int selectedPaperId = 0;
         private readonly IPaperService _paperService;
         private readonly IConferenceService _conferenceService;
         private readonly IApplicationStrategy _applicationStrategy;
+        
+        private int _selectedId = 0;
 
-        public MakeDicision(
+        public MakeDecision(
             IPaperService paperService,
             IConferenceService conferenceService,
             IApplicationStrategy applicationStrategy)
@@ -32,25 +33,12 @@ namespace CMS
 
         public void Init()
         {
-            DisplayConferenes();
-            if (dataGridView1.Rows.Count > 0)
-            {
-                DisplayPapers((int)dataGridView1.Rows[0].Cells["ConferenceId"].Value);
-                if (dataGridView2.Rows.Count > 0)
-                    DisplayReviews((int)dataGridView2.Rows[0].Cells["paperId"].Value);
-                else
-                    dataGridView3.DataSource = null;
-            }
-            else
-            {
-                dataGridView2.DataSource = null;
-                dataGridView3.DataSource = null;
-            }
+            BindGridViewData();
         }
 
-        private void DisplayConferenes()
+        private void BindGridViewData()
         {
-            dataGridView1.DataSource = _conferenceService
+            var conferences = _conferenceService
                 .GetConferencesByChair(_applicationStrategy.GetLoggedInUserInfo().User.Id)
                 .Select(x => new
                 {
@@ -62,11 +50,23 @@ namespace CMS
                     x.EndDate
                 })
                 .ToList();
+
+            dataGridView_conference.DataSource = conferences;
+
+            if (conferences.Any())
+            {
+                DisplayPapers(conferences.First().Id);
+            }
+            else 
+            {
+                dataGridView_paper.DataSource = null;
+                dataGridView_reviewer.DataSource = null;
+            }
         }
 
         private void DisplayPapers(int conf)
         {
-            dataGridView2.DataSource = _paperService
+            var papers = _paperService
                 .GetPapersByConference(conf)
                 .Select(x => new
                 {
@@ -77,48 +77,55 @@ namespace CMS
                     x.Status
                 })
                 .ToList();
+
+            dataGridView_paper.DataSource = papers;
+
+            if (papers.Any())
+                DisplayReviews(papers.First().Id);
+            else
+                dataGridView_reviewer.DataSource = null;
         }
 
         private void DisplayReviews(int paper)
         {
-            dataGridView3.DataSource = _paperService
+            dataGridView_reviewer.DataSource = _paperService
                 .GetPaperReviewsByPaper(paper)
                 .Select(x => new
                 {
-                    x.PaperId,
+                    x.Id,
                     x.Paper.Title,
                     x.PaperRating,
                 })
                 .ToList();
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView_conference_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                DisplayPapers((int)dataGridView1.Rows[e.RowIndex].Cells["ConferenceId"].Value);
-                if (dataGridView2.RowCount != 0 && dataGridView2.CurrentRow.Index >= 0)
-                    DisplayReviews((int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value);
+                DisplayPapers((int)dataGridView_conference.Rows[e.RowIndex].Cells["Id"].Value);
+                if (dataGridView_paper.RowCount != 0 && dataGridView_paper.CurrentRow.Index >= 0)
+                    DisplayReviews((int)dataGridView_paper.Rows[dataGridView_paper.CurrentRow.Index].Cells["Id"].Value);
                 else
-                    dataGridView3.DataSource = null;
+                    dataGridView_reviewer.DataSource = null;
             }
             else
             {
-                dataGridView2.DataSource = null;
-                dataGridView3.DataSource = null;
+                dataGridView_paper.DataSource = null;
+                dataGridView_reviewer.DataSource = null;
             }
         }
 
-        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView_paper_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                selectedPaperId = (int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value;
-                DisplayReviews((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
-                DisplayDecisions((int)dataGridView2.Rows[e.RowIndex].Cells["paperId"].Value);
+                _selectedId = (int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value;
+                DisplayReviews((int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value);
+                DisplayDecisions((int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value);
             }
             else
-                dataGridView3.DataSource = null;
+                dataGridView_reviewer.DataSource = null;
         }
 
         private void DisplayDecisions(int paper)
@@ -137,56 +144,55 @@ namespace CMS
             }
         }
 
-        private string DecisionCheck()
+        private PaperStatusEnum? GetDecision()
         {
-            string decision = "";
-            foreach (Control c in groupBox1.Controls)
+            foreach (var control in groupBox1.Controls)
             {
-                RadioButton rb = c as RadioButton;
-                if (rb != null && rb.Checked)
-                    decision = rb.Text;
+                var radioButton = control as RadioButton;
+                if (radioButton != null 
+                    && radioButton.Checked 
+                    && Enum.TryParse<PaperStatusEnum>(radioButton.Text, out var decision))
+                    return decision;
             }
-            return decision;
+            return null;
         }
 
-        private string FeedbackValidation()
+        private string ValidateFeedback()
         {
-            if (dataGridView2.RowCount == 0 || dataGridView2.CurrentRow.Index < 0)
+            if (dataGridView_paper.RowCount == 0 || dataGridView_paper.CurrentRow.Index < 0)
                 return "Paper has not been selected";
-            int paperid = (int)dataGridView2.Rows[dataGridView2.CurrentRow.Index].Cells["paperId"].Value;
-            if (_paperService.GetFeedbacksByPaper(paperid).Any())
+            int Id = (int)dataGridView_paper.Rows[dataGridView_paper.CurrentRow.Index].Cells["Id"].Value;
+            if (_paperService.GetFeedbacksByPaper(Id).Any())
                 return "Feedback already exists, cannot be changed";
             if (rtextbox_feedback.Text.Trim().Equals(""))
                 return "Feedback canot be empty";
-            if (DecisionCheck().Equals(""))
+            if (GetDecision().Equals(""))
                 return "Decision cannot be empty";
             return "";
         }
 
         private async Task SendEmail()
         {
-            var email = _paperService.GetPaperById(selectedPaperId).AuthorNavigation.Email;
-            var decision = DecisionCheck();
+            var email = _paperService.GetPaperById(_selectedId).AuthorNavigation.Email;
+            var decision = GetDecision();
 
-            await GlobalHelper.SendEmail(email.ToString(), $"Your paper has been {decision.ToLower()}ed");
+            await GlobalHelper.SendEmail(email.ToString(), $"Your paper has been {decision.ToString().ToLower()}ed");
         }
 
         private async void btn_save_Click(object sender, EventArgs e)
         {
-            string error = FeedbackValidation();
+            string error = ValidateFeedback();
             if (!error.Equals(""))
             {
                 MessageBox.Show(error);
                 return;
             }
 
-            var decision = DecisionCheck() == "Accept" ? PaperStatusEnum.Accepted : PaperStatusEnum.Declined;
-
-            Feedback feedback = new Feedback
+            var feedback = new Feedback
             {
-                PaperId = selectedPaperId,
+                Id = _selectedId,
                 UserId = _applicationStrategy.GetLoggedInUserInfo().User.Id,
-                FinalDecision = decision.ToString(),
+                FinalDecision = GetDecision().ToString(),
                 Feedback1 = rtextbox_feedback.Text
             };
 

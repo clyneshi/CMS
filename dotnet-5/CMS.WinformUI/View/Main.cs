@@ -17,7 +17,7 @@ namespace CMS
         private AssignPaper _assignPaperView;
         private LaunchConference _launchConferenceView;
         private ReviewPaper _reviewPaperView;
-        private MakeDicision _makeDecisionView;
+        private MakeDecision _makeDecisionView;
         private RequestValidate _validateRequestView;
         private PaperStatus _paperStatusView;
 
@@ -190,7 +190,7 @@ namespace CMS
             this.IsMdiContainer = true;
             if (_makeDecisionView == null)
             {
-                _makeDecisionView = _formUtil.GetForm<MakeDicision>();
+                _makeDecisionView = _formUtil.GetForm<MakeDecision>();
                 FormInit(_makeDecisionView);
             }
             else
