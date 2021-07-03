@@ -5,9 +5,10 @@ namespace CMS
 {
     public partial class RatingBox : Form
     {
-        static RatingBox RtBox;
-        static DialogResult result = DialogResult.No;
-        static public int rating = 0;
+        public static int Rating { get; private set; }
+        
+        private static RatingBox _ratingBox;
+        private static DialogResult _result = DialogResult.No;
 
         public RatingBox()
         {
@@ -16,30 +17,35 @@ namespace CMS
 
         public new static DialogResult Show()
         {
-            rating = 0;
-            RtBox = new RatingBox();
-            result = DialogResult.No;
-            RtBox.ShowDialog();
-            return result;
+            Rating = 0;
+            _ratingBox = new RatingBox();
+            _result = DialogResult.No;
+            _ratingBox.ShowDialog();
+            return _result;
         }
 
-        private int ratePick()
+        private int? PickRating()
         {
-            int find = 0;
-            foreach (Control c in groupBox1.Controls)
+            foreach (var control in groupBox1.Controls)
             {
-                RadioButton rb = c as RadioButton;
-                if (rb != null && rb.Checked)
-                    find = Convert.ToInt32(rb.Text);
+                var radioButton = control as RadioButton;
+                if (radioButton != null && radioButton.Checked && int.TryParse(radioButton.Text, out var rating))
+                    return rating;
             }
-            return find;
+            return null;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button_ok_Click(object sender, EventArgs e)
         {
-            rating = ratePick();
-            result = DialogResult.Yes;
-            RtBox.Close();
+            var rating = PickRating();
+            if (rating == null)
+            {
+                MessageBox.Show("Must choose a rating");
+                return;
+            }
+            Rating = rating.Value;
+            _result = DialogResult.Yes;
+            _ratingBox.Close();
         }
     }
 }

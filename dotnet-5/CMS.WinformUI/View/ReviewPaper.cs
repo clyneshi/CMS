@@ -33,8 +33,8 @@ namespace CMS
             if (RatingBox.Show() == DialogResult.Yes)
             {
                 // TODO: validation
-                if (RatingBox.rating != 0 && dataGridView1.CurrentRow.Index >= 0)
-                    _paperService.UpdatePaperRating(RatingBox.rating, (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["paperId"].Value);
+                if (RatingBox.Rating != 0 && dataGridView1.CurrentRow.Index >= 0)
+                    _paperService.UpdatePaperRating(RatingBox.Rating, (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["paperId"].Value);
             }
             Init();
         }
