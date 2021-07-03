@@ -7,7 +7,7 @@ namespace CMS
 {
     public partial class PaperStatus : Form
     {
-        readonly IPaperService _paperService;
+        private readonly IPaperService _paperService;
         private readonly IApplicationStrategy _applicationStrategy;
 
         public PaperStatus(IPaperService paperService, IApplicationStrategy applicationStrategy)
@@ -21,40 +21,44 @@ namespace CMS
 
         public void Init()
         {
-            PaperDisplay();
+            DisplayPapers();
         }
 
-        private void PaperDisplay()
+        private void DisplayPapers()
         {
-            var papers = _paperService.GetPapersByAuthor(_applicationStrategy.GetLoggedInUserInfo().User.Id);
+            var papers = _paperService
+                .GetPapersByAuthor(_applicationStrategy.GetLoggedInUserInfo().User.Id)
+                .Select(p => new
+                {
+                    p.Id,
+                    p.Title,
+                    p.Author,
+                    p.SubmissionDate,
+                    p.Status
+                }).ToList();
 
-            if (papers.Count() > 0)
+            dataGridView_paper.DataSource = papers;
+            
+            if (papers.Any())
             {
-                dataGridView1.DataSource = papers.Select(
-                    p => new
-                    {
-                        paperId = p.Id,
-                        col2 = p.Title,
-                        col3 = p.Author,
-                        col4 = p.SubmissionDate,
-                        col5 = p.Status
-                    }).ToList();
-
-                FeedbackDisplay((int)dataGridView1.Rows[0].Cells["paperId"].Value);
+                DisplayFeedback(papers.First().Id);
+            }
+            else
+            {
+                richTextBox_feedback.Text = string.Empty;
             }
         }
 
-        private void FeedbackDisplay(int paperId)
+        private void DisplayFeedback(int paperId)
         {
             var feedbacks = _paperService.GetFeedbacksByPaper(paperId);
-            if (feedbacks.Count() != 0)
-                richTextBox_fb.Text = feedbacks.Single().Feedback1;
+            richTextBox_feedback.Text = feedbacks.SingleOrDefault()?.Feedback1;
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView_paper_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridView1.CurrentRow.Index > 0)
-                FeedbackDisplay((int)dataGridView1.Rows[e.RowIndex].Cells["paperId"].Value);
+            if (e.RowIndex > 0)
+                DisplayFeedback((int)dataGridView_paper.Rows[e.RowIndex].Cells["paperId"].Value);
         }
     }
 }

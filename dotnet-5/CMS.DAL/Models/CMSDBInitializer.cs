@@ -91,7 +91,7 @@ namespace CMS.DAL.Models
             var bytesContent = Encoding.ASCII.GetBytes(fileContent);
             var papers = new List<Paper>
             {
-                new Paper() {Id = 1, Title = "Thesis on Sdfjuiowek", Author = "Jason Kwasiky", SubmissionDate = new DateTime(2017, 9, 27), Length = "Short", Content = bytesContent, ConferenceId = 1, AuthorId = 4, Format = ".txt", Status = "Submitted", FileName = "New Text Document"},
+                new Paper() {Id = 1, Title = "Thesis on Sdfjuiowek", Author = "Jason Kwasiky", SubmissionDate = new DateTime(2017, 9, 27), Length = "Short", Content = bytesContent, ConferenceId = 1, AuthorId = 6, Format = ".txt", Status = "Submitted", FileName = "New Text Document"},
             };
             context.Papers.AddRange(papers);
 

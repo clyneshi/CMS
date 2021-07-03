@@ -28,27 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_paper = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.richTextBox_fb = new System.Windows.Forms.RichTextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.richTextBox_feedback = new System.Windows.Forms.RichTextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_paper)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 63);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1308, 368);
-            this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView_paper.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_paper.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_paper.Location = new System.Drawing.Point(12, 63);
+            this.dataGridView_paper.MultiSelect = false;
+            this.dataGridView_paper.Name = "dataGridView1";
+            this.dataGridView_paper.ReadOnly = true;
+            this.dataGridView_paper.RowHeadersVisible = false;
+            this.dataGridView_paper.RowTemplate.Height = 33;
+            this.dataGridView_paper.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_paper.Size = new System.Drawing.Size(1308, 368);
+            this.dataGridView_paper.TabIndex = 0;
+            this.dataGridView_paper.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_paper_CellClick);
             // 
             // label1
             // 
@@ -72,24 +72,24 @@
             // 
             // richTextBox_fb
             // 
-            this.richTextBox_fb.Location = new System.Drawing.Point(12, 518);
-            this.richTextBox_fb.Name = "richTextBox_fb";
-            this.richTextBox_fb.Size = new System.Drawing.Size(1308, 340);
-            this.richTextBox_fb.TabIndex = 3;
-            this.richTextBox_fb.Text = "";
+            this.richTextBox_feedback.Location = new System.Drawing.Point(12, 518);
+            this.richTextBox_feedback.Name = "richTextBox_fb";
+            this.richTextBox_feedback.Size = new System.Drawing.Size(1308, 340);
+            this.richTextBox_feedback.TabIndex = 3;
+            this.richTextBox_feedback.Text = "";
             // 
             // PaperStatus
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1415, 934);
-            this.Controls.Add(this.richTextBox_fb);
+            this.Controls.Add(this.richTextBox_feedback);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridView_paper);
             this.Name = "PaperStatus";
             this.Text = "PaperStatus";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_paper)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -97,9 +97,9 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridView_paper;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RichTextBox richTextBox_fb;
+        private System.Windows.Forms.RichTextBox richTextBox_feedback;
     }
 }
