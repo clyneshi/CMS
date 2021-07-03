@@ -28,37 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_conference = new System.Windows.Forms.DataGridView();
+            this.dataGridView_paper = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_conference)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_paper)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 90);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(585, 294);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridView_conference.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_conference.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_conference.Location = new System.Drawing.Point(12, 90);
+            this.dataGridView_conference.Name = "dataGridView1";
+            this.dataGridView_conference.RowHeadersVisible = false;
+            this.dataGridView_conference.RowTemplate.Height = 33;
+            this.dataGridView_conference.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_conference.Size = new System.Drawing.Size(585, 294);
+            this.dataGridView_conference.TabIndex = 0;
             // 
             // dataGridView2
             // 
-            this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(12, 501);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowHeadersVisible = false;
-            this.dataGridView2.RowTemplate.Height = 33;
-            this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(1256, 258);
-            this.dataGridView2.TabIndex = 1;
+            this.dataGridView_paper.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_paper.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_paper.Location = new System.Drawing.Point(12, 501);
+            this.dataGridView_paper.Name = "dataGridView2";
+            this.dataGridView_paper.RowHeadersVisible = false;
+            this.dataGridView_paper.RowTemplate.Height = 33;
+            this.dataGridView_paper.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_paper.Size = new System.Drawing.Size(1256, 258);
+            this.dataGridView_paper.TabIndex = 1;
             // 
             // label1
             // 
@@ -87,12 +87,12 @@
             this.ClientSize = new System.Drawing.Size(1280, 860);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView2);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridView_paper);
+            this.Controls.Add(this.dataGridView_conference);
             this.Name = "ConferenceInfo";
             this.Text = "ConferenceInfo";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_conference)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_paper)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -100,8 +100,8 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dataGridView_conference;
+        private System.Windows.Forms.DataGridView dataGridView_paper;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
     }
