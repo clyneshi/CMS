@@ -5,25 +5,25 @@ namespace CMS.WinformUI.Utils
 {
     public static class ControlExtensions
     {
-        public static void Clear(Control.ControlCollection C)
+        public static void ClearData(this Control.ControlCollection controls)
         {
-            foreach (Control c in C)
+            foreach (var control in controls)
             {
-                if (c.GetType().Name == "RichTextBox")
-                    if (((RichTextBox)c).Visible == true)
-                        ((RichTextBox)c).Clear();
-                if (c.GetType().Name == "TextBox")
-                    if (((TextBox)c).Visible == true)
-                        ((TextBox)c).Clear();
-                if (c.GetType().Name == "ListBox")
-                    if (((ListBox)c).Visible == true)
-                        ((ListBox)c).DataSource = null;
-                if (c.GetType().Name == "ComboBox")
-                    if (((ComboBox)c).Visible == true)
-                        ((ComboBox)c).SelectedIndex = -1;
-                if (c.GetType().Name == "DateTimePicker")
-                    if (((DateTimePicker)c).Visible == true)
-                        ((DateTimePicker)c).Value = DateTime.Today;
+                if (control.GetType().Name == "RichTextBox")
+                    if (((RichTextBox)control).Visible == true)
+                        ((RichTextBox)control).Clear();
+                if (control.GetType().Name == "TextBox")
+                    if (((TextBox)control).Visible == true)
+                        ((TextBox)control).Clear();
+                if (control.GetType().Name == "ListBox")
+                    if (((ListBox)control).Visible == true)
+                        ((ListBox)control).DataSource = null;
+                if (control.GetType().Name == "ComboBox")
+                    if (((ComboBox)control).Visible == true)
+                        ((ComboBox)control).SelectedIndex = -1;
+                if (control.GetType().Name == "DateTimePicker")
+                    if (((DateTimePicker)control).Visible == true)
+                        ((DateTimePicker)control).Value = DateTime.Today;
             }
         }
     }

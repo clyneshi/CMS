@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CMS.WinformUI.Utils;
 
 namespace CMS
 {
@@ -31,7 +32,6 @@ namespace CMS
 
         public void Init()
         {
-            this.Controls.Clear();
             DisplayConferenes();
             if (dataGridView1.Rows.Count > 0)
             {
@@ -196,6 +196,7 @@ namespace CMS
             //await SendEmail();
 
             MessageBox.Show("Save succeeded");
+            Controls.ClearData();
             Init();
         }
     }

@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using CMS.WinformUI.Utils;
 
 namespace CMS
 {
@@ -119,7 +120,7 @@ namespace CMS
             await _conferenceService.AddConference(conference, _selectedTopics.ToList());
 
             MessageBox.Show("Conference added successfully");
-            this.Controls.Clear();
+            Controls.ClearData();
             Init();
         }
     }

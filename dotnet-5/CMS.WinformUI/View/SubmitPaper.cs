@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
+using CMS.WinformUI.Utils;
 
 namespace CMS
 {
@@ -167,7 +168,7 @@ namespace CMS
             await _paperService.AddPaper(paper, topics);
 
             MessageBox.Show("Save successful!");
-            this.Controls.Clear();
+            Controls.ClearData();
             Init();
         }
     }
