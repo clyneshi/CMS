@@ -28,25 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView_request = new System.Windows.Forms.DataGridView();
             this.btn_approve = new System.Windows.Forms.Button();
             this.btn_decline = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_request)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1564, 592);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridView_request.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_request.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_request.Location = new System.Drawing.Point(12, 12);
+            this.dataGridView_request.MultiSelect = false;
+            this.dataGridView_request.Name = "dataGridView1";
+            this.dataGridView_request.ReadOnly = true;
+            this.dataGridView_request.RowHeadersVisible = false;
+            this.dataGridView_request.RowTemplate.Height = 33;
+            this.dataGridView_request.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_request.Size = new System.Drawing.Size(1564, 592);
+            this.dataGridView_request.TabIndex = 0;
             // 
             // btn_approve
             // 
@@ -77,17 +77,17 @@
             this.ClientSize = new System.Drawing.Size(1588, 930);
             this.Controls.Add(this.btn_decline);
             this.Controls.Add(this.btn_approve);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridView_request);
             this.Name = "RequestValidate";
             this.Text = "RequestValidate";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_request)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridView_request;
         private System.Windows.Forms.Button btn_approve;
         private System.Windows.Forms.Button btn_decline;
     }

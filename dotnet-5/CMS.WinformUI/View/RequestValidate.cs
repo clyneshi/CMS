@@ -10,16 +10,15 @@ namespace CMS
 {
     public partial class RequestValidate : Form
     {
-
-        int userid = 0;
-        // userid is used to know the userid before a user entity is created,
-        // in which way conference member entity can be created
-        // in "the same time" with no worrying query repeart name in different conference
-
         private readonly IUserService _userService;
         private readonly IUserRequestService _userRequestService;
         private readonly IConferenceService _conferenceService;
         private readonly IApplicationStrategy _applicationStrategy;
+        
+        // userid is used to know the userid before a user entity is created,
+        // in which way conference member entity can be created
+        // in "the same time" with no worrying query repeart name in different conference
+        private int _userId = 0;
 
         public RequestValidate(IUserService userService,
             IUserRequestService userRequest,
@@ -37,7 +36,7 @@ namespace CMS
 
         public void Init()
         {
-            userid = _userService.GetMaxUserId() + 1;
+            _userId = _userService.GetMaxUserId() + 1;
             DisplayRequests();
         }
 
@@ -45,69 +44,62 @@ namespace CMS
         {
             if (_applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Admin)
             {
-                var req1 = _userRequestService.GetUserRequestForAdmin(_applicationStrategy.GetLoggedInUserInfo().User.Id);
-                dataGridView1.DataSource = req1;
-                dataGridView1.Columns["RoleId"].Visible = false;
+                var requests = _userRequestService.GetUserRequestForAdmin(_applicationStrategy.GetLoggedInUserInfo().User.Id);
+                dataGridView_request.DataSource = requests;
+                dataGridView_request.Columns["RoleId"].Visible = false;
             }
             else
             {
-                var req2 = _userRequestService.GetUserRequestForChair(_applicationStrategy.GetLoggedInUserInfo().User.Id);
-                dataGridView1.DataSource = req2;
-                dataGridView1.Columns["RoleId"].Visible = false;
+                var requests = _userRequestService.GetUserRequestForChair(_applicationStrategy.GetLoggedInUserInfo().User.Id);
+                dataGridView_request.DataSource = requests;
+                dataGridView_request.Columns["RoleId"].Visible = false;
             }
         }
 
-        private void AddUser()
+        private async Task AddUserAsync()
         {
-            User user = new User
+            await _userService.AddUser(new User
             {
-                Id = userid,
-                Name = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["name"].Value,
-                Password = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["password"].Value,
-                Email = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["email"].Value,
-                Contact = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["contact"].Value,
-                RoleId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["RoleId"].Value
-            };
+                Id = _userId,
+                Name = (string)dataGridView_request.Rows[dataGridView_request.CurrentRow.Index].Cells["name"].Value,
+                Password = (string)dataGridView_request.Rows[dataGridView_request.CurrentRow.Index].Cells["password"].Value,
+                Email = (string)dataGridView_request.Rows[dataGridView_request.CurrentRow.Index].Cells["email"].Value,
+                Contact = (string)dataGridView_request.Rows[dataGridView_request.CurrentRow.Index].Cells["contact"].Value,
+                RoleId = (int)dataGridView_request.Rows[dataGridView_request.CurrentRow.Index].Cells["RoleId"].Value
+            });
 
-            _userService.AddUser(user);
-        }
-
-        private async Task AddConferenceMember()
-        {
-            ConferenceMember cm = new ConferenceMember
+            if (_applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Chair)
             {
-                ConferenceId = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["ConferenceId"].Value,
-                UserId = userid
-            };
-
-            await _conferenceService.AddConferenceMember(cm);
+                await _conferenceService.AddConferenceMember(new ConferenceMember
+                {
+                    ConferenceId = (int)dataGridView_request.Rows[dataGridView_request.CurrentRow.Index].Cells["ConferenceId"].Value,
+                    UserId = _userId
+                });
+            }
         }
 
         private async Task ChangeRequestStatus(UserRequestStatusEnum Status)
         {
-            int id = (int)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["Id"].Value;
+            int id = (int)dataGridView_request.Rows[dataGridView_request.CurrentRow.Index].Cells["Id"].Value;
             await _userRequestService.ChangeRequestStatus(id, Status);
         }
 
         private async Task<bool> SendEmail(UserRequestStatusEnum Status)
         {
-            string email = (string)dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells["email"].Value;
+            string email = (string)dataGridView_request.Rows[dataGridView_request.CurrentRow.Index].Cells["email"].Value;
 
-            await GlobalHelper.SendEmail(email, $"Your registration has been {Status.ToString()}");
+            await GlobalHelper.SendEmail(email, $"Your registration has been {Status}");
 
             return true;
         }
 
         private async void btn_approve_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow.Index >= 0)
+            if (dataGridView_request.CurrentRow.Index >= 0)
             {
-                AddUser();
-                if (_applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Chair)
-                    await AddConferenceMember();
-
-                var Status = UserRequestStatusEnum.Approved;
-                await ChangeRequestStatus(Status);
+                await AddUserAsync();
+               
+                await ChangeRequestStatus(UserRequestStatusEnum.Approved);
 
                 // TODO: Turn on sending email
                 //if (await SendEmail(Status))
@@ -115,7 +107,7 @@ namespace CMS
                 //    MessageBox.Show("User registration accepted");
                 //}
 
-                MessageBox.Show("User registration accepted");
+                MessageBox.Show("Accepted user registration request");
 
                 Init();
             }
@@ -127,7 +119,7 @@ namespace CMS
             await ChangeRequestStatus(Status);
             // TODO: turn on sending email
             //await SendEmail(Status);
-            MessageBox.Show("User registration rejected");
+            MessageBox.Show("Rejected user registration request");
             Init();
         }
     }
