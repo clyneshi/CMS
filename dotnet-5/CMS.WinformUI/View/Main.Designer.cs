@@ -31,12 +31,12 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.strip_confMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.strip_conference = new System.Windows.Forms.ToolStripMenuItem();
             this.strip_conf_confInfo = new System.Windows.Forms.ToolStripMenuItem();
-            this.strip_userMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.strip_user = new System.Windows.Forms.ToolStripMenuItem();
             this.strip_user_settings = new System.Windows.Forms.ToolStripMenuItem();
             this.strip_user_logout = new System.Windows.Forms.ToolStripMenuItem();
-            this.strip_systemMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.strip_system = new System.Windows.Forms.ToolStripMenuItem();
             this.strip_system_help = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.strip_system_exit = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,9 +55,9 @@
             this.menuStrip.Font = new System.Drawing.Font("Segoe UI", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.strip_confMenu,
-            this.strip_userMenu,
-            this.strip_systemMenu});
+            this.strip_conference,
+            this.strip_user,
+            this.strip_system});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(12, 4, 0, 4);
@@ -67,12 +67,12 @@
             // 
             // strip_confMenu
             // 
-            this.strip_confMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.strip_conference.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.strip_conf_confInfo});
-            this.strip_confMenu.ImageTransparentColor = System.Drawing.SystemColors.ActiveBorder;
-            this.strip_confMenu.Name = "strip_confMenu";
-            this.strip_confMenu.Size = new System.Drawing.Size(228, 54);
-            this.strip_confMenu.Text = "&Conference";
+            this.strip_conference.ImageTransparentColor = System.Drawing.SystemColors.ActiveBorder;
+            this.strip_conference.Name = "strip_confMenu";
+            this.strip_conference.Size = new System.Drawing.Size(228, 54);
+            this.strip_conference.Text = "&Conference";
             // 
             // strip_conf_confInfo
             // 
@@ -83,12 +83,12 @@
             // 
             // strip_userMenu
             // 
-            this.strip_userMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.strip_user.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.strip_user_settings,
             this.strip_user_logout});
-            this.strip_userMenu.Name = "strip_userMenu";
-            this.strip_userMenu.Size = new System.Drawing.Size(115, 54);
-            this.strip_userMenu.Text = "User";
+            this.strip_user.Name = "strip_userMenu";
+            this.strip_user.Size = new System.Drawing.Size(115, 54);
+            this.strip_user.Text = "User";
             // 
             // strip_user_settings
             // 
@@ -106,13 +106,13 @@
             // 
             // strip_systemMenu
             // 
-            this.strip_systemMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.strip_system.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.strip_system_help,
             this.aboutToolStripMenuItem,
             this.strip_system_exit});
-            this.strip_systemMenu.Name = "strip_systemMenu";
-            this.strip_systemMenu.Size = new System.Drawing.Size(159, 54);
-            this.strip_systemMenu.Text = "System";
+            this.strip_system.Name = "strip_systemMenu";
+            this.strip_system.Size = new System.Drawing.Size(159, 54);
+            this.strip_system.Text = "System";
             // 
             // strip_system_help
             // 
@@ -201,13 +201,13 @@
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
-        private System.Windows.Forms.ToolStripMenuItem strip_confMenu;
+        private System.Windows.Forms.ToolStripMenuItem strip_conference;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ToolStripStatusLabel txt_status;
-        private System.Windows.Forms.ToolStripMenuItem strip_userMenu;
+        private System.Windows.Forms.ToolStripMenuItem strip_user;
         private System.Windows.Forms.ToolStripMenuItem strip_user_settings;
         private System.Windows.Forms.ToolStripMenuItem strip_user_logout;
-        private System.Windows.Forms.ToolStripMenuItem strip_systemMenu;
+        private System.Windows.Forms.ToolStripMenuItem strip_system;
         private System.Windows.Forms.ToolStripMenuItem strip_system_help;
         private System.Windows.Forms.ToolStripMenuItem strip_system_exit;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;

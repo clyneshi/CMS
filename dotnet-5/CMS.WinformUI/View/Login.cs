@@ -26,9 +26,9 @@ namespace CMS
         {
             if (_userService.AuthenticateUser(textBox_userName.Text, textBox_password.Text))
             {
-                var main = _formUtil.GetForm<Main>();
+                var mainView = _formUtil.GetForm<Main>();
                 this.Hide();
-                main.Show();
+                mainView.Show();
             }
             else
             {
@@ -38,9 +38,9 @@ namespace CMS
 
         private void btn_register_Click(object sender, EventArgs e)
         {
-            var register = _formUtil.GetForm<Register>();
+            var registerView = _formUtil.GetForm<Register>();
             this.Hide();
-            register.Show();
+            registerView.Show();
         }
     }
 }

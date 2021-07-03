@@ -8,18 +8,18 @@ namespace CMS
 {
     public partial class Main : Form
     {
-        ConferenceInfo_Admin cfia;
-        ConferenceInfo cfi;
-        SubmitPaper sub;
-        AssignPaper ap;
-        LaunchConference lf;
-        ReviewPaper rvp;
-        MakeDicision fb;
-        RequestValidate rv;
-        PaperStatus ps;
-
         private readonly IFormUtil _formUtil;
         private readonly IApplicationStrategy _applicationStrategy;
+
+        private ConferenceInfo_Admin _conferenceInfoAdminView;
+        private ConferenceInfo _conferenceInfoView;
+        private SubmitPaper _submitPaperView;
+        private AssignPaper _assignPaperView;
+        private LaunchConference _launchConferenceView;
+        private ReviewPaper _reviewPaperView;
+        private MakeDicision _makeDecisionView;
+        private RequestValidate _validateRequestView;
+        private PaperStatus _paperStatusView;
 
         public Main(IFormUtil formUtil, IApplicationStrategy applicationStrategy)
         {
@@ -27,71 +27,71 @@ namespace CMS
             _applicationStrategy = applicationStrategy;
 
             InitializeComponent();
-            MenuInit(_applicationStrategy.GetLoggedInUserInfo().User.RoleId);
+            MenuInit((RoleTypesEnum)_applicationStrategy.GetLoggedInUserInfo().User.RoleId);
         }
 
-        public void MenuInit(int? role)
+        public void MenuInit(RoleTypesEnum role)
         {
             switch (role)
             {
-                case 1:
+                case RoleTypesEnum.Admin:
                     {
-                        ToolStripMenuItem strip_conf_userInfo = new ToolStripMenuItem();
-                        ToolStripMenuItem strip_conf_paperInfo = new ToolStripMenuItem();
-                        ToolStripMenuItem strip_conf_rqValid = new ToolStripMenuItem();
-                        strip_conf_userInfo.Text = "User Information";
-                        strip_conf_paperInfo.Text = "Paper Information";
-                        strip_conf_rqValid.Text = "Validate Request";
-                        this.strip_confMenu.DropDownItems.Add(strip_conf_userInfo);
-                        this.strip_confMenu.DropDownItems.Add(strip_conf_paperInfo);
-                        this.strip_confMenu.DropDownItems.Add(strip_conf_rqValid);
-                        strip_conf_rqValid.Click += new System.EventHandler(this.strip_conf_rqValid_Click);
-                        strip_conf_userInfo.Click += new System.EventHandler(this.strip_conf_userInfo_Click);
-                        strip_conf_paperInfo.Click += new System.EventHandler(this.strip_conf_paperInfo_Click);
+                        ToolStripMenuItem strip_conference_userInfo = new ToolStripMenuItem();
+                        ToolStripMenuItem strip_conference_paperInfo = new ToolStripMenuItem();
+                        ToolStripMenuItem strip_conference_validateRequest = new ToolStripMenuItem();
+                        strip_conference_userInfo.Text = "User Information";
+                        strip_conference_paperInfo.Text = "Paper Information";
+                        strip_conference_validateRequest.Text = "Validate Request";
+                        strip_conference.DropDownItems.Add(strip_conference_userInfo);
+                        strip_conference.DropDownItems.Add(strip_conference_paperInfo);
+                        strip_conference.DropDownItems.Add(strip_conference_validateRequest);
+                        strip_conference_validateRequest.Click += new System.EventHandler(strip_conference_validRequest_Click);
+                        strip_conference_userInfo.Click += new System.EventHandler(strip_conference_userInfo_Click);
+                        strip_conference_paperInfo.Click += new System.EventHandler(strip_conference_paperInfo_Click);
                         break;
                     }
 
-                case 2:
+                case RoleTypesEnum.Chair:
                     {
-                        ToolStripMenuItem strip_conf_luanchConf = new ToolStripMenuItem();
-                        ToolStripMenuItem strip_conf_assignReviewer = new ToolStripMenuItem();
-                        ToolStripMenuItem strip_conf_fnlDecision = new ToolStripMenuItem();
-                        ToolStripMenuItem strip_conf_rqValid = new ToolStripMenuItem();
-                        strip_conf_luanchConf.Text = "Launch Conference";
-                        strip_conf_assignReviewer.Text = "Assign Reviewer";
-                        strip_conf_fnlDecision.Text = "Evaluate Paper";
-                        strip_conf_rqValid.Text = "Validate Request";
-                        this.strip_confMenu.DropDownItems.Add(strip_conf_luanchConf);
-                        this.strip_confMenu.DropDownItems.Add(strip_conf_assignReviewer);
-                        this.strip_confMenu.DropDownItems.Add(strip_conf_fnlDecision);
-                        this.strip_confMenu.DropDownItems.Add(strip_conf_rqValid);
-                        strip_conf_luanchConf.Click += new System.EventHandler(this.strip_conf_luanchConf_Click);
-                        strip_conf_assignReviewer.Click += new System.EventHandler(this.strip_conf_assignReviewer_Click);
-                        strip_conf_fnlDecision.Click += new System.EventHandler(this.strip_conf_fnlDecision_Click);
-                        strip_conf_rqValid.Click += new System.EventHandler(this.strip_conf_rqValid_Click);
+                        ToolStripMenuItem strip_conference_launchConference = new ToolStripMenuItem();
+                        ToolStripMenuItem strip_conference_assignReviewer = new ToolStripMenuItem();
+                        ToolStripMenuItem strip_conference_makeDecision = new ToolStripMenuItem();
+                        ToolStripMenuItem strip_conference_validateRequest = new ToolStripMenuItem();
+                        strip_conference_launchConference.Text = "Launch Conference";
+                        strip_conference_assignReviewer.Text = "Assign Reviewer";
+                        strip_conference_makeDecision.Text = "Evaluate Paper";
+                        strip_conference_validateRequest.Text = "Validate Request";
+                        strip_conference.DropDownItems.Add(strip_conference_launchConference);
+                        strip_conference.DropDownItems.Add(strip_conference_assignReviewer);
+                        strip_conference.DropDownItems.Add(strip_conference_makeDecision);
+                        strip_conference.DropDownItems.Add(strip_conference_validateRequest);
+                        strip_conference_launchConference.Click += new System.EventHandler(strip_conference_launchConference_Click);
+                        strip_conference_assignReviewer.Click += new System.EventHandler(strip_conference_assignReviewer_Click);
+                        strip_conference_makeDecision.Click += new System.EventHandler(strip_conference_makeDecision_Click);
+                        strip_conference_validateRequest.Click += new System.EventHandler(strip_conference_validRequest_Click);
                         break;
                     }
 
-                case 3:
+                case RoleTypesEnum.Reviewer:
                     {
-                        ToolStripMenuItem strip_conf_reviewPaper = new ToolStripMenuItem();
-                        ToolStripMenuItem strip_conf_rqValid = new ToolStripMenuItem();
-                        strip_conf_reviewPaper.Text = "Review Paper";
-                        this.strip_confMenu.DropDownItems.Add(strip_conf_reviewPaper);
-                        strip_conf_reviewPaper.Click += new System.EventHandler(this.strip_conf_reviewPaper_Click);
+                        ToolStripMenuItem strip_conference_reviewPaper = new ToolStripMenuItem();
+                        ToolStripMenuItem strip_conference_validateRequest = new ToolStripMenuItem();
+                        strip_conference_reviewPaper.Text = "Review Paper";
+                        strip_conference.DropDownItems.Add(strip_conference_reviewPaper);
+                        strip_conference_reviewPaper.Click += new System.EventHandler(strip_conference_reviewPaper_Click);
                         break;
                     }
 
-                default:
+                case RoleTypesEnum.Author:
                     {
-                        ToolStripMenuItem strip_conf_submitPaper = new ToolStripMenuItem();
-                        ToolStripMenuItem strip_conf_paperStatus = new ToolStripMenuItem();
-                        strip_conf_submitPaper.Text = "Submit Paper";
-                        strip_conf_paperStatus.Text = "Paper Status";
-                        this.strip_confMenu.DropDownItems.Add(strip_conf_submitPaper);
-                        this.strip_confMenu.DropDownItems.Add(strip_conf_paperStatus);
-                        strip_conf_submitPaper.Click += new System.EventHandler(this.strip_conf_submitPaper_Click);
-                        strip_conf_paperStatus.Click += new System.EventHandler(this.strip_conf_paperStatus_Click);
+                        ToolStripMenuItem strip_conference_submitPaper = new ToolStripMenuItem();
+                        ToolStripMenuItem strip_conference_paperStatus = new ToolStripMenuItem();
+                        strip_conference_submitPaper.Text = "Submit Paper";
+                        strip_conference_paperStatus.Text = "Paper Status";
+                        strip_conference.DropDownItems.Add(strip_conference_submitPaper);
+                        strip_conference.DropDownItems.Add(strip_conference_paperStatus);
+                        strip_conference_submitPaper.Click += new System.EventHandler(strip_conference_submitPaper_Click);
+                        strip_conference_paperStatus.Click += new System.EventHandler(strip_conference_paperStatus_Click);
                         break;
                     }
             }
@@ -114,19 +114,19 @@ namespace CMS
             Application.Exit();
         }
 
-        private void strip_conf_submitPaper_Click(object sender, EventArgs e)
+        private void strip_conference_submitPaper_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
 
-            if (sub == null)
+            if (_submitPaperView == null)
             {
-                sub = _formUtil.GetForm<SubmitPaper>();
-                FormInit(sub);
+                _submitPaperView = _formUtil.GetForm<SubmitPaper>();
+                FormInit(_submitPaperView);
             }
             else
             {
-                sub.Init();
-                sub.Activate();
+                _submitPaperView.Init();
+                _submitPaperView.Activate();
             }
         }
 
@@ -140,93 +140,93 @@ namespace CMS
             form.WindowState = FormWindowState.Maximized;
         }
 
-        private void strip_conf_luanchConf_Click(object sender, EventArgs e)
+        private void strip_conference_launchConference_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            if (lf == null)
+            if (_launchConferenceView == null)
             {
-                lf = _formUtil.GetForm<LaunchConference>();
-                FormInit(lf);
+                _launchConferenceView = _formUtil.GetForm<LaunchConference>();
+                FormInit(_launchConferenceView);
             }
             else
             {
-                lf.Init();
-                lf.Activate();
+                _launchConferenceView.Init();
+                _launchConferenceView.Activate();
             }
         }
 
-        private void strip_conf_assignReviewer_Click(object sender, EventArgs e)
+        private void strip_conference_assignReviewer_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            if (ap == null)
+            if (_assignPaperView == null)
             {
-                ap = _formUtil.GetForm<AssignPaper>();
-                FormInit(ap);
+                _assignPaperView = _formUtil.GetForm<AssignPaper>();
+                FormInit(_assignPaperView);
             }
             else
             {
-                ap.Init();
-                ap.Activate();
+                _assignPaperView.Init();
+                _assignPaperView.Activate();
             }
         }
 
-        private void strip_conf_reviewPaper_Click(object sender, EventArgs e)
+        private void strip_conference_reviewPaper_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            if (rvp == null)
+            if (_reviewPaperView == null)
             {
-                rvp = _formUtil.GetForm<ReviewPaper>();
-                FormInit(rvp);
+                _reviewPaperView = _formUtil.GetForm<ReviewPaper>();
+                FormInit(_reviewPaperView);
             }
             else
             {
-                rvp.Init();
-                rvp.Activate();
+                _reviewPaperView.Init();
+                _reviewPaperView.Activate();
             }
         }
 
-        private void strip_conf_fnlDecision_Click(object sender, EventArgs e)
+        private void strip_conference_makeDecision_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            if (fb == null)
+            if (_makeDecisionView == null)
             {
-                fb = _formUtil.GetForm<MakeDicision>();
-                FormInit(fb);
+                _makeDecisionView = _formUtil.GetForm<MakeDicision>();
+                FormInit(_makeDecisionView);
             }
             else
             {
-                fb.Init();
-                fb.Activate();
+                _makeDecisionView.Init();
+                _makeDecisionView.Activate();
             }
         }
 
-        private void strip_conf_rqValid_Click(object sender, EventArgs e)
+        private void strip_conference_validRequest_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            if (rv == null)
+            if (_validateRequestView == null)
             {
-                rv = _formUtil.GetForm<RequestValidate>();
-                FormInit(rv);
+                _validateRequestView = _formUtil.GetForm<RequestValidate>();
+                FormInit(_validateRequestView);
             }
             else
             {
-                rv.Init();
-                rv.Activate();
+                _validateRequestView.Init();
+                _validateRequestView.Activate();
             }
         }
 
-        private void strip_conf_paperStatus_Click(object sender, EventArgs e)
+        private void strip_conference_paperStatus_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            if (ps == null)
+            if (_paperStatusView == null)
             {
-                ps = _formUtil.GetForm<PaperStatus>();
-                FormInit(ps);
+                _paperStatusView = _formUtil.GetForm<PaperStatus>();
+                FormInit(_paperStatusView);
             }
             else
             {
-                ps.Init();
-                ps.Activate();
+                _paperStatusView.Init();
+                _paperStatusView.Activate();
             }
         }
 
@@ -234,76 +234,77 @@ namespace CMS
         {
             if (_applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Reviewer)
             {
-                var acs = _formUtil.GetForm<AccountSetting_R>();
-                acs.Show();
+                var accountSetting = _formUtil.GetForm<AccountSetting_R>();
+                accountSetting.Show();
             }
             else
             {
-                var acs = _formUtil.GetForm<AccountSetting>();
-                acs.Show();
+                var accountSetting = _formUtil.GetForm<AccountSetting>();
+                accountSetting.Show();
             }
         }
 
         private void strip_conf_confInfo_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            if (_applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Admin
-                || _applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Chair)
+            var loggedInUserInfo = _applicationStrategy.GetLoggedInUserInfo();
+            if (loggedInUserInfo.User.RoleId == (int)RoleTypesEnum.Admin
+                || loggedInUserInfo.User.RoleId == (int)RoleTypesEnum.Chair)
             {
-                if (cfia == null)
+                if (_conferenceInfoAdminView == null)
                 {
-                    cfia = _formUtil.GetForm<ConferenceInfo_Admin>();
-                    FormInit(cfia);
+                    _conferenceInfoAdminView = _formUtil.GetForm<ConferenceInfo_Admin>();
+                    FormInit(_conferenceInfoAdminView);
                 }
                 else
                 {
-                    cfia.Init((int)ConferenceViewTypesEnum.ConferenceMembers);
-                    cfia.Activate();
+                    _conferenceInfoAdminView.Init((int)ConferenceViewTypesEnum.ConferenceMembers);
+                    _conferenceInfoAdminView.Activate();
                 }
             }
             else
             {
-                if (cfi == null)
+                if (_conferenceInfoView == null)
                 {
-                    cfi = _formUtil.GetForm<ConferenceInfo>();
-                    FormInit(cfi);
+                    _conferenceInfoView = _formUtil.GetForm<ConferenceInfo>();
+                    FormInit(_conferenceInfoView);
                 }
                 else
                 {
-                    cfi.Init();
-                    cfi.Activate();
+                    _conferenceInfoView.Init();
+                    _conferenceInfoView.Activate();
                 }
             }
 
         }
 
-        private void strip_conf_userInfo_Click(object sender, EventArgs e)
+        private void strip_conference_userInfo_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            if (cfia == null)
+            if (_conferenceInfoAdminView == null)
             {
-                cfia = _formUtil.GetForm<ConferenceInfo_Admin>();
-                FormInit(cfia);
+                _conferenceInfoAdminView = _formUtil.GetForm<ConferenceInfo_Admin>();
+                FormInit(_conferenceInfoAdminView);
             }
             else
             {
-                cfia.Init((int)ConferenceViewTypesEnum.UserInfo);
-                cfia.Activate();
+                _conferenceInfoAdminView.Init((int)ConferenceViewTypesEnum.UserInfo);
+                _conferenceInfoAdminView.Activate();
             }
         }
 
-        private void strip_conf_paperInfo_Click(object sender, EventArgs e)
+        private void strip_conference_paperInfo_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
-            if (cfia == null)
+            if (_conferenceInfoAdminView == null)
             {
-                cfia = _formUtil.GetForm<ConferenceInfo_Admin>();
-                FormInit(cfia);
+                _conferenceInfoAdminView = _formUtil.GetForm<ConferenceInfo_Admin>();
+                FormInit(_conferenceInfoAdminView);
             }
             else
             {
-                cfia.Init((int)ConferenceViewTypesEnum.Papers);
-                cfia.Activate();
+                _conferenceInfoAdminView.Init((int)ConferenceViewTypesEnum.Papers);
+                _conferenceInfoAdminView.Activate();
             }
         }
     }
