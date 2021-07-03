@@ -28,25 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox_passwrd = new System.Windows.Forms.TextBox();
+            this.textBox_password = new System.Windows.Forms.TextBox();
             this.textBox_userName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btn_login = new System.Windows.Forms.Button();
-            this.btn_Exit = new System.Windows.Forms.Button();
+            this.btn_exit = new System.Windows.Forms.Button();
             this.btn_register = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox_passwrd
             // 
-            this.textBox_passwrd.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_passwrd.Location = new System.Drawing.Point(23, 114);
-            this.textBox_passwrd.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox_passwrd.Name = "textBox_passwrd";
-            this.textBox_passwrd.Size = new System.Drawing.Size(278, 28);
-            this.textBox_passwrd.TabIndex = 2;
-            this.textBox_passwrd.Text = "ch";
-            this.textBox_passwrd.UseSystemPasswordChar = true;
+            this.textBox_password.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_password.Location = new System.Drawing.Point(23, 114);
+            this.textBox_password.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox_password.Name = "textBox_passwrd";
+            this.textBox_password.Size = new System.Drawing.Size(278, 28);
+            this.textBox_password.TabIndex = 2;
+            this.textBox_password.Text = "ch";
+            this.textBox_password.UseSystemPasswordChar = true;
             // 
             // textBox_userName
             // 
@@ -97,15 +97,15 @@
             // 
             // btn_Exit
             // 
-            this.btn_Exit.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Exit.Location = new System.Drawing.Point(23, 272);
-            this.btn_Exit.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_Exit.Name = "btn_Exit";
-            this.btn_Exit.Size = new System.Drawing.Size(276, 37);
-            this.btn_Exit.TabIndex = 7;
-            this.btn_Exit.Text = "EXIT";
-            this.btn_Exit.UseVisualStyleBackColor = true;
-            this.btn_Exit.Click += new System.EventHandler(this.btn_Exit_Click);
+            this.btn_exit.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_exit.Location = new System.Drawing.Point(23, 272);
+            this.btn_exit.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_exit.Name = "btn_Exit";
+            this.btn_exit.Size = new System.Drawing.Size(276, 37);
+            this.btn_exit.TabIndex = 7;
+            this.btn_exit.Text = "EXIT";
+            this.btn_exit.UseVisualStyleBackColor = true;
+            this.btn_exit.Click += new System.EventHandler(this.btn_exit_Click);
             // 
             // btn_register
             // 
@@ -129,12 +129,12 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(321, 351);
             this.Controls.Add(this.btn_register);
-            this.Controls.Add(this.btn_Exit);
+            this.Controls.Add(this.btn_exit);
             this.Controls.Add(this.btn_login);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox_userName);
-            this.Controls.Add(this.textBox_passwrd);
+            this.Controls.Add(this.textBox_password);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Login";
@@ -147,12 +147,12 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox_passwrd;
+        private System.Windows.Forms.TextBox textBox_password;
         private System.Windows.Forms.TextBox textBox_userName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btn_login;
-        private System.Windows.Forms.Button btn_Exit;
+        private System.Windows.Forms.Button btn_exit;
         private System.Windows.Forms.Button btn_register;
     }
 }

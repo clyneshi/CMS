@@ -17,14 +17,14 @@ namespace CMS
             InitializeComponent();
         }
 
-        private void btn_Exit_Click(object sender, EventArgs e)
+        private void btn_exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
         private void btn_login_Click(object sender, EventArgs e)
         {
-            if (_userService.AuthenticateUser(textBox_userName.Text, textBox_passwrd.Text))
+            if (_userService.AuthenticateUser(textBox_userName.Text, textBox_password.Text))
             {
                 var main = _formUtil.GetForm<Main>();
                 this.Hide();
@@ -38,9 +38,9 @@ namespace CMS
 
         private void btn_register_Click(object sender, EventArgs e)
         {
-            var reg = _formUtil.GetForm<Register>();
+            var register = _formUtil.GetForm<Register>();
             this.Hide();
-            reg.Show();
+            register.Show();
         }
     }
 }
