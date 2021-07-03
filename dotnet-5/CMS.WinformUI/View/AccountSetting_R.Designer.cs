@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox_nPass = new System.Windows.Forms.TextBox();
+            this.textBox_newPassword = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.btn_cancel = new System.Windows.Forms.Button();
             this.btn_save = new System.Windows.Forms.Button();
             this.comboBox_conf = new System.Windows.Forms.ComboBox();
             this.comboBox_role = new System.Windows.Forms.ComboBox();
-            this.textBox_cont = new System.Windows.Forms.TextBox();
+            this.textBox_contact = new System.Windows.Forms.TextBox();
             this.textBox_email = new System.Windows.Forms.TextBox();
-            this.textBox_oPass = new System.Windows.Forms.TextBox();
+            this.textBox_oldPassword = new System.Windows.Forms.TextBox();
             this.textBox_name = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -44,21 +44,21 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.listBox_selectedKeywords = new System.Windows.Forms.ListBox();
+            this.dataGridView_keyword = new System.Windows.Forms.DataGridView();
             this.label8 = new System.Windows.Forms.Label();
-            this.btn_add = new System.Windows.Forms.Button();
-            this.btn_remove = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.btn_addKeyword = new System.Windows.Forms.Button();
+            this.btn_removeKeyword = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_keyword)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox_nPass
             // 
-            this.textBox_nPass.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_nPass.Location = new System.Drawing.Point(314, 182);
-            this.textBox_nPass.Name = "textBox_nPass";
-            this.textBox_nPass.Size = new System.Drawing.Size(332, 50);
-            this.textBox_nPass.TabIndex = 45;
+            this.textBox_newPassword.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_newPassword.Location = new System.Drawing.Point(314, 182);
+            this.textBox_newPassword.Name = "textBox_nPass";
+            this.textBox_newPassword.Size = new System.Drawing.Size(332, 50);
+            this.textBox_newPassword.TabIndex = 45;
             // 
             // label7
             // 
@@ -114,11 +114,11 @@
             // 
             // textBox_cont
             // 
-            this.textBox_cont.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_cont.Location = new System.Drawing.Point(314, 310);
-            this.textBox_cont.Name = "textBox_cont";
-            this.textBox_cont.Size = new System.Drawing.Size(332, 50);
-            this.textBox_cont.TabIndex = 39;
+            this.textBox_contact.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_contact.Location = new System.Drawing.Point(314, 310);
+            this.textBox_contact.Name = "textBox_cont";
+            this.textBox_contact.Size = new System.Drawing.Size(332, 50);
+            this.textBox_contact.TabIndex = 39;
             // 
             // textBox_email
             // 
@@ -130,11 +130,11 @@
             // 
             // textBox_oPass
             // 
-            this.textBox_oPass.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_oPass.Location = new System.Drawing.Point(314, 118);
-            this.textBox_oPass.Name = "textBox_oPass";
-            this.textBox_oPass.Size = new System.Drawing.Size(332, 50);
-            this.textBox_oPass.TabIndex = 37;
+            this.textBox_oldPassword.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_oldPassword.Location = new System.Drawing.Point(314, 118);
+            this.textBox_oldPassword.Name = "textBox_oPass";
+            this.textBox_oldPassword.Size = new System.Drawing.Size(332, 50);
+            this.textBox_oldPassword.TabIndex = 37;
             // 
             // textBox_name
             // 
@@ -206,27 +206,27 @@
             // 
             // listBox1
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 25;
-            this.listBox1.Location = new System.Drawing.Point(314, 512);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(332, 254);
-            this.listBox1.TabIndex = 46;
+            this.listBox_selectedKeywords.FormattingEnabled = true;
+            this.listBox_selectedKeywords.ItemHeight = 25;
+            this.listBox_selectedKeywords.Location = new System.Drawing.Point(314, 512);
+            this.listBox_selectedKeywords.Name = "listBox1";
+            this.listBox_selectedKeywords.Size = new System.Drawing.Size(332, 254);
+            this.listBox_selectedKeywords.TabIndex = 46;
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(692, 57);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowHeadersWidth = 82;
-            this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(429, 878);
-            this.dataGridView1.TabIndex = 47;
+            this.dataGridView_keyword.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_keyword.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_keyword.Location = new System.Drawing.Point(692, 57);
+            this.dataGridView_keyword.MultiSelect = false;
+            this.dataGridView_keyword.Name = "dataGridView1";
+            this.dataGridView_keyword.ReadOnly = true;
+            this.dataGridView_keyword.RowHeadersVisible = false;
+            this.dataGridView_keyword.RowHeadersWidth = 82;
+            this.dataGridView_keyword.RowTemplate.Height = 33;
+            this.dataGridView_keyword.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_keyword.Size = new System.Drawing.Size(429, 878);
+            this.dataGridView_keyword.TabIndex = 47;
             // 
             // label8
             // 
@@ -240,45 +240,45 @@
             // 
             // btn_add
             // 
-            this.btn_add.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_add.Location = new System.Drawing.Point(314, 772);
-            this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(167, 72);
-            this.btn_add.TabIndex = 49;
-            this.btn_add.Text = "Add";
-            this.btn_add.UseVisualStyleBackColor = true;
-            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
+            this.btn_addKeyword.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_addKeyword.Location = new System.Drawing.Point(314, 772);
+            this.btn_addKeyword.Name = "btn_add";
+            this.btn_addKeyword.Size = new System.Drawing.Size(167, 72);
+            this.btn_addKeyword.TabIndex = 49;
+            this.btn_addKeyword.Text = "Add";
+            this.btn_addKeyword.UseVisualStyleBackColor = true;
+            this.btn_addKeyword.Click += new System.EventHandler(this.btn_addKeyword_Click);
             // 
             // btn_remove
             // 
-            this.btn_remove.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_remove.Location = new System.Drawing.Point(487, 772);
-            this.btn_remove.Name = "btn_remove";
-            this.btn_remove.Size = new System.Drawing.Size(159, 72);
-            this.btn_remove.TabIndex = 50;
-            this.btn_remove.Text = "Remove";
-            this.btn_remove.UseVisualStyleBackColor = true;
-            this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
+            this.btn_removeKeyword.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_removeKeyword.Location = new System.Drawing.Point(487, 772);
+            this.btn_removeKeyword.Name = "btn_remove";
+            this.btn_removeKeyword.Size = new System.Drawing.Size(159, 72);
+            this.btn_removeKeyword.TabIndex = 50;
+            this.btn_removeKeyword.Text = "Remove";
+            this.btn_removeKeyword.UseVisualStyleBackColor = true;
+            this.btn_removeKeyword.Click += new System.EventHandler(this.btn_removeKeyword_Click);
             // 
             // AccountSetting_R
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1155, 977);
-            this.Controls.Add(this.btn_remove);
-            this.Controls.Add(this.btn_add);
+            this.Controls.Add(this.btn_removeKeyword);
+            this.Controls.Add(this.btn_addKeyword);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.textBox_nPass);
+            this.Controls.Add(this.dataGridView_keyword);
+            this.Controls.Add(this.listBox_selectedKeywords);
+            this.Controls.Add(this.textBox_newPassword);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.comboBox_conf);
             this.Controls.Add(this.comboBox_role);
-            this.Controls.Add(this.textBox_cont);
+            this.Controls.Add(this.textBox_contact);
             this.Controls.Add(this.textBox_email);
-            this.Controls.Add(this.textBox_oPass);
+            this.Controls.Add(this.textBox_oldPassword);
             this.Controls.Add(this.textBox_name);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -289,7 +289,7 @@
             this.Name = "AccountSetting_R";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AccountSetting_R";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_keyword)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -297,15 +297,15 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox_nPass;
+        private System.Windows.Forms.TextBox textBox_newPassword;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btn_cancel;
         private System.Windows.Forms.Button btn_save;
         private System.Windows.Forms.ComboBox comboBox_conf;
         private System.Windows.Forms.ComboBox comboBox_role;
-        private System.Windows.Forms.TextBox textBox_cont;
+        private System.Windows.Forms.TextBox textBox_contact;
         private System.Windows.Forms.TextBox textBox_email;
-        private System.Windows.Forms.TextBox textBox_oPass;
+        private System.Windows.Forms.TextBox textBox_oldPassword;
         private System.Windows.Forms.TextBox textBox_name;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
@@ -313,10 +313,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ListBox listBox_selectedKeywords;
+        private System.Windows.Forms.DataGridView dataGridView_keyword;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button btn_add;
-        private System.Windows.Forms.Button btn_remove;
+        private System.Windows.Forms.Button btn_addKeyword;
+        private System.Windows.Forms.Button btn_removeKeyword;
     }
 }

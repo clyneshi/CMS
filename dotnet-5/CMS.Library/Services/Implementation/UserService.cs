@@ -59,6 +59,8 @@ namespace CMS.BL.Services.Implementation
 
         public async Task UpdateUser(string Name, string Email, string Contact, string oldPasswrd, string newPasswrd)
         {
+            // TODO: separate change password validation
+            // TODO: pass in user model instead of all fields
             if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Email)
                 || string.IsNullOrEmpty(oldPasswrd) || string.IsNullOrEmpty(newPasswrd))
             {

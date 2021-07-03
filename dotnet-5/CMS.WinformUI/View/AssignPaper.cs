@@ -15,13 +15,13 @@ namespace CMS
         private readonly IConferenceService _conferenceService;
         private readonly IApplicationStrategy _applicationStrategy;
 
-        readonly BindingList<User> reviewersToAssign = new BindingList<User>();
-        readonly BindingList<PaperReview> paperReviewsToDelete = new BindingList<PaperReview>();
+        readonly BindingList<User> _reviewersToAssign = new BindingList<User>();
+        readonly BindingList<PaperReview> _paperReviewsToDelete = new BindingList<PaperReview>();
         
-        private int selectedReviewerId;
-        private string selectedUserName;
-        private int selectedPaperId;
-        private bool removeFromDb;
+        private int _selectedReviewerId;
+        private string _selectedUserName;
+        private int _selectedPaperId;
+        private bool _removeFromDb;
 
         public AssignPaper(IUserService userService,
             IKeywordService keywordService,
@@ -41,9 +41,9 @@ namespace CMS
 
         public void Init()
         {
-            selectedReviewerId = 0;
-            reviewersToAssign.Clear();
-            listBox_reviewer.DataSource = reviewersToAssign;
+            _selectedReviewerId = 0;
+            _reviewersToAssign.Clear();
+            listBox_reviewer.DataSource = _reviewersToAssign;
             listBox_reviewer.DisplayMember = "Name";
 
             DisplayConferences();
@@ -90,12 +90,12 @@ namespace CMS
             dataGridView_paper.DataSource = papers;
             if (papers.Any())
             {
-                selectedPaperId = papers.First().Id;
+                _selectedPaperId = papers.First().Id;
                 DisplayAssignedReviewers(papers.First().Id);
             }
             else
             {
-                selectedPaperId = 0;
+                _selectedPaperId = 0;
                 dataGridView_assignedReviewer.DataSource = null;
             }
         }
@@ -116,12 +116,12 @@ namespace CMS
 
             if (reviewers.Any())
             {
-                selectedReviewerId = reviewers.First().Id;
+                _selectedReviewerId = reviewers.First().Id;
                 DisplayReviewerExpertise(reviewers.First().Id);
             }
             else
             {
-                selectedReviewerId = 0;
+                _selectedReviewerId = 0;
                 dataGridView_reviewerExpertise.DataSource = null;
             }
         }
@@ -151,8 +151,8 @@ namespace CMS
 
             dataGridView_assignedReviewer.DataSource = assignedReviewers;
 
-            removeFromDb = false;
-            paperReviewsToDelete.Clear();
+            _removeFromDb = false;
+            _paperReviewsToDelete.Clear();
         }
 
         private void dataGridView_conference_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -166,7 +166,7 @@ namespace CMS
 
                 DisplayReviewersWithExpertises(conferenceId);
 
-                reviewersToAssign.Clear();
+                _reviewersToAssign.Clear();
             }
         }
 
@@ -175,10 +175,10 @@ namespace CMS
             // change the expertise list according to different reviewer
             if (e.RowIndex >= 0)
             {
-                selectedReviewerId = (int)dataGridView_reviewer.Rows[e.RowIndex].Cells["Id"].Value;
-                selectedUserName = (string)dataGridView_reviewer.Rows[e.RowIndex].Cells["Name"].Value;
+                _selectedReviewerId = (int)dataGridView_reviewer.Rows[e.RowIndex].Cells["Id"].Value;
+                _selectedUserName = (string)dataGridView_reviewer.Rows[e.RowIndex].Cells["Name"].Value;
 
-                if (_keywordService.GetExpertiseByUser(selectedReviewerId).Any())
+                if (_keywordService.GetExpertiseByUser(_selectedReviewerId).Any())
                     DisplayReviewerExpertise((int)dataGridView_reviewer.Rows[e.RowIndex].Cells["Id"].Value);
                 else
                     dataGridView_reviewerExpertise.DataSource = null;
@@ -189,14 +189,14 @@ namespace CMS
         {
             if (e.RowIndex >= 0)
             {
-                selectedPaperId = (int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value;
+                _selectedPaperId = (int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value;
 
-                if (_paperService.GetPaperReviewsByPaper(selectedPaperId).Any())
+                if (_paperService.GetPaperReviewsByPaper(_selectedPaperId).Any())
                     DisplayAssignedReviewers((int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value);
                 else
                     dataGridView_assignedReviewer.DataSource = null;
             }
-            reviewersToAssign.Clear();
+            _reviewersToAssign.Clear();
         }
 
         private void btn_addReviewer_Click(object sender, EventArgs e)
@@ -204,19 +204,19 @@ namespace CMS
             var existed = false;
             // ## add this to validation control
             // use datasource
-            if (_paperService.GetPaperReview(selectedPaperId, selectedReviewerId) != null)
+            if (_paperService.GetPaperReview(_selectedPaperId, _selectedReviewerId) != null)
                 existed = true;
 
-            foreach (var reviewer in reviewersToAssign)
-                if (reviewer.Id == selectedReviewerId)
+            foreach (var reviewer in _reviewersToAssign)
+                if (reviewer.Id == _selectedReviewerId)
                     existed = true;
 
-            if (!existed && selectedReviewerId != 0 && selectedPaperId != 0)
+            if (!existed && _selectedReviewerId != 0 && _selectedPaperId != 0)
             {
-                reviewersToAssign.Add(new User 
+                _reviewersToAssign.Add(new User 
                 { 
-                    Id = selectedReviewerId, 
-                    Name = selectedUserName 
+                    Id = _selectedReviewerId, 
+                    Name = _selectedUserName 
                 });
                 listBox_reviewer.SelectedIndex = listBox_reviewer.Items.Count - 1;
             }
@@ -224,19 +224,19 @@ namespace CMS
 
         private async void btn_save_Click(object sender, EventArgs e)
         {
-            if (paperReviewsToDelete.Count != 0)
+            if (_paperReviewsToDelete.Count != 0)
             {
-                foreach (var paperReview in paperReviewsToDelete)
+                foreach (var paperReview in _paperReviewsToDelete)
                     await _paperService.DeletePaperReview(paperReview.PaperId, paperReview.UserId);
             }
             else
-                foreach (var reviewer in reviewersToAssign)
+                foreach (var reviewer in _reviewersToAssign)
                 {
-                    if (_paperService.GetPaperReview(selectedPaperId, reviewer.Id) == null)
+                    if (_paperService.GetPaperReview(_selectedPaperId, reviewer.Id) == null)
                     {
                         await _paperService.AddPaperReview(new PaperReview 
                         { 
-                            Id = selectedPaperId, 
+                            Id = _selectedPaperId, 
                             UserId = reviewer.Id 
                         });
                     }
@@ -248,35 +248,35 @@ namespace CMS
 
         private void btn_rmvReviewer_Click(object sender, EventArgs e)
         {
-            if (removeFromDb)
+            if (_removeFromDb)
             {
                 var reviewer = (User)listBox_reviewer.SelectedItem;
-                paperReviewsToDelete.Add(new PaperReview 
+                _paperReviewsToDelete.Add(new PaperReview 
                 { 
-                    PaperId = selectedPaperId, 
+                    PaperId = _selectedPaperId, 
                     UserId = reviewer.Id 
                 });
             }
             // ### can improve just using string list to store paperreview id
-            reviewersToAssign.Remove((User)listBox_reviewer.SelectedItem);
+            _reviewersToAssign.Remove((User)listBox_reviewer.SelectedItem);
         }
 
         private void btn_changeRviewer_Click(object sender, EventArgs e)
         {
-            reviewersToAssign.Clear();
+            _reviewersToAssign.Clear();
 
-            var reviewers = _userService.GetAssignedReviewersByPaper(selectedPaperId);
+            var reviewers = _userService.GetAssignedReviewersByPaper(_selectedPaperId);
 
             foreach (var reviewer in reviewers)
             {
-                this.reviewersToAssign.Add(new User 
+                this._reviewersToAssign.Add(new User 
                 { 
                     Id = reviewer.Id, 
                     Name = reviewer.Name 
                 });
             }
 
-            removeFromDb = true;
+            _removeFromDb = true;
         }
     }
 }
