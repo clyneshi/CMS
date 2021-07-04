@@ -38,7 +38,7 @@ namespace CMS.BL.Services.Implementation
 
             _unitOfWork.PaperRepository.Add(paper);
 
-            await _unitOfWork.Save();
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public Paper GetPaperById(int Id)
@@ -80,7 +80,7 @@ namespace CMS.BL.Services.Implementation
 
             _unitOfWork.PaperReviewRepository.Add(paperReview);
 
-            await _unitOfWork.Save();
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task DeletePaperReview(int paperId, int UserId)
@@ -96,7 +96,7 @@ namespace CMS.BL.Services.Implementation
 
             _unitOfWork.PaperReviewRepository.Delete(paperReview);
 
-            await _unitOfWork.Save();
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public IEnumerable<ReviewPaperModel> GetPapersForReview(int reviewerId, int conferenceId)
@@ -133,7 +133,7 @@ namespace CMS.BL.Services.Implementation
             _unitOfWork.PaperReviewRepository.Update(paperReview);
             _unitOfWork.PaperRepository.Update(paper);
 
-            await _unitOfWork.Save();
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public IEnumerable<PaperReview> GetPaperReviewsByPaper(int paperId)
@@ -197,7 +197,7 @@ namespace CMS.BL.Services.Implementation
             paper.Status = feedback.FinalDecision;
             _unitOfWork.PaperRepository.Update(paper);
 
-            await _unitOfWork.Save();
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

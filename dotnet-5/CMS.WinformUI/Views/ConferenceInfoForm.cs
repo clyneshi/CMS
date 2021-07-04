@@ -1,4 +1,6 @@
 ﻿using CMS.BL.Services.Interface;
+using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CMS
@@ -13,12 +15,18 @@ namespace CMS
             _paperService = paperService;
             _conferenceService = conferenceService;
             InitializeComponent();
-            Init();
         }
 
-        public void Init()
+        protected override async void OnLoad(EventArgs e)
         {
-            dataGridView_conference.DataSource = _conferenceService.GetReviewersByConference();
+            base.OnLoad(e);
+            await InitAsync();
+        }
+
+
+        public async Task InitAsync()
+        {
+            dataGridView_conference.DataSource = await _conferenceService.GetReviewersByConference();
             dataGridView_paper.DataSource = _paperService.GetPapersWithConference();
         }
     }

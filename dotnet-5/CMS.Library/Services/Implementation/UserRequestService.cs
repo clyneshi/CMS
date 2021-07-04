@@ -68,7 +68,7 @@ namespace CMS.BL.Services.Implementation
 
             _unitOfWork.RegisterRequestRepository.Update(request);
 
-            await _unitOfWork.Save();
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task AddRegisterRequest(RegisterRequest request)
@@ -80,7 +80,7 @@ namespace CMS.BL.Services.Implementation
 
             _unitOfWork.RegisterRequestRepository.Add(request);
 
-            await _unitOfWork.Save();
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

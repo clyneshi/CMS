@@ -70,11 +70,10 @@ namespace CMS
 
             if (_applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Chair)
             {
-                await _conferenceService.AddConferenceMember(new ConferenceMember
-                {
-                    ConferenceId = (int)dataGridView_request.Rows[dataGridView_request.CurrentRow.Index].Cells["ConferenceId"].Value,
-                    UserId = _userId
-                });
+                await _conferenceService.AddConferenceMemberAsync(
+                    (int)dataGridView_request.Rows[dataGridView_request.CurrentRow.Index].Cells["ConferenceId"].Value,
+                    _userId
+                );
             }
         }
 

@@ -52,9 +52,9 @@ namespace CMS.DAL.Core
         public IRoleRepository RoleRepository => _roleRepository;
         public IRegisterRequestRepository RegisterRequestRepository => _registerRequestRepository;
 
-        public async Task<int> Save()
+        public Task<int> SaveChangesAsync()
         {
-            return await _context.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
 
         private bool disposed = false;

@@ -21,7 +21,7 @@ namespace CMS.BL.Services.Implementation
             _applicationStrategy = applicationStrategy;
         }
 
-        public bool AuthenticateUser(string email, string passWord)
+        public async Task<bool> AuthenticateUserAsync(string email, string passWord)
         {
             //TODO: change behavior in accordince with user logic changes 
             // in the past, user - author, reviewer are tied to a single conference
@@ -40,8 +40,8 @@ namespace CMS.BL.Services.Implementation
             int? conferenceId = null;
             if (user.RoleId == (int)RoleTypesEnum.Author || user.RoleId == (int)RoleTypesEnum.Reviewer)
             {
-                var conferenceMembers = _unitOfWork.ConferenceMemberRepository
-                    .Filter(x => x.UserId == user.Id)
+                var conferenceMembers = (await _unitOfWork.ConferenceMemberRepository
+                    .FilterAsync(x => x.UserId == user.Id))
                     .SingleOrDefault();
 
                 conferenceId = conferenceMembers?.ConferenceId;
@@ -77,14 +77,14 @@ namespace CMS.BL.Services.Implementation
                 user.Password = newPasswrd;
 
             _unitOfWork.UserRepository.Update(user);
-            await _unitOfWork.Save();
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public IEnumerable<User> GetReviewers(int conferenceId)
+        public async Task<IList<User>> GetReviewersAsync(int conferenceId)
         {
-            return _unitOfWork.ConferenceMemberRepository
-                .Filter(x => x.ConferenceId == conferenceId
-                        && x.User.RoleId == (int)RoleTypesEnum.Reviewer)
+            return (await _unitOfWork.ConferenceMemberRepository
+                .FilterAsync(x => x.ConferenceId == conferenceId
+                        && x.User.RoleId == (int)RoleTypesEnum.Reviewer))
                 .Select(x => x.User)
                 .ToList();
         }
@@ -119,7 +119,7 @@ namespace CMS.BL.Services.Implementation
             }
 
             _unitOfWork.UserRepository.Add(user);
-            await _unitOfWork.Save();
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

@@ -155,7 +155,7 @@ namespace CMS
             }
         }
 
-        private void strip_conference_assignReviewer_Click(object sender, EventArgs e)
+        private async void strip_conference_assignReviewer_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
             if (_assignPaperView == null)
@@ -165,7 +165,7 @@ namespace CMS
             }
             else
             {
-                _assignPaperView.Init();
+                await _assignPaperView.InitAsync();
                 _assignPaperView.Activate();
             }
         }
@@ -244,7 +244,7 @@ namespace CMS
             }
         }
 
-        private void strip_conf_confInfo_Click(object sender, EventArgs e)
+        private async void strip_conf_confInfo_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
             var loggedInUserInfo = _applicationStrategy.GetLoggedInUserInfo();
@@ -271,7 +271,7 @@ namespace CMS
                 }
                 else
                 {
-                    _conferenceInfoView.Init();
+                    await _conferenceInfoView.InitAsync();
                     _conferenceInfoView.Activate();
                 }
             }

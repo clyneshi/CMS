@@ -22,9 +22,9 @@ namespace CMS
             Application.Exit();
         }
 
-        private void btn_login_Click(object sender, EventArgs e)
+        private async void btn_login_Click(object sender, EventArgs e)
         {
-            if (_userService.AuthenticateUser(textBox_userName.Text, textBox_password.Text))
+            if (await _userService.AuthenticateUserAsync(textBox_userName.Text, textBox_password.Text))
             {
                 var mainView = _formUtil.GetForm<HomeForm>();
                 this.Hide();

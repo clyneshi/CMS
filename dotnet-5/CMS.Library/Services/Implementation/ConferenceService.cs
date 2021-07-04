@@ -1,6 +1,5 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
-using CMS.BL.Global;
 using CMS.BL.Models;
 using CMS.BL.Services.Interface;
 using System;
@@ -44,19 +43,22 @@ namespace CMS.BL.Services.Implementation
                 .FirstOrDefault().Id;
         }
 
-        public IEnumerable<ReviewerConferenceModel> GetReviewersByConference()
+        public async Task<IList<ReviewerConferenceModel>> GetReviewersByConference()
         {
             // todo: verify conferenceId int => int?
-            return _unitOfWork.ConferenceMemberRepository
-                .Filter(x => x.Id == _applicationStrategy.GetLoggedInUserInfo().ConferenceId)
-                .OrderBy(x => x.User.Role.Type)
+            var conferenceMembers = await _unitOfWork.ConferenceMemberRepository
+                .FilterAsync(x => x.Id == _applicationStrategy.GetLoggedInUserInfo().ConferenceId);
+
+            var reviewers = conferenceMembers
                 .Select(x => new ReviewerConferenceModel
                 {
                     Id = x.UserId,
                     Name = x.User.Name,
                     Role = x.User.Role.Type
                 })
-                .ToList();
+                .OrderBy(x => x.Role).ToList();
+
+            return reviewers;
         }
 
 
@@ -104,19 +106,18 @@ namespace CMS.BL.Services.Implementation
                 });
             }
 
-            await _unitOfWork.Save();
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task AddConferenceMember(ConferenceMember conferenceMember)
+        public async Task AddConferenceMemberAsync(int conferenceId, int userId)
         {
-            if (conferenceMember == null)
+            await _unitOfWork.ConferenceMemberRepository.AddAsync(new ConferenceMember
             {
-                throw new Exception();
-            }
+                ConferenceId = conferenceId,
+                UserId = userId
+            });
 
-            _unitOfWork.ConferenceMemberRepository.Add(conferenceMember);
-
-            await _unitOfWork.Save();
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

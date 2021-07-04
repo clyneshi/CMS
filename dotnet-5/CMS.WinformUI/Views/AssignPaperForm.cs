@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace CMS
 {
@@ -36,10 +37,15 @@ namespace CMS
             _applicationStrategy = applicationStrategy;
 
             InitializeComponent();
-            Init();
         }
 
-        public void Init()
+        protected override async void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            await InitAsync();
+        }
+
+        public async Task InitAsync()
         {
             _selectedReviewerId = 0;
             _reviewersToAssign.Clear();
@@ -51,7 +57,7 @@ namespace CMS
             {
                 var conferenceId = (int)dataGridView_conference.Rows[0].Cells["Id"].Value;
                 DisplayPapersWithAssignedReviewers(conferenceId);
-                DisplayReviewersWithExpertises(conferenceId);
+                await DisplayReviewersWithExpertises(conferenceId);
             }
         }
 
@@ -100,10 +106,10 @@ namespace CMS
             }
         }
 
-        private void DisplayReviewersWithExpertises(int conferenceId)
+        private async Task DisplayReviewersWithExpertises(int conferenceId)
         {
-            var reviewers = _userService
-                .GetReviewers(conferenceId)
+            var reviewers = (await _userService
+                .GetReviewersAsync(conferenceId))
                 .Select(x => new
                 {
                     x.Id,
@@ -155,7 +161,7 @@ namespace CMS
             _paperReviewsToDelete.Clear();
         }
 
-        private void dataGridView_conference_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dataGridView_conference_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // change the paper list according to different conference
             if (e.RowIndex >= 0)
@@ -164,7 +170,7 @@ namespace CMS
 
                 DisplayPapersWithAssignedReviewers(conferenceId);
 
-                DisplayReviewersWithExpertises(conferenceId);
+                await DisplayReviewersWithExpertises(conferenceId);
 
                 _reviewersToAssign.Clear();
             }
@@ -243,7 +249,7 @@ namespace CMS
                 }
 
             MessageBox.Show("Save successful");
-            Init();
+            await InitAsync();
         }
 
         private void btn_rmvReviewer_Click(object sender, EventArgs e)

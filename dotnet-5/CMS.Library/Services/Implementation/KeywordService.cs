@@ -72,7 +72,7 @@ namespace CMS.BL.Services.Implementation
                 });
             }
 
-            await _unitOfWork.Save();
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

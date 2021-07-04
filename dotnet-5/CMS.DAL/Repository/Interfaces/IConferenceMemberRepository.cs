@@ -2,13 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
     public interface IConferenceMemberRepository
     {
-        void Add(ConferenceMember ConferenceMember);
-        IEnumerable<ConferenceMember> Filter(Expression<Func<ConferenceMember, bool>> predicate);
-        IEnumerable<ConferenceMember> GetAll();
+        Task<ConferenceMember> AddAsync(ConferenceMember ConferenceMember);
+        Task<List<ConferenceMember>> FilterAsync(Expression<Func<ConferenceMember, bool>> predicate);
     }
 }

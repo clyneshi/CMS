@@ -24,6 +24,6 @@ namespace CMS.DAL.Core
         /// <summary>
         /// Invokes SaveChangesAsync on shared context
         /// </summary>
-        Task<int> Save();
+        Task<int> SaveChangesAsync();
     }
 }
