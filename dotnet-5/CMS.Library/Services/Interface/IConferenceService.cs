@@ -7,13 +7,13 @@ namespace CMS.BL.Services.Interface
 {
     public interface IConferenceService
     {
-        Task AddConference(Conference conference, IEnumerable<Keyword> keywords);
+        Task AddConferenceAsync(Conference conference, IEnumerable<Keyword> keywords);
         Task AddConferenceMemberAsync(int conferenceId, int userId);
-        IEnumerable<Conference> GetConferencesByChair(int ChairId);
-        Conference GetConferenceById(int ConferenceId);
-        IEnumerable<Conference> GetConferences();
-        IEnumerable<ConferenceUserModel> GetConferenceWithChair();
-        int GetMaxConferenceId();
+        Task<IList<Conference>> GetConferencesByChairAsync(int ChairId);
+        Task<Conference> GetConferenceByIdAsync(int ConferenceId);
+        Task<IList<Conference>> GetConferencesAsync();
+        Task<IList<ConferenceUserModel>> GetConferencesWithChairAsync();
+        Task<int> GetMaxConferenceIdAsync();
         Task<IList<ReviewerConferenceModel>> GetReviewersByConference();
     }
 }

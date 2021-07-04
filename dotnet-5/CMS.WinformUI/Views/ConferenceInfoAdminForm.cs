@@ -1,5 +1,7 @@
 ﻿using CMS.BL.Enums;
 using CMS.BL.Services.Interface;
+using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CMS
@@ -23,15 +25,20 @@ namespace CMS
             _applicationStrategy = applicationStrategy;
 
             InitializeComponent();
-            Init(_applicationStrategy.GetLoggedInUserInfo().User.RoleId);
         }
 
-        public void Init(int type)
+        protected override async void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            await InitAsync(_applicationStrategy.GetLoggedInUserInfo().User.RoleId);
+        }
+
+        public async Task InitAsync(int type)
         {
             switch (type)
             {
                 case (int)ConferenceViewTypesEnum.ConferenceMembers:
-                    dataGridView1.DataSource = _conferenceService.GetConferenceWithChair();
+                    dataGridView1.DataSource = await _conferenceService.GetConferencesWithChairAsync();
                     break;
                 case (int)ConferenceViewTypesEnum.UserInfo:
                     dataGridView1.DataSource = _userService.GetUsersWithRole();

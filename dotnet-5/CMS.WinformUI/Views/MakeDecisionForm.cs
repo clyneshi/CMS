@@ -28,18 +28,23 @@ namespace CMS
             _applicationStrategy = applicationStrategy;
 
             InitializeComponent();
-            Init();
         }
 
-        public void Init()
+        protected override async void OnLoad(EventArgs e)
         {
-            BindGridViewData();
+            base.OnLoad(e);
+            await InitAsync();
         }
 
-        private void BindGridViewData()
+        public async Task InitAsync()
         {
-            var conferences = _conferenceService
-                .GetConferencesByChair(_applicationStrategy.GetLoggedInUserInfo().User.Id)
+            await BindGridViewData();
+        }
+
+        private async Task BindGridViewData()
+        {
+            var conferences = (await _conferenceService
+                .GetConferencesByChairAsync(_applicationStrategy.GetLoggedInUserInfo().User.Id))
                 .Select(x => new
                 {
                     x.Id,
@@ -203,7 +208,7 @@ namespace CMS
 
             MessageBox.Show("Save succeeded");
             Controls.ClearData();
-            Init();
+            await InitAsync();
         }
     }
 }

@@ -117,7 +117,7 @@ namespace CMS
                 PaperDeadline = dateTimePicker_deadline.Value.Date
             };
 
-            await _conferenceService.AddConference(conference, _selectedTopics.ToList());
+            await _conferenceService.AddConferenceAsync(conference, _selectedTopics.ToList());
 
             MessageBox.Show("Conference added successfully");
             Controls.ClearData();

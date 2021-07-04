@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace CMS
 {
@@ -33,12 +34,17 @@ namespace CMS
             _applicationStrategy = applicationStrategy;
 
             InitializeComponent();
-            Init();
         }
 
-        public void Init()
+        protected override async void OnLoad(EventArgs e)
         {
-            InitForm();
+            base.OnLoad(e);
+            await InitAsync();
+        }
+
+        public async Task InitAsync()
+        {
+            await InitForm();
             DisplayKeywords();
             DisplaySelectedKeywords();
         }
@@ -72,7 +78,7 @@ namespace CMS
             listBox_selectedKeywords.ValueMember = "Id";
         }
 
-        private void InitForm()
+        private async Task InitForm()
         {
             var currentUserInfo = _applicationStrategy.GetLoggedInUserInfo();
 
@@ -83,7 +89,7 @@ namespace CMS
 
             if (currentUserInfo.User.RoleId == (int)RoleTypesEnum.Reviewer
                 || currentUserInfo.User.RoleId == (int)RoleTypesEnum.Author)
-                comboBox_conf.Text = _conferenceService.GetConferenceById(currentUserInfo.ConferenceId.Value).Title;
+                comboBox_conf.Text = (await _conferenceService.GetConferenceByIdAsync(currentUserInfo.ConferenceId.Value)).Title;
         }
 
         private void btn_addKeyword_Click(object sender, EventArgs e)

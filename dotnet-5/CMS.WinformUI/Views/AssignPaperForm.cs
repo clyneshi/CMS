@@ -52,7 +52,7 @@ namespace CMS
             listBox_reviewer.DataSource = _reviewersToAssign;
             listBox_reviewer.DisplayMember = "Name";
 
-            DisplayConferences();
+            await DisplayConferences();
             if (dataGridView_conference.Rows.Count > 0)
             {
                 var conferenceId = (int)dataGridView_conference.Rows[0].Cells["Id"].Value;
@@ -61,10 +61,10 @@ namespace CMS
             }
         }
 
-        private void DisplayConferences()
+        private async Task DisplayConferences()
         {
-            var conference = _conferenceService
-                .GetConferencesByChair(_applicationStrategy.GetLoggedInUserInfo().User.Id)
+            var conference = (await _conferenceService
+                .GetConferencesByChairAsync(_applicationStrategy.GetLoggedInUserInfo().User.Id))
                 .Select(x => new
                 {
                     x.Id,

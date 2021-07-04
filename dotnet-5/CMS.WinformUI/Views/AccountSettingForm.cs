@@ -1,9 +1,9 @@
-﻿using CMS.DAL.Models;
-using CMS.BL.Enums;
+﻿using CMS.BL.Enums;
 using CMS.BL.Services.Interface;
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace CMS
 {
@@ -26,15 +26,15 @@ namespace CMS
             _applicationStrategy = applicationStrategy;
 
             InitializeComponent();
-            init();
         }
 
-        public void init()
+        protected override async void OnLoad(EventArgs e)
         {
-            InitForm();
+            base.OnLoad(e);
+            await InitAsync();
         }
 
-        private void InitForm()
+        public async Task InitAsync()
         {
             var currentUser = _applicationStrategy.GetLoggedInUserInfo();
 
@@ -45,7 +45,11 @@ namespace CMS
 
             if (currentUser.User.RoleId == (int)RoleTypesEnum.Reviewer
                 || currentUser.User.RoleId == (int)RoleTypesEnum.Author)
-                comboBox_conf.Text = _conferenceService.GetConferences().FirstOrDefault(c => c.Id == currentUser.ConferenceId).Title;
+            {
+                comboBox_conf.Text = (await _conferenceService.GetConferencesAsync())
+                    .FirstOrDefault(c => c.Id == currentUser.ConferenceId).Title;
+            }
+
         }
 
         // TODO: extract validation method

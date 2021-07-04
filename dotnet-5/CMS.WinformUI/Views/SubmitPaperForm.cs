@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 using CMS.WinformUI.Utils;
+using System.Threading.Tasks;
 
 namespace CMS
 {
@@ -114,9 +115,9 @@ namespace CMS
             _selectedKeywords.Remove((Keyword)listBox_keyword.SelectedItem);
         }
 
-        private string PaperValidation()
+        private async Task<string> PaperValidation()
         {
-            var deadline = _conferenceService.GetConferenceById(_applicationStrategy.GetLoggedInUserInfo().ConferenceId.Value).PaperDeadline;
+            var deadline = (await _conferenceService.GetConferenceByIdAsync(_applicationStrategy.GetLoggedInUserInfo().ConferenceId.Value)).PaperDeadline;
 
             if (DateTime.Compare(DateTime.Today, deadline) >= 0)
                 return "Paper submition has finished";
@@ -135,7 +136,7 @@ namespace CMS
 
         private async void btn_savePaper_Click(object sender, EventArgs e)
         {
-            string error = PaperValidation();
+            string error = await PaperValidation();
             if (!error.Equals(""))
             {
                 MessageBox.Show(error);

@@ -20,27 +20,21 @@ namespace CMS.BL.Services.Implementation
             _applicationStrategy = applicationStrategy;
         }
 
-        public IEnumerable<Conference> GetConferences()
+        public async Task<IList<Conference>> GetConferencesAsync()
         {
-            return _unitOfWork.ConferenceRepository.GetAll();
+            return await _unitOfWork.ConferenceRepository.GetAllAsync();
         }
 
-        public Conference GetConferenceById(int ConferenceId)
+        public async Task<Conference> GetConferenceByIdAsync(int ConferenceId)
         {
-            return _unitOfWork.ConferenceRepository.Filter(c => c.Id == ConferenceId).SingleOrDefault();
+            return (await _unitOfWork.ConferenceRepository
+                .FilterAsync(c => c.Id == ConferenceId))
+                .SingleOrDefault();
         }
 
-        public IEnumerable<Conference> GetConferencesByChair(int ChairId)
+        public async Task<IList<Conference>> GetConferencesByChairAsync(int ChairId)
         {
-            return _unitOfWork.ConferenceRepository.Filter(c => c.ChairId == ChairId);
-        }
-
-        public int GetMaxConferenceId()
-        {
-            return _unitOfWork.ConferenceRepository
-                .GetAll()
-                .OrderByDescending(c => c.Id)
-                .FirstOrDefault().Id;
+            return await _unitOfWork.ConferenceRepository.FilterAsync(c => c.ChairId == ChairId);
         }
 
         public async Task<IList<ReviewerConferenceModel>> GetReviewersByConference()
@@ -62,10 +56,10 @@ namespace CMS.BL.Services.Implementation
         }
 
 
-        public IEnumerable<ConferenceUserModel> GetConferenceWithChair()
+        public async Task<IList<ConferenceUserModel>> GetConferencesWithChairAsync()
         {
-            return _unitOfWork.ConferenceRepository
-                .GetConferenceWithChair()
+            return (await _unitOfWork.ConferenceRepository
+                .GetConferencesWithChairAsync())
                 .Select(x => new ConferenceUserModel
                 {
                     Id = x.Id,
@@ -79,7 +73,15 @@ namespace CMS.BL.Services.Implementation
                 .ToList();
         }
 
-        public async Task AddConference(Conference conference, IEnumerable<Keyword> keywords)
+        public async Task<int> GetMaxConferenceIdAsync()
+        {
+            return (await _unitOfWork.ConferenceRepository
+                .GetAllAsync())
+                .OrderByDescending(c => c.Id)
+                .FirstOrDefault().Id;
+        }
+
+        public async Task AddConferenceAsync(Conference conference, IEnumerable<Keyword> keywords)
         {
             if (conference == null)
             {
@@ -91,11 +93,11 @@ namespace CMS.BL.Services.Implementation
                 throw new Exception();
             }
 
-            var conferenceId = GetMaxConferenceId() + 1;
+            var conferenceId = await GetMaxConferenceIdAsync() + 1;
 
             conference.Id = conferenceId;
 
-            _unitOfWork.ConferenceRepository.Add(conference);
+            await _unitOfWork.ConferenceRepository.AddAsync(conference);
 
             foreach (var keyword in keywords)
             {

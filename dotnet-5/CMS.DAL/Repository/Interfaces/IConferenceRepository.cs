@@ -2,15 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
     public interface IConferenceRepository
     {
-        void Add(Conference Conference);
-        IEnumerable<Conference> Filter(Expression<Func<Conference, bool>> predicate);
-        IEnumerable<Conference> GetAll();
-        IEnumerable<Conference> GetConferenceWithChair(Expression<Func<Conference, bool>> predicate = null);
-        void Update(Conference Conference);
+        Task<Conference> AddAsync(Conference Conference);
+        Task<List<Conference>> FilterAsync(Expression<Func<Conference, bool>> predicate);
+        Task<List<Conference>> GetAllAsync();
+        Task<List<Conference>> GetConferencesWithChairAsync(Expression<Func<Conference, bool>> predicate = null);
+
     }
 }

@@ -185,7 +185,7 @@ namespace CMS
             }
         }
 
-        private void strip_conference_makeDecision_Click(object sender, EventArgs e)
+        private async void strip_conference_makeDecision_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
             if (_makeDecisionView == null)
@@ -195,7 +195,7 @@ namespace CMS
             }
             else
             {
-                _makeDecisionView.Init();
+                await _makeDecisionView.InitAsync();
                 _makeDecisionView.Activate();
             }
         }
@@ -258,7 +258,7 @@ namespace CMS
                 }
                 else
                 {
-                    _conferenceInfoAdminView.Init((int)ConferenceViewTypesEnum.ConferenceMembers);
+                    await _conferenceInfoAdminView.InitAsync((int)ConferenceViewTypesEnum.ConferenceMembers);
                     _conferenceInfoAdminView.Activate();
                 }
             }
@@ -278,7 +278,7 @@ namespace CMS
 
         }
 
-        private void strip_conference_userInfo_Click(object sender, EventArgs e)
+        private async void strip_conference_userInfo_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
             if (_conferenceInfoAdminView == null)
@@ -288,12 +288,12 @@ namespace CMS
             }
             else
             {
-                _conferenceInfoAdminView.Init((int)ConferenceViewTypesEnum.UserInfo);
+                await _conferenceInfoAdminView.InitAsync((int)ConferenceViewTypesEnum.UserInfo);
                 _conferenceInfoAdminView.Activate();
             }
         }
 
-        private void strip_conference_paperInfo_Click(object sender, EventArgs e)
+        private async void strip_conference_paperInfo_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
             if (_conferenceInfoAdminView == null)
@@ -303,7 +303,7 @@ namespace CMS
             }
             else
             {
-                _conferenceInfoAdminView.Init((int)ConferenceViewTypesEnum.Papers);
+                await _conferenceInfoAdminView.InitAsync((int)ConferenceViewTypesEnum.Papers);
                 _conferenceInfoAdminView.Activate();
             }
         }

@@ -30,7 +30,7 @@ namespace CMS
 
         private void Init()
         {
-            comboBox_conference.DataSource = _conferenceService.GetConferences();
+            comboBox_conference.DataSource = _conferenceService.GetConferencesAsync();
             comboBox_conference.DisplayMember = "Title";
             comboBox_conference.ValueMember = "Id";
             comboBox_conference.SelectedIndex = -1;
