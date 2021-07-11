@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Implementation
 {
@@ -17,26 +18,11 @@ namespace CMS.DAL.Repository.Implementation
             _context = context;
         }
 
-        public void Add(ConferenceTopic conferenceTopic)
+        public async Task<ConferenceTopic> AddAsync(ConferenceTopic conferenceTopic)
         {
-            _context.ConferenceTopics.Add(conferenceTopic);
+            await _context.ConferenceTopics.AddAsync(conferenceTopic);
+            return conferenceTopic;
         }
 
-        public IEnumerable<ConferenceTopic> Filter(Expression<Func<ConferenceTopic, bool>> predicate)
-        {
-            return _context.ConferenceTopics
-                .Include(x => x.Conference)
-                .Include(x => x.Keyword)
-                .Where(predicate)
-                .ToList();
-        }
-
-        public IEnumerable<ConferenceTopic> GetAll()
-        {
-            return _context.ConferenceTopics
-                .Include(x => x.Conference)
-                .Include(x => x.Keyword)
-                .ToList();
-        }
     }
 }

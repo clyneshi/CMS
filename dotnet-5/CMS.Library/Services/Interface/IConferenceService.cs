@@ -14,6 +14,6 @@ namespace CMS.BL.Services.Interface
         Task<IList<Conference>> GetConferencesAsync();
         Task<IList<ConferenceUserModel>> GetConferencesWithChairAsync();
         Task<int> GetMaxConferenceIdAsync();
-        Task<IList<ReviewerConferenceModel>> GetReviewersByConference();
+        Task<IList<ReviewerConferenceModel>> GetReviewersByConferenceAsync();
     }
 }

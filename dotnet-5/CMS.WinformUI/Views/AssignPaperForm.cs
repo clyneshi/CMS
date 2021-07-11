@@ -56,7 +56,7 @@ namespace CMS
             if (dataGridView_conference.Rows.Count > 0)
             {
                 var conferenceId = (int)dataGridView_conference.Rows[0].Cells["Id"].Value;
-                DisplayPapersWithAssignedReviewers(conferenceId);
+                await DisplayPapersWithAssignedReviewers(conferenceId);
                 await DisplayReviewersWithExpertises(conferenceId);
             }
         }
@@ -79,10 +79,10 @@ namespace CMS
             dataGridView_conference.DataSource = conference;
         }
 
-        private void DisplayPapersWithAssignedReviewers(int conferenceId)
+        private async Task DisplayPapersWithAssignedReviewers(int conferenceId)
         {
-            var papers = _paperService
-                .GetPapersByConference(conferenceId)
+            var papers = (await _paperService
+                .GetPapersForConferenceAsync(conferenceId))
                 .Select(x => new
                 {
                     x.Id,
@@ -97,7 +97,7 @@ namespace CMS
             if (papers.Any())
             {
                 _selectedPaperId = papers.First().Id;
-                DisplayAssignedReviewers(papers.First().Id);
+                await DisplayAssignedReviewers(papers.First().Id);
             }
             else
             {
@@ -123,7 +123,7 @@ namespace CMS
             if (reviewers.Any())
             {
                 _selectedReviewerId = reviewers.First().Id;
-                DisplayReviewerExpertise(reviewers.First().Id);
+                await DisplayReviewerExpertise(reviewers.First().Id);
             }
             else
             {
@@ -132,9 +132,9 @@ namespace CMS
             }
         }
 
-        private void DisplayReviewerExpertise(int reviewerId)
+        private async Task DisplayReviewerExpertise(int reviewerId)
         {
-            var keywords = _keywordService.GetExpertiseByUser(reviewerId)
+            var keywords = (await _keywordService.GetExpertiseByUserAsync(reviewerId))
                 .Select(x => x.Keyword).ToList();
 
             dataGridView_reviewerExpertise.DataSource = keywords;
@@ -143,10 +143,10 @@ namespace CMS
             dataGridView_reviewerExpertise.Columns["PaperTopics"].Visible = false;
         }
 
-        private void DisplayAssignedReviewers(int paperId)
+        private async Task DisplayAssignedReviewers(int paperId)
         {
-            var assignedReviewers = _userService
-                .GetAssignedReviewersByPaper(paperId)
+            var assignedReviewers = (await _userService
+                .GetAssignedReviewersByPaperAsync(paperId))
                 .Select(x => new
                 {
                     x.Id,
@@ -168,7 +168,7 @@ namespace CMS
             {
                 int conferenceId = (int)dataGridView_conference.Rows[e.RowIndex].Cells["Id"].Value;
 
-                DisplayPapersWithAssignedReviewers(conferenceId);
+                await DisplayPapersWithAssignedReviewers(conferenceId);
 
                 await DisplayReviewersWithExpertises(conferenceId);
 
@@ -176,7 +176,7 @@ namespace CMS
             }
         }
 
-        private void dataGridView_reviewer_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dataGridView_reviewer_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // change the expertise list according to different reviewer
             if (e.RowIndex >= 0)
@@ -184,33 +184,27 @@ namespace CMS
                 _selectedReviewerId = (int)dataGridView_reviewer.Rows[e.RowIndex].Cells["Id"].Value;
                 _selectedUserName = (string)dataGridView_reviewer.Rows[e.RowIndex].Cells["Name"].Value;
 
-                if (_keywordService.GetExpertiseByUser(_selectedReviewerId).Any())
-                    DisplayReviewerExpertise((int)dataGridView_reviewer.Rows[e.RowIndex].Cells["Id"].Value);
-                else
-                    dataGridView_reviewerExpertise.DataSource = null;
+                await DisplayReviewerExpertise((int)dataGridView_reviewer.Rows[e.RowIndex].Cells["Id"].Value);
             }
         }
 
-        private void dataGridView_paper_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dataGridView_paper_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
                 _selectedPaperId = (int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value;
 
-                if (_paperService.GetPaperReviewsByPaper(_selectedPaperId).Any())
-                    DisplayAssignedReviewers((int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value);
-                else
-                    dataGridView_assignedReviewer.DataSource = null;
+                await DisplayAssignedReviewers((int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value);
             }
             _reviewersToAssign.Clear();
         }
 
-        private void btn_addReviewer_Click(object sender, EventArgs e)
+        private async void btn_addReviewer_Click(object sender, EventArgs e)
         {
             var existed = false;
             // ## add this to validation control
             // use datasource
-            if (_paperService.GetPaperReview(_selectedPaperId, _selectedReviewerId) != null)
+            if (await _paperService.GetPaperReviewAsync(_selectedPaperId, _selectedReviewerId) != null)
                 existed = true;
 
             foreach (var reviewer in _reviewersToAssign)
@@ -238,9 +232,9 @@ namespace CMS
             else
                 foreach (var reviewer in _reviewersToAssign)
                 {
-                    if (_paperService.GetPaperReview(_selectedPaperId, reviewer.Id) == null)
+                    if (await _paperService.GetPaperReviewAsync(_selectedPaperId, reviewer.Id) == null)
                     {
-                        await _paperService.AddPaperReview(new PaperReview 
+                        await _paperService.AddPaperReviewAsync(new PaperReview 
                         { 
                             Id = _selectedPaperId, 
                             UserId = reviewer.Id 
@@ -267,11 +261,11 @@ namespace CMS
             _reviewersToAssign.Remove((User)listBox_reviewer.SelectedItem);
         }
 
-        private void btn_changeRviewer_Click(object sender, EventArgs e)
+        private async void btn_changeRviewer_Click(object sender, EventArgs e)
         {
             _reviewersToAssign.Clear();
 
-            var reviewers = _userService.GetAssignedReviewersByPaper(_selectedPaperId);
+            var reviewers = await _userService.GetAssignedReviewersByPaperAsync(_selectedPaperId);
 
             foreach (var reviewer in reviewers)
             {

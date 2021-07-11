@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Implementation
 {
@@ -17,26 +18,19 @@ namespace CMS.DAL.Repository.Implementation
             _context = context;
         }
 
-        public void Add(Feedback feedback)
+        public async Task<Feedback> AddAsync(Feedback feedback)
         {
-            _context.Feedbacks.Add(feedback);
+            await _context.Feedbacks.AddAsync(feedback);
+            return feedback;
         }
 
-        public IEnumerable<Feedback> Filter(Expression<Func<Feedback, bool>> predicate)
+        public Task<List<Feedback>> FilterAsync(Expression<Func<Feedback, bool>> predicate)
         {
             return _context.Feedbacks
                 .Include(x => x.Paper)
                 .Include(x => x.User)
                 .Where(predicate)
-                .ToList();
-        }
-
-        public IEnumerable<Feedback> GetAll()
-        {
-            return _context.Feedbacks
-                .Include(x => x.Paper)
-                .Include(x => x.User)
-                .ToList();
+                .ToListAsync();
         }
     }
 }

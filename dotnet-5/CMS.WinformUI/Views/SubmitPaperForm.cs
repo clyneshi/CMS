@@ -40,7 +40,12 @@ namespace CMS
             _applicationStrategy = applicationStrategy;
 
             InitializeComponent();
-            Init();
+        }
+
+        protected override async void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            await Init();
         }
 
         private void btn_uploadPaper_Click(object sender, EventArgs e)
@@ -60,20 +65,20 @@ namespace CMS
             }
         }
 
-        public void Init()
+        public async Task Init()
         {
             _fileType = "";
             _fileName = "";
             paperUploaded = false;
-            _paperId = _paperService.GetMaxPaperId() + 1;
-            DisplayKeywords();
+            _paperId = await _paperService.GetMaxPaperIdAsync() + 1;
+            await DisplayKeywords();
             DisplaySelectedKeywords();
         }
 
-        private void DisplayKeywords()
+        private async Task DisplayKeywords()
         {
             // ### add orderby
-            dataGridView_keyword.DataSource = _keywordService.GetKeyWords();
+            dataGridView_keyword.DataSource = await _keywordService.GetKeyWordsAsync();
             dataGridView_keyword.Columns[0].Visible = false;
             dataGridView_keyword.Columns[3].Visible = false;
             dataGridView_keyword.Columns[4].Visible = false;
@@ -168,11 +173,11 @@ namespace CMS
                 });
             }
 
-            await _paperService.AddPaper(paper, topics);
+            await _paperService.AddPaperAsync(paper, topics);
 
             MessageBox.Show("Successfully submitted paper!");
             Controls.ClearData();
-            Init();
+            await Init();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace CMS
             textBox_name.Text = currentUser.User.Name;
             textBox_email.Text = currentUser.User.Email;
             textBox_cont.Text = currentUser.User.Contact;
-            comboBox_role.Text = _roleService.GetRoleById(currentUser.User.RoleId).Type;
+            comboBox_role.Text = (await _roleService.GetRoleByIdAsync(currentUser.User.RoleId)).Type;
 
             if (currentUser.User.RoleId == (int)RoleTypesEnum.Reviewer
                 || currentUser.User.RoleId == (int)RoleTypesEnum.Author)
@@ -64,12 +64,12 @@ namespace CMS
             return "";
         }
 
-        private void btn_save_Click(object sender, EventArgs e)
+        private async void btn_save_Click(object sender, EventArgs e)
         {
             string error = UserEditValidation();
             if (error.Equals(""))
             {
-                _userService.UpdateUser(textBox_name.Text, textBox_email.Text, textBox_cont.Text, textBox_oPass.Text, textBox_nPass.Text);
+                await _userService.UpdateUserAsync(textBox_name.Text, textBox_email.Text, textBox_cont.Text, textBox_oPass.Text, textBox_nPass.Text);
                 MessageBox.Show("Update completed");
             }
             else

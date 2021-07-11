@@ -60,7 +60,7 @@ namespace CMS
 
             if (conferences.Any())
             {
-                DisplayPapers(conferences.First().Id);
+                await DisplayPapers(conferences.First().Id);
             }
             else 
             {
@@ -69,10 +69,10 @@ namespace CMS
             }
         }
 
-        private void DisplayPapers(int conf)
+        private async Task DisplayPapers(int conf)
         {
-            var papers = _paperService
-                .GetPapersByConference(conf)
+            var papers = (await _paperService
+                .GetPapersForConferenceAsync(conf))
                 .Select(x => new
                 {
                     x.Id,
@@ -86,15 +86,15 @@ namespace CMS
             dataGridView_paper.DataSource = papers;
 
             if (papers.Any())
-                DisplayReviews(papers.First().Id);
+                await DisplayReviews(papers.First().Id);
             else
                 dataGridView_reviewer.DataSource = null;
         }
 
-        private void DisplayReviews(int paper)
+        private async Task DisplayReviews(int paper)
         {
-            dataGridView_reviewer.DataSource = _paperService
-                .GetPaperReviewsByPaper(paper)
+            dataGridView_reviewer.DataSource = (await _paperService
+                .GetPaperReviewsForPaperAsync(paper))
                 .Select(x => new
                 {
                     x.Id,
@@ -104,13 +104,13 @@ namespace CMS
                 .ToList();
         }
 
-        private void dataGridView_conference_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dataGridView_conference_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                DisplayPapers((int)dataGridView_conference.Rows[e.RowIndex].Cells["Id"].Value);
+                await DisplayPapers((int)dataGridView_conference.Rows[e.RowIndex].Cells["Id"].Value);
                 if (dataGridView_paper.RowCount != 0 && dataGridView_paper.CurrentRow.Index >= 0)
-                    DisplayReviews((int)dataGridView_paper.Rows[dataGridView_paper.CurrentRow.Index].Cells["Id"].Value);
+                    await DisplayReviews((int)dataGridView_paper.Rows[dataGridView_paper.CurrentRow.Index].Cells["Id"].Value);
                 else
                     dataGridView_reviewer.DataSource = null;
             }
@@ -121,21 +121,21 @@ namespace CMS
             }
         }
 
-        private void dataGridView_paper_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dataGridView_paper_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
                 _selectedId = (int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value;
-                DisplayReviews((int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value);
-                DisplayDecisions((int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value);
+                await DisplayReviews((int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value);
+                await DisplayDecisions((int)dataGridView_paper.Rows[e.RowIndex].Cells["Id"].Value);
             }
             else
                 dataGridView_reviewer.DataSource = null;
         }
 
-        private void DisplayDecisions(int paper)
+        private async Task DisplayDecisions(int paper)
         {
-            var feedbacks = _paperService.GetFeedbacksByPaper(paper);
+            var feedbacks = await _paperService.GetFeedbacksForPaperAsync(paper);
 
             if (feedbacks.Any())
             {
@@ -162,12 +162,12 @@ namespace CMS
             return null;
         }
 
-        private string ValidateFeedback()
+        private async Task<string> ValidateFeedback()
         {
             if (dataGridView_paper.RowCount == 0 || dataGridView_paper.CurrentRow.Index < 0)
                 return "Paper has not been selected";
             int Id = (int)dataGridView_paper.Rows[dataGridView_paper.CurrentRow.Index].Cells["Id"].Value;
-            if (_paperService.GetFeedbacksByPaper(Id).Any())
+            if ((await _paperService.GetFeedbacksForPaperAsync(Id)).Any())
                 return "Feedback already exists, cannot be changed";
             if (rtextbox_feedback.Text.Trim().Equals(""))
                 return "Feedback canot be empty";
@@ -178,7 +178,7 @@ namespace CMS
 
         private async Task SendEmail()
         {
-            var email = _paperService.GetPaperById(_selectedId).AuthorNavigation.Email;
+            var email = (await _paperService.GetPaperByIdAsync(_selectedId)).AuthorNavigation.Email;
             var decision = GetDecision();
 
             await GlobalHelper.SendEmail(email.ToString(), $"Your paper has been {decision.ToString().ToLower()}ed");
@@ -186,7 +186,7 @@ namespace CMS
 
         private async void btn_save_Click(object sender, EventArgs e)
         {
-            string error = ValidateFeedback();
+            string error = await ValidateFeedback();
             if (!error.Equals(""))
             {
                 MessageBox.Show(error);
@@ -201,7 +201,7 @@ namespace CMS
                 Feedback1 = rtextbox_feedback.Text
             };
 
-            await _paperService.AddFeedback(feedback);
+            await _paperService.AddFeedbackAsync(feedback);
 
             // TODO: turn on sending email
             //await SendEmail();

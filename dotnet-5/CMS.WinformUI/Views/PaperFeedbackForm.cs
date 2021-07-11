@@ -1,6 +1,8 @@
 ﻿using CMS.BL.Services.Interface;
+using System;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CMS
@@ -16,18 +18,23 @@ namespace CMS
             _applicationStrategy = applicationStrategy;
 
             InitializeComponent();
-            Init();
         }
 
-        public void Init()
+        protected override async void OnLoad(EventArgs e)
         {
-            DisplayPapers();
+            base.OnLoad(e);
+            await Init();
         }
 
-        private void DisplayPapers()
+        public async Task Init()
         {
-            var papers = _paperService
-                .GetPapersByAuthor(_applicationStrategy.GetLoggedInUserInfo().User.Id)
+            await DisplayPapers();
+        }
+
+        private async Task DisplayPapers()
+        {
+            var papers = (await _paperService
+                .GetPapersForAuthorAsync(_applicationStrategy.GetLoggedInUserInfo().User.Id))
                 .Select(p => new
                 {
                     p.Id,
@@ -41,7 +48,7 @@ namespace CMS
             
             if (papers.Any())
             {
-                DisplayFeedback(papers.First().Id);
+                await DisplayFeedback(papers.First().Id);
             }
             else
             {
@@ -49,16 +56,16 @@ namespace CMS
             }
         }
 
-        private void DisplayFeedback(int paperId)
+        private async Task DisplayFeedback(int paperId)
         {
-            var feedbacks = _paperService.GetFeedbacksByPaper(paperId);
+            var feedbacks = await _paperService.GetFeedbacksForPaperAsync(paperId);
             richTextBox_feedback.Text = feedbacks.SingleOrDefault()?.Feedback1;
         }
 
-        private void dataGridView_paper_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dataGridView_paper_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
-                DisplayFeedback((int)dataGridView_paper.Rows[e.RowIndex].Cells["paperId"].Value);
+                await DisplayFeedback((int)dataGridView_paper.Rows[e.RowIndex].Cells["paperId"].Value);
         }
     }
 }

@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
     public interface IRoleRepository
     {
-        IEnumerable<Role> Filter(Expression<Func<Role, bool>> predicate);
-        IEnumerable<Role> GetAll();
+        Task<List<Role>> FilterAsync(Expression<Func<Role, bool>> predicate);
+        Task<List<Role>> GetAllAsync();
     }
 }

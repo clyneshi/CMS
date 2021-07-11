@@ -114,7 +114,7 @@ namespace CMS
             Application.Exit();
         }
 
-        private void strip_conference_submitPaper_Click(object sender, EventArgs e)
+        private async void strip_conference_submitPaper_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
 
@@ -125,7 +125,7 @@ namespace CMS
             }
             else
             {
-                _submitPaperView.Init();
+                await _submitPaperView.Init();
                 _submitPaperView.Activate();
             }
         }
@@ -140,7 +140,7 @@ namespace CMS
             form.WindowState = FormWindowState.Maximized;
         }
 
-        private void strip_conference_launchConference_Click(object sender, EventArgs e)
+        private async void strip_conference_launchConference_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
             if (_launchConferenceView == null)
@@ -150,7 +150,7 @@ namespace CMS
             }
             else
             {
-                _launchConferenceView.Init();
+                await _launchConferenceView.Init();
                 _launchConferenceView.Activate();
             }
         }
@@ -170,7 +170,7 @@ namespace CMS
             }
         }
 
-        private void strip_conference_reviewPaper_Click(object sender, EventArgs e)
+        private async void strip_conference_reviewPaper_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
             if (_reviewPaperView == null)
@@ -180,7 +180,7 @@ namespace CMS
             }
             else
             {
-                _reviewPaperView.Init();
+                await _reviewPaperView.Init();
                 _reviewPaperView.Activate();
             }
         }
@@ -200,7 +200,7 @@ namespace CMS
             }
         }
 
-        private void strip_conference_validRequest_Click(object sender, EventArgs e)
+        private async void strip_conference_validRequest_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
             if (_validateRequestView == null)
@@ -210,12 +210,12 @@ namespace CMS
             }
             else
             {
-                _validateRequestView.Init();
+                await _validateRequestView.Init();
                 _validateRequestView.Activate();
             }
         }
 
-        private void strip_conference_paperStatus_Click(object sender, EventArgs e)
+        private async void strip_conference_paperStatus_Click(object sender, EventArgs e)
         {
             this.IsMdiContainer = true;
             if (_paperStatusView == null)
@@ -225,7 +225,7 @@ namespace CMS
             }
             else
             {
-                _paperStatusView.Init();
+                await _paperStatusView.Init();
                 _paperStatusView.Activate();
             }
         }

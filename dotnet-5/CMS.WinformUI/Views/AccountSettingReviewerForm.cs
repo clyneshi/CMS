@@ -45,13 +45,13 @@ namespace CMS
         public async Task InitAsync()
         {
             await InitForm();
-            DisplayKeywords();
-            DisplaySelectedKeywords();
+            await DisplayKeywords();
+            await DisplaySelectedKeywords();
         }
 
-        private void DisplayKeywords()
+        private async Task DisplayKeywords()
         {
-            var keywords = _keywordService.GetKeyWords();
+            var keywords = await _keywordService.GetKeyWordsAsync();
 
             dataGridView_keyword.DataSource = keywords.ToList();
             dataGridView_keyword.Columns[0].Visible = false;
@@ -60,9 +60,9 @@ namespace CMS
             dataGridView_keyword.Columns[5].Visible = false;
         }
 
-        private void DisplaySelectedKeywords()
+        private async Task DisplaySelectedKeywords()
         {
-            var expertises = _keywordService.GetExpertiseByUser(_applicationStrategy.GetLoggedInUserInfo().User.Id);
+            var expertises = await _keywordService.GetExpertiseByUserAsync(_applicationStrategy.GetLoggedInUserInfo().User.Id);
 
             foreach (var expertise in expertises)
             {
@@ -85,7 +85,7 @@ namespace CMS
             textBox_name.Text = currentUserInfo.User.Name;
             textBox_email.Text = currentUserInfo.User.Email;
             textBox_contact.Text = currentUserInfo.User.Contact;
-            comboBox_role.Text = _roleService.GetRoleById(currentUserInfo.User.RoleId).Type;
+            comboBox_role.Text = (await _roleService.GetRoleByIdAsync(currentUserInfo.User.RoleId)).Type;
 
             if (currentUserInfo.User.RoleId == (int)RoleTypesEnum.Reviewer
                 || currentUserInfo.User.RoleId == (int)RoleTypesEnum.Author)
@@ -95,7 +95,6 @@ namespace CMS
         private void btn_addKeyword_Click(object sender, EventArgs e)
         {
             var index = dataGridView_keyword.CurrentRow.Index;
-            var test = dataGridView_keyword.Rows[index];
             if (index >= 0)
             {
                 var find = false;
@@ -127,8 +126,8 @@ namespace CMS
 
         private async void btn_save_Click(object sender, EventArgs e)
         {
-            await _userService.UpdateUser(textBox_name.Text, textBox_email.Text, textBox_contact.Text, textBox_oldPassword.Text, textBox_newPassword.Text);
-            await _keywordService.UpdateExpertise(_applicationStrategy.GetLoggedInUserInfo().User.Id, _removedKeywords, _selectedKeywords.ToList());
+            await _userService.UpdateUserAsync(textBox_name.Text, textBox_email.Text, textBox_contact.Text, textBox_oldPassword.Text, textBox_newPassword.Text);
+            await _keywordService.UpdateExpertiseAsync(_applicationStrategy.GetLoggedInUserInfo().User.Id, _removedKeywords, _selectedKeywords.ToList());
             MessageBox.Show("Update completed");
         }
 

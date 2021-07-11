@@ -37,7 +37,7 @@ namespace CMS.BL.Services.Implementation
             return await _unitOfWork.ConferenceRepository.FilterAsync(c => c.ChairId == ChairId);
         }
 
-        public async Task<IList<ReviewerConferenceModel>> GetReviewersByConference()
+        public async Task<IList<ReviewerConferenceModel>> GetReviewersByConferenceAsync()
         {
             // todo: verify conferenceId int => int?
             var conferenceMembers = await _unitOfWork.ConferenceMemberRepository
@@ -101,7 +101,7 @@ namespace CMS.BL.Services.Implementation
 
             foreach (var keyword in keywords)
             {
-                _unitOfWork.ConferenceTopicRepository.Add(new ConferenceTopic
+                await _unitOfWork.ConferenceTopicRepository.AddAsync(new ConferenceTopic
                 {
                     Id = conferenceId,
                     KeywordId = keyword.Id

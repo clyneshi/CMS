@@ -19,12 +19,12 @@ namespace CMS.BL.Services.Implementation
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<UserRequestModel> GetUserRequestForChair(int ChairId)
+        public async Task<IList<UserRequestModel>> GetRegisterRequestsForChairAsync(int chairId)
         {
-            return _unitOfWork.RegisterRequestRepository
-                .Filter(x => x.Conference.ChairId == ChairId
+            return (await _unitOfWork.RegisterRequestRepository
+                .FilterAsync(x => x.Conference.ChairId == chairId
                     && x.RoleId != (int)RoleTypesEnum.Chair
-                    && x.Status == UserRequestStatusEnum.Waiting.ToString())
+                    && x.Status == UserRequestStatusEnum.Waiting.ToString()))
                 .Select(x => new UserRequestModel
                 {
                     Id = x.Id,
@@ -40,11 +40,11 @@ namespace CMS.BL.Services.Implementation
                 .ToList();
         }
 
-        public IEnumerable<UserRequestModel> GetUserRequestForAdmin(int adminId)
+        public async Task<IList<UserRequestModel>> GetRegisterRequestsForAdminAsync(int adminId)
         {
-            return _unitOfWork.RegisterRequestRepository
-                .Filter(x => x.RoleId == (int)RoleTypesEnum.Chair
-                    && x.Status == UserRequestStatusEnum.Waiting.ToString())
+            return (await _unitOfWork.RegisterRequestRepository
+                .FilterAsync(x => x.RoleId == (int)RoleTypesEnum.Chair
+                    && x.Status == UserRequestStatusEnum.Waiting.ToString()))
                 .Select(x => new UserRequestModel
                 {
                     Id = x.Id,
@@ -58,27 +58,28 @@ namespace CMS.BL.Services.Implementation
                 .ToList();
         }
 
-        public async Task ChangeRequestStatus(int requestId, UserRequestStatusEnum Status)
+        public async Task ChangeRequestStatusAsync(int requestId, UserRequestStatusEnum Status)
         {
-            var request = _unitOfWork.RegisterRequestRepository
-                .Filter(r => r.Id == requestId)
+            var request = (await _unitOfWork.RegisterRequestRepository
+                .FilterAsync(r => r.Id == requestId))
                 .SingleOrDefault();
 
-            request.Status = Status.ToString();
+            if (request == null)
+                throw new Exception("Register request does not exist");
 
-            _unitOfWork.RegisterRequestRepository.Update(request);
+            await _unitOfWork.RegisterRequestRepository.ChangeRegisterRequestStatusAsync(requestId, Status.ToString());
 
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task AddRegisterRequest(RegisterRequest request)
+        public async Task AddRegisterRequestAsync(RegisterRequest request)
         {
             if (request == null)
             {
                 throw new Exception();
             }
 
-            _unitOfWork.RegisterRequestRepository.Add(request);
+            await _unitOfWork.RegisterRequestRepository.AddAsync(request);
 
             await _unitOfWork.SaveChangesAsync();
         }

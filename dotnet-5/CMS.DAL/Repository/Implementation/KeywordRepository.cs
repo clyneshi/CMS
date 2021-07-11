@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Implementation
 {
@@ -17,24 +18,9 @@ namespace CMS.DAL.Repository.Implementation
             _context = context;
         }
 
-        public void Add(Keyword keyword)
+        public Task<List<Keyword>> GetAllAsync()
         {
-            _context.Keywords.Add(keyword);
-        }
-
-        public IEnumerable<Keyword> Filter(Expression<Func<Keyword, bool>> predicate)
-        {
-            return _context.Keywords.Where(predicate).ToList();
-        }
-
-        public IEnumerable<Keyword> GetAll()
-        {
-            return _context.Keywords.ToList();
-        }
-
-        public void Update(Keyword keyword)
-        {
-            _context.Entry(keyword).State = EntityState.Modified;
+            return _context.Keywords.ToListAsync();
         }
     }
 }

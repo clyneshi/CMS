@@ -6,8 +6,8 @@ namespace CMS.BL.Services.Interface
 {
     public interface IKeywordService
     {
-        IEnumerable<Expertise> GetExpertiseByUser(int UserId);
-        IEnumerable<Keyword> GetKeyWords();
-        Task UpdateExpertise(int UserId, List<Keyword> keywordsToRemove, List<Keyword> KeywordsToAdd);
+        Task<IList<Expertise>> GetExpertiseByUserAsync(int UserId);
+        Task<IList<Keyword>> GetKeyWordsAsync();
+        Task UpdateExpertiseAsync(int UserId, List<Keyword> keywordsToRemove, List<Keyword> KeywordsToAdd);
     }
 }

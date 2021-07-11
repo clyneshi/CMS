@@ -31,26 +31,31 @@ namespace CMS
             _applicationStrategy = applicationStrategy;
 
             InitializeComponent();
-            Init();
         }
 
-        public void Init()
+        protected override async void OnLoad(EventArgs e)
         {
-            _userId = _userService.GetMaxUserId() + 1;
-            DisplayRequests();
+            base.OnLoad(e);
+            await Init();
         }
 
-        private void DisplayRequests()
+        public async Task Init()
+        {
+            _userId = await _userService.GetMaxUserIdAsync() + 1;
+            await DisplayRequests();
+        }
+
+        private async Task DisplayRequests()
         {
             if (_applicationStrategy.GetLoggedInUserInfo().User.RoleId == (int)RoleTypesEnum.Admin)
             {
-                var requests = _userRequestService.GetUserRequestForAdmin(_applicationStrategy.GetLoggedInUserInfo().User.Id);
+                var requests = await _userRequestService.GetRegisterRequestsForAdminAsync(_applicationStrategy.GetLoggedInUserInfo().User.Id);
                 dataGridView_request.DataSource = requests;
                 dataGridView_request.Columns["RoleId"].Visible = false;
             }
             else
             {
-                var requests = _userRequestService.GetUserRequestForChair(_applicationStrategy.GetLoggedInUserInfo().User.Id);
+                var requests = await _userRequestService.GetRegisterRequestsForChairAsync(_applicationStrategy.GetLoggedInUserInfo().User.Id);
                 dataGridView_request.DataSource = requests;
                 dataGridView_request.Columns["RoleId"].Visible = false;
             }
@@ -58,7 +63,7 @@ namespace CMS
 
         private async Task AddUserAsync()
         {
-            await _userService.AddUser(new User
+            await _userService.AddUserAsync(new User
             {
                 Id = _userId,
                 Name = (string)dataGridView_request.Rows[dataGridView_request.CurrentRow.Index].Cells["name"].Value,
@@ -80,7 +85,7 @@ namespace CMS
         private async Task ChangeRequestStatus(UserRequestStatusEnum Status)
         {
             int id = (int)dataGridView_request.Rows[dataGridView_request.CurrentRow.Index].Cells["Id"].Value;
-            await _userRequestService.ChangeRequestStatus(id, Status);
+            await _userRequestService.ChangeRequestStatusAsync(id, Status);
         }
 
         private async Task<bool> SendEmail(UserRequestStatusEnum Status)
@@ -108,7 +113,7 @@ namespace CMS
 
                 MessageBox.Show("Accepted user registration request");
 
-                Init();
+                await Init();
             }
         }
 
@@ -119,7 +124,7 @@ namespace CMS
             // TODO: turn on sending email
             //await SendEmail(Status);
             MessageBox.Show("Rejected user registration request");
-            Init();
+            await Init();
         }
     }
 }

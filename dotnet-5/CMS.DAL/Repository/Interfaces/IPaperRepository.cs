@@ -2,15 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
     public interface IPaperRepository
     {
-        void Add(Paper Paper);
-        IEnumerable<Paper> Filter(Expression<Func<Paper, bool>> predicate);
-        IEnumerable<Paper> GetAll();
-        IEnumerable<Paper> GetPapersWithAuthorAndConference(Expression<Func<Paper, bool>> predicate = null);
-        void Update(Paper Paper);
+        Task<Paper> AddAsync(Paper Paper);
+        Task<List<Paper>> FilterAsync(Expression<Func<Paper, bool>> predicate);
+        Task<List<Paper>> GetAllAsync();
+        Task<List<Paper>> GetPapersWithAuthorAndConferenceAsync(Expression<Func<Paper, bool>> predicate = null);
+        Task ChangePaperStatusAsync(int paperId, string status);
     }
 }

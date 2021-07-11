@@ -8,9 +8,9 @@ namespace CMS.BL.Services.Interface
 {
     public interface IUserRequestService
     {
-        Task AddRegisterRequest(RegisterRequest request);
-        Task ChangeRequestStatus(int id, UserRequestStatusEnum Status);
-        IEnumerable<UserRequestModel> GetUserRequestForChair(int ChairId);
-        IEnumerable<UserRequestModel> GetUserRequestForAdmin(int adminId);
+        Task AddRegisterRequestAsync(RegisterRequest request);
+        Task ChangeRequestStatusAsync(int id, UserRequestStatusEnum Status);
+        Task<IList<UserRequestModel>> GetRegisterRequestsForChairAsync(int chairId);
+        Task<IList<UserRequestModel>> GetRegisterRequestsForAdminAsync(int adminId);
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Implementation
 {
@@ -17,27 +18,33 @@ namespace CMS.DAL.Repository.Implementation
             _context = context;
         }
 
-        public void Add(User user)
+        public async Task<User> AddAsync(User user)
         {
-            _context.Users.Add(user);
+            await _context.Users.AddAsync(user);
+            return user;
         }
 
-        public IEnumerable<User> Filter(Expression<Func<User, bool>> predicate)
+        public async Task<List<User>> FilterAsync(Expression<Func<User, bool>> predicate)
         {
-            return _context.Users.Where(predicate).ToList();
+            return await _context.Users.Where(predicate).ToListAsync();
         }
 
-        public IEnumerable<User> GetAll()
+        public async Task<List<User>> GetAllAsync()
         {
-            return _context.Users.ToList();
+            return await _context.Users.ToListAsync();
         }
 
-        public void Update(User user)
+        public async Task UpdateAsync(User untracked)
         {
-            _context.Entry(user).State = EntityState.Modified;
+            var user = await _context.Users.FindAsync(untracked.Id);
+
+            user.Name = untracked.Name;
+            user.Email = untracked.Email;
+            user.Contact = untracked.Contact;
+            user.Password = untracked.Password;
         }
 
-        public IEnumerable<User> GetUserWithRole(Expression<Func<User, bool>> predicate = null)
+        public Task<List<User>> GetUserWithRoleAsync(Expression<Func<User, bool>> predicate = null)
         {
             var query = _context.Users.Include(x => x.Role);
 
@@ -46,7 +53,7 @@ namespace CMS.DAL.Repository.Implementation
                 query.Where(predicate);
             }
 
-            return query.ToList();
+            return query.ToListAsync();
         }
     }
 }

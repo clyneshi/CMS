@@ -26,8 +26,8 @@ namespace CMS
 
         public async Task InitAsync()
         {
-            dataGridView_conference.DataSource = await _conferenceService.GetReviewersByConference();
-            dataGridView_paper.DataSource = _paperService.GetPapersWithConference();
+            dataGridView_conference.DataSource = await _conferenceService.GetReviewersByConferenceAsync();
+            dataGridView_paper.DataSource = await _paperService.GetPapersWithConferenceAsync();
         }
     }
 }

@@ -30,8 +30,8 @@ namespace CMS.BL.Services.Implementation
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(passWord))
                 return false;
 
-            var user = _unitOfWork.UserRepository
-                .Filter(x => x.Email == email && x.Password == passWord)
+            var user = (await _unitOfWork.UserRepository
+                .FilterAsync(x => x.Email == email && x.Password == passWord))
                 .FirstOrDefault();
 
             if (user == null)
@@ -52,12 +52,13 @@ namespace CMS.BL.Services.Implementation
             return true;
         }
 
-        public int GetMaxUserId()
+        public async Task<int> GetMaxUserIdAsync()
         {
-            return _unitOfWork.UserRepository.GetAll().OrderByDescending(u => u.Id).FirstOrDefault().Id;
+            return (await _unitOfWork.UserRepository.GetAllAsync())
+                .OrderByDescending(u => u.Id).FirstOrDefault().Id;
         }
 
-        public async Task UpdateUser(string Name, string Email, string Contact, string oldPasswrd, string newPasswrd)
+        public async Task UpdateUserAsync(string Name, string Email, string Contact, string oldPasswrd, string newPasswrd)
         {
             // TODO: separate change password validation
             // TODO: pass in user model instead of all fields
@@ -67,8 +68,8 @@ namespace CMS.BL.Services.Implementation
                 throw new Exception();
             }
 
-            var user = _unitOfWork.UserRepository
-                .Filter(u => u.Id == _applicationStrategy.GetLoggedInUserInfo().User.Id)
+            var user = (await _unitOfWork.UserRepository
+                .FilterAsync(u => u.Id == _applicationStrategy.GetLoggedInUserInfo().User.Id))
                 .FirstOrDefault();
             user.Name = Name;
             user.Email = Email;
@@ -76,7 +77,7 @@ namespace CMS.BL.Services.Implementation
             if (user.Password == oldPasswrd)
                 user.Password = newPasswrd;
 
-            _unitOfWork.UserRepository.Update(user);
+            await _unitOfWork.UserRepository.UpdateAsync(user);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -89,18 +90,18 @@ namespace CMS.BL.Services.Implementation
                 .ToList();
         }
 
-        public IEnumerable<User> GetAssignedReviewersByPaper(int paperId)
+        public async Task<IList<User>> GetAssignedReviewersByPaperAsync(int paperId)
         {
-            return _unitOfWork.PaperReviewRepository
-                .Filter(x => x.PaperId == paperId)
+            return (await _unitOfWork.PaperReviewRepository
+                .FilterAsync(x => x.PaperId == paperId))
                 .Select(x => x.User)
                 .ToList();
         }
 
-        public IEnumerable<UserRoleModel> GetUsersWithRole()
+        public async Task<IList<UserRoleModel>> GetUsersWithRoleAsync()
         {
-            return _unitOfWork.UserRepository
-                .GetUserWithRole(null)
+            return (await _unitOfWork.UserRepository
+                .GetUserWithRoleAsync(null))
                 .Select(x => new UserRoleModel
                 {
                     Id = x.Id,
@@ -111,14 +112,14 @@ namespace CMS.BL.Services.Implementation
                 }).ToList();
         }
 
-        public async Task AddUser(User user)
+        public async Task AddUserAsync(User user)
         {
             if (user == null)
             {
                 throw new Exception();
             }
 
-            _unitOfWork.UserRepository.Add(user);
+            await _unitOfWork.UserRepository.AddAsync(user);
             await _unitOfWork.SaveChangesAsync();
         }
     }

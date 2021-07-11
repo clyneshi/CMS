@@ -19,17 +19,17 @@ namespace CMS.BL.Services.Implementation
             _applicationStrategy = applicationStrategy;
         }
 
-        public IEnumerable<Keyword> GetKeyWords()
+        public async Task<IList<Keyword>> GetKeyWordsAsync()
         {
-            return _unitOfWork.KeywordRepository.GetAll();
+            return await _unitOfWork.KeywordRepository.GetAllAsync();
         }
 
-        public IEnumerable<Expertise> GetExpertiseByUser(int UserId)
+        public async Task<IList<Expertise>> GetExpertiseByUserAsync(int UserId)
         {
-            return _unitOfWork.ExpertiseRepository.Filter(x => x.UserId == UserId);
+            return await _unitOfWork.ExpertiseRepository.FilterAsync(x => x.UserId == UserId);
         }
 
-        public async Task UpdateExpertise(int UserId, List<Keyword> keywordsToRemove, List<Keyword> KeywordsToAdd)
+        public async Task UpdateExpertiseAsync(int UserId, List<Keyword> keywordsToRemove, List<Keyword> KeywordsToAdd)
         {
             if (!keywordsToRemove.Any() && !KeywordsToAdd.Any())
             {
@@ -46,7 +46,7 @@ namespace CMS.BL.Services.Implementation
                     keywordsToRemove.Remove(keywordToDelete);
             }
 
-            var expertises = GetExpertiseByUser(UserId);
+            var expertises = await GetExpertiseByUserAsync(UserId);
 
             // remove keywords
             if (keywordsToRemove.Count != 0)
@@ -65,7 +65,7 @@ namespace CMS.BL.Services.Implementation
                 if (expertises.Any(x => x.KeywordId == ak.Id))
                     continue;
 
-                _unitOfWork.ExpertiseRepository.Add(new Expertise
+                await _unitOfWork.ExpertiseRepository.AddAsync(new Expertise
                 {
                     KeywordId = ak.Id,
                     UserId = _applicationStrategy.GetLoggedInUserInfo().User.Id

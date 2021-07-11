@@ -21,7 +21,7 @@ namespace CMS.BL.Services.Implementation
             _applicationStrategy = applicationStrategy;
         }
 
-        public async Task AddPaper(Paper paper, IEnumerable<PaperTopic> paperTopics)
+        public async Task AddPaperAsync(Paper paper, IEnumerable<PaperTopic> paperTopics)
         {
             if (paper == null)
             {
@@ -34,59 +34,59 @@ namespace CMS.BL.Services.Implementation
             }
 
             foreach (var topic in paperTopics)
-                _unitOfWork.PaperTopicRepository.Add(topic);
+                await _unitOfWork.PaperTopicRepository.AddAsync(topic);
 
-            _unitOfWork.PaperRepository.Add(paper);
+            await _unitOfWork.PaperRepository.AddAsync(paper);
 
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public Paper GetPaperById(int Id)
+        public async Task<Paper> GetPaperByIdAsync(int Id)
         {
-            return _unitOfWork.PaperRepository.Filter(p => p.Id == Id).SingleOrDefault();
+            return (await _unitOfWork.PaperRepository.FilterAsync(p => p.Id == Id)).SingleOrDefault();
         }
 
-        public IEnumerable<Paper> GetPapersByAuthor(int UserId)
+        public async Task<IList<Paper>> GetPapersForAuthorAsync(int UserId)
         {
-            return _unitOfWork.PaperRepository.Filter(x => x.AuthorId == UserId);
+            return await _unitOfWork.PaperRepository.FilterAsync(x => x.AuthorId == UserId);
         }
 
-        public IEnumerable<Paper> GetPapersByConference(int conferenceId)
+        public async Task<IList<Paper>> GetPapersForConferenceAsync(int conferenceId)
         {
-            return _unitOfWork.PaperRepository.Filter(p => p.ConferenceId == conferenceId);
+            return await _unitOfWork.PaperRepository.FilterAsync(p => p.ConferenceId == conferenceId);
         }
 
-        public int GetMaxPaperId()
+        public async Task<int> GetMaxPaperIdAsync()
         {
-            return _unitOfWork.PaperRepository
-                .GetAll()
+            return (await _unitOfWork.PaperRepository
+                .GetAllAsync())
                 .OrderByDescending(p => p.Id)
                 .FirstOrDefault().Id;
         }
 
-        public PaperReview GetPaperReview(int paperId, int UserId)
+        public async Task<PaperReview> GetPaperReviewAsync(int paperId, int UserId)
         {
-            return _unitOfWork.PaperReviewRepository
-                .Filter(pr => pr.UserId == UserId && pr.PaperId == paperId)
+            return (await _unitOfWork.PaperReviewRepository
+                .FilterAsync(pr => pr.UserId == UserId && pr.PaperId == paperId))
                 .SingleOrDefault();
         }
 
-        public async Task AddPaperReview(PaperReview paperReview)
+        public async Task AddPaperReviewAsync(PaperReview paperReview)
         {
             if (paperReview == null)
             {
                 throw new Exception();
             }
 
-            _unitOfWork.PaperReviewRepository.Add(paperReview);
+            await _unitOfWork.PaperReviewRepository.AddAsync(paperReview);
 
             await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task DeletePaperReview(int paperId, int UserId)
         {
-            var paperReview = _unitOfWork.PaperReviewRepository
-                .Filter(pr => pr.UserId == UserId && pr.PaperId == paperId)
+            var paperReview = (await _unitOfWork.PaperReviewRepository
+                .FilterAsync(pr => pr.UserId == UserId && pr.PaperId == paperId))
                 .SingleOrDefault();
 
             if (paperReview == null)
@@ -99,11 +99,11 @@ namespace CMS.BL.Services.Implementation
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public IEnumerable<ReviewPaperModel> GetPapersForReview(int reviewerId, int conferenceId)
+        public async Task<IList<ReviewPaperModel>> GetPapersForReviewAsync(int reviewerId, int conferenceId)
         {
-            return _unitOfWork.PaperReviewRepository
-                .Filter(x => x.Paper.ConferenceId == conferenceId
-                    && x.UserId == reviewerId)
+            return (await _unitOfWork.PaperReviewRepository
+                .FilterAsync(x => x.Paper.ConferenceId == conferenceId
+                    && x.UserId == reviewerId))
                 .Select(x => new ReviewPaperModel
                 {
                     PaperId = x.Id,
@@ -112,14 +112,14 @@ namespace CMS.BL.Services.Implementation
                 }).ToList();
         }
 
-        public async Task UpdatePaperRating(int paperId, int rating)
+        public async Task UpdatePaperRatingAsync(int paperId, int rating)
         {
-            var paperReview = _unitOfWork.PaperReviewRepository
-                .Filter(p => p.UserId == _applicationStrategy.GetLoggedInUserInfo().User.Id && p.Id == paperId)
+            var paperReview = (await _unitOfWork.PaperReviewRepository
+                .FilterAsync(p => p.UserId == _applicationStrategy.GetLoggedInUserInfo().User.Id && p.Id == paperId))
                 .SingleOrDefault();
 
-            var paper = _unitOfWork.PaperRepository
-                .Filter(p => p.Id == paperId)
+            var paper = (await _unitOfWork.PaperRepository
+                .FilterAsync(p => p.Id == paperId))
                 .SingleOrDefault();
 
             if (paperReview == null || paper == null)
@@ -127,29 +127,26 @@ namespace CMS.BL.Services.Implementation
                 throw new Exception();
             }
 
-            paperReview.PaperRating = rating;
-            paper.Status = "being reviewed";
-
-            _unitOfWork.PaperReviewRepository.Update(paperReview);
-            _unitOfWork.PaperRepository.Update(paper);
+            await _unitOfWork.PaperReviewRepository.ChangePaperRatingAsync(paperReview.Id, rating);
+            await _unitOfWork.PaperRepository.ChangePaperStatusAsync(paper.Id, "being reviewed");
 
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public IEnumerable<PaperReview> GetPaperReviewsByPaper(int paperId)
+        public async Task<IList<PaperReview>> GetPaperReviewsForPaperAsync(int paperId)
         {
-            return _unitOfWork.PaperReviewRepository.Filter(pr => pr.PaperId == paperId).ToList();
+            return await _unitOfWork.PaperReviewRepository.FilterAsync(pr => pr.PaperId == paperId);
         }
 
-        public IEnumerable<Feedback> GetFeedbacksByPaper(int paperId)
+        public async Task<IList<Feedback>> GetFeedbacksForPaperAsync(int paperId)
         {
-            return _unitOfWork.FeedbackRepository.Filter(f => f.PaperId == paperId).ToList();
+            return await _unitOfWork.FeedbackRepository.FilterAsync(f => f.PaperId == paperId);
         }
 
-        public IEnumerable<PaperUserModel> GetPapersWithAuthor()
+        public async Task<IList<PaperUserModel>> GetPapersWithAuthorAsync()
         {
-            return _unitOfWork.PaperRepository
-                .GetPapersWithAuthorAndConference()
+            return (await _unitOfWork.PaperRepository
+                .GetPapersWithAuthorAndConferenceAsync())
                 .Select(x => new PaperUserModel
                 {
                     Id = x.Id,
@@ -163,10 +160,10 @@ namespace CMS.BL.Services.Implementation
                 .ToList();
         }
 
-        public IEnumerable<PaperConferenceModel> GetPapersWithConference()
+        public async Task<IList<PaperConferenceModel>> GetPapersWithConferenceAsync()
         {
-            return _unitOfWork.PaperRepository
-                .GetPapersWithAuthorAndConference()
+            return (await _unitOfWork.PaperRepository
+                .GetPapersWithAuthorAndConferenceAsync())
                 .Select(x => new PaperConferenceModel
                 {
                     Id = x.Id,
@@ -177,14 +174,14 @@ namespace CMS.BL.Services.Implementation
                 }).ToList();
         }
 
-        public async Task AddFeedback(Feedback feedback)
+        public async Task AddFeedbackAsync(Feedback feedback)
         {
             if (feedback == null)
             {
                 throw new Exception();
             }
 
-            var paper = GetPaperById(feedback.PaperId);
+            var paper = await GetPaperByIdAsync(feedback.PaperId);
 
             if (paper == null)
             {
@@ -192,10 +189,9 @@ namespace CMS.BL.Services.Implementation
             }
 
             feedback.PaperId = feedback.PaperId;
-            _unitOfWork.FeedbackRepository.Add(feedback);
+            await _unitOfWork.FeedbackRepository.AddAsync(feedback);
 
-            paper.Status = feedback.FinalDecision;
-            _unitOfWork.PaperRepository.Update(paper);
+            await _unitOfWork.PaperRepository.ChangePaperStatusAsync(paper.Id, feedback.FinalDecision);
 
             await _unitOfWork.SaveChangesAsync();
         }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Implementation
 {
@@ -17,27 +18,29 @@ namespace CMS.DAL.Repository.Implementation
             _context = context;
         }
 
-        public void Add(Paper paper)
+        public async Task<Paper> AddAsync(Paper paper)
         {
-            _context.Papers.Add(paper);
+            await _context.Papers.AddAsync(paper);
+            return paper;
         }
 
-        public IEnumerable<Paper> Filter(Expression<Func<Paper, bool>> predicate)
+        public Task<List<Paper>> FilterAsync(Expression<Func<Paper, bool>> predicate)
         {
-            return _context.Papers.Where(predicate).ToList();
+            return _context.Papers.Where(predicate).ToListAsync();
         }
 
-        public IEnumerable<Paper> GetAll()
+        public Task<List<Paper>> GetAllAsync()
         {
-            return _context.Papers.ToList();
+            return _context.Papers.ToListAsync();
         }
 
-        public void Update(Paper paper)
+        public async Task ChangePaperStatusAsync(int paperId, string status)
         {
-            _context.Entry(paper).State = EntityState.Modified;
+            var paper = await _context.Papers.FindAsync(paperId);
+            paper.Status = status;
         }
 
-        public IEnumerable<Paper> GetPapersWithAuthorAndConference(Expression<Func<Paper, bool>> predicate = null)
+        public Task<List<Paper>> GetPapersWithAuthorAndConferenceAsync(Expression<Func<Paper, bool>> predicate = null)
         {
             var query = _context.Papers.Include(x => x.AuthorNavigation).Include(x => x.Conference);
 
@@ -46,7 +49,7 @@ namespace CMS.DAL.Repository.Implementation
                 query.Where(predicate);
             }
 
-            return query.ToList();
+            return query.ToListAsync();
         }
     }
 }

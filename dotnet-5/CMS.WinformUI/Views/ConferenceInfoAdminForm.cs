@@ -41,10 +41,10 @@ namespace CMS
                     dataGridView1.DataSource = await _conferenceService.GetConferencesWithChairAsync();
                     break;
                 case (int)ConferenceViewTypesEnum.UserInfo:
-                    dataGridView1.DataSource = _userService.GetUsersWithRole();
+                    dataGridView1.DataSource = await _userService.GetUsersWithRoleAsync();
                     break;
                 case (int)ConferenceViewTypesEnum.Papers:
-                    dataGridView1.DataSource = _paperService.GetPapersWithAuthor();
+                    dataGridView1.DataSource = await _paperService.GetPapersWithAuthorAsync();
                     break;
                 default:
                     break;

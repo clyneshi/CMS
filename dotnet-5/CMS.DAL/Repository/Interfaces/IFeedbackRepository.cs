@@ -2,13 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
     public interface IFeedbackRepository
     {
-        void Add(Feedback Feedback);
-        IEnumerable<Feedback> Filter(Expression<Func<Feedback, bool>> predicate);
-        IEnumerable<Feedback> GetAll();
+        Task<Feedback> AddAsync(Feedback Feedback);
+        Task<List<Feedback>> FilterAsync(Expression<Func<Feedback, bool>> predicate);
     }
 }

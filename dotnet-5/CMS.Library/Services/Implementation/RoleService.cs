@@ -3,6 +3,7 @@ using CMS.DAL.Models;
 using CMS.BL.Services.Interface;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CMS.BL.Services.Implementation
 {
@@ -15,14 +16,14 @@ namespace CMS.BL.Services.Implementation
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Role> GetRoles()
+        public async Task<IList<Role>> GetRolesAsync()
         {
-            return _unitOfWork.RoleRepository.GetAll();
+            return await _unitOfWork.RoleRepository.GetAllAsync();
         }
 
-        public Role GetRoleById(int RoleId)
+        public async Task<Role> GetRoleByIdAsync(int roleId)
         {
-            return _unitOfWork.RoleRepository.Filter(r => r.Id == RoleId).SingleOrDefault();
+            return (await _unitOfWork.RoleRepository.FilterAsync(r => r.Id == roleId)).SingleOrDefault();
         }
     }
 }

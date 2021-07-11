@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Implementation
 {
@@ -17,26 +18,19 @@ namespace CMS.DAL.Repository.Implementation
             _context = context;
         }
 
-        public void Add(PaperReview paperReview)
+        public async Task<PaperReview> AddAsync(PaperReview paperReview)
         {
-            _context.PaperReviews.Add(paperReview);
+            await _context.PaperReviews.AddAsync(paperReview);
+            return paperReview;
         }
 
-        public IEnumerable<PaperReview> Filter(Expression<Func<PaperReview, bool>> predicate)
+        public Task<List<PaperReview>> FilterAsync(Expression<Func<PaperReview, bool>> predicate)
         {
             return _context.PaperReviews
                 .Include(x => x.Paper)
                 .Include(x => x.User)
                 .Where(predicate)
-                .ToList();
-        }
-
-        public IEnumerable<PaperReview> GetAll()
-        {
-            return _context.PaperReviews
-                .Include(x => x.Paper)
-                .Include(x => x.User)
-                .ToList();
+                .ToListAsync();
         }
 
         public void Delete(PaperReview paperReview)
@@ -44,9 +38,10 @@ namespace CMS.DAL.Repository.Implementation
             _context.PaperReviews.Remove(paperReview);
         }
 
-        public void Update(PaperReview paperReview)
+        public async Task ChangePaperRatingAsync(int paperReviewId, int rating)
         {
-            _context.Entry(paperReview).State = EntityState.Modified;
+            var paperReview = await _context.PaperReviews.FindAsync(paperReviewId);
+            paperReview.PaperRating = rating;
         }
     }
 }

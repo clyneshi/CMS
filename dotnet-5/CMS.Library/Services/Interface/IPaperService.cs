@@ -7,20 +7,20 @@ namespace CMS.BL.Services.Interface
 {
     public interface IPaperService
     {
-        Task AddPaper(Paper paper, IEnumerable<PaperTopic> paperTopics);
-        Task AddPaperReview(PaperReview paperReview);
+        Task AddPaperAsync(Paper paper, IEnumerable<PaperTopic> paperTopics);
+        Task AddPaperReviewAsync(PaperReview paperReview);
         Task DeletePaperReview(int paperId, int UserId);
-        IEnumerable<Feedback> GetFeedbacksByPaper(int paperId);
-        int GetMaxPaperId();
-        Paper GetPaperById(int Id);
-        IEnumerable<PaperConferenceModel> GetPapersWithConference();
-        PaperReview GetPaperReview(int paperId, int UserId);
-        IEnumerable<PaperReview> GetPaperReviewsByPaper(int paperId);
-        IEnumerable<Paper> GetPapersByAuthor(int UserId);
-        IEnumerable<Paper> GetPapersByConference(int conferenceId);
-        IEnumerable<PaperUserModel> GetPapersWithAuthor();
-        IEnumerable<ReviewPaperModel> GetPapersForReview(int reviewerId, int conferenceId);
-        Task UpdatePaperRating(int paperId, int rating);
-        Task AddFeedback(Feedback feedback);
+        Task<IList<Feedback>> GetFeedbacksForPaperAsync(int paperId);
+        Task<int> GetMaxPaperIdAsync();
+        Task<Paper> GetPaperByIdAsync(int Id);
+        Task<IList<PaperConferenceModel>> GetPapersWithConferenceAsync();
+        Task<PaperReview> GetPaperReviewAsync(int paperId, int UserId);
+        Task<IList<PaperReview>> GetPaperReviewsForPaperAsync(int paperId);
+        Task<IList<Paper>> GetPapersForAuthorAsync(int UserId);
+        Task<IList<Paper>> GetPapersForConferenceAsync(int conferenceId);
+        Task<IList<PaperUserModel>> GetPapersWithAuthorAsync();
+        Task<IList<ReviewPaperModel>> GetPapersForReviewAsync(int reviewerId, int conferenceId);
+        Task UpdatePaperRatingAsync(int paperId, int rating);
+        Task AddFeedbackAsync(Feedback feedback);
     }
 }

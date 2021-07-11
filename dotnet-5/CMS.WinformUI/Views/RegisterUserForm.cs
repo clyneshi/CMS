@@ -4,6 +4,7 @@ using CMS.BL.Services.Interface;
 using CMS.WinformUI.Utils;
 using System;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace CMS
 {
@@ -25,17 +26,22 @@ namespace CMS
             _conferenceService = conferenceService;
 
             InitializeComponent();
-            Init();
         }
 
-        private void Init()
+        protected override async void OnLoad(EventArgs e)
         {
-            comboBox_conference.DataSource = _conferenceService.GetConferencesAsync();
+            base.OnLoad(e);
+            await Init();
+        }
+
+        private async Task Init()
+        {
+            comboBox_conference.DataSource = await _conferenceService.GetConferencesAsync();
             comboBox_conference.DisplayMember = "Title";
             comboBox_conference.ValueMember = "Id";
             comboBox_conference.SelectedIndex = -1;
 
-            comboBox_role.DataSource = _roleService.GetRoles();
+            comboBox_role.DataSource = await _roleService.GetRolesAsync();
             comboBox_role.DisplayMember = "Type";
             comboBox_role.ValueMember = "Id";
             comboBox_role.SelectedIndex = -1;
@@ -61,7 +67,7 @@ namespace CMS
                 comboBox_conference.Enabled = true;
         }
 
-        private void AddRegisterRequest()
+        private async Task AddRegisterRequest()
         {
             var request = new RegisterRequest();
             if (comboBox_conference.Enabled == true)
@@ -73,7 +79,7 @@ namespace CMS
             request.Status = UserRequestStatusEnum.Waiting.ToString();
             request.RoleId = (int)comboBox_role.SelectedValue;
 
-            _userRequestService.AddRegisterRequest(request);
+            await _userRequestService.AddRegisterRequestAsync(request);
         }
 
         // TODO: extract validation method
@@ -95,12 +101,12 @@ namespace CMS
             return "";
         }
 
-        private void btn_submit_Click(object sender, EventArgs e)
+        private async void btn_submit_Click(object sender, EventArgs e)
         {
             string error = ValidateUserRegister();
             if (error.Equals(""))
             {
-                AddRegisterRequest();
+                await AddRegisterRequest();
                 MessageBox.Show("Successfully sent out registration request!");
                 RedirectToLogInView();
             }

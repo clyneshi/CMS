@@ -2,15 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
     public interface IPaperReviewRepository
     {
-        IEnumerable<PaperReview> GetAll();
-        IEnumerable<PaperReview> Filter(Expression<Func<PaperReview, bool>> predicate);
-        void Add(PaperReview PaperReview);
+        Task<List<PaperReview>> FilterAsync(Expression<Func<PaperReview, bool>> predicate);
+        Task<PaperReview> AddAsync(PaperReview PaperReview);
         void Delete(PaperReview paperReview);
-        void Update(PaperReview paperReview);
+        Task ChangePaperRatingAsync(int paperReviewId, int rating);
     }
 }

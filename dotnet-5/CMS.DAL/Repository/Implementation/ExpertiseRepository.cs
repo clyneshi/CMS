@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Implementation
 {
@@ -17,26 +18,19 @@ namespace CMS.DAL.Repository.Implementation
             _context = context;
         }
 
-        public void Add(Expertise expertise)
+        public async Task<Expertise> AddAsync(Expertise expertise)
         {
-            _context.Expertises.Add(expertise);
+            await _context.Expertises.AddAsync(expertise);
+            return expertise;
         }
 
-        public IEnumerable<Expertise> Filter(Expression<Func<Expertise, bool>> predicate)
+        public Task<List<Expertise>> FilterAsync(Expression<Func<Expertise, bool>> predicate)
         {
             return _context.Expertises
                 .Include(x => x.Keyword)
                 .Include(x => x.User)
                 .Where(predicate)
-                .ToList();
-        }
-
-        public IEnumerable<Expertise> GetAll()
-        {
-            return _context.Expertises
-                .Include(x => x.Keyword)
-                .Include(x => x.User)
-                .ToList();
+                .ToListAsync();
         }
 
         public void Delete(Expertise expertise)

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using CMS.WinformUI.Utils;
+using System.Threading.Tasks;
 
 namespace CMS
 {
@@ -26,19 +27,24 @@ namespace CMS
             _applicationStrategy = applicationStrategy;
 
             InitializeComponent();
-            Init();
         }
 
-        public void Init()
+        protected override async void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            await Init();
+        }
+
+        public async Task Init()
         {
             _selectedTopics.Clear();
-            KeywordDisplay();
+            await KeywordDisplay();
             DisplaySelectedKeywords();
         }
 
-        private void KeywordDisplay()
+        private async Task KeywordDisplay()
         {
-            var topics = _keywordService.GetKeyWords();
+            var topics = await _keywordService.GetKeyWordsAsync();
 
             dataGridView_topic.DataSource = topics;
             dataGridView_topic.Columns[0].Visible = false;
@@ -121,7 +127,7 @@ namespace CMS
 
             MessageBox.Show("Conference added successfully");
             Controls.ClearData();
-            Init();
+            await Init();
         }
     }
 }
