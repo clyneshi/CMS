@@ -1,4 +1,4 @@
-﻿using CMS.DAL.Repository.Interfaces;
+﻿using CMS.DAL.Repositories.Interfaces;
 using System.Threading.Tasks;
 
 namespace CMS.DAL.Core

@@ -1,5 +1,5 @@
 ﻿using CMS.BL.Services.Implementation;
-using CMS.BL.Services.Interface;
+using CMS.BL.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMS.BL.Utils

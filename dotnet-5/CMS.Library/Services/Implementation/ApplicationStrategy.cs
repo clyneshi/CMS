@@ -1,6 +1,6 @@
 ﻿using CMS.DAL.Models;
 using CMS.BL.Models;
-using CMS.BL.Services.Interface;
+using CMS.BL.Services.Interfaces;
 
 namespace CMS.BL.Services.Implementation
 {

@@ -1,5 +1,5 @@
 ﻿using CMS.DAL.Models;
-using CMS.DAL.Repository.Interfaces;
+using CMS.DAL.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

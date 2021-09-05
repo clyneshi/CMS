@@ -1,5 +1,5 @@
 ﻿using CMS.DAL.Models;
-using CMS.BL.Services.Interface;
+using CMS.BL.Services.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using CMS.BL.Services.Interface;
+﻿using CMS.BL.Services.Interfaces;
 using System;
 using System.IO;
 using System.Threading.Tasks;

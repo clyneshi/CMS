@@ -1,5 +1,5 @@
 ﻿using CMS.BL.Enums;
-using CMS.BL.Services.Interface;
+using CMS.BL.Services.Interfaces;
 using CMS.WinformUI.Utils;
 using System;
 using System.Windows.Forms;

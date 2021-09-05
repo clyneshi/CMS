@@ -1,7 +1,7 @@
 ﻿using CMS.DAL.Models;
 using CMS.BL.Enums;
 using CMS.BL.Global;
-using CMS.BL.Services.Interface;
+using CMS.BL.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
