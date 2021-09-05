@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
-    public interface IKeywordRepository
+    public interface IKeywordRepository : IRepository
     {
         Task<List<Keyword>> GetAllAsync();
     }

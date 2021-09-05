@@ -6,9 +6,9 @@ namespace CMS.DAL.Repository.Implementation
 {
     public class PaperTopicRepository : IPaperTopicRepository
     {
-        private readonly CMSContext _context;
+        private readonly CmsDbContext _context;
 
-        public PaperTopicRepository(CMSContext context)
+        public PaperTopicRepository(CmsDbContext context)
         {
             _context = context;
         }

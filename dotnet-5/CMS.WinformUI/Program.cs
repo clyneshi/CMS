@@ -1,5 +1,4 @@
-﻿using CMS.DAL.Models;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Windows.Forms;
@@ -24,16 +23,7 @@ namespace CMS.WinformUI
             var host = CreateHostBuilder().Build();
             var services = host.Services;
 
-            try
-            {
-                var context = services.GetRequiredService<CMSContext>();
-                CMSDBInitializer.Initialize(context);
-            }
-            catch (Exception)
-            {
-                // TODO: log
-                throw;
-            }
+            DbInitializer.Initialize(services);
 
             var loginForm = services.GetRequiredService<LoginForm>(); 
             Application.Run(loginForm);
@@ -47,7 +37,7 @@ namespace CMS.WinformUI
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddCMSDbContext(hostContext.Configuration);
+                    services.AddUnitOfWork(hostContext.Configuration);
                     services.AddServices();
                     services.AddForms();
                 });

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
-    public interface IPaperTopicRepository
+    public interface IPaperTopicRepository : IRepository
     {
         Task<PaperTopic> AddAsync(PaperTopic paperTopic);
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
-    public interface IRegisterRequestRepository
+    public interface IRegisterRequestRepository : IRepository
     {
         Task<RegisterRequest> AddAsync(RegisterRequest RegisterRequest);
         Task<List<RegisterRequest>> FilterAsync(Expression<Func<RegisterRequest, bool>> predicate);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository
     {
         Task<List<User>> GetAllAsync();
         Task<List<User>> FilterAsync(Expression<Func<User, bool>> predicate);

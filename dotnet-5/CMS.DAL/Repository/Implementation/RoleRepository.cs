@@ -11,9 +11,9 @@ namespace CMS.DAL.Repository.Implementation
 {
     public class RoleRepository : IRoleRepository
     {
-        private readonly CMSContext _context;
+        private readonly CmsDbContext _context;
 
-        public RoleRepository(CMSContext context)
+        public RoleRepository(CmsDbContext context)
         {
             _context = context;
         }

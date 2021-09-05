@@ -11,9 +11,9 @@ namespace CMS.DAL.Repository.Implementation
 {
     public class RegisterRequestRepository : IRegisterRequestRepository
     {
-        private readonly CMSContext _context;
+        private readonly CmsDbContext _context;
 
-        public RegisterRequestRepository(CMSContext context)
+        public RegisterRequestRepository(CmsDbContext context)
         {
             _context = context;
         }

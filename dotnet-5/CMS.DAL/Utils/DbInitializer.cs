@@ -1,20 +1,30 @@
-﻿using System;
+﻿using CMS.DAL.Models;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CMS.DAL.Models
+namespace CMS.DAL.Utils
 {
-    public static class CMSDBInitializer
+    public static class DbInitializer
     {
-        public static void Initialize(CMSContext context)
+        public static void Initialize(IServiceProvider serviceProvider)
+        {
+            using (var serviceScope = serviceProvider.CreateScope())
+            {
+                SeedData(serviceScope.ServiceProvider.GetService<CmsDbContext>());
+            }
+        }
+
+        private static void SeedData(CmsDbContext context)
         {
             context.Database.EnsureCreated();
 
             if (context.Users.Any())
                 return;
 
-            var keywords = new []
+            var keywords = new[]
             {
                 new Keyword() {Id = 1, Name = "Geophysics and Geology", Genre = "Earth Sciences"},
                 new Keyword() {Id = 2, Name = "Mineralogy", Genre = "Earth Sciences"},
@@ -31,7 +41,7 @@ namespace CMS.DAL.Models
             };
             context.Keywords.AddRange(keywords);
 
-            var roles = new []
+            var roles = new[]
             {
                 new Role() {Id = 1, Type = "Admin"},
                 new Role() {Id = 2, Type = "Chair"},
@@ -40,7 +50,7 @@ namespace CMS.DAL.Models
             };
             context.Roles.AddRange(roles);
 
-            var users = new []
+            var users = new[]
             {
                 new User() { Id = 1, Name = "admin", Password = "ad", Email = "admin@cms.com", RoleId = 1 },
                 new User() { Id = 2, Name = "chair1", Password = "ch", Email = "chair1@cms.com", RoleId = 2 },
@@ -52,7 +62,7 @@ namespace CMS.DAL.Models
             };
             context.Users.AddRange(users);
 
-            var expertises = new []
+            var expertises = new[]
             {
                 new Expertise() { Id = 1, UserId = 4, KeywordId = 5},
                 new Expertise() { Id = 2, UserId = 4, KeywordId = 6},
@@ -62,7 +72,7 @@ namespace CMS.DAL.Models
             };
             context.Expertises.AddRange(expertises);
 
-            var conferences = new []
+            var conferences = new[]
             {
                 new Conference() { Id = 1, ChairId = 2, Title = "Innovate Bopitech 2017", Location = "Melbourn CBD 343", BeginDate = new DateTime(2017, 12, 23), EndDate = new DateTime(2017, 12, 30), PaperDeadline = new DateTime(2017, 11, 30)},
                 new Conference() { Id = 2, ChairId = 2, Title = "IICC", Location = "Downtown, Washington, DC 20005", BeginDate = new DateTime(2018, 1, 11), EndDate = new DateTime(2018, 1, 20), PaperDeadline = new DateTime(2018, 1, 3)},
@@ -70,7 +80,7 @@ namespace CMS.DAL.Models
             };
             context.Conferences.AddRange(conferences);
 
-            var conferenceMembers = new []
+            var conferenceMembers = new[]
             {
                 new ConferenceMember() { ConferenceId = 1, UserId = 4},
                 new ConferenceMember() { ConferenceId = 1, UserId = 5},
@@ -79,7 +89,7 @@ namespace CMS.DAL.Models
             };
             context.ConferenceMembers.AddRange(conferenceMembers);
 
-            var conferenceTopics = new []
+            var conferenceTopics = new[]
             {
                 new ConferenceTopic() {ConferenceId = 1, KeywordId = 2},
                 new ConferenceTopic() {ConferenceId = 2, KeywordId = 4},
@@ -95,7 +105,7 @@ namespace CMS.DAL.Models
             };
             context.Papers.AddRange(papers);
 
-            var paperTopics = new []
+            var paperTopics = new[]
             {
                 new PaperTopic() { PaperId = 1, KeywordId = 1},
                 new PaperTopic() { PaperId = 1, KeywordId = 2},
@@ -103,7 +113,7 @@ namespace CMS.DAL.Models
             };
             context.PaperTopics.AddRange(paperTopics);
 
-            var paperReviews = new []
+            var paperReviews = new[]
             {
                 new PaperReview() { PaperId = 1, UserId = 4}
             };

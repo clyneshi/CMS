@@ -11,9 +11,9 @@ namespace CMS.DAL.Repository.Implementation
 {
     public class ExpertiseRepository : IExpertiseRepository
     {
-        private readonly CMSContext _context;
+        private readonly CmsDbContext _context;
 
-        public ExpertiseRepository(CMSContext context)
+        public ExpertiseRepository(CmsDbContext context)
         {
             _context = context;
         }

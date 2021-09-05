@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
-    public interface IExpertiseRepository
+    public interface IExpertiseRepository : IRepository
     {
         Task<Expertise> AddAsync(Expertise Expertise);
         void Delete(Expertise expertise);

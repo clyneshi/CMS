@@ -11,9 +11,9 @@ namespace CMS.DAL.Repository.Implementation
 {
     public class PaperRepository : IPaperRepository
     {
-        private readonly CMSContext _context;
+        private readonly CmsDbContext _context;
 
-        public PaperRepository(CMSContext context)
+        public PaperRepository(CmsDbContext context)
         {
             _context = context;
         }

@@ -11,9 +11,9 @@ namespace CMS.DAL.Repository.Implementation
 {
     public class ConferenceMemberRepository : IConferenceMemberRepository
     {
-        private readonly CMSContext _context;
+        private readonly CmsDbContext _context;
 
-        public ConferenceMemberRepository(CMSContext context)
+        public ConferenceMemberRepository(CmsDbContext context)
         {
             _context = context;
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
-    public interface IPaperReviewRepository
+    public interface IPaperReviewRepository : IRepository
     {
         Task<List<PaperReview>> FilterAsync(Expression<Func<PaperReview, bool>> predicate);
         Task<PaperReview> AddAsync(PaperReview PaperReview);

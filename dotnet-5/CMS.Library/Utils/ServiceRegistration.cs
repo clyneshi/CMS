@@ -1,5 +1,4 @@
-﻿using CMS.DAL.Core;
-using CMS.BL.Services.Implementation;
+﻿using CMS.BL.Services.Implementation;
 using CMS.BL.Services.Interface;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +8,6 @@ namespace CMS.BL.Utils
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IConferenceService, ConferenceService>();
             services.AddScoped<IKeywordService, KeywordService>();
             services.AddScoped<IPaperService, PaperService>();
@@ -17,6 +15,7 @@ namespace CMS.BL.Utils
             services.AddScoped<IUserRequestService, UserRequestService>();
             services.AddScoped<IUserService, UserService>();
             services.AddSingleton<IApplicationStrategy, ApplicationStrategy>();
+
             return services;
         }
     }

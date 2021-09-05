@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
-    public interface IConferenceMemberRepository
+    public interface IConferenceMemberRepository : IRepository
     {
         Task<ConferenceMember> AddAsync(ConferenceMember ConferenceMember);
         Task<List<ConferenceMember>> FilterAsync(Expression<Func<ConferenceMember, bool>> predicate);

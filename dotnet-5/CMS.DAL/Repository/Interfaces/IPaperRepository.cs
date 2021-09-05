@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CMS.DAL.Repository.Interfaces
 {
-    public interface IPaperRepository
+    public interface IPaperRepository : IRepository
     {
         Task<Paper> AddAsync(Paper Paper);
         Task<List<Paper>> FilterAsync(Expression<Func<Paper, bool>> predicate);

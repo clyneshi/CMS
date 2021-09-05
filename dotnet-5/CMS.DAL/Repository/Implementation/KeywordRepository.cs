@@ -11,9 +11,9 @@ namespace CMS.DAL.Repository.Implementation
 {
     public class KeywordRepository : IKeywordRepository
     {
-        private readonly CMSContext _context;
+        private readonly CmsDbContext _context;
 
-        public KeywordRepository(CMSContext context)
+        public KeywordRepository(CmsDbContext context)
         {
             _context = context;
         }
