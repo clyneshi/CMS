@@ -1,11 +1,10 @@
-﻿namespace CMS.BL.Models
+﻿namespace CMS.BL.Models;
+
+public class UserRoleModel
 {
-    public class UserRoleModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Contact { get; set; }
-        public string Role { get; set; }
-        public string Email { get; set; }
-    }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Contact { get; set; }
+    public string Role { get; set; }
+    public string Email { get; set; }
 }

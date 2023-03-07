@@ -1,13 +1,12 @@
 ﻿using System;
 
-namespace CMS.BL.Models
+namespace CMS.BL.Models;
+
+public class PaperConferenceModel
 {
-    public class PaperConferenceModel
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public DateTime? SubmisionDate { get; set; }
-        public string Length { get; set; }
-    }
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public string Author { get; set; }
+    public DateTime? SubmisionDate { get; set; }
+    public string Length { get; set; }
 }

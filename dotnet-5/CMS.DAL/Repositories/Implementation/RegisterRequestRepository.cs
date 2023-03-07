@@ -7,36 +7,35 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CMS.DAL.Repositories.Implementation
+namespace CMS.DAL.Repositories.Implementation;
+
+public class RegisterRequestRepository : IRegisterRequestRepository
 {
-    public class RegisterRequestRepository : IRegisterRequestRepository
+    private readonly CmsDbContext _context;
+
+    public RegisterRequestRepository(CmsDbContext context)
     {
-        private readonly CmsDbContext _context;
+        _context = context;
+    }
 
-        public RegisterRequestRepository(CmsDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<RegisterRequest> AddAsync(RegisterRequest registerRequest)
+    {
+        await _context.RegisterRequests.AddAsync(registerRequest);
+        return registerRequest;
+    }
 
-        public async Task<RegisterRequest> AddAsync(RegisterRequest registerRequest)
-        {
-            await _context.RegisterRequests.AddAsync(registerRequest);
-            return registerRequest;
-        }
+    public Task<List<RegisterRequest>> FilterAsync(Expression<Func<RegisterRequest, bool>> predicate)
+    {
+        return _context.RegisterRequests
+            .Include(x => x.Conference)
+            .Include(x => x.Role)
+            .Where(predicate)
+            .ToListAsync();
+    }
 
-        public Task<List<RegisterRequest>> FilterAsync(Expression<Func<RegisterRequest, bool>> predicate)
-        {
-            return _context.RegisterRequests
-                .Include(x => x.Conference)
-                .Include(x => x.Role)
-                .Where(predicate)
-                .ToListAsync();
-        }
-
-        public async Task ChangeRegisterRequestStatusAsync(int requestId, string status)
-        {
-            var registerRequest = await _context.RegisterRequests.FindAsync(requestId);
-            registerRequest.Status = status;
-        }
+    public async Task ChangeRegisterRequestStatusAsync(int requestId, string status)
+    {
+        var registerRequest = await _context.RegisterRequests.FindAsync(requestId);
+        registerRequest.Status = status;
     }
 }

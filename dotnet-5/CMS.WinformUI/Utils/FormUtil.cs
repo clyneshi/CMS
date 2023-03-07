@@ -2,25 +2,24 @@
 using System;
 using System.Windows.Forms;
 
-namespace CMS.WinformUI.Utils
+namespace CMS.WinformUI.Utils;
+
+public interface IFormUtil
 {
-    public interface IFormUtil
+    TForm GetForm<TForm>() where TForm : Form;
+}
+
+public class FormUtil: IFormUtil
+{
+    private readonly IServiceProvider _serviceProvider;
+
+    public FormUtil(IServiceProvider serviceProvider)
     {
-        TForm GetForm<TForm>() where TForm : Form;
+        _serviceProvider = serviceProvider;
     }
 
-    public class FormUtil: IFormUtil
+    public TForm GetForm<TForm>() where TForm : Form
     {
-        private readonly IServiceProvider _serviceProvider;
-
-        public FormUtil(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
-
-        public TForm GetForm<TForm>() where TForm : Form
-        {
-            return _serviceProvider.GetRequiredService<TForm>();
-        }
+        return _serviceProvider.GetRequiredService<TForm>();
     }
 }

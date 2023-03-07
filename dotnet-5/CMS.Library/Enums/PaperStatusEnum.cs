@@ -1,9 +1,8 @@
-﻿namespace CMS.BL.Enums
+﻿namespace CMS.BL.Enums;
+
+public enum PaperStatusEnum
 {
-    public enum PaperStatusEnum
-    {
-        Submitted,
-        Accepted,
-        Declined
-    }
+    Submitted,
+    Accepted,
+    Declined
 }

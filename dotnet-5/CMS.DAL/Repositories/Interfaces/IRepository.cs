@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMS.DAL.Repositories.Interfaces
+namespace CMS.DAL.Repositories.Interfaces;
+
+public interface IRepository
 {
-    public interface IRepository
-    {
-    }
 }

@@ -7,20 +7,19 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CMS.DAL.Repositories.Implementation
+namespace CMS.DAL.Repositories.Implementation;
+
+public class KeywordRepository : IKeywordRepository
 {
-    public class KeywordRepository : IKeywordRepository
+    private readonly CmsDbContext _context;
+
+    public KeywordRepository(CmsDbContext context)
     {
-        private readonly CmsDbContext _context;
+        _context = context;
+    }
 
-        public KeywordRepository(CmsDbContext context)
-        {
-            _context = context;
-        }
-
-        public Task<List<Keyword>> GetAllAsync()
-        {
-            return _context.Keywords.ToListAsync();
-        }
+    public Task<List<Keyword>> GetAllAsync()
+    {
+        return _context.Keywords.ToListAsync();
     }
 }

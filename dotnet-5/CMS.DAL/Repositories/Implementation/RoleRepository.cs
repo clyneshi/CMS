@@ -7,25 +7,24 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CMS.DAL.Repositories.Implementation
+namespace CMS.DAL.Repositories.Implementation;
+
+public class RoleRepository : IRoleRepository
 {
-    public class RoleRepository : IRoleRepository
+    private readonly CmsDbContext _context;
+
+    public RoleRepository(CmsDbContext context)
     {
-        private readonly CmsDbContext _context;
+        _context = context;
+    }
 
-        public RoleRepository(CmsDbContext context)
-        {
-            _context = context;
-        }
+    public Task<List<Role>> FilterAsync(Expression<Func<Role, bool>> predicate)
+    {
+        return _context.Roles.Where(predicate).ToListAsync();
+    }
 
-        public Task<List<Role>> FilterAsync(Expression<Func<Role, bool>> predicate)
-        {
-            return _context.Roles.Where(predicate).ToListAsync();
-        }
-
-        public Task<List<Role>> GetAllAsync()
-        {
-            return _context.Roles.ToListAsync();
-        }
+    public Task<List<Role>> GetAllAsync()
+    {
+        return _context.Roles.ToListAsync();
     }
 }

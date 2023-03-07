@@ -1,10 +1,9 @@
-﻿namespace CMS.BL.Enums
+﻿namespace CMS.BL.Enums;
+
+public enum RoleTypesEnum
 {
-    public enum RoleTypesEnum
-    {
-        Admin = 1,
-        Chair = 2,
-        Reviewer = 3,
-        Author = 4
-    }
+    Admin = 1,
+    Chair = 2,
+    Reviewer = 3,
+    Author = 4
 }

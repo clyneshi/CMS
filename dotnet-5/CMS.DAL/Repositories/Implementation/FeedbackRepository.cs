@@ -7,30 +7,29 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CMS.DAL.Repositories.Implementation
+namespace CMS.DAL.Repositories.Implementation;
+
+public class FeedbackRepository : IFeedbackRepository
 {
-    public class FeedbackRepository : IFeedbackRepository
+    private readonly CmsDbContext _context;
+
+    public FeedbackRepository(CmsDbContext context)
     {
-        private readonly CmsDbContext _context;
+        _context = context;
+    }
 
-        public FeedbackRepository(CmsDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<Feedback> AddAsync(Feedback feedback)
+    {
+        await _context.Feedbacks.AddAsync(feedback);
+        return feedback;
+    }
 
-        public async Task<Feedback> AddAsync(Feedback feedback)
-        {
-            await _context.Feedbacks.AddAsync(feedback);
-            return feedback;
-        }
-
-        public Task<List<Feedback>> FilterAsync(Expression<Func<Feedback, bool>> predicate)
-        {
-            return _context.Feedbacks
-                .Include(x => x.Paper)
-                .Include(x => x.User)
-                .Where(predicate)
-                .ToListAsync();
-        }
+    public Task<List<Feedback>> FilterAsync(Expression<Func<Feedback, bool>> predicate)
+    {
+        return _context.Feedbacks
+            .Include(x => x.Paper)
+            .Include(x => x.User)
+            .Where(predicate)
+            .ToListAsync();
     }
 }

@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CMS.DAL.Repositories.Interfaces
+namespace CMS.DAL.Repositories.Interfaces;
+
+public interface IExpertiseRepository : IRepository
 {
-    public interface IExpertiseRepository : IRepository
-    {
-        Task<Expertise> AddAsync(Expertise Expertise);
-        void Delete(Expertise expertise);
-        Task<List<Expertise>> FilterAsync(Expression<Func<Expertise, bool>> predicate);
-    }
+    Task<Expertise> AddAsync(Expertise Expertise);
+    void Delete(Expertise expertise);
+    Task<List<Expertise>> FilterAsync(Expression<Func<Expertise, bool>> predicate);
 }

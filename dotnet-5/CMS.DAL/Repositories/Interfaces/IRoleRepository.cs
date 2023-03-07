@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CMS.DAL.Repositories.Interfaces
+namespace CMS.DAL.Repositories.Interfaces;
+
+public interface IRoleRepository : IRepository
 {
-    public interface IRoleRepository : IRepository
-    {
-        Task<List<Role>> FilterAsync(Expression<Func<Role, bool>> predicate);
-        Task<List<Role>> GetAllAsync();
-    }
+    Task<List<Role>> FilterAsync(Expression<Func<Role, bool>> predicate);
+    Task<List<Role>> GetAllAsync();
 }

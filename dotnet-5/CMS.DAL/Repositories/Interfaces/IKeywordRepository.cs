@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CMS.DAL.Repositories.Interfaces
+namespace CMS.DAL.Repositories.Interfaces;
+
+public interface IKeywordRepository : IRepository
 {
-    public interface IKeywordRepository : IRepository
-    {
-        Task<List<Keyword>> GetAllAsync();
-    }
+    Task<List<Keyword>> GetAllAsync();
 }

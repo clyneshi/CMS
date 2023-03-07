@@ -7,41 +7,40 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CMS.DAL.Repositories.Implementation
+namespace CMS.DAL.Repositories.Implementation;
+
+public class PaperReviewRepository : IPaperReviewRepository
 {
-    public class PaperReviewRepository : IPaperReviewRepository
+    private readonly CmsDbContext _context;
+
+    public PaperReviewRepository(CmsDbContext context)
     {
-        private readonly CmsDbContext _context;
+        _context = context;
+    }
 
-        public PaperReviewRepository(CmsDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<PaperReview> AddAsync(PaperReview paperReview)
+    {
+        await _context.PaperReviews.AddAsync(paperReview);
+        return paperReview;
+    }
 
-        public async Task<PaperReview> AddAsync(PaperReview paperReview)
-        {
-            await _context.PaperReviews.AddAsync(paperReview);
-            return paperReview;
-        }
+    public Task<List<PaperReview>> FilterAsync(Expression<Func<PaperReview, bool>> predicate)
+    {
+        return _context.PaperReviews
+            .Include(x => x.Paper)
+            .Include(x => x.User)
+            .Where(predicate)
+            .ToListAsync();
+    }
 
-        public Task<List<PaperReview>> FilterAsync(Expression<Func<PaperReview, bool>> predicate)
-        {
-            return _context.PaperReviews
-                .Include(x => x.Paper)
-                .Include(x => x.User)
-                .Where(predicate)
-                .ToListAsync();
-        }
+    public void Delete(PaperReview paperReview)
+    {
+        _context.PaperReviews.Remove(paperReview);
+    }
 
-        public void Delete(PaperReview paperReview)
-        {
-            _context.PaperReviews.Remove(paperReview);
-        }
-
-        public async Task ChangePaperRatingAsync(int paperReviewId, int rating)
-        {
-            var paperReview = await _context.PaperReviews.FindAsync(paperReviewId);
-            paperReview.PaperRating = rating;
-        }
+    public async Task ChangePaperRatingAsync(int paperReviewId, int rating)
+    {
+        var paperReview = await _context.PaperReviews.FindAsync(paperReviewId);
+        paperReview.PaperRating = rating;
     }
 }

@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CMS.DAL.Repositories.Interfaces
+namespace CMS.DAL.Repositories.Interfaces;
+
+public interface IPaperReviewRepository : IRepository
 {
-    public interface IPaperReviewRepository : IRepository
-    {
-        Task<List<PaperReview>> FilterAsync(Expression<Func<PaperReview, bool>> predicate);
-        Task<PaperReview> AddAsync(PaperReview PaperReview);
-        void Delete(PaperReview paperReview);
-        Task ChangePaperRatingAsync(int paperReviewId, int rating);
-    }
+    Task<List<PaperReview>> FilterAsync(Expression<Func<PaperReview, bool>> predicate);
+    Task<PaperReview> AddAsync(PaperReview PaperReview);
+    void Delete(PaperReview paperReview);
+    Task ChangePaperRatingAsync(int paperReviewId, int rating);
 }

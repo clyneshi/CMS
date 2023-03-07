@@ -3,15 +3,14 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace CMS.DAL.Models
-{
-    public partial class PaperTopic
-    {
-        public int Id { get; set; }
-        public int PaperId { get; set; }
-        public int KeywordId { get; set; }
+namespace CMS.DAL.Models;
 
-        public virtual Keyword Keyword { get; set; }
-        public virtual Paper Paper { get; set; }
-    }
+public partial class PaperTopic
+{
+    public int Id { get; set; }
+    public int PaperId { get; set; }
+    public int KeywordId { get; set; }
+
+    public virtual Keyword Keyword { get; set; }
+    public virtual Paper Paper { get; set; }
 }

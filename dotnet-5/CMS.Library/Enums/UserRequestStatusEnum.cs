@@ -1,9 +1,8 @@
-﻿namespace CMS.BL.Enums
+﻿namespace CMS.BL.Enums;
+
+public enum UserRequestStatusEnum
 {
-    public enum UserRequestStatusEnum
-    {
-        Waiting,
-        Approved,
-        Declined
-    }
+    Waiting,
+    Approved,
+    Declined
 }

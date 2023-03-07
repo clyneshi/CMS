@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CMS.BL.Services.Interfaces
+namespace CMS.BL.Services.Interfaces;
+
+public interface IRoleService
 {
-    public interface IRoleService
-    {
-        Task<Role> GetRoleByIdAsync(int roleId);
-        Task<IList<Role>> GetRolesAsync();
-    }
+    Task<Role> GetRoleByIdAsync(int roleId);
+    Task<IList<Role>> GetRolesAsync();
 }

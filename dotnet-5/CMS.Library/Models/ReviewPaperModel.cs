@@ -1,9 +1,8 @@
-﻿namespace CMS.BL.Models
+﻿namespace CMS.BL.Models;
+
+public class ReviewPaperModel
 {
-    public class ReviewPaperModel
-    {
-        public int PaperId { get; set; }
-        public string PaperTitle { get; set; }
-        public int? PaperRating { get; set; }
-    }
+    public int PaperId { get; set; }
+    public string PaperTitle { get; set; }
+    public int? PaperRating { get; set; }
 }
