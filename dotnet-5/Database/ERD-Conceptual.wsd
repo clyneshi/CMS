@@ -1,0 +1,39 @@
+@startuml CMS Conceptual
+
+object LaunchConferenceRequest
+object Conference
+object Reviewer
+
+object User
+object Admin
+object Chair
+object Author
+object JoinRequest
+
+object Topic
+
+object Paper
+object PaperReview
+
+Chair --> LaunchConferenceRequest : "creates"
+Admin --> LaunchConferenceRequest : "approves"
+LaunchConferenceRequest --> Conference : "launches"
+Conference --> Reviewer : "has"
+Conference --> Author : "has"
+Author --> Paper : "submits"
+Conference --> Paper : "has"
+Paper --> PaperReview : "has"
+Reviewer --> PaperReview : "reviews"
+
+Conference --> Topic : "has"
+Paper --> Topic : "has"
+Reviewer --> Topic : "experts in"
+
+User --> JoinRequest : "creates"
+JoinRequest --> Chair : "registers"
+Chair --> JoinRequest : "approves"
+Admin --> JoinRequest : "approves"
+JoinRequest --> Author : "registers"
+JoinRequest --> Reviewer: "registers"
+
+@enduml
