@@ -1,0 +1,36 @@
+@startuml CMS
+
+entity LaunchConferenceRequest 
+entity Conference
+entity User
+entity Role
+entity JoinRequest
+
+entity Topic
+
+entity Paper
+entity PaperReview
+entity FinalDecision
+
+User ||--o{ LaunchConferenceRequest
+LaunchConferenceRequest ||--o| Conference
+Conference ||--o{ ConferenceMember
+ConferenceMember }o--|| User
+User ||--o{ Paper
+Conference ||--o{ Paper
+Paper ||--o{ PaperReview
+User ||--o{ PaperReview
+User ||--o{ FinalDecision
+FinalDecision ||--|| Paper
+
+Conference ||--|{ ConferenceTopic
+ConferenceTopic }o--|| Topic
+Paper ||--|{ PaperTopic
+PaperTopic }o--|| Topic
+User ||--|{ ReviewerTopic
+ReviewerTopic }o--|| Topic
+
+User ||--o| JoinRequest
+User }o--|| Role
+
+@enduml
