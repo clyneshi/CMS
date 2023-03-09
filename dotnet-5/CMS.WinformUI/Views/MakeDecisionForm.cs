@@ -139,7 +139,7 @@ public partial class MakeDecisionForm : Form
 
         if (feedbacks.Any())
         {
-            rtextbox_feedback.Text = feedbacks.FirstOrDefault().Feedback1;
+            rtextbox_feedback.Text = feedbacks.FirstOrDefault().Comments;
             foreach (Control c in groupBox1.Controls)
             {
                 RadioButton rb = c as RadioButton;
@@ -198,7 +198,7 @@ public partial class MakeDecisionForm : Form
             Id = _selectedId,
             UserId = _applicationStrategy.GetLoggedInUserInfo().User.Id,
             FinalDecision = GetDecision().ToString(),
-            Feedback1 = rtextbox_feedback.Text
+            Comments = rtextbox_feedback.Text
         };
 
         await _paperService.AddFeedbackAsync(feedback);

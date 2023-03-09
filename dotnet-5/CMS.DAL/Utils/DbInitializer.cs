@@ -37,7 +37,7 @@ public static class DbInitializer
             new Keyword() {Id = 9, Name = "Zoology", Genre = "Life Sciences"},
             new Keyword() {Id = 10, Name = "Molecular Biology", Genre = "Life Sciences"},
             new Keyword() {Id = 11, Name = "Agronomy", Genre = "Life Sciences"},
-            new Keyword() {Id = 12, Name = "Food Chemisitry", Genre = "Life Sciences"}
+            new Keyword() {Id = 12, Name = "Food Chemistry", Genre = "Life Sciences"}
         };
         context.Keywords.AddRange(keywords);
 

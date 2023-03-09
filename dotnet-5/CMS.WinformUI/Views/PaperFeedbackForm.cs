@@ -59,7 +59,7 @@ public partial class PaperFeedbackForm : Form
     private async Task DisplayFeedback(int paperId)
     {
         var feedbacks = await _paperService.GetFeedbacksForPaperAsync(paperId);
-        richTextBox_feedback.Text = feedbacks.SingleOrDefault()?.Feedback1;
+        richTextBox_feedback.Text = feedbacks.SingleOrDefault()?.Comments;
     }
 
     private async void dataGridView_paper_CellClick(object sender, DataGridViewCellEventArgs e)
