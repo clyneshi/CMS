@@ -1,10 +1,9 @@
 ﻿using CMS.DAL.Models;
-using CMS.BL.Enums;
-using CMS.BL.Global;
 using CMS.BL.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CMS.Common.Enums;
 
 namespace CMS;
 
@@ -14,6 +13,7 @@ public partial class ReviewRegistrationRequestForm : Form
     private readonly IUserRequestService _userRequestService;
     private readonly IConferenceService _conferenceService;
     private readonly IApplicationStrategy _applicationStrategy;
+    private readonly IEmailService _emailService;
     
     // userid is used to know the userid before a user entity is created,
     // in which way conference member entity can be created
@@ -23,12 +23,14 @@ public partial class ReviewRegistrationRequestForm : Form
     public ReviewRegistrationRequestForm(IUserService userService,
         IUserRequestService userRequest,
         IConferenceService conferenceService,
-        IApplicationStrategy applicationStrategy)
+        IApplicationStrategy applicationStrategy,
+        IEmailService emailService)
     {
         _userService = userService;
         _userRequestService = userRequest;
         _conferenceService = conferenceService;
         _applicationStrategy = applicationStrategy;
+        _emailService = emailService;
 
         InitializeComponent();
     }
@@ -92,7 +94,7 @@ public partial class ReviewRegistrationRequestForm : Form
     {
         string email = (string)dataGridView_request.Rows[dataGridView_request.CurrentRow.Index].Cells["email"].Value;
 
-        await GlobalHelper.SendEmail(email, $"Your registration has been {Status}");
+        await _emailService.SendEmailAsync(email, $"Your registration has been {Status}");
 
         return true;
     }

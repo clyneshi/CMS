@@ -1,13 +1,12 @@
-﻿using System;
+﻿using System.Net.Mail;
 using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
+using CMS.BL.Services.Interfaces;
 
-namespace CMS.BL.Global;
-
-public static class GlobalHelper
+namespace CMS.BL.Services.Implementation;
+public class EmailService : IEmailService
 {
-    public static async Task SendEmail(string toAddr, string mes)
+    public async Task SendEmailAsync(string toAddr, string mes)
     {
         string FromName = "Conference Management System";
         string FromEmail = "address@email";

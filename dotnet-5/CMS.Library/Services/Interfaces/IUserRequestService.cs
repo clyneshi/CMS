@@ -1,8 +1,8 @@
 ﻿using CMS.DAL.Models;
-using CMS.BL.Enums;
 using CMS.BL.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CMS.Common.Enums;
 
 namespace CMS.BL.Services.Interfaces;
 

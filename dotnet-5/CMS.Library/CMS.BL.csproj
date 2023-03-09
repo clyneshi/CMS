@@ -7,6 +7,7 @@
     <RootNamespace>CMS.BL</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CMS.Common\CMS.Common.csproj" />
     <ProjectReference Include="..\CMS.DAL\CMS.DAL.csproj" />
   </ItemGroup>
   <ItemGroup>

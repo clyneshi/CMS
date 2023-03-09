@@ -1,4 +1,4 @@
-﻿namespace CMS.BL.Enums;
+﻿namespace CMS.Common.Enums;
 
 public enum RoleTypesEnum
 {

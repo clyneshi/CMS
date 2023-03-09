@@ -1,12 +1,11 @@
 ﻿using CMS.DAL.Models;
-using CMS.BL.Enums;
-using CMS.BL.Global;
 using CMS.BL.Services.Interfaces;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CMS.WinformUI.Utils;
+using CMS.WinformUI.Enums;
 
 namespace CMS;
 
@@ -15,17 +14,20 @@ public partial class MakeDecisionForm : Form
     private readonly IPaperService _paperService;
     private readonly IConferenceService _conferenceService;
     private readonly IApplicationStrategy _applicationStrategy;
+    private readonly IEmailService _emailService;
     
     private int _selectedId = 0;
 
     public MakeDecisionForm(
         IPaperService paperService,
         IConferenceService conferenceService,
-        IApplicationStrategy applicationStrategy)
+        IApplicationStrategy applicationStrategy,
+        IEmailService emailService)
     {
         _paperService = paperService;
         _conferenceService = conferenceService;
         _applicationStrategy = applicationStrategy;
+        _emailService = emailService;
 
         InitializeComponent();
     }
@@ -181,7 +183,7 @@ public partial class MakeDecisionForm : Form
         var email = (await _paperService.GetPaperByIdAsync(_selectedId)).AuthorNavigation.Email;
         var decision = GetDecision();
 
-        await GlobalHelper.SendEmail(email.ToString(), $"Your paper has been {decision.ToString().ToLower()}ed");
+        await _emailService.SendEmailAsync(email, $"Your paper has been {decision?.ToString().ToLower()}ed");
     }
 
     private async void btn_save_Click(object sender, EventArgs e)

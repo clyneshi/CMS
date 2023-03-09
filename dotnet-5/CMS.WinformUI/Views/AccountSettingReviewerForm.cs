@@ -1,5 +1,4 @@
 ﻿using CMS.DAL.Models;
-using CMS.BL.Enums;
 using CMS.BL.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using CMS.Common.Enums;
 
 namespace CMS;
 

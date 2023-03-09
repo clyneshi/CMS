@@ -1,4 +1,4 @@
-﻿namespace CMS.BL.Enums;
+﻿namespace CMS.WinformUI.Enums;
 
 public enum ConferenceViewTypesEnum
 {

@@ -1,9 +1,9 @@
-﻿using CMS.BL.Enums;
-using CMS.BL.Services.Interfaces;
+﻿using CMS.BL.Services.Interfaces;
 using System;
 using System.Linq;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using CMS.Common.Enums;
 
 namespace CMS;
 

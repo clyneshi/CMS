@@ -14,6 +14,7 @@ public static class ServiceRegistration
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IUserRequestService, UserRequestService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IEmailService, EmailService>();
         services.AddSingleton<IApplicationStrategy, ApplicationStrategy>();
 
         return services;

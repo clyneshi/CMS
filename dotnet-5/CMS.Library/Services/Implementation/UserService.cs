@@ -1,12 +1,12 @@
 ﻿using CMS.DAL.Core;
 using CMS.DAL.Models;
-using CMS.BL.Enums;
 using CMS.BL.Models;
 using CMS.BL.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CMS.Common.Enums;
 
 namespace CMS.BL.Services.Implementation;
 
