@@ -7,7 +7,7 @@ namespace CMS.BL.Services.Interfaces;
 
 public interface IPaperService
 {
-    Task AddPaperAsync(Paper paper, IEnumerable<PaperTopic> paperTopics);
+    Task AddPaperAsync(Paper paper, IEnumerable<Keyword> paperTopics);
     Task AddPaperReviewAsync(PaperReview paperReview);
     Task DeletePaperReview(int paperId, int UserId);
     Task<IList<Feedback>> GetFeedbacksForPaperAsync(int paperId);

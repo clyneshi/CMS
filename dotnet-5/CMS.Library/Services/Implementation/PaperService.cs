@@ -20,7 +20,7 @@ public class PaperService : IPaperService
         _applicationStrategy = applicationStrategy;
     }
 
-    public async Task AddPaperAsync(Paper paper, IEnumerable<PaperTopic> paperTopics)
+    public async Task AddPaperAsync(Paper paper, IEnumerable<Keyword> paperTopics)
     {
         if (paper == null)
         {
@@ -32,10 +32,15 @@ public class PaperService : IPaperService
             throw new Exception();
         }
 
-        foreach (var topic in paperTopics)
-            await _unitOfWork.PaperTopicRepository.AddAsync(topic);
-
         await _unitOfWork.PaperRepository.AddAsync(paper);
+
+        var topics = paperTopics.Select(x => new PaperTopic
+        {
+            PaperId = paper.Id,
+            Id = x.Id
+        }).ToArray();
+
+        await _unitOfWork.PaperTopicRepository.BulkAddAsync(topics);
 
         await _unitOfWork.SaveChangesAsync();
     }

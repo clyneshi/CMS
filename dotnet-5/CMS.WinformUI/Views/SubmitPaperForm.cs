@@ -1,13 +1,13 @@
 ﻿using CMS.DAL.Models;
 using CMS.BL.Services.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 using CMS.WinformUI.Utils;
 using System.Threading.Tasks;
 using CMS.WinformUI.Enums;
+using System.Linq;
 
 namespace CMS;
 
@@ -163,17 +163,7 @@ public partial class SubmitPaperForm : Form
             SubmissionDate = DateTime.Today
         };
 
-        var topics = new List<PaperTopic>();
-        foreach (var topic in _selectedKeywords)
-        {
-            topics.Add(new PaperTopic
-            {
-                PaperId = _paperId,
-                Id = topic.Id
-            });
-        }
-
-        await _paperService.AddPaperAsync(paper, topics);
+        await _paperService.AddPaperAsync(paper, _selectedKeywords.ToArray());
 
         MessageBox.Show("Successfully submitted paper!");
         Controls.ClearData();

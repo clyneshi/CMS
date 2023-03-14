@@ -55,7 +55,6 @@ public class ConferenceService : IConferenceService
         return reviewers;
     }
 
-
     public async Task<IList<ConferenceUserModel>> GetConferencesWithChairAsync()
     {
         return (await _unitOfWork.ConferenceRepository
@@ -99,14 +98,13 @@ public class ConferenceService : IConferenceService
 
         await _unitOfWork.ConferenceRepository.AddAsync(conference);
 
-        foreach (var keyword in keywords)
+        var topics = keywords.Select(x => new ConferenceTopic
         {
-            await _unitOfWork.ConferenceTopicRepository.AddAsync(new ConferenceTopic
-            {
-                Id = conferenceId,
-                KeywordId = keyword.Id
-            });
-        }
+            Id = conferenceId,
+            KeywordId = x.Id
+        });
+
+        await _unitOfWork.ConferenceTopicRepository.BulkAddAsync(topics);
 
         await _unitOfWork.SaveChangesAsync();
     }

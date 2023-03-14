@@ -1,10 +1,6 @@
 ﻿using CMS.DAL.Models;
 using CMS.DAL.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CMS.DAL.Repositories.Implementation;
@@ -18,10 +14,9 @@ public class ConferenceTopicRepository : IConferenceTopicRepository
         _context = context;
     }
 
-    public async Task<ConferenceTopic> AddAsync(ConferenceTopic conferenceTopic)
+    public Task BulkAddAsync(IEnumerable<ConferenceTopic> topics)
     {
-        await _context.ConferenceTopics.AddAsync(conferenceTopic);
-        return conferenceTopic;
+        return _context.ConferenceTopics.AddRangeAsync(topics);
     }
 
 }

@@ -1,12 +1,10 @@
 ﻿using CMS.DAL.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CMS.DAL.Repositories.Interfaces;
 
 public interface IConferenceTopicRepository : IRepository
 {
-    Task<ConferenceTopic> AddAsync(ConferenceTopic ConferenceTopic);
+    Task BulkAddAsync(IEnumerable<ConferenceTopic> topics);
 }

@@ -1,5 +1,6 @@
 ﻿using CMS.DAL.Models;
 using CMS.DAL.Repositories.Interfaces;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CMS.DAL.Repositories.Implementation;
@@ -13,9 +14,8 @@ public class PaperTopicRepository : IPaperTopicRepository
         _context = context;
     }
 
-    public async Task<PaperTopic> AddAsync(PaperTopic paperTopic)
+    public Task BulkAddAsync(IEnumerable<PaperTopic> topics)
     {
-        await _context.PaperTopics.AddAsync(paperTopic);
-        return paperTopic;
+        return _context.PaperTopics.AddRangeAsync(topics);
     }
 }
